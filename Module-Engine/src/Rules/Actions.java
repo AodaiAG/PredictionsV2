@@ -37,7 +37,7 @@ public class Actions extends Throwable
             {
                 if((Double)t.Type-value>=t.range[0])
                 {
-                    t.Type=(Double)t.Type+value;
+                    t.Type=(Double)t.Type+value;//you have to do"-" not "+" 
                 }
             }
         }
