@@ -16,7 +16,7 @@ public class Actions extends Throwable
     public void increase( Entity e,String nameOfProperty,int value)
     {
 
-
+//////
                for(Properties t : e.propertiesOfTheEnitiy)
                {
                    if(t.NameOfProperty==nameOfProperty)
