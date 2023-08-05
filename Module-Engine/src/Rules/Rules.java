@@ -16,6 +16,6 @@ public class Rules
 
     public Rules()
     {
-        actions=new HashSet<Actions>();
+        //actions=new HashSet<Actions>();
     }
 }
