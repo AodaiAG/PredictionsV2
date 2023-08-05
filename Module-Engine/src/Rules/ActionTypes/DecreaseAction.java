@@ -3,16 +3,16 @@ package Rules.ActionTypes;
 import Entity.Entity;
 import Entity.Properties;
 
-public class IncreaseAction extends Action
+public class DecreaseAction extends Action
 {
-   public String entityName;
-   public String propertyName;
-  public String expression;
+    public String entityName;
+    public String propertyName;
+    public String expression;
 
 
-    public IncreaseAction()
+    public DecreaseAction()
     {
-        super("increase");
+        super("decrease");
     }
 
     @Override
@@ -21,7 +21,7 @@ public class IncreaseAction extends Action
 
 
         Object value = new Object();
-       // value =evaluteExpression();
+        // value =evaluteExpression();
 
 
         for(Properties t : e.propertiesOfTheEnitiy)
@@ -33,17 +33,17 @@ public class IncreaseAction extends Action
                     case "Integer":
                     {
 
-                        if((Integer)t.Type+(Integer)value<=t.range[1] && (Integer)t.Type+(Integer)value>=t.range[0])
+                        if((Integer)t.Type-(Integer)value<=t.range[1] && (Integer)t.Type-(Integer)value>=t.range[0])
                         {
-                            t.Type=(Integer)t.Type+(Integer)value;
+                            t.Type=(Integer)t.Type-(Integer)value;
 
                         }
                     }
                     case "Float":
                     {
-                        if((Float)t.Type+(Float)value<=t.range[1] && (Float)t.Type+(Float)value>=t.range[0])
+                        if((Float)t.Type-(Float)value<=t.range[1] && (Float)t.Type-(Float)value>=t.range[0])
                         {
-                            t.Type=(Float)t.Type+(Float)value;
+                            t.Type=(Float)t.Type-(Float)value;
 
                         }
 
