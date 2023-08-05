@@ -1,5 +1,7 @@
 package Rules;
 
+import Rules.ActionTypes.Action;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +12,7 @@ public class Rules
     String whenActivated;
     int ticks=1;
     double probability;
-    Set<Actions> actions;
+    Set<Action> actions;
 
     public Rules()
     {

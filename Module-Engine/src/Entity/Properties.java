@@ -1,5 +1,9 @@
 package Entity;
 
+import java.util.Random;
+
+import static Rules.FunctionHelper.getTypeOfEntity;
+
 public class Properties<T>
 {
     public String NameOfProperty;
@@ -23,5 +27,52 @@ public class Properties<T>
       NameOfProperty= new String();
 
 
+    }
+
+    public Properties setPropertiesAcorrdingToRandomInit(Properties p,String typeOfField,String isRandom,int initValue)
+    {
+
+        Random r=new Random();
+        if(isRandom.equals("true"))
+        {
+            switch (typeOfField)
+            {
+                case "decimal":
+                   p.Type=(int) Math.random()*p.range[1]+range[0];
+                   return p;
+                case "float":
+                    p.Type= Math.random()*p.range[1]+range[0];
+                    return p;
+
+                case "boolean":
+                    p.Type=r.nextBoolean();
+                    return p;
+
+                case "string":
+                {
+                    int leftLimit = 97; // letter 'a'
+                    int rightLimit = 122; // letter 'z'
+                    int targetStringLength = 50;
+                    Random random = new Random();
+                    StringBuilder buffer = new StringBuilder(targetStringLength);
+                    for (int i = 0; i < targetStringLength; i++) {
+                        int randomLimitedInt = leftLimit + (int)
+                                (random.nextFloat() * (rightLimit - leftLimit + 1));
+                        buffer.append((char) randomLimitedInt);
+                    }
+                    String generatedString = buffer.toString();
+                    p.Type=generatedString;
+                    return p;
+                }
+
+            }
+        }
+        else
+        {
+           p.Type=(initValue);
+           return p;
+        }
+
+return p;
     }
 }

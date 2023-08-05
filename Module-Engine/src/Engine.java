@@ -1,4 +1,5 @@
 import Environment.EnvironmentInstance;
+import Rules.Actions;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import Entity.Properties;
@@ -46,7 +47,9 @@ public class Engine
             NodeList prdEntities = doc.getElementsByTagName("PRD-entity");
             initEntitiesFromFile(prdEntities,this.world);
 
-            NodeList prdRules = doc.getElementsByTagName("PRD-rules");
+            NodeList prdRules = doc.getElementsByTagName("PRD-rule");
+            initRulesFromFile(prdRules,this.world);
+
             NodeList prdTermination = doc.getElementsByTagName("PRD-termination");
 
 
@@ -61,7 +64,55 @@ public class Engine
 
     }
 
-   public void initEvironmentFromFile(NodeList list,World w)
+    private void initRulesFromFile(NodeList list, World world)
+    {
+        for(int i=0;i<list.getLength();i++)
+        {
+            Node item=list.item(i);
+            Element el=(Element) item;
+            String nameOfRule=((Element) item).getAttribute("name");
+            NodeList prdActivtionL=((Element) item).getElementsByTagName("PRD-activation");
+            if(prdActivtionL.getLength()!=0)//if not empty
+            {
+                Node ticksNode=((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("ticks");
+                if(ticksNode!=null)
+                {
+                    String tickString=ticksNode.getTextContent();
+                }
+                Node probNode=((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("probability");
+                if(probNode!=null)
+                {
+                    String probString=probNode.getTextContent();
+                }
+            }
+
+           NodeList ActionsList= ((Element) item).getElementsByTagName("PRD-action");
+
+            for(int m=0;m<ActionsList.getLength();m++)
+            {
+
+              String whichEntityActionWork=  ActionsList.item(m).getAttributes().getNamedItem("entity").getTextContent();
+              String typeOfAction=  ActionsList.item(m).getAttributes().getNamedItem("type").getTextContent();
+
+
+
+                //Actions action=SetActions();
+            }
+
+
+
+
+
+
+
+
+
+        }
+
+
+    }
+
+    public void initEvironmentFromFile(NodeList list,World w)
     {
         for(int i=0;i<list.getLength();i++)
         {
@@ -71,7 +122,7 @@ public class Engine
            String prdName=((Element) item).getElementsByTagName("PRD-name").item(0).getTextContent();
            String from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
            String to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
-            EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null",false,0);
+            EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
             world.environmentVariables.add(e);
 
 
@@ -92,7 +143,7 @@ public class Engine
             Entity e1=new Entity();
             //List<Entity> entities = world.CreateEnityWithPopulation(name, Integer.parseInt(population));
 
-            for(int j=0;j<list.getLength();j++)
+            for(int j=0;j<entityProberty.getLength();j++)
             {
                 Node item2=entityProberty.item(j);
                 Element el2=(Element) item2;
@@ -105,16 +156,17 @@ public class Engine
                 initValue="-1"; // random value
 
 
-                if(isRandom=="flase")
+                if(isRandom.equals("false"))
                 {
                     initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
-                    Properties e= (Properties) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null",Boolean.parseBoolean(isRandom),Integer.parseInt(initValue));
+                    Properties e= (Properties) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
+                   e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,Integer.parseInt(initValue));
                     e1.propertiesOfTheEnitiy.add(e);
                 }
                 else
                 {
-                    Properties e= (Properties) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null",Boolean.parseBoolean(isRandom),Integer.parseInt(initValue));
-                    e=(Properties)RandomFun(e,Integer.parseInt(initValue));
+                    Properties e= (Properties) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
+                    e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,Integer.parseInt(initValue));
                     e1.propertiesOfTheEnitiy.add(e);
 
                 }
@@ -122,12 +174,15 @@ public class Engine
 
 
             }
-
-            for(int m=0;m<Integer.parseInt(population);m++)
+            // create collection of entites
+            List<Entity> first=new ArrayList<>();
+            int popNumber=Integer.parseInt(population);
+            for(int m=0;m<popNumber;m++)
             {
-                this.world.entities.get(i).add(e1);
-
+                first.add(e1);
             }
+            // add the collection to entites
+            //this.world.entities.add(first);
 
 
 
@@ -137,7 +192,7 @@ public class Engine
 
     }
 
-    Object initProperty(String type,String name,int from , int to,boolean bool,String Stringdata,boolean isRandom,int initValue)
+    Object initProperty(String type,String name,int from , int to,boolean bool,String Stringdata)
     {
 
         switch(type)
