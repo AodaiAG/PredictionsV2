@@ -13,6 +13,10 @@ public class DecreaseAction extends Action
     public DecreaseAction()
     {
         super("decrease");
+        propertyName=new String();
+        entityName=new String();
+        expression=new String();
+
     }
 
     @Override

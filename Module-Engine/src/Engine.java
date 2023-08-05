@@ -1,5 +1,7 @@
 import Environment.EnvironmentInstance;
+import Rules.ActionTypes.*;
 import Rules.Actions;
+import Rules.Rules;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import Entity.Properties;
@@ -68,6 +70,10 @@ public class Engine
     {
         for(int i=0;i<list.getLength();i++)
         {
+
+             Rules newRule=new Rules();
+
+
             Node item=list.item(i);
             Element el=(Element) item;
             String nameOfRule=((Element) item).getAttribute("name");
@@ -86,6 +92,8 @@ public class Engine
                 }
             }
 
+            newRule.nameOfRule=nameOfRule;
+
            NodeList ActionsList= ((Element) item).getElementsByTagName("PRD-action");
 
             for(int m=0;m<ActionsList.getLength();m++)
@@ -94,7 +102,75 @@ public class Engine
               String whichEntityActionWork=  ActionsList.item(m).getAttributes().getNamedItem("entity").getTextContent();
               String typeOfAction=  ActionsList.item(m).getAttributes().getNamedItem("type").getTextContent();
 
+              switch (typeOfAction)
+              {
+                  case "increase":
+                  {
 
+                      IncreaseAction action=new IncreaseAction();
+                      action.entityName=whichEntityActionWork;
+                      action.propertyName=ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent();
+                      action.expression=ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent();
+                      newRule.actions.add(action);
+
+                  }
+                  case "decrease":
+                  {
+                      DecreaseAction action=new DecreaseAction();
+                      action.entityName=whichEntityActionWork;
+                      action.propertyName=ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent();
+                      action.expression=ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent();
+                      newRule.actions.add(action);
+
+                  }
+                  case "calculation":
+                  {
+
+                      CalculationAction action=new CalculationAction();
+                      NodeList mul=((Element) item).getElementsByTagName("PRD-multiply");
+                      NodeList div=((Element) item).getElementsByTagName("PRD-divide");
+                      if(mul!=null)
+                      {
+
+                        action.expression1 = mul.item(0).getAttributes().getNamedItem("arg1").getTextContent();
+                        action.expression2 = mul.item(0).getAttributes().getNamedItem("arg2").getTextContent();
+                        action.calType="multiply";
+                        action.resultProp=ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent();
+                         newRule.actions.add(action);
+
+
+                      }
+                      if(div!=null)
+                      {
+                          action.expression1 = mul.item(0).getAttributes().getNamedItem("arg1").getTextContent();
+                          action.expression2 = mul.item(0).getAttributes().getNamedItem("arg2").getTextContent();
+                          action.calType="divide";
+                          action.resultProp=ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent();
+                          newRule.actions.add(action);
+                      }
+
+
+                  }
+
+                  case "set":
+                  {
+                      SetAction action=new SetAction();
+                      action.entityName=whichEntityActionWork;
+                      action.propertyName=ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent();
+                      action.expression=ActionsList.item(m).getAttributes().getNamedItem("value").getTextContent();
+                      newRule.actions.add(action);
+
+                  }
+
+                  case "kill":
+                  {
+                      KillAction action=new KillAction();
+                      action.entityToKill=ActionsList.item(m).getAttributes().getNamedItem("entity").getTextContent();
+                      newRule.actions.add(action);
+                  }
+
+
+              }
 
                 //Actions action=SetActions();
             }
@@ -105,9 +181,10 @@ public class Engine
 
 
 
-
+            this.world.rules.add(newRule);
 
         }
+
 
 
     }

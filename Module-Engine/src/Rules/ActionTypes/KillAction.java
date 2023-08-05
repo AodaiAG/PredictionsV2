@@ -7,7 +7,7 @@ import java.util.Collection;
 public class KillAction extends Action
 {
 
-String entityToKill;
+public String entityToKill;
     public KillAction()
     {
         super("kill");

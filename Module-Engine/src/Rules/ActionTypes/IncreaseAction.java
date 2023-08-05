@@ -13,6 +13,9 @@ public class IncreaseAction extends Action
     public IncreaseAction()
     {
         super("increase");
+        expression=new String();
+        propertyName=new String();
+        entityName=new String();
     }
 
     @Override
