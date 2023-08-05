@@ -51,8 +51,11 @@ public class Engine
 
             NodeList prdRules = doc.getElementsByTagName("PRD-rule");
             initRulesFromFile(prdRules,this.world);
-
-            NodeList prdTermination = doc.getElementsByTagName("PRD-termination");
+//
+            String ticks = doc.getElementsByTagName("PRD-by-ticks").item(0).getAttributes().getNamedItem("count").getTextContent();
+            String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
+            this.world.terminationTicks=Integer.parseInt(ticks);
+            this.world.terminationSeconds=Integer.parseInt(seconds);
 
 
 
@@ -66,6 +69,7 @@ public class Engine
 
     }
 
+
     private void initRulesFromFile(NodeList list, World world)
     {
         for(int i=0;i<list.getLength();i++)
@@ -77,6 +81,7 @@ public class Engine
             Node item=list.item(i);
             Element el=(Element) item;
             String nameOfRule=((Element) item).getAttribute("name");
+            newRule.nameOfRule=nameOfRule;
             NodeList prdActivtionL=((Element) item).getElementsByTagName("PRD-activation");
             if(prdActivtionL.getLength()!=0)//if not empty
             {
@@ -84,15 +89,17 @@ public class Engine
                 if(ticksNode!=null)
                 {
                     String tickString=ticksNode.getTextContent();
+                    newRule.ticks=Integer.parseInt(tickString);
                 }
                 Node probNode=((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("probability");
                 if(probNode!=null)
                 {
                     String probString=probNode.getTextContent();
+                    newRule.probability=Double.parseDouble(probString);
                 }
             }
 
-            newRule.nameOfRule=nameOfRule;
+
 
            NodeList ActionsList= ((Element) item).getElementsByTagName("PRD-action");
 
@@ -112,6 +119,7 @@ public class Engine
                       action.propertyName=ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent();
                       action.expression=ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent();
                       newRule.actions.add(action);
+                      break;
 
                   }
                   case "decrease":
@@ -121,6 +129,7 @@ public class Engine
                       action.propertyName=ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent();
                       action.expression=ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent();
                       newRule.actions.add(action);
+                      break;
 
                   }
                   case "calculation":
@@ -149,6 +158,7 @@ public class Engine
                           newRule.actions.add(action);
                       }
 
+                      break;
 
                   }
 
@@ -159,6 +169,7 @@ public class Engine
                       action.propertyName=ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent();
                       action.expression=ActionsList.item(m).getAttributes().getNamedItem("value").getTextContent();
                       newRule.actions.add(action);
+                      break;
 
                   }
 
@@ -167,12 +178,13 @@ public class Engine
                       KillAction action=new KillAction();
                       action.entityToKill=ActionsList.item(m).getAttributes().getNamedItem("entity").getTextContent();
                       newRule.actions.add(action);
+                      break;
                   }
 
 
               }
 
-                //Actions action=SetActions();
+
             }
 
 
