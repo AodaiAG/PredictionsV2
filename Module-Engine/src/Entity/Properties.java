@@ -9,7 +9,7 @@ public class Properties<T>
 {
     private String NameOfProperty;
     private boolean randomInitialize;
-   private  T Type;
+   private  T Type; // data
    public  T[] range; // range[0] - from , range[1] - to
 
 

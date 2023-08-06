@@ -11,7 +11,6 @@ public class World
 {
     private int terminationTicks;
     private int terminationSeconds;
-
     private List<EntityCollection> entities;
     private Set<EnvironmentInstance> environmentVariables;
     private Set<Rules> rules;

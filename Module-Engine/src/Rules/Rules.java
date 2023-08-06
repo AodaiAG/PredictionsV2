@@ -16,7 +16,8 @@ public class Rules
     private double probability;
     private List<Action> actions;
 
-    public String getNameOfRule() {
+    public String getNameOfRule()
+    {
         return nameOfRule;
     }
 
@@ -24,7 +25,8 @@ public class Rules
         this.nameOfRule = nameOfRule;
     }
 
-    public String getWhenActivated() {
+    public String getWhenActivated()
+    {
         return whenActivated;
     }
 
