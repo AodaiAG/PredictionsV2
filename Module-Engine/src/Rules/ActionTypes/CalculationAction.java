@@ -27,22 +27,22 @@ public String expression2;
         //arg1=evalute(exp1)
         //arg2=evalute(exp2)
 
-        for(Properties t : e.propertiesOfTheEnitiy)
+        for(Properties t : e.getPropertiesOfTheEnitiy())
         {
-            if(t.NameOfProperty.equals(resultProp))
+            if(t.getNameOfProperty().equals(resultProp))
             {
-                switch (t.Type.getClass().getSimpleName())
+                switch (t.getType().getClass().getSimpleName())
                 {
                     case "Integer":
                     {
                         if(calType.equals("multiply"))
                         {
-                            t.Type=(Integer)((Integer)arg1*(Integer)arg2);
+                            t.setType((Integer)((Integer)arg1*(Integer)arg2));
                         }
                         if(calType.equals("divide"))
                         {
 
-                            t.Type=(Integer)((Integer)arg1/(Integer)arg2);
+                            t.setType((Integer)((Integer)arg1/(Integer)arg2));
                         }
 
                     }
@@ -50,11 +50,11 @@ public String expression2;
                     {
                         if(calType.equals("multiply"))
                         {
-                            t.Type=(Float)((Float)arg1*(Float)arg2);
+                            t.setType((Float)((Float)arg1*(Float)arg2));
                         }
                         if(calType.equals("divide"))
                         {
-                            t.Type=(Float)((Float)arg1/(Float)arg2);
+                            t.setType((Float)((Float)arg1/(Float)arg2));
 
                         }
 

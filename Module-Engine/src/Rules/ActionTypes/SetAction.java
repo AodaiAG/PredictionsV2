@@ -23,35 +23,35 @@ public class SetAction extends Action
     {
         Object value=new Object();
         //Object value=eval(expression)
-        for(Properties t : e.propertiesOfTheEnitiy)
+        for(Properties t : e.getPropertiesOfTheEnitiy())
         {
-            if (t.NameOfProperty.equals(propertyName))
+            if (t.getNameOfProperty().equals(propertyName))
             {
-                switch (t.Type.getClass().getSimpleName())
+                switch (t.getType().getClass().getSimpleName())
                 {
                     case "Integer":
                     {
                         if((Integer)value>=t.range[0] && (Integer)value<=t.range[1])
                         {
-                            t.Type=value;
+                            t.setType(value);
                         }
                     }
                     case "Float":
                     {
                         if((Float)value>=t.range[0] && (Float)value<=t.range[1])
                         {
-                            t.Type=value;
+                            t.setType(value);
                         }
                     }
                     case "Boolean":
                     {
 
-                        t.Type=value;
+                        t.setType(value);
                     }
                     case "String":
                     {
 
-                        t.Type=value;
+                        t.setType(value);
                     }
 
 

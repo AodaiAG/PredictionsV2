@@ -28,26 +28,26 @@ public class DecreaseAction extends Action
         // value =evaluteExpression();
 
 
-        for(Properties t : e.propertiesOfTheEnitiy)
+        for(Properties t : e.getPropertiesOfTheEnitiy())
         {
-            if(t.NameOfProperty.equals(propertyName))
+            if(t.getNameOfProperty().equals(propertyName))
             {
-                switch (t.Type.getClass().getSimpleName())
+                switch (t.getType().getClass().getSimpleName())
                 {
                     case "Integer":
                     {
 
-                        if((Integer)t.Type-(Integer)value<=t.range[1] && (Integer)t.Type-(Integer)value>=t.range[0])
+                        if((Integer)t.getType()-(Integer)value<=t.range[1] && (Integer)t.getType()-(Integer)value>=t.range[0])
                         {
-                            t.Type=(Integer)t.Type-(Integer)value;
+                            t.setType((Integer)t.getType()-(Integer)value);
 
                         }
                     }
                     case "Float":
                     {
-                        if((Float)t.Type-(Float)value<=t.range[1] && (Float)t.Type-(Float)value>=t.range[0])
+                        if((Float)t.getType()-(Float)value<=t.range[1] && (Float)t.getType()-(Float)value>=t.range[0])
                         {
-                            t.Type=(Float)t.Type-(Float)value;
+                            t.setType((Float)t.getType()-(Float)value);
 
                         }
 

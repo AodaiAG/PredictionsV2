@@ -1,6 +1,5 @@
 import Environment.EnvironmentInstance;
 import Rules.ActionTypes.*;
-import Rules.Actions;
 import Rules.Rules;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -13,8 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static Rules.FunctionHelper.RandomFun;
 
 
 public class Engine
@@ -250,13 +247,13 @@ public class Engine
                     initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
                     Properties e= (Properties) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
                    e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,Integer.parseInt(initValue));
-                    e1.propertiesOfTheEnitiy.add(e);
+                    e1.getPropertiesOfTheEnitiy().add(e);
                 }
                 else
                 {
                     Properties e= (Properties) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
                     e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,Integer.parseInt(initValue));
-                    e1.propertiesOfTheEnitiy.add(e);
+                    e1.getPropertiesOfTheEnitiy().add(e);
 
                 }
 
@@ -288,30 +285,31 @@ public class Engine
         {
             case "decimal":
                 EnvironmentInstance res=new EnvironmentInstance();
-                 res.Type=(Integer)res.Type;
-                res.NameOfProperty=name;
+                 res.setType((Integer)res.getType());
+                res.setNameOfProperty(name);
                 res.range[0]=from;
                 res.range[1]=to;
                 return res;
 
             case "float":
                 Properties<Float> res2=new Properties();
-                res2.Type=(Float)res2.Type;
-                res2.NameOfProperty=name;
+                res2.setType((Float)res2.getType());
+                res2.setNameOfProperty(name);
                 res2.range[0]=from;
                 res2.range[1]=to;
                 return res2;
             case "boolean":
                 Properties<Boolean> res3=new Properties();
-                res3.Type=(Boolean) res3.Type;
-                res3.NameOfProperty=name;
-                res3.Type=bool;
+                res3.setType((Boolean) res3.getType());
+                res3.setNameOfProperty(name);
+                res3.setType(bool);
+
                 return res3;
             case"string":
                 Properties<String> res4=new Properties();
-                res4.Type=(String) res4.Type;
-                res4.Type=Stringdata;
-                res4.NameOfProperty=name;
+
+                res4.setType(Stringdata);
+                res4.setNameOfProperty(name);
                 return res4;
 
 

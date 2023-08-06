@@ -25,7 +25,7 @@ public String entityToKill;
 
         for(Entity e : list)
         {
-            if(e.NameOfEntity.equals(entityToKill))
+            if(e.getNameOfEntity().equals(entityToKill))
             {
                 Entity wanted=e;
                 boolean response=list.remove(wanted);

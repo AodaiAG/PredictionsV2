@@ -19,7 +19,7 @@ public class World
         for(int i=0;i<popNumber;i++)
         {
             Entity e=new Entity();
-            e.NameOfEntity=name;
+            e.setNameOfEntity(name);
             res.add(e);
 
         }
@@ -37,10 +37,7 @@ public class World
         rules=new HashSet<Rules>();
     }
 
-    public static Object  environment(String e)
-    {
- return 6;
-    }
+
 
     public static Object RandomFun(Properties e, int upperbound)
     {
@@ -100,6 +97,22 @@ public class World
         return typeOfField;
 
     }
+
+    public  Object  environment(String envName)
+    {
+        for(EnvironmentInstance e :environmentVariables)
+        {
+            if(e.getNameOfProperty().equals(envName))
+            {
+                return e.getType();
+            }
+        }
+
+        throw new RuntimeException("enviorment name not found");
+
+    }
+
+
 }
 
 
