@@ -5,14 +5,42 @@ import Entity.Properties;
 
 public class DecreaseAction extends Action
 {
-    public String entityName;
-    public String propertyName;
-    public String expression;
+    private String entityName;
+    private String propertyName;
+    private String expression;
 
 
     public DecreaseAction()
     {
         super("decrease");
+        propertyName=new String();
+        entityName=new String();
+        expression=new String();
+
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
+    public String getExpression() {
+        return expression;
+    }
+
+    public void setExpression(String expression) {
+        this.expression = expression;
     }
 
     @Override
@@ -24,26 +52,26 @@ public class DecreaseAction extends Action
         // value =evaluteExpression();
 
 
-        for(Properties t : e.propertiesOfTheEnitiy)
+        for(Properties t : e.getPropertiesOfTheEnitiy())
         {
-            if(t.NameOfProperty.equals(propertyName))
+            if(t.getNameOfProperty().equals(propertyName))
             {
-                switch (t.Type.getClass().getSimpleName())
+                switch (t.getType().getClass().getSimpleName())
                 {
                     case "Integer":
                     {
 
-                        if((Integer)t.Type-(Integer)value<=t.range[1] && (Integer)t.Type-(Integer)value>=t.range[0])
+                        if((Integer)t.getType()-(Integer)value<=t.range[1] && (Integer)t.getType()-(Integer)value>=t.range[0])
                         {
-                            t.Type=(Integer)t.Type-(Integer)value;
+                            t.setType((Integer)t.getType()-(Integer)value);
 
                         }
                     }
                     case "Float":
                     {
-                        if((Float)t.Type-(Float)value<=t.range[1] && (Float)t.Type-(Float)value>=t.range[0])
+                        if((Float)t.getType()-(Float)value<=t.range[1] && (Float)t.getType()-(Float)value>=t.range[0])
                         {
-                            t.Type=(Float)t.Type-(Float)value;
+                            t.setType((Float)t.getType()-(Float)value);
 
                         }
 

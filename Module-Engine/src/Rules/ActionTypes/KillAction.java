@@ -7,12 +7,21 @@ import java.util.Collection;
 public class KillAction extends Action
 {
 
-String entityToKill;
+private String entityToKill;
     public KillAction()
     {
         super("kill");
         entityToKill=new String();
     }
+
+    public String getEntityToKill() {
+        return entityToKill;
+    }
+
+    public void setEntityToKill(String entityToKill) {
+        this.entityToKill = entityToKill;
+    }
+
     @Override
     void ActivateAction(Entity e)
     {
@@ -25,7 +34,7 @@ String entityToKill;
 
         for(Entity e : list)
         {
-            if(e.NameOfEntity.equals(entityToKill))
+            if(e.getNameOfEntity().equals(entityToKill))
             {
                 Entity wanted=e;
                 boolean response=list.remove(wanted);

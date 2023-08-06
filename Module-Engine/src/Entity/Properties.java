@@ -2,14 +2,43 @@ package Entity;
 
 import java.util.Random;
 
-import static Rules.FunctionHelper.getTypeOfEntity;
+
 
 public class Properties<T>
 {
-    public String NameOfProperty;
-    boolean randomInitialize;
-    public T Type;
-    public int[] range; // range[0] - from , range[1] - to
+    private String NameOfProperty;
+    private boolean randomInitialize;
+   private  T Type;
+   public  int[] range; // range[0] - from , range[1] - to
+
+
+    public String getNameOfProperty() {
+        return NameOfProperty;
+    }
+
+    public void setNameOfProperty(String nameOfProperty) {
+        NameOfProperty = nameOfProperty;
+    }
+
+    public boolean isRandomInitialize() {
+        return randomInitialize;
+    }
+
+    public void setRandomInitialize(boolean randomInitialize) {
+        this.randomInitialize = randomInitialize;
+    }
+
+    public T getType() {
+        return Type;
+    }
+
+    public void setType(T type) {
+        Type = type;
+    }
+
+
+
+
 
     @Override
     public int hashCode() {

@@ -1,5 +1,6 @@
 import Environment.EnvironmentInstance;
-import Rules.Actions;
+import Rules.ActionTypes.*;
+import Rules.Rules;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import Entity.Properties;
@@ -11,8 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static Rules.FunctionHelper.RandomFun;
 
 
 public class Engine
@@ -49,8 +48,11 @@ public class Engine
 
             NodeList prdRules = doc.getElementsByTagName("PRD-rule");
             initRulesFromFile(prdRules,this.world);
-
-            NodeList prdTermination = doc.getElementsByTagName("PRD-termination");
+//
+            String ticks = doc.getElementsByTagName("PRD-by-ticks").item(0).getAttributes().getNamedItem("count").getTextContent();
+            String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
+            this.world.setTerminationTicks(Integer.parseInt(ticks));
+            this.world.setTerminationSeconds(Integer.parseInt(seconds));
 
 
 
@@ -64,13 +66,19 @@ public class Engine
 
     }
 
+
     private void initRulesFromFile(NodeList list, World world)
     {
         for(int i=0;i<list.getLength();i++)
         {
+
+             Rules newRule=new Rules();
+
+
             Node item=list.item(i);
             Element el=(Element) item;
             String nameOfRule=((Element) item).getAttribute("name");
+            newRule.setNameOfRule(nameOfRule);
             NodeList prdActivtionL=((Element) item).getElementsByTagName("PRD-activation");
             if(prdActivtionL.getLength()!=0)//if not empty
             {
@@ -78,13 +86,17 @@ public class Engine
                 if(ticksNode!=null)
                 {
                     String tickString=ticksNode.getTextContent();
+                    newRule.setTicks(Integer.parseInt(tickString));
                 }
                 Node probNode=((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("probability");
                 if(probNode!=null)
                 {
                     String probString=probNode.getTextContent();
+                    newRule.setProbability(Double.parseDouble(probString));
                 }
             }
+
+
 
            NodeList ActionsList= ((Element) item).getElementsByTagName("PRD-action");
 
@@ -94,9 +106,82 @@ public class Engine
               String whichEntityActionWork=  ActionsList.item(m).getAttributes().getNamedItem("entity").getTextContent();
               String typeOfAction=  ActionsList.item(m).getAttributes().getNamedItem("type").getTextContent();
 
+              switch (typeOfAction)
+              {
+                  case "increase":
+                  {
+
+                      IncreaseAction action=new IncreaseAction();
+                      action.setEntityName(whichEntityActionWork);
+                      action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
+                      action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent());
+                      newRule.getActions().add(action);
+                      break;
+
+                  }
+                  case "decrease":
+                  {
+                      DecreaseAction action=new DecreaseAction();
+                      action.setEntityName(whichEntityActionWork);
+                      action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
+                      action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent());
+                      newRule.getActions().add(action);
+                      break;
+
+                  }
+                  case "calculation":
+                  {
+
+                      CalculationAction action=new CalculationAction();
+                      NodeList mul=((Element) item).getElementsByTagName("PRD-multiply");
+                      NodeList div=((Element) item).getElementsByTagName("PRD-divide");
+                      if(mul!=null)
+                      {
+
+                        action.setExpression1(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent());
+                        action.setExpression2( mul.item(0).getAttributes().getNamedItem("arg2").getTextContent());
+                        action.setCalType("multiply");
+                        action.setResultProp(ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent());
+                          newRule.getActions().add(action);
 
 
-                //Actions action=SetActions();
+                      }
+                      if(div!=null)
+                      {
+                          action.setExpression1(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent()); ;
+                          action.setExpression2(mul.item(0).getAttributes().getNamedItem("arg2").getTextContent()); ;
+                          action.setCalType("divide");
+                          action.setResultProp(ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent());
+                          newRule.getActions().add(action);
+                      }
+
+                      break;
+
+                  }
+
+                  case "set":
+                  {
+                      SetAction action=new SetAction();
+                      action.setEntityName(whichEntityActionWork);
+                      action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
+                      action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("value").getTextContent());
+                      newRule.getActions().add(action);
+                      break;
+
+                  }
+
+                  case "kill":
+                  {
+                      KillAction action=new KillAction();
+                      action.setEntityToKill(ActionsList.item(m).getAttributes().getNamedItem("entity").getTextContent());
+                      newRule.getActions().add(action);
+                      break;
+                  }
+
+
+              }
+
+
             }
 
 
@@ -105,9 +190,10 @@ public class Engine
 
 
 
-
+            this.world.getRules().add(newRule);
 
         }
+
 
 
     }
@@ -123,7 +209,7 @@ public class Engine
            String from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
            String to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
             EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
-            world.environmentVariables.add(e);
+            world.getEnvironmentVariables().add(e);
 
 
 
@@ -161,13 +247,13 @@ public class Engine
                     initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
                     Properties e= (Properties) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
                    e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,Integer.parseInt(initValue));
-                    e1.propertiesOfTheEnitiy.add(e);
+                    e1.getPropertiesOfTheEnitiy().add(e);
                 }
                 else
                 {
                     Properties e= (Properties) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
                     e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,Integer.parseInt(initValue));
-                    e1.propertiesOfTheEnitiy.add(e);
+                    e1.getPropertiesOfTheEnitiy().add(e);
 
                 }
 
@@ -199,30 +285,31 @@ public class Engine
         {
             case "decimal":
                 EnvironmentInstance res=new EnvironmentInstance();
-                 res.Type=(Integer)res.Type;
-                res.NameOfProperty=name;
+                 res.setType((Integer)res.getType());
+                res.setNameOfProperty(name);
                 res.range[0]=from;
                 res.range[1]=to;
                 return res;
 
             case "float":
                 Properties<Float> res2=new Properties();
-                res2.Type=(Float)res2.Type;
-                res2.NameOfProperty=name;
+                res2.setType((Float)res2.getType());
+                res2.setNameOfProperty(name);
                 res2.range[0]=from;
                 res2.range[1]=to;
                 return res2;
             case "boolean":
                 Properties<Boolean> res3=new Properties();
-                res3.Type=(Boolean) res3.Type;
-                res3.NameOfProperty=name;
-                res3.Type=bool;
+                res3.setType((Boolean) res3.getType());
+                res3.setNameOfProperty(name);
+                res3.setType(bool);
+
                 return res3;
             case"string":
                 Properties<String> res4=new Properties();
-                res4.Type=(String) res4.Type;
-                res4.Type=Stringdata;
-                res4.NameOfProperty=name;
+
+                res4.setType(Stringdata);
+                res4.setNameOfProperty(name);
                 return res4;
 
 

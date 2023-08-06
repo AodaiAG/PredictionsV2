@@ -5,10 +5,10 @@ import Entity.Properties;
 
 public class CalculationAction extends Action
 {
-String resultProp;
-String calType;
-String expression1;
-String expression2;
+private String resultProp;
+private String calType;
+private String expression1;
+private String expression2;
     public CalculationAction()
     {
         super("calculation");
@@ -16,6 +16,39 @@ String expression2;
         calType=new String();
         expression1=new String();
         expression2=new String();
+    }
+
+
+    public String getResultProp() {
+        return resultProp;
+    }
+
+    public void setResultProp(String resultProp) {
+        this.resultProp = resultProp;
+    }
+
+    public String getCalType() {
+        return calType;
+    }
+
+    public void setCalType(String calType) {
+        this.calType = calType;
+    }
+
+    public String getExpression1() {
+        return expression1;
+    }
+
+    public void setExpression1(String expression1) {
+        this.expression1 = expression1;
+    }
+
+    public String getExpression2() {
+        return expression2;
+    }
+
+    public void setExpression2(String expression2) {
+        this.expression2 = expression2;
     }
 
     @Override
@@ -27,22 +60,22 @@ String expression2;
         //arg1=evalute(exp1)
         //arg2=evalute(exp2)
 
-        for(Properties t : e.propertiesOfTheEnitiy)
+        for(Properties t : e.getPropertiesOfTheEnitiy())
         {
-            if(t.NameOfProperty.equals(resultProp))
+            if(t.getNameOfProperty().equals(resultProp))
             {
-                switch (t.Type.getClass().getSimpleName())
+                switch (t.getType().getClass().getSimpleName())
                 {
                     case "Integer":
                     {
                         if(calType.equals("multiply"))
                         {
-                            t.Type=(Integer)((Integer)arg1*(Integer)arg2);
+                            t.setType((Integer)((Integer)arg1*(Integer)arg2));
                         }
                         if(calType.equals("divide"))
                         {
 
-                            t.Type=(Integer)((Integer)arg1/(Integer)arg2);
+                            t.setType((Integer)((Integer)arg1/(Integer)arg2));
                         }
 
                     }
@@ -50,11 +83,11 @@ String expression2;
                     {
                         if(calType.equals("multiply"))
                         {
-                            t.Type=(Float)((Float)arg1*(Float)arg2);
+                            t.setType((Float)((Float)arg1*(Float)arg2));
                         }
                         if(calType.equals("divide"))
                         {
-                            t.Type=(Float)((Float)arg1/(Float)arg2);
+                            t.setType((Float)((Float)arg1/(Float)arg2));
 
                         }
 

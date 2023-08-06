@@ -5,9 +5,9 @@ import Entity.Properties;
 
 public class SetAction extends Action
 {
-    public String entityName;
-    public String propertyName;
-    public String expression;
+    private String entityName;
+    private String propertyName;
+    private String expression;
 
     public SetAction()
     {
@@ -18,40 +18,65 @@ public class SetAction extends Action
         expression=new String();
 
     }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
+    public String getExpression() {
+        return expression;
+    }
+
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
+
     @Override
     void ActivateAction(Entity e)
     {
         Object value=new Object();
         //Object value=eval(expression)
-        for(Properties t : e.propertiesOfTheEnitiy)
+        for(Properties t : e.getPropertiesOfTheEnitiy())
         {
-            if (t.NameOfProperty.equals(propertyName))
+            if (t.getNameOfProperty().equals(propertyName))
             {
-                switch (t.Type.getClass().getSimpleName())
+                switch (t.getType().getClass().getSimpleName())
                 {
                     case "Integer":
                     {
                         if((Integer)value>=t.range[0] && (Integer)value<=t.range[1])
                         {
-                            t.Type=value;
+                            t.setType(value);
                         }
                     }
                     case "Float":
                     {
                         if((Float)value>=t.range[0] && (Float)value<=t.range[1])
                         {
-                            t.Type=value;
+                            t.setType(value);
                         }
                     }
                     case "Boolean":
                     {
 
-                        t.Type=value;
+                        t.setType(value);
                     }
                     case "String":
                     {
 
-                        t.Type=value;
+                        t.setType(value);
                     }
 
 
