@@ -1,6 +1,7 @@
 import Entity.Entity;
 import Environment.EnvironmentInstance;
 import Rules.Rules;
+import Entity.EntityCollection;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -10,11 +11,13 @@ public class World
 {
     private int terminationTicks;
     private int terminationSeconds;
-    private List<List<Entity>> entities;
+
+    private List<EntityCollection> entities;
     private Set<EnvironmentInstance> environmentVariables;
     private Set<Rules> rules;
 
-    public int getTerminationTicks() {
+    public int getTerminationTicks()
+    {
         return terminationTicks;
     }
 
@@ -30,11 +33,11 @@ public class World
         this.terminationSeconds = terminationSeconds;
     }
 
-    public List<List<Entity>> getEntities() {
+    public List<EntityCollection> getEntities() {
         return entities;
     }
 
-    public void setEntities(List<List<Entity>> entities) {
+    public void setEntities(List<EntityCollection> entities) {
         this.entities = entities;
     }
 
@@ -69,13 +72,10 @@ public class World
     public World()
     {
         // init
-        entities=new ArrayList<List<Entity>>();
-        for(List<Entity> e:entities)
-        {
-            e=new ArrayList<Entity>();
-        }
+
         environmentVariables=new HashSet<EnvironmentInstance>();
         rules=new HashSet<Rules>();
+        entities=new ArrayList<EntityCollection>();
     }
 
 

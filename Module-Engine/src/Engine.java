@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import Entity.EntityCollection;
 
 
 public class Engine
@@ -236,16 +237,17 @@ public class Engine
     {
         for(int i=0;i<list.getLength();i++)
         {
+            EntityCollection newEntityCollection=new EntityCollection();
             Node item=list.item(i);
             Element el=(Element) item;
             String name=item.getAttributes().getNamedItem("name").getTextContent();
+            newEntityCollection.setNameOfEntity(name);
            String population= ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
 
            NodeList entityProberty=((Element) item).getElementsByTagName("PRD-property");
             Entity e1=new Entity();
-            e1.setNumberOfEntity(Integer.parseInt(population));
             e1.setNameOfEntity(name);
-            //List<Entity> entities = world.CreateEnityWithPopulation(name, Integer.parseInt(population));
+
 
             for(int j=0;j<entityProberty.getLength();j++)
             {
@@ -293,8 +295,8 @@ public class Engine
             {
                 first.add(e1);
             }
-            // add the collection to entites
-            //this.world.entities.add(first);
+            newEntityCollection.setEntities(first);
+            this.world.getEntities().add(newEntityCollection);
 
 
 
