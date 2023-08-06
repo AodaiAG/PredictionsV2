@@ -43,7 +43,8 @@ private String expression2;
         this.expression1 = expression1;
     }
 
-    public String getExpression2() {
+    public String getExpression2()
+    {
         return expression2;
     }
 

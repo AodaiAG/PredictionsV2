@@ -1,5 +1,6 @@
 package Entity;
 
+import java.lang.reflect.Array;
 import java.util.Random;
 
 
@@ -9,7 +10,7 @@ public class Properties<T>
     private String NameOfProperty;
     private boolean randomInitialize;
    private  T Type;
-   public  int[] range; // range[0] - from , range[1] - to
+   public  T[] range; // range[0] - from , range[1] - to
 
 
     public String getNameOfProperty() {
@@ -52,55 +53,89 @@ public class Properties<T>
 
     public Properties()
     {
-      range=new int[2];
+
+
+
       NameOfProperty= new String();
+        Object ob = new Object();
+        range=(T[]) new Object[2];
 
 
     }
 
-    public Properties setPropertiesAcorrdingToRandomInit(Properties p,String typeOfField,String isRandom,int initValue)
+    public Properties setPropertiesAcorrdingToRandomInit(Properties p,String typeOfField,String isRandom,String initValue)
     {
 
         Random r=new Random();
-        if(isRandom.equals("true"))
-        {
+
+
             switch (typeOfField)
             {
                 case "decimal":
-                   p.Type=(int) Math.random()*p.range[1]+range[0];
-                   return p;
+                    if(isRandom.equals("true"))
+                    {
+                        p.Type= (Integer)p.range[1] * r.nextInt() +(Integer)range[0];
+                        return p;
+                    }
+                    else {
+                        p.Type=Integer.parseInt(initValue);
+                        return p;
+                    }
+
                 case "float":
-                    p.Type= Math.random()*p.range[1]+range[0];
-                    return p;
+                    if(isRandom.equals("true"))
+                    {
+                        p.Type=((Float)p.range[1]*r.nextFloat()+(Float)range[0]);
+                        return p;
+                    }
+                    else
+                    {
+                        p.Type=Float.parseFloat(initValue);
+                        return p;
+                    }
+
 
                 case "boolean":
-                    p.Type=r.nextBoolean();
-                    return p;
+                {
+                    if(isRandom.equals("true"))
+                    {
+                        p.Type=r.nextBoolean();
+                        return p;
+                    }
+                    else
+                    {
+                        p.Type=Boolean.parseBoolean(initValue);
+                    }
+                }
 
                 case "string":
                 {
-                    int leftLimit = 97; // letter 'a'
-                    int rightLimit = 122; // letter 'z'
-                    int targetStringLength = 50;
-                    Random random = new Random();
-                    StringBuilder buffer = new StringBuilder(targetStringLength);
-                    for (int i = 0; i < targetStringLength; i++) {
-                        int randomLimitedInt = leftLimit + (int)
-                                (random.nextFloat() * (rightLimit - leftLimit + 1));
-                        buffer.append((char) randomLimitedInt);
+                    if(isRandom.equals("true"))
+                    {
+                        int leftLimit = 97; // letter 'a'
+                        int rightLimit = 122; // letter 'z'
+                        int targetStringLength = 50;
+                        Random random = new Random();
+                        StringBuilder buffer = new StringBuilder(targetStringLength);
+                        for (int i = 0; i < targetStringLength; i++) {
+                            int randomLimitedInt = leftLimit + (int)
+                                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+                            buffer.append((char) randomLimitedInt);
+                        }
+                        String generatedString = buffer.toString();
+                        p.Type=generatedString;
+                        return p;
                     }
-                    String generatedString = buffer.toString();
-                    p.Type=generatedString;
-                    return p;
+                    else
+                    {
+                        p.Type=initValue;
+                        return p;
+                    }
                 }
 
             }
-        }
-        else
-        {
-           p.Type=(initValue);
-           return p;
-        }
+
+
 
 return p;
     }

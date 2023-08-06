@@ -60,7 +60,7 @@ public class IncreaseAction extends Action
                     case "Integer":
                     {
 
-                        if((Integer)t.getType()+(Integer)value<=t.range[1] && (Integer)t.getType()+(Integer)value>=t.range[0])
+                        if((Integer)t.getType()+(Integer)value<=(Integer)t.range[1] && (Integer)t.getType()+(Integer)value>=(Integer)t.range[0])
                         {
                             t.setType((Integer)t.getType()+(Integer)value);
 
@@ -68,7 +68,7 @@ public class IncreaseAction extends Action
                     }
                     case "Float":
                     {
-                        if((Float)t.getType()+(Float)value<=t.range[1] && (Float)t.getType()+(Float)value>=t.range[0])
+                        if((Float)t.getType()+(Float)value<=(Float)t.range[1] && (Float)t.getType()+(Float)value>=(Float)t.range[0])
                         {
                             t.setType((Float)t.getType()+(Float)value);
 

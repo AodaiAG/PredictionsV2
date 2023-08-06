@@ -38,7 +38,6 @@ public class Engine
 
             Node worldNode =worldList.item(0);
             NodeList Everything=worldNode.getChildNodes();
-            System.out.println(Everything.getLength());
 
             NodeList prdEvironment = doc.getElementsByTagName("PRD-env-property");
             initEvironmentFromFile(prdEvironment,this.world);
@@ -204,12 +203,28 @@ public class Engine
         {
             Node item=list.item(i);
             Element el=(Element) item;
+            String from=new String();
+            String to=new String();
+
             String type=((Element) item).getAttribute("type");
            String prdName=((Element) item).getElementsByTagName("PRD-name").item(0).getTextContent();
-           String from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
-           String to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
-            EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
-            world.getEnvironmentVariables().add(e);
+           if((((Element) item).getElementsByTagName("PRD-range").item(0))!=null)
+           {
+                from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
+                to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
+               EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,from,to,true,"Null");
+
+               world.getEnvironmentVariables().add(e);
+           }
+           else
+           {
+               EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,from,to,true,"Null");
+               world.getEnvironmentVariables().add(e);
+           }
+
+
+
+
 
 
 
@@ -225,18 +240,27 @@ public class Engine
             Element el=(Element) item;
             String name=item.getAttributes().getNamedItem("name").getTextContent();
            String population= ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
+
            NodeList entityProberty=((Element) item).getElementsByTagName("PRD-property");
             Entity e1=new Entity();
+            e1.setNumberOfEntity(Integer.parseInt(population));
+            e1.setNameOfEntity(name);
             //List<Entity> entities = world.CreateEnityWithPopulation(name, Integer.parseInt(population));
 
             for(int j=0;j<entityProberty.getLength();j++)
             {
+                String from=new String();
+                String to=new String();
                 Node item2=entityProberty.item(j);
                 Element el2=(Element) item2;
                 String type=((Element) item2).getAttribute("type");
                 String prdName=((Element) item2).getElementsByTagName("PRD-name").item(0).getTextContent();
-                String from=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
-                String to=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
+                if(((Element) item2).getElementsByTagName("PRD-range").item(0)!=null)
+                {
+                     from=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
+                     to=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
+                }
+
                 String isRandom=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("random-initialize").getTextContent();
                 String initValue=new String();
                 initValue="-1"; // random value
@@ -245,14 +269,16 @@ public class Engine
                 if(isRandom.equals("false"))
                 {
                     initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
-                    Properties e= (Properties) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
-                   e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,Integer.parseInt(initValue));
+                    Properties e= (Properties) initProperty(type,prdName,from,to,true,"Null");
+                   e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,initValue);
+                   e.setRandomInitialize(Boolean.getBoolean(isRandom));
                     e1.getPropertiesOfTheEnitiy().add(e);
                 }
                 else
                 {
-                    Properties e= (Properties) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
-                    e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,Integer.parseInt(initValue));
+                    Properties e= (Properties) initProperty(type,prdName,from,to,true,"Null");
+                    e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,initValue);
+                    e.setRandomInitialize(Boolean.getBoolean(isRandom));
                     e1.getPropertiesOfTheEnitiy().add(e);
 
                 }
@@ -278,36 +304,33 @@ public class Engine
 
     }
 
-    Object initProperty(String type,String name,int from , int to,boolean bool,String Stringdata)
+    Object initProperty(String type,String name,String from , String to,boolean bool,String Stringdata)
     {
 
         switch(type)
         {
             case "decimal":
                 EnvironmentInstance res=new EnvironmentInstance();
-                 res.setType((Integer)res.getType());
+                 res.setType(new Integer(0));
                 res.setNameOfProperty(name);
-                res.range[0]=from;
-                res.range[1]=to;
+                res.range[0]=Integer.parseInt(from);
+                res.range[1]=Integer.parseInt(to);
                 return res;
 
             case "float":
-                Properties<Float> res2=new Properties();
-                res2.setType((Float)res2.getType());
+                EnvironmentInstance res2=new EnvironmentInstance();
+                res2.setType(new Float(0));
                 res2.setNameOfProperty(name);
-                res2.range[0]=from;
-                res2.range[1]=to;
+                res2.range[0]=Float.parseFloat(from);
+                res2.range[1]=Float.parseFloat(to);
                 return res2;
             case "boolean":
-                Properties<Boolean> res3=new Properties();
-                res3.setType((Boolean) res3.getType());
+                EnvironmentInstance res3=new EnvironmentInstance();
+                res3.setType(new Boolean(false));
                 res3.setNameOfProperty(name);
-                res3.setType(bool);
-
                 return res3;
             case"string":
-                Properties<String> res4=new Properties();
-
+                EnvironmentInstance res4=new EnvironmentInstance();
                 res4.setType(Stringdata);
                 res4.setNameOfProperty(name);
                 return res4;

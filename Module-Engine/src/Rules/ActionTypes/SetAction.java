@@ -56,14 +56,14 @@ public class SetAction extends Action
                 {
                     case "Integer":
                     {
-                        if((Integer)value>=t.range[0] && (Integer)value<=t.range[1])
+                        if((Integer)value>=(Integer)t.range[0] && (Integer)value<=(Integer)t.range[1])
                         {
                             t.setType(value);
                         }
                     }
                     case "Float":
                     {
-                        if((Float)value>=t.range[0] && (Float)value<=t.range[1])
+                        if((Float)value>=(Float)t.range[0] && (Float)value<=(Float)t.range[1])
                         {
                             t.setType(value);
                         }
