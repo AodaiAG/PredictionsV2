@@ -132,10 +132,11 @@ public class Engine
                   case "calculation":
                   {
 
+
                       CalculationAction action=new CalculationAction();
-                      NodeList mul=((Element) item).getElementsByTagName("PRD-multiply");
-                      NodeList div=((Element) item).getElementsByTagName("PRD-divide");
-                      if(mul!=null)
+                      NodeList mul= ((Element) ActionsList.item(m)).getElementsByTagName("PRD-multiply");
+                      NodeList div=((Element) ActionsList.item(m)).getElementsByTagName("PRD-divide");
+                      if(mul.item(0)!=null)
                       {
 
                         action.setExpression1(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent());
@@ -146,10 +147,10 @@ public class Engine
 
 
                       }
-                      if(div!=null)
+                      if(div.item(0)!=null)
                       {
-                          action.setExpression1(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent()); ;
-                          action.setExpression2(mul.item(0).getAttributes().getNamedItem("arg2").getTextContent()); ;
+                          action.setExpression1(div.item(0).getAttributes().getNamedItem("arg1").getTextContent()); ;
+                          action.setExpression2(div.item(0).getAttributes().getNamedItem("arg2").getTextContent()); ;
                           action.setCalType("divide");
                           action.setResultProp(ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent());
                           newRule.getActions().add(action);
@@ -273,14 +274,14 @@ public class Engine
                     initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
                     Properties e= (Properties) initProperty(type,prdName,from,to,true,"Null");
                    e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,initValue);
-                   e.setRandomInitialize(Boolean.getBoolean(isRandom));
+                   e.setRandomInitialize(Boolean.valueOf(isRandom));
                     e1.getPropertiesOfTheEnitiy().add(e);
                 }
                 else
                 {
                     Properties e= (Properties) initProperty(type,prdName,from,to,true,"Null");
                     e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,initValue);
-                    e.setRandomInitialize(Boolean.getBoolean(isRandom));
+                    e.setRandomInitialize(Boolean.valueOf(isRandom));
                     e1.getPropertiesOfTheEnitiy().add(e);
 
                 }
@@ -297,6 +298,8 @@ public class Engine
             }
             newEntityCollection.setEntities(first);
             this.world.getEntities().add(newEntityCollection);
+
+            System.out.println("test");
 
 
 

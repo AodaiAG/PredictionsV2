@@ -112,9 +112,10 @@ public class Properties<T>
                 {
                     if(isRandom.equals("true"))
                     {
+                        // remmber to generate string including those of another chars
                         int leftLimit = 97; // letter 'a'
                         int rightLimit = 122; // letter 'z'
-                        int targetStringLength = 50;
+                        int targetStringLength =  (int)(Math.random()*50+1);
                         Random random = new Random();
                         StringBuilder buffer = new StringBuilder(targetStringLength);
                         for (int i = 0; i < targetStringLength; i++) {
