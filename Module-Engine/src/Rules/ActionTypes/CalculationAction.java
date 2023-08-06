@@ -5,10 +5,10 @@ import Entity.Properties;
 
 public class CalculationAction extends Action
 {
-public String resultProp;
-public String calType;
-public String expression1;
-public String expression2;
+private String resultProp;
+private String calType;
+private String expression1;
+private String expression2;
     public CalculationAction()
     {
         super("calculation");
@@ -16,6 +16,39 @@ public String expression2;
         calType=new String();
         expression1=new String();
         expression2=new String();
+    }
+
+
+    public String getResultProp() {
+        return resultProp;
+    }
+
+    public void setResultProp(String resultProp) {
+        this.resultProp = resultProp;
+    }
+
+    public String getCalType() {
+        return calType;
+    }
+
+    public void setCalType(String calType) {
+        this.calType = calType;
+    }
+
+    public String getExpression1() {
+        return expression1;
+    }
+
+    public void setExpression1(String expression1) {
+        this.expression1 = expression1;
+    }
+
+    public String getExpression2() {
+        return expression2;
+    }
+
+    public void setExpression2(String expression2) {
+        this.expression2 = expression2;
     }
 
     @Override

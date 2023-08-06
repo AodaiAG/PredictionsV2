@@ -5,9 +5,9 @@ import Entity.Properties;
 
 public class DecreaseAction extends Action
 {
-    public String entityName;
-    public String propertyName;
-    public String expression;
+    private String entityName;
+    private String propertyName;
+    private String expression;
 
 
     public DecreaseAction()
@@ -17,6 +17,30 @@ public class DecreaseAction extends Action
         entityName=new String();
         expression=new String();
 
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
+    public String getExpression() {
+        return expression;
+    }
+
+    public void setExpression(String expression) {
+        this.expression = expression;
     }
 
     @Override

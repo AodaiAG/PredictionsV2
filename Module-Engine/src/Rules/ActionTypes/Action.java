@@ -4,14 +4,19 @@ import Entity.Entity;
 
 public abstract class Action
 {
-    String type;
+
+
+    private String typeOfAction;
+    public String getTypeOfAction() {
+        return typeOfAction;
+    }
 
     abstract void ActivateAction( Entity e);
 
     public Action(String actionType)
     {
-        type=new String();
-        type = actionType;
+        typeOfAction=new String();
+        typeOfAction = actionType;
 
 
     }

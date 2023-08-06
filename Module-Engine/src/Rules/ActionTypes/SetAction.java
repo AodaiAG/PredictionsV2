@@ -5,9 +5,9 @@ import Entity.Properties;
 
 public class SetAction extends Action
 {
-    public String entityName;
-    public String propertyName;
-    public String expression;
+    private String entityName;
+    private String propertyName;
+    private String expression;
 
     public SetAction()
     {
@@ -18,6 +18,31 @@ public class SetAction extends Action
         expression=new String();
 
     }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
+    public String getExpression() {
+        return expression;
+    }
+
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
+
     @Override
     void ActivateAction(Entity e)
     {

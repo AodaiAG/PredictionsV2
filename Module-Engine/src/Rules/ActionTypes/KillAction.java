@@ -7,12 +7,21 @@ import java.util.Collection;
 public class KillAction extends Action
 {
 
-public String entityToKill;
+private String entityToKill;
     public KillAction()
     {
         super("kill");
         entityToKill=new String();
     }
+
+    public String getEntityToKill() {
+        return entityToKill;
+    }
+
+    public void setEntityToKill(String entityToKill) {
+        this.entityToKill = entityToKill;
+    }
+
     @Override
     void ActivateAction(Entity e)
     {

@@ -112,9 +112,9 @@ public class Engine
                   {
 
                       IncreaseAction action=new IncreaseAction();
-                      action.entityName=whichEntityActionWork;
-                      action.propertyName=ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent();
-                      action.expression=ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent();
+                      action.setEntityName(whichEntityActionWork);
+                      action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
+                      action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent());
                       newRule.actions.add(action);
                       break;
 
@@ -122,9 +122,9 @@ public class Engine
                   case "decrease":
                   {
                       DecreaseAction action=new DecreaseAction();
-                      action.entityName=whichEntityActionWork;
-                      action.propertyName=ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent();
-                      action.expression=ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent();
+                      action.setEntityName(whichEntityActionWork);
+                      action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
+                      action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent());
                       newRule.actions.add(action);
                       break;
 
@@ -138,20 +138,20 @@ public class Engine
                       if(mul!=null)
                       {
 
-                        action.expression1 = mul.item(0).getAttributes().getNamedItem("arg1").getTextContent();
-                        action.expression2 = mul.item(0).getAttributes().getNamedItem("arg2").getTextContent();
-                        action.calType="multiply";
-                        action.resultProp=ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent();
+                        action.setExpression1(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent());
+                        action.setExpression2( mul.item(0).getAttributes().getNamedItem("arg2").getTextContent());
+                        action.setCalType("multiply");
+                        action.setResultProp(ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent());
                          newRule.actions.add(action);
 
 
                       }
                       if(div!=null)
                       {
-                          action.expression1 = mul.item(0).getAttributes().getNamedItem("arg1").getTextContent();
-                          action.expression2 = mul.item(0).getAttributes().getNamedItem("arg2").getTextContent();
-                          action.calType="divide";
-                          action.resultProp=ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent();
+                          action.setExpression1(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent()); ;
+                          action.setExpression2(mul.item(0).getAttributes().getNamedItem("arg2").getTextContent()); ;
+                          action.setCalType("divide");
+                          action.setResultProp(ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent());
                           newRule.actions.add(action);
                       }
 
@@ -162,9 +162,9 @@ public class Engine
                   case "set":
                   {
                       SetAction action=new SetAction();
-                      action.entityName=whichEntityActionWork;
-                      action.propertyName=ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent();
-                      action.expression=ActionsList.item(m).getAttributes().getNamedItem("value").getTextContent();
+                      action.setEntityName(whichEntityActionWork);
+                      action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
+                      action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("value").getTextContent());
                       newRule.actions.add(action);
                       break;
 
@@ -173,7 +173,7 @@ public class Engine
                   case "kill":
                   {
                       KillAction action=new KillAction();
-                      action.entityToKill=ActionsList.item(m).getAttributes().getNamedItem("entity").getTextContent();
+                      action.setEntityToKill(ActionsList.item(m).getAttributes().getNamedItem("entity").getTextContent());
                       newRule.actions.add(action);
                       break;
                   }
