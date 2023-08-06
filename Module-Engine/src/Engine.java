@@ -51,8 +51,8 @@ public class Engine
 //
             String ticks = doc.getElementsByTagName("PRD-by-ticks").item(0).getAttributes().getNamedItem("count").getTextContent();
             String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
-            this.world.terminationTicks=Integer.parseInt(ticks);
-            this.world.terminationSeconds=Integer.parseInt(seconds);
+            this.world.setTerminationTicks(Integer.parseInt(ticks));
+            this.world.setTerminationSeconds(Integer.parseInt(seconds));
 
 
 
@@ -78,7 +78,7 @@ public class Engine
             Node item=list.item(i);
             Element el=(Element) item;
             String nameOfRule=((Element) item).getAttribute("name");
-            newRule.nameOfRule=nameOfRule;
+            newRule.setNameOfRule(nameOfRule);
             NodeList prdActivtionL=((Element) item).getElementsByTagName("PRD-activation");
             if(prdActivtionL.getLength()!=0)//if not empty
             {
@@ -86,13 +86,13 @@ public class Engine
                 if(ticksNode!=null)
                 {
                     String tickString=ticksNode.getTextContent();
-                    newRule.ticks=Integer.parseInt(tickString);
+                    newRule.setTicks(Integer.parseInt(tickString));
                 }
                 Node probNode=((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("probability");
                 if(probNode!=null)
                 {
                     String probString=probNode.getTextContent();
-                    newRule.probability=Double.parseDouble(probString);
+                    newRule.setProbability(Double.parseDouble(probString));
                 }
             }
 
@@ -115,7 +115,7 @@ public class Engine
                       action.setEntityName(whichEntityActionWork);
                       action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
                       action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent());
-                      newRule.actions.add(action);
+                      newRule.getActions().add(action);
                       break;
 
                   }
@@ -125,7 +125,7 @@ public class Engine
                       action.setEntityName(whichEntityActionWork);
                       action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
                       action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent());
-                      newRule.actions.add(action);
+                      newRule.getActions().add(action);
                       break;
 
                   }
@@ -142,7 +142,7 @@ public class Engine
                         action.setExpression2( mul.item(0).getAttributes().getNamedItem("arg2").getTextContent());
                         action.setCalType("multiply");
                         action.setResultProp(ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent());
-                         newRule.actions.add(action);
+                          newRule.getActions().add(action);
 
 
                       }
@@ -152,7 +152,7 @@ public class Engine
                           action.setExpression2(mul.item(0).getAttributes().getNamedItem("arg2").getTextContent()); ;
                           action.setCalType("divide");
                           action.setResultProp(ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent());
-                          newRule.actions.add(action);
+                          newRule.getActions().add(action);
                       }
 
                       break;
@@ -165,7 +165,7 @@ public class Engine
                       action.setEntityName(whichEntityActionWork);
                       action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
                       action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("value").getTextContent());
-                      newRule.actions.add(action);
+                      newRule.getActions().add(action);
                       break;
 
                   }
@@ -174,7 +174,7 @@ public class Engine
                   {
                       KillAction action=new KillAction();
                       action.setEntityToKill(ActionsList.item(m).getAttributes().getNamedItem("entity").getTextContent());
-                      newRule.actions.add(action);
+                      newRule.getActions().add(action);
                       break;
                   }
 
@@ -190,7 +190,7 @@ public class Engine
 
 
 
-            this.world.rules.add(newRule);
+            this.world.getRules().add(newRule);
 
         }
 
@@ -209,7 +209,7 @@ public class Engine
            String from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
            String to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
             EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,Integer.parseInt(from),Integer.parseInt(to),true,"Null");
-            world.environmentVariables.add(e);
+            world.getEnvironmentVariables().add(e);
 
 
 
