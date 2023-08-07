@@ -137,21 +137,31 @@ public class Engine
 
                       // then
 
-                      NodeList thenNodes=((Element) ActionsList.item(m)).getElementsByTagName("PRD-then");
-                      for(int p=0;p<thenNodes.getLength();p++)
-                      {
-                          conditionA.getActionsToDoIfTrue().add(p,CreateAction(thenNodes.item(p)));
+                      Element thenNodesF=(Element)(((Element) ActionsList.item(m)).getElementsByTagName("PRD-then").item(0));
+                      if(thenNodesF!=null)
+                      {NodeList thenNodes=thenNodesF.getElementsByTagName("PRD-action");
+                          for(int p=0;p<thenNodes.getLength();p++)
+                          {
+                              conditionA.getActionsToDoIfTrue().add(p,CreateAction(thenNodes.item(p)));
 
-                      }
-                      NodeList elseNodes=((Element) ActionsList.item(m)).getElementsByTagName("PRD-else");
-
-                      for(int p=0;p<elseNodes.getLength();p++)
-                      {
-                          conditionA.getActionsToDoIfFalse().add(p,CreateAction(elseNodes.item(p)));
+                          }
 
                       }
 
-                        newRule.getActions().add(conditionA);
+
+                      Element elseNodesF=(Element)(((Element) ActionsList.item(m)).getElementsByTagName("PRD-else").item(0));
+                      if(elseNodesF!=null)
+                      {
+                          NodeList elseNodes=elseNodesF.getElementsByTagName("PRD-action");
+
+                          for(int p=0;p<elseNodes.getLength();p++)
+                          {
+                              conditionA.getActionsToDoIfFalse().add(p,CreateAction(elseNodes.item(p)));
+
+                          }
+
+                      }
+                      newRule.getActions().add(conditionA);
                         break;
 
 
@@ -287,9 +297,34 @@ public class Engine
                 }
 
 
+                // then
+
+                Element thenNodesF=(Element)(((Element) ActionNode).getElementsByTagName("PRD-then").item(0));
+                if(thenNodesF!=null)
+                {NodeList thenNodes=thenNodesF.getElementsByTagName("PRD-action");
+                    for(int p=0;p<thenNodes.getLength();p++)
+                    {
+                        conditionA.getActionsToDoIfTrue().add(p,CreateAction(thenNodes.item(p)));
+
+                    }
+
+                }
 
 
-                break;
+                Element elseNodesF=(Element)(((Element) ActionNode).getElementsByTagName("PRD-else").item(0));
+                if(elseNodesF!=null)
+                {
+                    NodeList elseNodes=elseNodesF.getElementsByTagName("PRD-action");
+
+                    for(int p=0;p<elseNodes.getLength();p++)
+                    {
+                        conditionA.getActionsToDoIfFalse().add(p,CreateAction(elseNodes.item(p)));
+
+                    }
+
+                }
+                return conditionA;
+
 
 
 
