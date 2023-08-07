@@ -101,10 +101,10 @@ public class Engine
             NodeList ActionsList= actionsListOfaRuleElement.getElementsByTagName("PRD-action");
 
 
-            for(int m=0;m<actionsListOfaRule.getLength();m++)
+            for(int m=0;m<ActionsList.getLength();m++)
             {
 
-                Action action=CreateAction(actionsListOfaRule.item(m));
+                Action action=CreateAction(ActionsList.item(m));
 
 
                 newRule.getActions().add(action);
