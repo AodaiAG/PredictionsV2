@@ -18,7 +18,7 @@ import Entity.EntityCollection;
 public class Engine
 {
 
-     public World world;
+    public World world;
 
 
     public Engine()
@@ -72,7 +72,7 @@ public class Engine
         for(int i=0;i<list.getLength();i++)
         {
 
-             Rules newRule=new Rules();
+            Rules newRule=new Rules();
 
 
             Node item=list.item(i);
@@ -96,151 +96,19 @@ public class Engine
                 }
             }
 
+            NodeList actionsListOfaRule= ((Element) item).getElementsByTagName("PRD-actions");
+            Element actionsListOfaRuleElement= (Element) actionsListOfaRule.item(0);
+            NodeList ActionsList= actionsListOfaRuleElement.getElementsByTagName("PRD-action");
 
 
-           NodeList ActionsList= ((Element) item).getElementsByTagName("PRD-action");
-
-            for(int m=0;m<ActionsList.getLength();m++)
+            for(int m=0;m<actionsListOfaRule.getLength();m++)
             {
 
-              String whichEntityActionWork=  ActionsList.item(m).getAttributes().getNamedItem("entity").getTextContent();
-              String typeOfAction=  ActionsList.item(m).getAttributes().getNamedItem("type").getTextContent();
-
-              switch (typeOfAction)
-              {
-
-                  case "condition":
-                  {
-
-                      ConditionAction conditionA=new ConditionAction();
-
-                      conditionA.setNameOfEntity(whichEntityActionWork);
-
-                      Node c=((Element) ActionsList.item(m)).getElementsByTagName("PRD-condition").item(0);
-                      String typeOfCondition=c.getAttributes().getNamedItem("singularity").getTextContent();
-                      if(typeOfCondition.equals("single"))
-                      {
-                          SingleCondition single=new SingleCondition();
-                          single.setNameofEntity(c.getAttributes().getNamedItem("entity").getTextContent());
-                          single.setNameofProperty(c.getAttributes().getNamedItem("property").getTextContent());
-                          single.setOperator(c.getAttributes().getNamedItem("operator").getTextContent());
-                          single.setValue(c.getAttributes().getNamedItem("value").getTextContent());
-                          conditionA.setCondition(single);
-                      }
-                      if(typeOfCondition.equals("multiple"))
-
-                      {
-
-                         conditionA.setCondition(MultipleCondition.createMultipleCondition(c));
-
-                      }
-
-                      // then
-
-                      Element thenNodesF=(Element)(((Element) ActionsList.item(m)).getElementsByTagName("PRD-then").item(0));
-                      if(thenNodesF!=null)
-                      {NodeList thenNodes=thenNodesF.getElementsByTagName("PRD-action");
-                          for(int p=0;p<thenNodes.getLength();p++)
-                          {
-                              conditionA.getActionsToDoIfTrue().add(p,CreateAction(thenNodes.item(p)));
-
-                          }
-
-                      }
+                Action action=CreateAction(actionsListOfaRule.item(m));
 
 
-                      Element elseNodesF=(Element)(((Element) ActionsList.item(m)).getElementsByTagName("PRD-else").item(0));
-                      if(elseNodesF!=null)
-                      {
-                          NodeList elseNodes=elseNodesF.getElementsByTagName("PRD-action");
+                newRule.getActions().add(action);
 
-                          for(int p=0;p<elseNodes.getLength();p++)
-                          {
-                              conditionA.getActionsToDoIfFalse().add(p,CreateAction(elseNodes.item(p)));
-
-                          }
-
-                      }
-                      newRule.getActions().add(conditionA);
-                        break;
-
-
-
-                  }
-
-                  case "increase":
-                  {
-
-                      IncreaseAction action=new IncreaseAction();
-                      action.setEntityName(whichEntityActionWork);
-                      action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
-                      action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent());
-                      newRule.getActions().add(action);
-                      break;
-
-                  }
-                  case "decrease":
-                  {
-                      DecreaseAction action=new DecreaseAction();
-                      action.setEntityName(whichEntityActionWork);
-                      action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
-                      action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("by").getTextContent());
-                      newRule.getActions().add(action);
-                      break;
-
-                  }
-                  case "calculation":
-                  {
-
-
-                      CalculationAction action=new CalculationAction();
-                      NodeList mul= ((Element) ActionsList.item(m)).getElementsByTagName("PRD-multiply");
-                      NodeList div=((Element) ActionsList.item(m)).getElementsByTagName("PRD-divide");
-                      if(mul.item(0)!=null)
-                      {
-
-                        action.setExpression1(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent());
-                        action.setExpression2( mul.item(0).getAttributes().getNamedItem("arg2").getTextContent());
-                        action.setCalType("multiply");
-                        action.setResultProp(ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent());
-                          newRule.getActions().add(action);
-
-
-                      }
-                      if(div.item(0)!=null)
-                      {
-                          action.setExpression1(div.item(0).getAttributes().getNamedItem("arg1").getTextContent()); ;
-                          action.setExpression2(div.item(0).getAttributes().getNamedItem("arg2").getTextContent()); ;
-                          action.setCalType("divide");
-                          action.setResultProp(ActionsList.item(m).getAttributes().getNamedItem("result-prop").getTextContent());
-                          newRule.getActions().add(action);
-                      }
-
-                      break;
-
-                  }
-
-                  case "set":
-                  {
-                      SetAction action=new SetAction();
-                      action.setEntityName(whichEntityActionWork);
-                      action.setPropertyName(ActionsList.item(m).getAttributes().getNamedItem("property").getTextContent());
-                      action.setExpression(ActionsList.item(m).getAttributes().getNamedItem("value").getTextContent());
-                      newRule.getActions().add(action);
-                      break;
-
-                  }
-
-                  case "kill":
-                  {
-                      KillAction action=new KillAction();
-                      action.setEntityToKill(ActionsList.item(m).getAttributes().getNamedItem("entity").getTextContent());
-                      newRule.getActions().add(action);
-                      break;
-                  }
-
-
-              }
 
 
             }
@@ -405,10 +273,10 @@ public class Engine
 
 
 
-    }
+        }
 
         throw new RuntimeException("emptyList");
-}
+    }
     public void initEvironmentFromFile(NodeList list,World w)
     {
         for(int i=0;i<list.getLength();i++)
@@ -419,20 +287,20 @@ public class Engine
             String to=new String();
 
             String type=((Element) item).getAttribute("type");
-           String prdName=((Element) item).getElementsByTagName("PRD-name").item(0).getTextContent();
-           if((((Element) item).getElementsByTagName("PRD-range").item(0))!=null)
-           {
+            String prdName=((Element) item).getElementsByTagName("PRD-name").item(0).getTextContent();
+            if((((Element) item).getElementsByTagName("PRD-range").item(0))!=null)
+            {
                 from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
                 to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
-               EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,from,to,true,"Null");
+                EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,from,to,true,"Null");
 
-               world.getEnvironmentVariables().add(e);
-           }
-           else
-           {
-               EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,from,to,true,"Null");
-               world.getEnvironmentVariables().add(e);
-           }
+                world.getEnvironmentVariables().add(e);
+            }
+            else
+            {
+                EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,from,to,true,"Null");
+                world.getEnvironmentVariables().add(e);
+            }
 
 
 
@@ -453,9 +321,9 @@ public class Engine
             Element el=(Element) item;
             String name=item.getAttributes().getNamedItem("name").getTextContent();
             newEntityCollection.setNameOfEntity(name);
-           String population= ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
+            String population= ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
 
-           NodeList entityProberty=((Element) item).getElementsByTagName("PRD-property");
+            NodeList entityProberty=((Element) item).getElementsByTagName("PRD-property");
             Entity e1=new Entity();
             e1.setNameOfEntity(name);
 
@@ -470,8 +338,8 @@ public class Engine
                 String prdName=((Element) item2).getElementsByTagName("PRD-name").item(0).getTextContent();
                 if(((Element) item2).getElementsByTagName("PRD-range").item(0)!=null)
                 {
-                     from=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
-                     to=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
+                    from=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
+                    to=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
                 }
 
                 String isRandom=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("random-initialize").getTextContent();
@@ -483,8 +351,8 @@ public class Engine
                 {
                     initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
                     Properties e= (Properties) initProperty(type,prdName,from,to,true,"Null");
-                   e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,initValue);
-                   e.setRandomInitialize(Boolean.valueOf(isRandom));
+                    e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,initValue);
+                    e.setRandomInitialize(Boolean.valueOf(isRandom));
                     e1.getPropertiesOfTheEnitiy().add(e);
                 }
                 else
@@ -526,7 +394,7 @@ public class Engine
         {
             case "decimal":
                 EnvironmentInstance res=new EnvironmentInstance();
-                 res.setType(new Integer(0));
+                res.setType(new Integer(0));
                 res.setNameOfProperty(name);
                 res.range[0]=Integer.parseInt(from);
                 res.range[1]=Integer.parseInt(to);
