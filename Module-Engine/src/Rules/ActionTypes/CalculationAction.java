@@ -3,23 +3,32 @@ package Rules.ActionTypes;
 import Entity.Entity;
 import Entity.Properties;
 
-public class CalculationAction extends Action
+public class CalculationAction implements Action
 {
-private String resultProp;
-private String calType;
-private String expression1;
-private String expression2;
+    private String typeOfCondition;
+    private String resultProp;
+    private String calType;
+    private String expression1;
+    private String expression2;
+
     public CalculationAction()
     {
-        super("calculation");
         resultProp=new String();
+        typeOfCondition=new String();
         calType=new String();
         expression1=new String();
         expression2=new String();
+        typeOfCondition="calculation";
+    }
+
+    public String getTypeOfCondition()
+    {
+        return typeOfCondition;
     }
 
 
-    public String getResultProp() {
+    public String getResultProp()
+    {
         return resultProp;
     }
 
@@ -53,7 +62,7 @@ private String expression2;
     }
 
     @Override
-    void ActivateAction(Entity e)
+    public void ActivateAction(Entity e)
     {
         Object arg1=new Object();
         Object arg2=new Object();

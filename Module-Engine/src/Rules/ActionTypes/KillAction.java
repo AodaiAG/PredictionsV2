@@ -4,13 +4,13 @@ import Entity.Entity;
 
 import java.util.Collection;
 
-public class KillAction extends Action
+public class KillAction implements Action
 {
 
 private String entityToKill;
     public KillAction()
     {
-        super("kill");
+
         entityToKill=new String();
     }
 
@@ -23,7 +23,7 @@ private String entityToKill;
     }
 
     @Override
-    void ActivateAction(Entity e)
+    public void ActivateAction(Entity e)
     {
 
 

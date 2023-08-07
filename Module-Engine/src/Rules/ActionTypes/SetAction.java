@@ -3,7 +3,7 @@ package Rules.ActionTypes;
 import Entity.Entity;
 import Entity.Properties;
 
-public class SetAction extends Action
+public class SetAction implements Action
 {
     private String entityName;
     private String propertyName;
@@ -11,7 +11,7 @@ public class SetAction extends Action
 
     public SetAction()
     {
-        super("set");
+
 
         entityName=new String();
         propertyName=new String();
@@ -44,7 +44,7 @@ public class SetAction extends Action
     }
 
     @Override
-    void ActivateAction(Entity e)
+    public void ActivateAction(Entity e)
     {
         Object value=new Object();
         //Object value=eval(expression)

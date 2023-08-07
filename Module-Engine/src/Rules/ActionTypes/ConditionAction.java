@@ -2,19 +2,69 @@ package Rules.ActionTypes;
 
 import Entity.Entity;
 
-public class ConditionAction extends Action
+import java.util.ArrayList;
+import java.util.List;
+
+public  class ConditionAction implements Action
 {
-    @Override
-    public String getTypeOfAction() {
-        return super.getTypeOfAction();
+    private Boolean conditionResult;
+    private ConditionAction condition;
+    List<Action> actionsToDoIfTrue;
+    List<Action> actionsToDoIfFalse;
+    String nameOfEntity;
+
+
+    public Boolean getConditionResult()
+    {
+        return conditionResult;
+    }
+
+    public void setConditionResult(Boolean conditionResult) {
+        this.conditionResult = conditionResult;
     }
 
     @Override
-    void ActivateAction(Entity e) {
+    public void ActivateAction(Entity e)
+    {
+
+        condition.ActivateAction(e);
+        conditionResult=condition.getConditionResult();
+        if(conditionResult)
+        {
+            if(actionsToDoIfTrue.size()!=0)
+            {
+                for(Action a:actionsToDoIfTrue)
+                {
+                    a.ActivateAction(e);
+                }
+            }
+        }
+        else
+        {
+            if(actionsToDoIfFalse.size()!=0)
+            {
+                for(Action a:actionsToDoIfFalse)
+                {
+                    a.ActivateAction(e);
+                }
+            }
+
+
+        }
+
+
 
     }
 
-    public ConditionAction(String actionType) {
-        super(actionType);
+    public ConditionAction()
+    {
+        condition=new ConditionAction();
+        nameOfEntity=new String();
+        actionsToDoIfTrue=new ArrayList<>();
+        actionsToDoIfFalse=new ArrayList<>();
+
     }
+
+
+
 }

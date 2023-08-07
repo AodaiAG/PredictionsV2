@@ -3,7 +3,7 @@ package Rules.ActionTypes;
 import Entity.Entity;
 import Entity.Properties;
 
-public class DecreaseAction extends Action
+public class DecreaseAction implements Action
 {
     private String entityName;
     private String propertyName;
@@ -12,7 +12,7 @@ public class DecreaseAction extends Action
 
     public DecreaseAction()
     {
-        super("decrease");
+
         propertyName=new String();
         entityName=new String();
         expression=new String();
@@ -44,7 +44,7 @@ public class DecreaseAction extends Action
     }
 
     @Override
-    void ActivateAction(Entity e)
+    public void ActivateAction(Entity e)
     {
 
 
