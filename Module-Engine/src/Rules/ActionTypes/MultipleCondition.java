@@ -8,9 +8,36 @@ import java.util.List;
 public class MultipleCondition extends ConditionAction
 {
     private Boolean conditionResult;
-    String logical;
-    List<ConditionAction> listOfConditions;
+    private String logical;
 
+    @Override
+    public Boolean getConditionResult()
+    {
+        return conditionResult;
+    }
+
+    @Override
+    public void setConditionResult(Boolean conditionResult) {
+        this.conditionResult = conditionResult;
+    }
+
+    public String getLogical() {
+        return logical;
+    }
+
+    public void setLogical(String logical) {
+        this.logical = logical;
+    }
+
+    public List<ConditionAction> getListOfConditions() {
+        return listOfConditions;
+    }
+
+    public void setListOfConditions(List<ConditionAction> listOfConditions) {
+        this.listOfConditions = listOfConditions;
+    }
+
+    private List<ConditionAction> listOfConditions;
     @Override
     public void ActivateAction(Entity e)
     {
