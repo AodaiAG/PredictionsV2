@@ -90,7 +90,7 @@ public  class ConditionAction implements Action
 
     public ConditionAction()
     {
-        condition=new ConditionAction();
+
         nameOfEntity=new String();
         actionsToDoIfTrue=new ArrayList<>();
         actionsToDoIfFalse=new ArrayList<>();
