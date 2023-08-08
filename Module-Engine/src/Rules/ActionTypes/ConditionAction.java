@@ -21,7 +21,7 @@ public  class ConditionAction implements Action
         this.condition = condition;
     }
 
-    public List<Action> getActionsToDoIfTrue() {
+    public  List<Action> getActionsToDoIfTrue() {
         return actionsToDoIfTrue;
     }
 
@@ -29,7 +29,7 @@ public  class ConditionAction implements Action
         this.actionsToDoIfTrue = actionsToDoIfTrue;
     }
 
-    public List<Action> getActionsToDoIfFalse() {
+    public  List<Action> getActionsToDoIfFalse() {
         return actionsToDoIfFalse;
     }
 

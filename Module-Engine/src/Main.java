@@ -16,7 +16,8 @@ public class Main
             Uri uri=new Uri(path);
             File f=new File(String.valueOf(uri));
             w.ParseXmlAndLoadWorld(f);
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException e)
+        {
             throw new RuntimeException(e);
         }
 

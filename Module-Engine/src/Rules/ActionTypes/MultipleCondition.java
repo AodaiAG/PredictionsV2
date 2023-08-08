@@ -1,12 +1,16 @@
 package Rules.ActionTypes;
 
+
+
 import Entity.Entity;
+import Rules.Rules;
+import com.sun.xml.internal.ws.api.pipe.Engine;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 import static com.sun.xml.internal.ws.streaming.XMLStreamReaderUtil.getAttributes;
 
@@ -28,13 +32,14 @@ public class MultipleCondition extends ConditionAction
     }
 
 
-    public static MultipleCondition createMultipleCondition(Node nodelist)
+    public  MultipleCondition createMultipleCondition(Node nodelist)
     {
         MultipleCondition res=new MultipleCondition();
         res.setLogical(nodelist.getAttributes().getNamedItem("logical").getTextContent());
         Element el=(Element) nodelist;
        //NodeList wanted= el.getElementsByTagName("PRD-condition");
        NodeList wanted= nodelist.getChildNodes();
+       Rules justToCallFunction =new Rules();
 
 
        for(int i=0;i<wanted.getLength();i++)
@@ -61,7 +66,40 @@ public class MultipleCondition extends ConditionAction
 
 
            }
-           }
+       }
+
+        // then
+
+        Element thenNodesF=(Element)(((Element) nodelist).getElementsByTagName("PRD-then").item(0));
+        if(thenNodesF!=null)
+        {
+            NodeList thenNodes=thenNodesF.getElementsByTagName("PRD-action");
+            for(int p=0;p<thenNodes.getLength();p++)
+            {
+                res.getActionsToDoIfTrue().add(p,justToCallFunction.CreateAction(thenNodes.item(p)));
+
+            }
+
+        }
+
+
+        Element elseNodesF=(Element)(((Element) nodelist).getElementsByTagName("PRD-else").item(0));
+        if(elseNodesF!=null)
+        {
+            NodeList elseNodes=elseNodesF.getElementsByTagName("PRD-action");
+
+            for(int p=0;p<elseNodes.getLength();p++)
+            {
+                res.getActionsToDoIfFalse().add(p,justToCallFunction.CreateAction(elseNodes.item(p)));
+
+            }
+
+
+        }
+
+
+
+
 
        return res;
 
