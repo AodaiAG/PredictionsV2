@@ -33,29 +33,36 @@ public class MultipleCondition extends ConditionAction
         MultipleCondition res=new MultipleCondition();
         res.setLogical(nodelist.getAttributes().getNamedItem("logical").getTextContent());
         Element el=(Element) nodelist;
-       NodeList wanted= el.getElementsByTagName("PRD-condition");
+       //NodeList wanted= el.getElementsByTagName("PRD-condition");
+       NodeList wanted= nodelist.getChildNodes();
+
 
        for(int i=0;i<wanted.getLength();i++)
        {
 
-           Node node=wanted.item(i);
-           String conditionType=node.getAttributes().getNamedItem("singularity").getTextContent();
-           if(conditionType.equals("single"))
+
+           if(wanted.item(i).getNodeType()==Node.ELEMENT_NODE)
            {
-               SingleCondition single=new SingleCondition();
-               single.setNameofEntity(node.getAttributes().getNamedItem("entity").getTextContent());
-               single.setNameofProperty(node.getAttributes().getNamedItem("property").getTextContent());
-               single.setOperator(node.getAttributes().getNamedItem("operator").getTextContent());
-               single.setValue(node.getAttributes().getNamedItem("value").getTextContent());
-               res.getListOfConditions().add(single);
-           }
-           if(conditionType.equals("multiple"))
-           {
-               res.getListOfConditions().add(createMultipleCondition(node));
-           }
+               Node node=wanted.item(i);
+               String conditionType=node.getAttributes().getNamedItem("singularity").getTextContent();
+               if(conditionType.equals("single"))
+               {
+                   SingleCondition single=new SingleCondition();
+                   single.setNameofEntity(node.getAttributes().getNamedItem("entity").getTextContent());
+                   single.setNameofProperty(node.getAttributes().getNamedItem("property").getTextContent());
+                   single.setOperator(node.getAttributes().getNamedItem("operator").getTextContent());
+                   single.setValue(node.getAttributes().getNamedItem("value").getTextContent());
+                   res.getListOfConditions().add(single);
+               }
+               if(conditionType.equals("multiple"))
+               {
+                   res.getListOfConditions().add(createMultipleCondition(node));
+               }
 
 
-       }
+           }
+           }
+
        return res;
 
 
