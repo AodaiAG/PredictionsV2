@@ -96,18 +96,21 @@ public class Engine
                 }
             }
 
-            NodeList actionsListOfaRule= ((Element) item).getElementsByTagName("PRD-actions");
-            Element actionsListOfaRuleElement= (Element) actionsListOfaRule.item(0);
-            NodeList ActionsList= actionsListOfaRuleElement.getElementsByTagName("PRD-action");
+            NodeList actionsListOfaRule= ((Element) item).getElementsByTagName("PRD-actions").item(0).getChildNodes();
+            //Element actionsListOfaRuleElement= (Element) actionsListOfaRule.item(0);
+            // ActionsList= actionsListOfaRuleElement.getElementsByTagName("PRD-action");
 
 
-            for(int m=0;m<ActionsList.getLength();m++)
+            for(int m=0;m<actionsListOfaRule.getLength();m++)
             {
+                if(actionsListOfaRule.item(m).getNodeType()==Node.ELEMENT_NODE)
+                {
+                    Action action=CreateAction(actionsListOfaRule.item(m));
 
-                Action action=CreateAction(ActionsList.item(m));
+                    newRule.getActions().add(action);
+                }
 
 
-                newRule.getActions().add(action);
 
 
 
