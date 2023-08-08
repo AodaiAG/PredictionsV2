@@ -1,6 +1,6 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
+import Entity.EntityInstance;
 import Entity.Properties;
 
 public class IncreaseAction implements Action
@@ -43,7 +43,7 @@ public class IncreaseAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e)
+    public void ActivateAction(EntityInstance e)
     {
 
 

@@ -1,7 +1,7 @@
-import Entity.Entity;
+import Entity.EntityInstance;
 import Environment.EnvironmentInstance;
 import Rules.Rules;
-import Entity.EntityCollection;
+import Entity.Entity;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -11,7 +11,7 @@ public class World
 {
     private int terminationTicks;
     private int terminationSeconds;
-    private List<EntityCollection> entities;
+    private List<Entity> entities;
     private Set<EnvironmentInstance> environmentVariables;
     private Set<Rules> rules;
 
@@ -32,11 +32,11 @@ public class World
         this.terminationSeconds = terminationSeconds;
     }
 
-    public List<EntityCollection> getEntities() {
+    public List<Entity> getEntities() {
         return entities;
     }
 
-    public void setEntities(List<EntityCollection> entities) {
+    public void setEntities(List<Entity> entities) {
         this.entities = entities;
     }
 
@@ -56,12 +56,12 @@ public class World
         this.rules = rules;
     }
 
-    public List<Entity> CreateEnityWithPopulation(String name, int popNumber)
+    public List<EntityInstance> CreateEnityWithPopulation(String name, int popNumber)
     {
-         List<Entity> res=new ArrayList<>();
+         List<EntityInstance> res=new ArrayList<>();
         for(int i=0;i<popNumber;i++)
         {
-            Entity e=new Entity();
+            EntityInstance e=new EntityInstance();
             e.setNameOfEntity(name);
             res.add(e);
 
@@ -74,7 +74,7 @@ public class World
 
         environmentVariables=new HashSet<EnvironmentInstance>();
         rules=new HashSet<Rules>();
-        entities=new ArrayList<EntityCollection>();
+        entities=new ArrayList<Entity>();
     }
 
 
@@ -123,7 +123,7 @@ public class World
         return 5;
     }
 
-    public static String getTypeOfEntity(Entity e)
+    public static String getTypeOfEntity(EntityInstance e)
     {
         Field resField= null;
         try {

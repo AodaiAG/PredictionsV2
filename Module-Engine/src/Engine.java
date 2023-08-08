@@ -3,8 +3,7 @@ import Rules.ActionTypes.*;
 import Rules.Rules;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
-import Entity.Properties;
-import Entity.Entity;
+import Entity.EntityInstance;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -12,9 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import Entity.Properties;
 import java.util.Set;
 
-import Entity.EntityCollection;
+import Entity.Entity;
 
 
 
@@ -173,7 +173,7 @@ public class Engine implements IEngine
     {
         for(int i=0;i<list.getLength();i++)
         {
-            EntityCollection newEntityCollection=new EntityCollection();
+            Entity newEntityCollection=new Entity();
             Node item=list.item(i);
             Element el=(Element) item;
             String name=item.getAttributes().getNamedItem("name").getTextContent();
@@ -181,7 +181,7 @@ public class Engine implements IEngine
             String population= ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
 
             NodeList entityProberty=((Element) item).getElementsByTagName("PRD-property");
-            Entity e1=new Entity();
+            EntityInstance e1=new EntityInstance();
             e1.setNameOfEntity(name);
 
 
@@ -225,8 +225,11 @@ public class Engine implements IEngine
 
             }
             // create collection of entites
-            List<Entity> first=new ArrayList<>();
+            List<EntityInstance> first=new ArrayList<>();
             int popNumber=Integer.parseInt(population);
+            Set<Properties> propofEntity= e1.getPropertiesOfTheEnitiy();
+            newEntityCollection.setPropertiesOfTheEnitiy( propofEntity);
+
             for(int m=0;m<popNumber;m++)
             {
                 first.add(e1);

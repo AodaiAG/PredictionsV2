@@ -1,6 +1,6 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
+import Entity.EntityInstance;
 import Entity.Properties;
 
 public class SetAction implements Action
@@ -44,7 +44,7 @@ public class SetAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e)
+    public void ActivateAction(EntityInstance e)
     {
         Object value=new Object();
         //Object value=eval(expression)

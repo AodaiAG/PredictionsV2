@@ -2,17 +2,13 @@ package Rules.ActionTypes;
 
 
 
-import Entity.Entity;
+import Entity.EntityInstance;
 import Rules.Rules;
-import com.sun.xml.internal.ws.api.pipe.Engine;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
-
-
-import static com.sun.xml.internal.ws.streaming.XMLStreamReaderUtil.getAttributes;
 
 public class MultipleCondition extends ConditionAction
 {
@@ -124,7 +120,7 @@ public class MultipleCondition extends ConditionAction
 
 
     @Override
-    public void ActivateAction(Entity e)
+    public void ActivateAction(EntityInstance e)
     {
 
             switch (logical)

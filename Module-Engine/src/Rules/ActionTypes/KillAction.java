@@ -1,6 +1,6 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
+import Entity.EntityInstance;
 
 import java.util.Collection;
 
@@ -23,20 +23,20 @@ private String entityToKill;
     }
 
     @Override
-    public void ActivateAction(Entity e)
+    public void ActivateAction(EntityInstance e)
     {
 
 
 
     }
-    void ActivateAction(Collection<Entity> list)
+    void ActivateAction(Collection<EntityInstance> list)
     {
 
-        for(Entity e : list)
+        for(EntityInstance e : list)
         {
             if(e.getNameOfEntity().equals(entityToKill))
             {
-                Entity wanted=e;
+                EntityInstance wanted=e;
                 boolean response=list.remove(wanted);
             }
         }

@@ -1,6 +1,6 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
+import Entity.EntityInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public  class ConditionAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e)
+    public void ActivateAction(EntityInstance e)
     {
 
         condition.ActivateAction(e);

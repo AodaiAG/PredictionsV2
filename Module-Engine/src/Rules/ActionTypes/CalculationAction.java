@@ -1,6 +1,6 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
+import Entity.EntityInstance;
 import Entity.Properties;
 
 public class CalculationAction implements Action
@@ -62,7 +62,7 @@ public class CalculationAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e)
+    public void ActivateAction(EntityInstance e)
     {
         Object arg1=new Object();
         Object arg2=new Object();

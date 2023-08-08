@@ -1,6 +1,6 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
+import Entity.EntityInstance;
 import Entity.Properties;
 
 public class SingleCondition extends ConditionAction
@@ -61,7 +61,7 @@ public class SingleCondition extends ConditionAction
     }
 
     @Override
-    public void ActivateAction(Entity e)
+    public void ActivateAction(EntityInstance e)
     {
     Object value=new Object();
         for (Properties p : e.getPropertiesOfTheEnitiy())
