@@ -1,7 +1,7 @@
 import Entity.Entity;
 import java.util.HashSet;
 import java.util.Set;
-import Entity.Properties;
+import Entity.Property;
 
 public class EntityDTO {
 
@@ -20,4 +20,4 @@ public class EntityDTO {
 //      this.properties.add(propertyDTO);
     }
     }
-  }
+

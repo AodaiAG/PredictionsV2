@@ -1,3 +1,4 @@
+import Entity.Property;
 import Entity.eData;
 
 public class PropertiesDTO{
@@ -5,7 +6,8 @@ public class PropertiesDTO{
     private final boolean randomInitialize;
 
 
-    public PropertiesDTO(eData property) {
+    public PropertiesDTO(Property property)
+    {
         this.NameOfProperty = property.getNameOfProperty();
         this.randomInitialize = property.isRandomInitialize();
     }
