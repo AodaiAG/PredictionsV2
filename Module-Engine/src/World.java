@@ -7,7 +7,6 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 public class World
-
 {
     private int terminationTicks;
     private int terminationSeconds;
@@ -56,9 +55,9 @@ public class World
         this.rules = rules;
     }
 
-    public List<EntityInstance> CreateEnityWithPopulation(String name, int popNumber)
+    public List<EntityInstance> CreateEntityWithPopulation(String name, int popNumber)
     {
-         List<EntityInstance> res=new ArrayList<>();
+        List<EntityInstance> res=new ArrayList<>();
         for(int i=0;i<popNumber;i++)
         {
             EntityInstance e=new EntityInstance();
@@ -117,9 +116,6 @@ public class World
         } catch (NoSuchFieldException ex) {
             throw new RuntimeException(ex);
         }
-
-
-
         return 5;
     }
 
@@ -138,24 +134,15 @@ public class World
 
     }
 
-    public  Object  environment(String envName)
+    public Object environment(String envName)
     {
-
-        for(EnvironmentInstance e :environmentVariables)
+        for(EnvironmentInstance eI :environmentVariables)
         {
-            if(e.getNameOfProperty().equals(envName))
+            if(eI.getEnvironmentProperty().getNameOfProperty().equals(envName))
             {
-                return e.getType();
+                return eI.getEnvironmentProperty().getEdata().getData();
             }
         }
-
-        throw new RuntimeException("enviorment name not found");
-
+        throw new RuntimeException("environment name not found");
     }
-
-
 }
-
-
-
-

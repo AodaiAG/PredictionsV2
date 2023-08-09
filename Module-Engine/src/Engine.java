@@ -11,9 +11,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import Entity.Properties;
+import Entity.Property;
 import java.util.Set;
-
+import Entity.eData;
 import Entity.Entity;
 
 
@@ -23,9 +23,7 @@ public class Engine implements IEngine
 
     public World world=new World();
 
-
-
-    public void ParseXmlAndLoadWorld( File file)
+    public void ParseXmlAndLoadWorld(File file)
     {
 
         DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
@@ -63,21 +61,14 @@ public class Engine implements IEngine
         {
             throw new RuntimeException(e);
         }
-
-
     }
-
-
 
     private void initRulesFromFile(NodeList list, World world)
     {
         Rules justToCallFunction=new Rules();
         for(int i=0;i<list.getLength();i++)
         {
-
             Rules newRule=new Rules();
-
-
             Node item=list.item(i);
             Element el=(Element) item;
             String nameOfRule=((Element) item).getAttribute("name");
@@ -100,8 +91,6 @@ public class Engine implements IEngine
             }
 
             NodeList actionsListOfaRule= ((Element) item).getElementsByTagName("PRD-actions").item(0).getChildNodes();
-            //Element actionsListOfaRuleElement= (Element) actionsListOfaRule.item(0);
-            // ActionsList= actionsListOfaRuleElement.getElementsByTagName("PRD-action");
 
 
             for(int m=0;m<actionsListOfaRule.getLength();m++)
@@ -112,25 +101,10 @@ public class Engine implements IEngine
 
                     newRule.getActions().add(action);
                 }
-
-
-
-
-
             }
 
-
-
-
-
-
-
             this.world.getRules().add(newRule);
-
         }
-
-
-
     }
 
 
@@ -149,24 +123,21 @@ public class Engine implements IEngine
             {
                 from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
                 to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
-                EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,from,to,true,"Null");
 
-                world.getEnvironmentVariables().add(e);
+                Property eN=  initProperty(type,prdName,from,to,true,"1");
+                EnvironmentInstance environmentInstance=new EnvironmentInstance();
+                environmentInstance.setEnvironmentProperty(eN);
+
+                world.getEnvironmentVariables().add( environmentInstance);
             }
             else
             {
-                EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,from,to,true,"Null");
-                world.getEnvironmentVariables().add(e);
+               Property eN= initProperty(type,prdName,from,to,true,"1");
+                EnvironmentInstance environmentInstance=new EnvironmentInstance();
+                environmentInstance.setEnvironmentProperty(eN);
+               world.getEnvironmentVariables().add(environmentInstance);
             }
-
-
-
-
-
-
-
         }
-
     }
 
     public void initEntitiesFromFile(NodeList list,World w)
@@ -180,16 +151,15 @@ public class Engine implements IEngine
             newEntityCollection.setNameOfEntity(name);
             String population= ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
 
-            NodeList entityProberty=((Element) item).getElementsByTagName("PRD-property");
+            NodeList entityProperty =((Element) item).getElementsByTagName("PRD-property");
             EntityInstance e1=new EntityInstance();
             e1.setNameOfEntity(name);
 
-
-            for(int j=0;j<entityProberty.getLength();j++)
+            for(int j = 0; j< entityProperty.getLength(); j++)
             {
                 String from=new String();
                 String to=new String();
-                Node item2=entityProberty.item(j);
+                Node item2= entityProperty.item(j);
                 Element el2=(Element) item2;
                 String type=((Element) item2).getAttribute("type");
                 String prdName=((Element) item2).getElementsByTagName("PRD-name").item(0).getTextContent();
@@ -201,92 +171,59 @@ public class Engine implements IEngine
 
                 String isRandom=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("random-initialize").getTextContent();
                 String initValue=new String();
-                initValue="-1"; // random value
+                initValue="1"; // random value
 
 
                 if(isRandom.equals("false"))
                 {
                     initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
-                    Properties e= (Properties) initProperty(type,prdName,from,to,true,"Null");
-                    e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,initValue);
-                    e.setRandomInitialize(Boolean.valueOf(isRandom));
-                    e1.getPropertiesOfTheEnitiy().add(e);
+                    Property property = initProperty(type,prdName,from,to,true, initValue);
+                    e1.getPropertiesOfTheEnitiy().add(property);
                 }
                 else
                 {
-                    Properties e= (Properties) initProperty(type,prdName,from,to,true,"Null");
-                    e= e.setPropertiesAcorrdingToRandomInit(e,type,isRandom,initValue);
-                    e.setRandomInitialize(Boolean.valueOf(isRandom));
-                    e1.getPropertiesOfTheEnitiy().add(e);
-
+                    Property property = initProperty(type, prdName, from, to,true, initValue);
+                    e1.getPropertiesOfTheEnitiy().add(property);
                 }
-
-
-
             }
+
             // create collection of entites
             List<EntityInstance> first=new ArrayList<>();
             int popNumber=Integer.parseInt(population);
-            Set<Properties> propofEntity= e1.getPropertiesOfTheEnitiy();
-            newEntityCollection.setPropertiesOfTheEnitiy( propofEntity);
+            Set<Property> propOfEntity = e1.getPropertiesOfTheEnitiy();
+            newEntityCollection.setPropertiesOfTheEntity(propOfEntity);
 
             for(int m=0;m<popNumber;m++)
             {
                 first.add(e1);
             }
+
             newEntityCollection.setEntities(first);
             this.world.getEntities().add(newEntityCollection);
 
             System.out.println("test");
-
-
-
-
-
         }
 
     }
 
-    Object initProperty(String type,String name,String from , String to,boolean bool,String Stringdata)
+    Property initProperty(String type, String name, String from , String to, boolean bool, String init)
     {
+        Property res = new Property();
+        res.setNameOfProperty(name);
+        res.setRandomInitialize(bool);
 
-        switch(type)
-        {
-            case "decimal":
-                EnvironmentInstance res=new EnvironmentInstance();
-                res.setType(new Integer(0));
-                res.setNameOfProperty(name);
-                res.range[0]=Integer.parseInt(from);
-                res.range[1]=Integer.parseInt(to);
-                return res;
-
-            case "float":
-                EnvironmentInstance res2=new EnvironmentInstance();
-                res2.setType(new Float(0));
-                res2.setNameOfProperty(name);
-                res2.range[0]=Float.parseFloat(from);
-                res2.range[1]=Float.parseFloat(to);
-                return res2;
-            case "boolean":
-                EnvironmentInstance res3=new EnvironmentInstance();
-                res3.setType(new Boolean(false));
-                res3.setNameOfProperty(name);
-                return res3;
-            case"string":
-                EnvironmentInstance res4=new EnvironmentInstance();
-                res4.setType(Stringdata);
-                res4.setNameOfProperty(name);
-                return res4;
-
-
-
-
-
-        }
-        return 5;
+        eData eD = eData.valueOf(type.toUpperCase());
+        eD.setFrom(from);
+        eD.setTo(to);
+        eD.calculateNewVal(init, bool);
+        res.setData(eD);
+        res.setFrom(from);
+        res.setTo(to);
+        return res;
     }
 
-   public World getWorld()
+
+    public World getWorld()
     {
         return this.world;
 

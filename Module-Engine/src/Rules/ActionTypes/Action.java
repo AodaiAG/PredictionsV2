@@ -1,11 +1,11 @@
 package Rules.ActionTypes;
 
-import Entity.EntityInstance;
+import Entity.Entity;
 
 public interface Action
 {
 
-     public void ActivateAction( EntityInstance e);
+     public void ActivateAction( Entity e) throws Exception;
 
 
 }

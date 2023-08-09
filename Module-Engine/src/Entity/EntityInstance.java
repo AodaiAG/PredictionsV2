@@ -6,50 +6,45 @@ import java.util.Set;
 
 public class EntityInstance
 {
-
     private String NameOfEntity;
-    private Set<Properties> propertiesOfTheEnitiy;
+    private Set<Property> propertiesOfTheEnitiy;
     public EntityInstance()
     {
-
-     propertiesOfTheEnitiy=new HashSet<Properties>();
-
+        propertiesOfTheEnitiy=new HashSet<Property>();
     }
 
+    public String getNameOfEntity()
+    {
+        return NameOfEntity;
+    }
 
+    public void setNameOfEntity(String nameOfEntity)
+    {
+        NameOfEntity = nameOfEntity;
+    }
 
- public String getNameOfEntity()
- {
-  return NameOfEntity;
- }
+    public Set<Property> getPropertiesOfTheEnitiy()
+    {
+        return propertiesOfTheEnitiy;
+    }
 
- public void setNameOfEntity(String nameOfEntity)
- {
-  NameOfEntity = nameOfEntity;
- }
+    public void setPropertiesOfTheEnitiy(Set<Property> propertiesOfTheEnitiy)
+    {
+        this.propertiesOfTheEnitiy = propertiesOfTheEnitiy;
+    }
 
- public Set<Properties> getPropertiesOfTheEnitiy()
- {
-  return propertiesOfTheEnitiy;
- }
+    public static String getTypeOfEntity(EntityInstance e)
+    {
+        Field resField= null;
+        try {
+            resField = e.getClass().getField("Type");
+        } catch (NoSuchFieldException ex) {
+            throw new RuntimeException(ex);
+        }
+        String typeOfField=new String();
+        typeOfField=resField.getType().getSimpleName();
 
- public void setPropertiesOfTheEnitiy(Set<Properties> propertiesOfTheEnitiy)
- {
-  this.propertiesOfTheEnitiy = propertiesOfTheEnitiy;
- }
+        return typeOfField;
 
- public static String getTypeOfEntity(EntityInstance e)
- {
-  Field resField= null;
-  try {
-   resField = e.getClass().getField("Type");
-  } catch (NoSuchFieldException ex) {
-   throw new RuntimeException(ex);
-  }
-  String typeOfField=new String();
-  typeOfField=resField.getType().getSimpleName();
-
-  return typeOfField;
-
- }
+    }
 }

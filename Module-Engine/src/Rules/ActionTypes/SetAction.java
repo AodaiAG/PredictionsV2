@@ -1,7 +1,7 @@
 package Rules.ActionTypes;
 
-import Entity.EntityInstance;
-import Entity.Properties;
+import Entity.Entity;
+import Entity.Property;
 
 public class SetAction implements Action
 {
@@ -44,42 +44,21 @@ public class SetAction implements Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance e)
+    public void ActivateAction(Entity e) throws Exception
     {
         Object value=new Object();
         //Object value=eval(expression)
-        for(Properties t : e.getPropertiesOfTheEnitiy())
+        String sValue=new String();
+        for(Property t : e.getPropertiesOfTheEntity())
         {
             if (t.getNameOfProperty().equals(propertyName))
             {
-                switch (t.getType().getClass().getSimpleName())
+                try
                 {
-                    case "Integer":
-                    {
-                        if((Integer)value>=(Integer)t.range[0] && (Integer)value<=(Integer)t.range[1])
-                        {
-                            t.setType(value);
-                        }
-                    }
-                    case "Float":
-                    {
-                        if((Float)value>=(Float)t.range[0] && (Float)value<=(Float)t.range[1])
-                        {
-                            t.setType(value);
-                        }
-                    }
-                    case "Boolean":
-                    {
-
-                        t.setType(value);
-                    }
-                    case "String":
-                    {
-
-                        t.setType(value);
-                    }
-
-
+                    t.getEdata().setNewValue(sValue);
+                } catch (Exception ex)
+                {
+                    throw ex;
                 }
 
             }

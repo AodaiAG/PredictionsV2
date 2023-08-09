@@ -10,9 +10,17 @@ public class Entity
     private String nameOfEntity;
     private int numberOfInstances;
     private List<EntityInstance> entityInstances;
-    private Set<Properties> propertiesOfTheEnitiy;
+    private Set<Property> propertiesOfTheEntity;
 
-    public int getNumberOfInstances() {
+    public Entity()
+    {
+        this.nameOfEntity = new String();
+        this.entityInstances = new ArrayList<EntityInstance>();
+        propertiesOfTheEntity = new HashSet<>();
+    }
+
+    public int getNumberOfInstances()
+    {
         return numberOfInstances;
     }
 
@@ -25,21 +33,15 @@ public class Entity
         this.entityInstances = entities;
     }
 
-    public Set<Properties> getPropertiesOfTheEnitiy() {
-        return propertiesOfTheEnitiy;
+    public Set<Property> getPropertiesOfTheEntity() {
+        return propertiesOfTheEntity;
     }
 
-    public void setPropertiesOfTheEnitiy(Set<Properties> propertiesOfTheEnitiy) {
-        this.propertiesOfTheEnitiy = propertiesOfTheEnitiy;
+    public void setPropertiesOfTheEntity(Set<Property> propertiesOfTheEntity) {
+        this.propertiesOfTheEntity = propertiesOfTheEntity;
     }
 
-    public Entity()
-    {
-        this.nameOfEntity = new String();
-        this.entityInstances = new ArrayList<EntityInstance>();
-        propertiesOfTheEnitiy=new HashSet<>();
-    }
-    public int getNumberOfEntites()
+    public int getNumberOfEntities()
     {
         numberOfInstances= entityInstances.size();
         return numberOfInstances;
@@ -56,6 +58,4 @@ public class Entity
     public List<EntityInstance> getEntities() {
         return entityInstances;
     }
-
-
 }
