@@ -6,6 +6,7 @@ import Entity.eData;
 
 public class EnvironmentInstance
 {
+    private Property EnvironmentProperty=new Property();
     public Property getEnvironmentProperty() {
         return EnvironmentProperty;
     }
@@ -14,6 +15,6 @@ public class EnvironmentInstance
         this.EnvironmentProperty = EnvironmentProperty;
     }
 
-    private Property EnvironmentProperty=new Property();
+
 
 }

@@ -495,13 +495,13 @@ public enum eData
         @Override
         public void decrease(String value) throws Exception
         {
-            throw new Exception("Can't apply this action to type string");
+            throw new Exception("Can't apply this action to type boolean");
         }
 
         @Override
         public void increase(String value) throws Exception
         {
-            throw new Exception("Can't apply this action to type string");
+            throw new Exception("Can't apply this action to type boolean");
 
         }
 
