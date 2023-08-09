@@ -383,9 +383,8 @@ public enum eData
             {
                 Float fvalue=Float.parseFloat(value);
                 Float res=Float.parseFloat(dataString) + fvalue;
-                Float fromvalue=Float.parseFloat(from);
-                Float tovalue=Float.parseFloat(to);
-                if(res>=fromvalue&&res<=tovalue)
+
+                if(isInRange(res))
                 {
                     this.dataString=res.toString();
                 }
