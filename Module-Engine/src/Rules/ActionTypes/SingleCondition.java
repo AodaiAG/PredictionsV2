@@ -64,7 +64,7 @@ public class SingleCondition extends ConditionAction
     public void ActivateAction(Entity e)
     {
     Object value=new Object();
-        for (Properties p : e.getPropertiesOfTheEnitiy())
+        for (Properties p : e.getPropertiesOfTheEntity())
         {
             if(p.getNameOfProperty().equals(nameofProperty))
             {

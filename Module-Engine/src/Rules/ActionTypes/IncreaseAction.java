@@ -51,7 +51,7 @@ public class IncreaseAction implements Action
        // value =evaluteExpression();
 
 
-        for(Properties t : e.getPropertiesOfTheEnitiy())
+        for(Properties t : e.getPropertiesOfTheEntity())
         {
             if(t.getNameOfProperty().equals(propertyName))
             {

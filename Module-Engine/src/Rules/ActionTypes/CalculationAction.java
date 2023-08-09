@@ -1,7 +1,7 @@
 package Rules.ActionTypes;
 
 import Entity.Entity;
-import Entity.Properties;
+import Entity.eData;
 
 public class CalculationAction implements Action
 {
@@ -70,7 +70,7 @@ public class CalculationAction implements Action
         //arg1=evalute(exp1)
         //arg2=evalute(exp2)
 
-        for(Properties t : e.getPropertiesOfTheEnitiy())
+        for(eData t : e.getPropertiesOfTheEntity())
         {
             if(t.getNameOfProperty().equals(resultProp))
             {
@@ -105,11 +105,5 @@ public class CalculationAction implements Action
                 }
             }
         }
-
-
-
-
-
-
     }
 }

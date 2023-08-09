@@ -48,7 +48,7 @@ public class SetAction implements Action
     {
         Object value=new Object();
         //Object value=eval(expression)
-        for(Properties t : e.getPropertiesOfTheEnitiy())
+        for(Properties t : e.getPropertiesOfTheEntity())
         {
             if (t.getNameOfProperty().equals(propertyName))
             {
