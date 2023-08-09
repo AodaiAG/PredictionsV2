@@ -520,6 +520,7 @@ public enum eData
     },
 
         STRING {
+
             @Override
             public Boolean compareTo(String comparedto, String Operator) throws Exception
             {

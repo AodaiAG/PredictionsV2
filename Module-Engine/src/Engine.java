@@ -112,6 +112,7 @@ public class Engine implements IEngine
     {
         for(int i=0;i<list.getLength();i++)
         {
+
             Node item=list.item(i);
             Element el=(Element) item;
             String from=new String();
@@ -124,10 +125,9 @@ public class Engine implements IEngine
                 from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
                 to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
 
-                Property eN=  initProperty(type,prdName,from,to,true,"1");
+                Property eN1=  initProperty(type,prdName,from,to,true,"1");
                 EnvironmentInstance environmentInstance=new EnvironmentInstance();
-                environmentInstance.setEnvironmentProperty(eN);
-
+                environmentInstance.setEnvironmentProperty(eN1);
                 world.getEnvironmentVariables().add( environmentInstance);
             }
             else

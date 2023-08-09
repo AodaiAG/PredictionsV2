@@ -1,6 +1,7 @@
 package Entity;
 
-public class Property {
+public class Property
+{
 
     private String NameOfProperty;
 
@@ -12,6 +13,15 @@ public class Property {
 
     private String to;
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 
     public eData getEdata() {
         return e_data;

@@ -18,6 +18,16 @@ public class EntityInstance
         return NameOfEntity;
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     public void setNameOfEntity(String nameOfEntity)
     {
         NameOfEntity = nameOfEntity;
