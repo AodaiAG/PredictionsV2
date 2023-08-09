@@ -124,7 +124,7 @@ public class MultipleCondition extends ConditionAction
 
 
     @Override
-    public void ActivateAction(Entity e)
+    public void ActivateAction(Entity e) throws Exception
     {
 
             switch (logical)

@@ -56,8 +56,7 @@ public  class ConditionAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e)
-    {
+    public void ActivateAction(Entity e) throws Exception {
 
         condition.ActivateAction(e);
         conditionResult=condition.getConditionResult();

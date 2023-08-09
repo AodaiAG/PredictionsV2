@@ -2,6 +2,7 @@ package Rules.ActionTypes;
 
 import Entity.Entity;
 import Entity.eData;
+import Entity.Property;
 
 public class CalculationAction implements Action
 {
@@ -62,47 +63,42 @@ public class CalculationAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e)
-    {
-        Object arg1=new Object();
-        Object arg2=new Object();
+    public void ActivateAction(Entity e) throws Exception {
 
+        String arg1=new String();
+        String arg2=new String();
         //arg1=evalute(exp1)
         //arg2=evalute(exp2)
 
-        for(eData t : e.getPropertiesOfTheEntity())
+        for(Property t : e.getPropertiesOfTheEntity())
         {
             if(t.getNameOfProperty().equals(resultProp))
             {
-                switch (t.getType().getClass().getSimpleName())
+                switch (calType)
                 {
-                    case "Integer":
+                    case "divide":
                     {
-                        if(calType.equals("multiply"))
-                        {
-                            t.setType((Integer)((Integer)arg1*(Integer)arg2));
-                        }
-                        if(calType.equals("divide"))
-                        {
 
-                            t.setType((Integer)((Integer)arg1/(Integer)arg2));
+                        try {
+                            t.getEdata().divide(arg1,arg2);
+                        } catch (Exception ex)
+                        {
+                            throw ex;
                         }
-
                     }
-                    case "Float":
-                    {
-                        if(calType.equals("multiply"))
-                        {
-                            t.setType((Float)((Float)arg1*(Float)arg2));
-                        }
-                        if(calType.equals("divide"))
-                        {
-                            t.setType((Float)((Float)arg1/(Float)arg2));
 
+                    case "multiply":
+                    {
+                        try {
+                            t.getEdata().multiply(arg1,arg2);
+                        } catch (Exception ex) {
+                            throw ex;
                         }
 
                     }
                 }
+
+
             }
         }
     }

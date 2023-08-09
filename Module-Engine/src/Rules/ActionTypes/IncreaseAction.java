@@ -1,7 +1,7 @@
 package Rules.ActionTypes;
 
 import Entity.Entity;
-import Entity.Properties;
+import Entity.Property;
 
 public class IncreaseAction implements Action
 {
@@ -43,38 +43,26 @@ public class IncreaseAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e)
+    public void ActivateAction(Entity e) throws Exception
     {
 
 
         Object value = new Object();
        // value =evaluteExpression();
+        // need to convert the value to string
+        String sValue=new String();
 
 
-        for(Properties t : e.getPropertiesOfTheEntity())
+        for(Property t : e.getPropertiesOfTheEntity())
         {
             if(t.getNameOfProperty().equals(propertyName))
             {
-                switch (t.getType().getClass().getSimpleName())
+                try
                 {
-                    case "Integer":
-                    {
-
-                        if((Integer)t.getType()+(Integer)value<=(Integer)t.range[1] && (Integer)t.getType()+(Integer)value>=(Integer)t.range[0])
-                        {
-                            t.setType((Integer)t.getType()+(Integer)value);
-
-                        }
-                    }
-                    case "Float":
-                    {
-                        if((Float)t.getType()+(Float)value<=(Float)t.range[1] && (Float)t.getType()+(Float)value>=(Float)t.range[0])
-                        {
-                            t.setType((Float)t.getType()+(Float)value);
-
-                        }
-
-                    }
+                    t.getEdata().decrease(sValue);
+                } catch (Exception ex)
+                {
+                    throw ex;
                 }
 
             }

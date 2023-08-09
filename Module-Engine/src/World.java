@@ -138,9 +138,9 @@ public class World
     {
         for(EnvironmentInstance eI :environmentVariables)
         {
-            if(eI.getNameOfProperty().equals(envName))
+            if(eI.getEnvironmentProperty().getNameOfProperty().equals(envName))
             {
-                return eI.getEdata().getData();
+                return eI.getEnvironmentProperty().getEdata().getData();
             }
         }
         throw new RuntimeException("environment name not found");

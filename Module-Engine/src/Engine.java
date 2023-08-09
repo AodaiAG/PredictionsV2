@@ -124,14 +124,18 @@ public class Engine implements IEngine
                 from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
                 to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
 
-                Property property= initProperty(type,prdName,from,to,true,);
+                Property eN=  initProperty(type,prdName,from,to,true,"1");
+                EnvironmentInstance environmentInstance=new EnvironmentInstance();
+                environmentInstance.setEnvironmentProperty(eN);
 
-                world.getEnvironmentVariables().add(eP);
+                world.getEnvironmentVariables().add( environmentInstance);
             }
             else
             {
-               EnvironmentInstance e= (EnvironmentInstance) initProperty(type,prdName,from,to,true);
-               world.getEnvironmentVariables().add(e);
+               Property eN= initProperty(type,prdName,from,to,true,"1");
+                EnvironmentInstance environmentInstance=new EnvironmentInstance();
+                environmentInstance.setEnvironmentProperty(eN);
+               world.getEnvironmentVariables().add(environmentInstance);
             }
         }
     }
@@ -167,7 +171,7 @@ public class Engine implements IEngine
 
                 String isRandom=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("random-initialize").getTextContent();
                 String initValue=new String();
-                initValue="-1"; // random value
+                initValue="1"; // random value
 
 
                 if(isRandom.equals("false"))
@@ -205,6 +209,9 @@ public class Engine implements IEngine
     Property initProperty(String type, String name, String from , String to, boolean bool, String init)
     {
         Property res = new Property();
+        res.setNameOfProperty(name);
+        res.setRandomInitialize(bool);
+
         eData eD = eData.valueOf(type.toUpperCase());
         eD.setFrom(from);
         eD.setTo(to);
@@ -215,41 +222,6 @@ public class Engine implements IEngine
         return res;
     }
 
-//    Object initProperty(String type,String name,String from , String to,boolean bool,String Stringdata)
-//    {
-//
-//        switch(type)
-//        {
-//            case "decimal":
-//                EnvironmentInstance res=new EnvironmentInstance();
-//                res.setType(new Integer(0));
-//                res.setNameOfProperty(name);
-//                res.range[0]=Integer.parseInt(from);
-//                res.range[1]=Integer.parseInt(to);
-//                return res;
-//
-//            case "float":
-//                EnvironmentInstance res2=new EnvironmentInstance();
-//                res2.setType(new Float(0));
-//                res2.setNameOfProperty(name);
-//                res2.range[0]=Float.parseFloat(from);
-//                res2.range[1]=Float.parseFloat(to);
-//                return res2;
-//            case "boolean":
-//                EnvironmentInstance res3=new EnvironmentInstance();
-//                res3.setType(new Boolean(false));
-//                res3.setNameOfProperty(name);
-//                return res3;
-//            case"string":
-//                EnvironmentInstance res4=new EnvironmentInstance();
-//                res4.setType(Stringdata);
-//                res4.setNameOfProperty(name);
-//                return res4;
-//
-//        }
-//
-//        return 5;
-//    }
 
     public World getWorld()
     {

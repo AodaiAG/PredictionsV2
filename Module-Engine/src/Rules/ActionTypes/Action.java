@@ -5,7 +5,7 @@ import Entity.Entity;
 public interface Action
 {
 
-     public void ActivateAction( Entity e);
+     public void ActivateAction( Entity e) throws Exception;
 
 
 }

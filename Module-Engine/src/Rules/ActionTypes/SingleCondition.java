@@ -1,7 +1,7 @@
 package Rules.ActionTypes;
 
 import Entity.Entity;
-import Entity.Properties;
+import Entity.Property;
 
 public class SingleCondition extends ConditionAction
 {
@@ -61,252 +61,25 @@ public class SingleCondition extends ConditionAction
     }
 
     @Override
-    public void ActivateAction(Entity e)
+    public void ActivateAction(Entity e) throws Exception
     {
-    Object value=new Object();
-        for (Properties p : e.getPropertiesOfTheEntity())
+        Property wanted=new Property();
+
+        for (Property p : e.getPropertiesOfTheEntity())
         {
             if(p.getNameOfProperty().equals(nameofProperty))
             {
-                value=p.getType();
+                wanted=p;
             }
 
         }
-        this.conditionResult=ActivateAction(value);
-
-    }
-
-    public boolean ActivateAction(Object data)
-    {
-        String dataType=data.getClass().getSimpleName();
-        Object ComparedData=new Object();
-        //ComparedData=evaluteExpression()
-
-    switch (dataType)
-    {
-        case "Integer":
+        try
         {
-            switch (operator)
-            {
-                case "=":
-                {
-                    if(ComparedData instanceof Integer)
-                    {
-                        return ((Integer)data==(Integer) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-
-                    }
-
-
-                }
-                case "!=":
-                {
-                    if(ComparedData instanceof Integer)
-                    {
-                        return ((Integer)data!=(Integer) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-                    }
-
-
-                }
-                case "Bt":
-                {
-                    if(ComparedData instanceof Integer)
-                    {
-                        return ((Integer)data>(Integer) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-
-                    }
-
-                }
-                case "Lt":
-                {
-                    if(ComparedData instanceof Integer)
-                    {
-                        return ((Integer)data<(Integer) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-
-                    }
-
-                }
-            }
-
-        }
-        case "Float":
+            this.conditionResult=wanted.getEdata().compareTo(value,operator);
+        } catch (Exception ex)
         {
-            switch (operator)
-            {
-                case "=":
-                {
-                    if(ComparedData instanceof Float)
-                    {
-                        return ((Float)data==(Float) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-
-                    }
-
-
-                }
-                case "!=":
-                {
-                    if(ComparedData instanceof Float)
-                    {
-                        return ((Float)data!=(Float) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-                    }
-
-
-                }
-                case "Bt":
-                {
-                    if(ComparedData instanceof Float)
-                    {
-                        return ((Float)data>(Float) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-
-                    }
-
-                }
-                case "Lt":
-                {
-                    if(ComparedData instanceof Float)
-                    {
-                        return ((Float)data<(Float) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-
-                    }
-
-                }
-            }
-
+            throw ex;
         }
-        case "Boolean":
-        {
-            switch (operator)
-            {
-                case "=":
-                {
-                    if(ComparedData instanceof Boolean)
-                    {
-                        return ((Boolean)data==(Boolean) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-
-                    }
-
-
-                }
-                case "!=":
-                {
-                    if(ComparedData instanceof Boolean)
-                    {
-                        return ((Boolean)data!=(Boolean) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-                    }
-
-
-                }
-                case "Bt":
-                {
-
-                        // throw execption
-
-
-
-                }
-                case "Lt":
-                {
-
-                        // throw execption
-
-                }
-            }
-
-
-
-        }
-        case "String":
-        {
-            switch (operator)
-            {
-                case "=":
-                {
-                    if(ComparedData instanceof String)
-                    {
-                        return ((String)data==(String) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-
-                    }
-
-
-                }
-                case "!=":
-                {
-                    if(ComparedData instanceof String)
-                    {
-                        return ((String)data!=(String) ComparedData);
-                    }
-                    else
-                    {
-                        // throw execption
-                    }
-
-
-                }
-                case "Bt":
-                {
-
-                    // throw execption
-
-
-
-                }
-                case "Lt":
-                {
-
-                    // throw execption
-
-                }
-            }
-
-
-
-        }
-    }
-
-    throw new RuntimeException("f you");
 
     }
 

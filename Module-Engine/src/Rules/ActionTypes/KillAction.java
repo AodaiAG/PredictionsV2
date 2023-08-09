@@ -23,7 +23,7 @@ private String entityToKill;
     }
 
     @Override
-    public void ActivateAction(Entity e)
+    public void ActivateAction(Entity e) throws Exception
     {
 
 

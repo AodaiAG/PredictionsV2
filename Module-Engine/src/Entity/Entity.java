@@ -19,7 +19,8 @@ public class Entity
         propertiesOfTheEntity = new HashSet<>();
     }
 
-    public int getNumberOfInstances() {
+    public int getNumberOfInstances()
+    {
         return numberOfInstances;
     }
 
