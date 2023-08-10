@@ -1,22 +1,18 @@
-import Entity.Entity;
-import java.util.HashSet;
 import java.util.Set;
-import Entity.Property;
 
 public class EntityDTO
 {
-
   private String name;
 
   private int numberOfInstances;
 
-  private Set<PropertiesDTO> properties;
+  private Set<PropertyDTO> properties;
 
-    public EntityDTO(Entity entity)
+    public EntityDTO(String name, int numOfInstances,Set<PropertyDTO> propDTO)
     {
-      this.name = entity.getNameOfEntity();
-      this.numberOfInstances = entity.getNumberOfInstances();
-      this.properties = new HashSet<>();
+      this.name = name;
+      this.numberOfInstances = numOfInstances;
+      this.properties = propDTO;
     }
 
 }

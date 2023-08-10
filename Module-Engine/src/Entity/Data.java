@@ -4,12 +4,16 @@ import java.util.Random;
 
 public class Data
 {
-
     private DataType type;
+
     private String dataString;
+
     public String from;
+
     public String to;
+
     final Random r = new Random();
+
     public  void calculateNewVal(String initVal, Boolean isRandomInitialize)
     {
         dataString =type.calculateNewVal(initVal,isRandomInitialize,from,to);

@@ -6,6 +6,11 @@ public enum DataType
 {
     DECIMAL {
         @Override
+        public String getDataTypeString() {
+            return "Decimal";
+        }
+
+        @Override
         public Boolean compareTo(String comparedto, String Operator,String dataString) throws Exception
         {
             try
@@ -42,11 +47,7 @@ public enum DataType
             {
                 throw new Exception("Comparison doesn't make sense");
             }
-
-
         }
-
-
 
         @Override
         public String multiply(String arg1, String arg2,String from,String to) throws Exception
@@ -107,9 +108,6 @@ public enum DataType
 
                 throw e;
             }
-
-
-
         }
 
         @Override
@@ -126,14 +124,11 @@ public enum DataType
                 {
                     throw new Exception("value out of range");
                 }
-
-
             }
             catch (Exception e)
             {
                 throw e;
             }
-
         }
 
         @Override
@@ -158,8 +153,8 @@ public enum DataType
             {
                 throw e;
             }
-
         }
+
         public Boolean isInRange(Integer value,String from,String to)
         {
             Integer fromvalue = Integer.parseInt(from);
@@ -192,8 +187,6 @@ public enum DataType
             {
                 throw e;
             }
-
-
         }
 
 
@@ -217,10 +210,13 @@ public enum DataType
 
     FLOAT {
         @Override
+        public String getDataTypeString() {
+            return "Float";
+        }
+
+        @Override
         public Boolean compareTo(String comparedto, String Operator,String dataString) throws Exception
         {
-
-
             try
             {
                 Float ComparedTodata=Float.parseFloat(comparedto);
@@ -429,9 +425,13 @@ public enum DataType
 
     BOOLEAN {
         @Override
+        public String getDataTypeString() {
+            return "Boolean";
+        }
+
+        @Override
         public Boolean compareTo(String comparedto, String Operator,String dataString) throws Exception
         {
-
             try{
                 Boolean compTo=Boolean.parseBoolean(comparedto) ;
                 switch (Operator)
@@ -531,6 +531,10 @@ public enum DataType
     },
 
     STRING {
+        @Override
+        public String getDataTypeString() {
+            return "String";
+        }
 
         @Override
         public Boolean compareTo(String comparedto, String Operator,String dataString) throws Exception
@@ -651,11 +655,6 @@ public enum DataType
 
     final Random r = new Random();
 
-
-
-
-
-
     public abstract String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to);
     public abstract String decrease(String value,String dataString,String from,String to) throws Exception;
     public abstract String increase(String value,String dataString,String from,String to)  throws Exception;
@@ -663,5 +662,5 @@ public enum DataType
     public abstract String multiply(String arg1,String arg2,String from,String to)  throws Exception;
     public abstract String divide(String arg1,String arg2,String from,String to)  throws Exception;
     public abstract Boolean compareTo(String comparedto,String Operator,String dataString) throws Exception;
-
+    public abstract String getDataTypeString();
 }

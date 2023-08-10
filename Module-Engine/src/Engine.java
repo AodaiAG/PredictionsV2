@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import Entity.Property;
 import java.util.Set;
@@ -21,6 +22,22 @@ import Entity.Entity;
 
 public class Engine implements IEngine
 {
+    @Override
+    public EntityDTO convertEntityToDTO(Entity entity) {
+        Set<PropertyDTO> propertyDTOs = new HashSet<>();
+
+        for (Property p: entity.getPropertiesOfTheEntity())
+        {
+            propertyDTOs.add(convertPropertyToDTO(p));
+        }
+
+        return new EntityDTO(entity.getNameOfEntity(), entity.getNumberOfInstances(), propertyDTOs);
+    }
+
+    public PropertyDTO convertPropertyToDTO(Property property)
+    {
+            return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getE_data().from, property.getE_data().to);
+    }
 
     public World world=new World();
 

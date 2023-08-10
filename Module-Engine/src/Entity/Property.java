@@ -2,13 +2,11 @@ package Entity;
 
 public class Property
 {
-
     private String NameOfProperty;
 
     private boolean isRandomInitialize;
 
     private Data e_data;
-
 
 
     @Override
@@ -54,6 +52,7 @@ public class Property
         isRandomInitialize = randomInitialize;
     }
 
-
-
+    public String getTypeString(){
+        return this.e_data.getType().getDataTypeString();
+    }
 }
