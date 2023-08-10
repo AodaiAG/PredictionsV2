@@ -3,12 +3,22 @@ public class UI
 {
     IEngine e=new Engine();
 
-    void PrintWorldDetails()
+
+
+    void PrintWorldDetails(WorldDTO worldDTO)
     {
-        World world=e.getWorld();
+
+        System.out.println("Welcome !! ");
+        System.out.println("Entities: ");
+        for(EntityDTO e:worldDTO.getEntityDTOSet())
+        {
+
+        }
 
 
     }
+
+
 
 
 

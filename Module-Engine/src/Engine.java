@@ -23,9 +23,28 @@ import Entity.Entity;
 public class Engine implements IEngine
 {
 
+    public WorldDTO convertWorldToDTO(World world)
+    {
+        List<EntityDTO> entityDTOSet=new ArrayList<>();
+        List<RulesDTO> rulesDTOSet=new ArrayList<>();
+        TerminationDTO terminationDTO=new TerminationDTO(world.getTerminationTicks(), world.getTerminationSeconds());
+        for(Entity e: world.getEntities())
+        {
+            entityDTOSet.add(convertEntityToDTO(e));
+        }
+        for(Rules r: world.getRules())
+        {
+            rulesDTOSet.add(convertRuleToDTO(r));
+
+        }
+        return new WorldDTO(entityDTOSet,rulesDTOSet,terminationDTO);
+
+
+    }
+
     public RulesDTO convertRuleToDTO(Rules rule)
     {
-        Set<String> actionNames=new HashSet<>();
+        List<String> actionNames=new ArrayList<>();
         int numberofActions=rule.getActions().size();
         for(Action action:rule.getActions())
         {
@@ -34,8 +53,9 @@ public class Engine implements IEngine
         return new RulesDTO(rule.getNameOfRule(),rule.getTicks(),rule.getProbability(),numberofActions,actionNames);
     }
     @Override
-    public EntityDTO convertEntityToDTO(Entity entity) {
-        Set<PropertyDTO> propertyDTOs = new HashSet<>();
+    public EntityDTO convertEntityToDTO(Entity entity)
+    {
+        List<PropertyDTO> propertyDTOs = new ArrayList<>();
 
         for (Property p: entity.getPropertiesOfTheEntity())
         {
@@ -255,7 +275,7 @@ public class Engine implements IEngine
     }
 
 
-    public World getWorld()
+    private World getWorld()
     {
         return this.world;
 

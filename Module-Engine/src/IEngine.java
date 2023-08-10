@@ -7,8 +7,8 @@ import Rules.Rules;
 public interface IEngine
 {
     public void ParseXmlAndLoadWorld( File file);
-    public World getWorld();
     public EntityDTO convertEntityToDTO(Entity entity);
     public PropertyDTO convertPropertyToDTO(Property property);
     public RulesDTO convertRuleToDTO(Rules rule);
+    public WorldDTO convertWorldToDTO(World world);
 }
