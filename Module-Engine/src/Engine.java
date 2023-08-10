@@ -52,7 +52,7 @@ public class Engine implements IEngine
             String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
             this.world.setTerminationTicks(Integer.parseInt(ticks));
             this.world.setTerminationSeconds(Integer.parseInt(seconds));
-            System.out.println("Testing");
+
 
 
 
