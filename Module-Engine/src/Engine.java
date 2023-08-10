@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import Entity.Property;
 import java.util.Set;
-import Entity.eData;
+import Entity.Data;
+import Entity.DataType;
 import Entity.Entity;
 
 
@@ -128,14 +129,14 @@ public class Engine implements IEngine
                 Property eN1=  initProperty(type,prdName,from,to,true,"1");
                 EnvironmentInstance environmentInstance=new EnvironmentInstance();
                 environmentInstance.setEnvironmentProperty(eN1);
-                world.getEnvironmentVariables().add( environmentInstance);
+                world.getName2Env().put(prdName,environmentInstance);
             }
             else
             {
                Property eN= initProperty(type,prdName,from,to,true,"1");
                 EnvironmentInstance environmentInstance=new EnvironmentInstance();
                 environmentInstance.setEnvironmentProperty(eN);
-               world.getEnvironmentVariables().add(environmentInstance);
+                world.getName2Env().put(prdName,environmentInstance);
             }
         }
     }
@@ -144,11 +145,13 @@ public class Engine implements IEngine
     {
         for(int i=0;i<list.getLength();i++)
         {
-            Entity newEntityCollection=new Entity();
+
+
+            Entity newEntity=new Entity();
             Node item=list.item(i);
             Element el=(Element) item;
             String name=item.getAttributes().getNamedItem("name").getTextContent();
-            newEntityCollection.setNameOfEntity(name);
+            newEntity.setNameOfEntity(name);
             String population= ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
 
             NodeList entityProperty =((Element) item).getElementsByTagName("PRD-property");
@@ -191,15 +194,15 @@ public class Engine implements IEngine
             List<EntityInstance> first=new ArrayList<>();
             int popNumber=Integer.parseInt(population);
             Set<Property> propOfEntity = e1.getPropertiesOfTheEnitiy();
-            newEntityCollection.setPropertiesOfTheEntity(propOfEntity);
+            newEntity.setPropertiesOfTheEntity(propOfEntity);
 
             for(int m=0;m<popNumber;m++)
             {
                 first.add(e1);
             }
 
-            newEntityCollection.setEntities(first);
-            this.world.getEntities().add(newEntityCollection);
+            newEntity.setEntities(first);
+            this.world.getEntities().add(newEntity);
 
             System.out.println("test");
         }
@@ -208,17 +211,18 @@ public class Engine implements IEngine
 
     Property initProperty(String type, String name, String from , String to, boolean bool, String init)
     {
+        //valueOf(type.toUpperCase()
         Property res = new Property();
         res.setNameOfProperty(name);
         res.setRandomInitialize(bool);
-
-        eData eD = eData.valueOf(type.toUpperCase());
+        Data eD=new Data();
+        eD.setType(DataType.valueOf(type.toUpperCase()) );
         eD.setFrom(from);
         eD.setTo(to);
         eD.calculateNewVal(init, bool);
         res.setData(eD);
-        res.setFrom(from);
-        res.setTo(to);
+
+
         return res;
     }
 

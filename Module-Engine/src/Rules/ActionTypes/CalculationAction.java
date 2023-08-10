@@ -1,7 +1,6 @@
 package Rules.ActionTypes;
 
 import Entity.Entity;
-import Entity.eData;
 import Entity.Property;
 
 public class CalculationAction implements Action

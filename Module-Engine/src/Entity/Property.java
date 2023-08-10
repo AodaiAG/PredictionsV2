@@ -7,11 +7,9 @@ public class Property
 
     private boolean isRandomInitialize;
 
-    private eData e_data;
+    private Data e_data;
 
-    private String from;
 
-    private String to;
 
     @Override
     public int hashCode() {
@@ -23,11 +21,20 @@ public class Property
         return super.equals(obj);
     }
 
-    public eData getEdata() {
+    public Data getE_data() {
         return e_data;
     }
 
-    public void setData(eData data) {
+    public void setE_data(Data e_data)
+    {
+        this.e_data = e_data;
+    }
+
+    public Data getEdata() {
+        return e_data;
+    }
+
+    public void setData(Data data) {
         this.e_data = data;
     }
 
@@ -47,21 +54,6 @@ public class Property
         isRandomInitialize = randomInitialize;
     }
 
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
 
 
 }

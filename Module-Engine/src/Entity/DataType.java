@@ -2,17 +2,16 @@ package Entity;
 
 import java.util.Random;
 
-public enum eData
+public enum DataType
 {
-
     DECIMAL {
         @Override
-        public Boolean compareTo(String comparedto, String Operator) throws Exception
+        public Boolean compareTo(String comparedto, String Operator,String dataString) throws Exception
         {
             try
             {
                 Float ComparedTodata=Float.parseFloat(comparedto);
-                Float mydata=Float.parseFloat(this.dataString);
+                Float mydata=Float.parseFloat(dataString);
                 switch (Operator)
                 {
                     case "=":
@@ -47,22 +46,19 @@ public enum eData
 
         }
 
-        @Override
-        public Integer getData() {
-            return Integer.parseInt(dataString);
-        }
+
 
         @Override
-        public void multiply(String arg1, String arg2) throws Exception
+        public String multiply(String arg1, String arg2,String from,String to) throws Exception
         {
             try
             {
                 Integer a1=Integer.parseInt(arg1);
                 Integer a2=Integer.parseInt(arg2);
                 Integer res=a1*a2;
-                if(isInRange(res))
+                if(isInRange(res,from,to))
                 {
-                    this.dataString=res.toString();
+                    return res.toString();
                 }
                 else
                 {
@@ -80,7 +76,7 @@ public enum eData
         }
 
         @Override
-        public void divide(String arg1, String arg2) throws Exception
+        public String divide(String arg1, String arg2,String from,String to) throws Exception
         {
 
             try
@@ -94,9 +90,9 @@ public enum eData
                 else
                 {
                     Integer res=a1/a2;
-                    if(isInRange(res))
+                    if(isInRange(res,from,to))
                     {
-                        this.dataString=res.toString();
+                       return res.toString();
                     }
                     else
                     {
@@ -117,12 +113,20 @@ public enum eData
         }
 
         @Override
-        public void setNewValue(String value) throws Exception
+        public String setNewValue(String value,String from,String to) throws Exception
         {
             try
             {
                 Integer res=Integer.parseInt(value);
-                this.dataString=res.toString();
+                if(isInRange(res,from,to))
+                {
+                    return res.toString();
+                }
+                else
+                {
+                    throw new Exception("value out of range");
+                }
+
 
             }
             catch (Exception e)
@@ -133,30 +137,30 @@ public enum eData
         }
 
         @Override
-        public void decrease(String value) throws Exception
+        public String decrease(String value,String dataString,String from,String to) throws Exception
         {
-          try
-          {
-              Integer fvalue=Integer.parseInt(value);
-              Integer res=Integer.parseInt(dataString) - fvalue;
-              Integer fromvalue=Integer.parseInt(from);
-              Integer tovalue=Integer.parseInt(to);
-              if(res>=fromvalue&&res<=tovalue)
-              {
-                  this.dataString=res.toString();
-              }
-              else
-              {
-                  throw new Exception("The result of this action is out of the predefined range");
-              }
-          }
-          catch (Exception e)
-          {
-              throw e;
-          }
+            try
+            {
+                Integer fvalue=Integer.parseInt(value);
+                Integer res=Integer.parseInt(dataString) - fvalue;
+                Integer fromvalue=Integer.parseInt(from);
+                Integer tovalue=Integer.parseInt(to);
+                if(res>=fromvalue&&res<=tovalue)
+                {
+                   return res.toString();
+                }
+                else
+                {
+                    throw new Exception("The result of this action is out of the predefined range");
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
         }
-        public Boolean isInRange(Integer value)
+        public Boolean isInRange(Integer value,String from,String to)
         {
             Integer fromvalue = Integer.parseInt(from);
             Integer tovalue = Integer.parseInt(to);
@@ -168,16 +172,16 @@ public enum eData
         }
 
         @Override
-        public void increase(String value) throws Exception
+        public String increase(String value,String dataString,String from,String to) throws Exception
         {
             try
             {
                 Integer fvalue=Integer.parseInt(value);
                 Integer res=Integer.parseInt(dataString) + fvalue;
 
-                if(isInRange(res))
+                if(isInRange(res,from,to))
                 {
-                    this.dataString=res.toString();
+                    return res.toString();
                 }
                 else
                 {
@@ -194,29 +198,33 @@ public enum eData
 
 
         @Override
-        public void calculateNewVal(String initValue, Boolean isRandomInitialize)
+        public String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to)
         {
+
             int val;
             if (isRandomInitialize)
             {
-                val =Integer.parseInt(from) + (int)(Math.random() * Integer.parseInt(to) );
-            } else {
+                val =  r.nextInt(Integer.parseInt(to) - Integer.parseInt(from) + 1) + Integer.parseInt(from);
+
+
+            } else
+            {
                 val = Integer.parseInt(initValue);
             }
-            dataString = Integer.toString(val);
+            return Integer.toString(val);
         }
     },
 
     FLOAT {
         @Override
-        public Boolean compareTo(String comparedto, String Operator) throws Exception
+        public Boolean compareTo(String comparedto, String Operator,String dataString) throws Exception
         {
 
 
             try
             {
                 Float ComparedTodata=Float.parseFloat(comparedto);
-                Float mydata=Float.parseFloat(this.dataString);
+                Float mydata=Float.parseFloat(dataString);
                 switch (Operator)
                 {
                     case "=":
@@ -252,16 +260,16 @@ public enum eData
         }
 
         @Override
-        public void multiply(String arg1,String arg2) throws Exception
+        public String multiply(String arg1,String arg2,String from,String to) throws Exception
         {
             try
             {
                 Float a1=Float.parseFloat(arg1);
                 Float a2=Float.parseFloat(arg2);
                 Float res=a1*a2;
-                if(isInRange(res))
+                if(isInRange(res,from,to))
                 {
-                    this.dataString=res.toString();
+                    return res.toString();
                 }
                 else
                 {
@@ -278,7 +286,7 @@ public enum eData
         }
 
         @Override
-        public void divide(String arg1,String arg2) throws Exception
+        public String divide(String arg1,String arg2,String from,String to) throws Exception
         {
 
             try
@@ -292,9 +300,9 @@ public enum eData
                 else
                 {
                     Float res=a1/a2;
-                    if(isInRange(res))
+                    if(isInRange(res,from,to))
                     {
-                        this.dataString=res.toString();
+                       return res.toString();
                     }
                     else
                     {
@@ -314,17 +322,20 @@ public enum eData
         }
 
         @Override
-        public Float getData() {
-            return Float.parseFloat(dataString);
-        }
-
-        @Override
-        public void setNewValue(String value) throws Exception
+        public String setNewValue(String value,String from,String to) throws Exception
         {
             try
             {
                 Float res=Float.parseFloat(value);
-                this.dataString=res.toString();
+                if(isInRange(res,from,to))
+                {
+                    return res.toString();
+                }
+                else
+                {
+                    throw new Exception("Value out of range !");
+                }
+
             }
             catch (Exception e)
             {
@@ -334,7 +345,7 @@ public enum eData
         }
 
         @Override
-        public void decrease(String value) throws Exception
+        public String decrease(String value,String dataString,String from,String to) throws Exception
         {
 
             try
@@ -345,7 +356,7 @@ public enum eData
                 Float tovalue=Float.parseFloat(to);
                 if(res>=fromvalue&&res<=tovalue)
                 {
-                    this.dataString=res.toString();
+                    return res.toString();
                 }
                 else
                 {
@@ -361,7 +372,7 @@ public enum eData
 
         }
 
-        public Boolean isInRange(Float value)
+        public Boolean isInRange(Float value,String from,String to)
         {
             Float fromvalue=Float.parseFloat(from);
             Float tovalue=Float.parseFloat(to);
@@ -377,16 +388,16 @@ public enum eData
 
         }
         @Override
-        public void increase(String value) throws Exception
+        public String increase(String value,String dataString,String from,String to) throws Exception
         {
             try
             {
                 Float fvalue=Float.parseFloat(value);
                 Float res=Float.parseFloat(dataString) + fvalue;
 
-                if(isInRange(res))
+                if(isInRange(res,from,to))
                 {
-                    this.dataString=res.toString();
+                    return res.toString();
                 }
                 else
                 {
@@ -403,21 +414,22 @@ public enum eData
         }
 
         @Override
-        public void calculateNewVal(String initValue, Boolean isRandomInitialize) {
+        public String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to)
+        {
 
             float val;
             if (isRandomInitialize) {
-                val = Float.parseFloat(getFrom()) + r.nextFloat() * (Float.parseFloat(getTo()) - Float.parseFloat(getFrom()));
+                val = Float.parseFloat(from) + r.nextFloat() * (Float.parseFloat(to) - Float.parseFloat(from));
             } else {
                 val = Float.parseFloat(initValue);
             }
-            dataString = Float.toString(val);
+            return Float.toString(val);
         }
     },
 
     BOOLEAN {
         @Override
-        public Boolean compareTo(String comparedto, String Operator) throws Exception
+        public Boolean compareTo(String comparedto, String Operator,String dataString) throws Exception
         {
 
             try{
@@ -450,7 +462,7 @@ public enum eData
             }
             catch (Exception e)
             {
-                 throw new Exception("comparison doesn't make sense");
+                throw new Exception("comparison doesn't make sense");
             }
 
 
@@ -458,25 +470,25 @@ public enum eData
         }
 
         @Override
-        public void multiply(String arg1,String arg2) throws Exception
+        public String multiply(String arg1,String arg2,String from,String to) throws Exception
         {
             throw new Exception("Can't apply this action to type boolean");
         }
 
         @Override
-        public void divide(String arg1,String arg2) throws Exception
+        public String divide(String arg1,String arg2,String from,String to) throws Exception
         {
             throw new Exception("Can't apply this action to type boolean");
 
         }
 
         @Override
-        public void setNewValue(String value) throws Exception
+        public String setNewValue(String value,String from,String to) throws Exception
         {
             try
             {
                 Boolean res=Boolean.valueOf(value);
-                this.dataString=Boolean.toString(res);
+                return Boolean.toString(res);
             }
             catch (Exception e)
             {
@@ -486,19 +498,15 @@ public enum eData
 
         }
 
-        @Override
-        public Boolean getData() {
-            return (dataString.equals("true"));
-        }
 
         @Override
-        public void decrease(String value) throws Exception
+        public String decrease(String value,String dataString,String from,String to) throws Exception
         {
             throw new Exception("Can't apply this action to type boolean");
         }
 
         @Override
-        public void increase(String value) throws Exception
+        public String increase(String value,String dataString,String from,String to) throws Exception
         {
             throw new Exception("Can't apply this action to type boolean");
 
@@ -506,179 +514,154 @@ public enum eData
 
 
         @Override
-        public void calculateNewVal(String initValue, Boolean isRandomInitialize) {
+        public String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to)
+        {
+
             {
                 boolean val;
                 if (isRandomInitialize) {
                     val = r.nextBoolean();
-                } else {
+                } else
+                {
                     val = Boolean.parseBoolean(initValue);
                 }
-                dataString = Boolean.toString(val);
+                return Boolean.toString(val);
             }
         }
     },
 
-        STRING {
+    STRING {
 
-            @Override
-            public Boolean compareTo(String comparedto, String Operator) throws Exception
+        @Override
+        public Boolean compareTo(String comparedto, String Operator,String dataString) throws Exception
+        {
+
+            if (comparedto.getClass().getSimpleName()!=this.getClass().getSimpleName())
             {
+                throw new Exception("can't compare"+this.getClass().getSimpleName()+"to"+comparedto.getClass().getSimpleName() );
+            }
 
-                if (comparedto.getClass().getSimpleName()!=this.getClass().getSimpleName())
+            else
+            {
+                switch (Operator)
                 {
-                    throw new Exception("can't compare"+this.getClass().getSimpleName()+"to"+comparedto.getClass().getSimpleName() );
-                }
-
-                else
-                {
-                    switch (Operator)
+                    case "=":
                     {
-                        case "=":
-                        {
-                            return this.dataString==comparedto;
+                        return dataString==comparedto;
 
-                        }
-                        case "!=":
-                        {
-                            return this.dataString!=comparedto;
-
-                        }
-                        case "Bt":
-                        {
-                            int res=this.dataString.compareTo(comparedto);
-                            if(res==0)
-                            {
-                                return false;
-                            }
-                            if(res>0)
-                            {
-                                return true;
-                            }
-                            if(res<0)
-                            {
-                                return false;
-                            }
-
-
-                        }
-                        case "Lt":
-                        {
-                            int res=this.dataString.compareTo(comparedto);
-                            if(res==0)
-                            {
-                                return false;
-                            }
-                            if(res>0)
-                            {
-                                return false;
-                            }
-                            if(res<0)
-                            {
-                                return true;
-                            }
-
-                        }
-                        default:throw new Exception("operator not legit");
                     }
+                    case "!=":
+                    {
+                        return dataString!=comparedto;
+
+                    }
+                    case "Bt":
+                    {
+                        int res=dataString.compareTo(comparedto);
+                        if(res==0)
+                        {
+                            return false;
+                        }
+                        if(res>0)
+                        {
+                            return true;
+                        }
+                        if(res<0)
+                        {
+                            return false;
+                        }
+
+
+                    }
+                    case "Lt":
+                    {
+                        int res=dataString.compareTo(comparedto);
+                        if(res==0)
+                        {
+                            return false;
+                        }
+                        if(res>0)
+                        {
+                            return false;
+                        }
+                        if(res<0)
+                        {
+                            return true;
+                        }
+
+                    }
+                    default:throw new Exception("operator not legit");
                 }
             }
+        }
 
-            @Override
-            public void multiply(String arg1,String arg2)  throws Exception
-            {
-                throw new Exception("Can't apply this action to type string");
-            }
+        @Override
+        public String multiply(String arg1,String arg2,String from,String to) throws Exception
+        {
+            throw new Exception("Can't apply this action to type string");
+        }
 
-            @Override
-            public void divide(String arg1,String arg2) throws Exception
-            {
-                throw new Exception("Can't apply this action to type string");
+        @Override
+        public String divide(String arg1,String arg2,String from,String to) throws Exception
+        {
+            throw new Exception("Can't apply this action to type string");
 
-            }
+        }
 
-            @Override
-            public void setNewValue(String value) throws Exception {
-                this.dataString=value;
-            }
+        @Override
+        public String setNewValue(String value,String from,String to) throws Exception
+        {
+            return value;
+        }
 
-            @Override
-            public String getData () {
-                return dataString;
-            }
-            public  void decrease(String value) throws Exception {
-                throw new Exception("Can't apply this action to type string");
+        @Override
+        public  String decrease(String value,String dataString,String from,String to) throws Exception
+        {
+            throw new Exception("Can't apply this action to type string");
 
-            }
-            public  void increase(String value) throws Exception {
-                throw new Exception("Can't apply this action to type string");
+        }
+        @Override
+        public  String increase(String value,String dataString,String from,String to) throws Exception
+        {
+            throw new Exception("Can't apply this action to type string");
 
-            }
+        }
 
-            @Override
-            public void calculateNewVal (String initValue, Boolean isRandomInitialize)
-            {
-                String val;
-                if (isRandomInitialize) {
-                    int targetStringLength = r.nextInt(50) + 1;
-                    String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?,_-.() ";
-                    Random random = new Random();
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < targetStringLength; i++) {
-                        int randomIndex = random.nextInt(characters.length());
-                        char randomChar = characters.charAt(randomIndex);
-                        stringBuilder.append(randomChar);
-                    }
-                    val = stringBuilder.toString();
-                } else {
-                    val = initValue;
+        @Override
+        public String  calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to)
+        {
+            String val;
+            if (isRandomInitialize) {
+                int targetStringLength = r.nextInt(50) + 1;
+                String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?,_-.() ";
+                Random random = new Random();
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < targetStringLength; i++) {
+                    int randomIndex = random.nextInt(characters.length());
+                    char randomChar = characters.charAt(randomIndex);
+                    stringBuilder.append(randomChar);
                 }
-                dataString = val;
+                val = stringBuilder.toString();
+            } else {
+                val = initValue;
             }
-        };
-
-        final Random r = new Random();
-
-        public String from;
-
-        public String to;
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
-
-    public String dataString;
-
-        public void setDataString(String dataString) {
-            this.dataString = dataString;
+            return val;
         }
+    };
 
-        public String getDataString() {
-            return dataString;
-        }
+    final Random r = new Random();
 
-        public abstract void calculateNewVal(String initVal, Boolean isRandomInitialize);
 
-        public abstract Object getData();
-        public abstract void decrease(String value) throws Exception;
-        public abstract void increase(String value) throws Exception;
-        public abstract void setNewValue(String value)throws Exception;
-    public abstract void multiply(String arg1,String arg2) throws Exception;
-    public abstract void divide(String arg1,String arg2) throws Exception;
-    public abstract Boolean compareTo(String comparedto,String Operator) throws Exception;
 
-    }
 
+
+
+    public abstract String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to);
+    public abstract String decrease(String value,String dataString,String from,String to) throws Exception;
+    public abstract String increase(String value,String dataString,String from,String to)  throws Exception;
+    public abstract String setNewValue(String value,String from,String to)throws Exception;
+    public abstract String multiply(String arg1,String arg2,String from,String to)  throws Exception;
+    public abstract String divide(String arg1,String arg2,String from,String to)  throws Exception;
+    public abstract Boolean compareTo(String comparedto,String Operator,String dataString) throws Exception;
+
+}

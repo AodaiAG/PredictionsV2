@@ -3,7 +3,8 @@ import java.util.HashSet;
 import java.util.Set;
 import Entity.Property;
 
-public class EntityDTO {
+public class EntityDTO
+{
 
   private String name;
 
@@ -11,13 +12,12 @@ public class EntityDTO {
 
   private Set<PropertiesDTO> properties;
 
-  public EntityDTO(Entity entity) {
-    this.name = entity.getNameOfEntity();
-    this.numberOfInstances = entity.getNumberOfInstances();
-    this.properties = new HashSet<>();
-//    for (eProperty property : entity.getPropertiesOfTheEntity()) {
-//      PropertiesDTO propertyDTO = new PropertiesDTO(property);
-//      this.properties.add(propertyDTO);
+    public EntityDTO(Entity entity)
+    {
+      this.name = entity.getNameOfEntity();
+      this.numberOfInstances = entity.getNumberOfInstances();
+      this.properties = new HashSet<>();
     }
-    }
+
+}
 

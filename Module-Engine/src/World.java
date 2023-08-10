@@ -11,8 +11,17 @@ public class World
     private int terminationTicks;
     private int terminationSeconds;
     private List<Entity> entities;
-    private Set<EnvironmentInstance> environmentVariables;
+    private Map<String,EnvironmentInstance> name2Env;
     private Set<Rules> rules;
+
+    public Map<String, EnvironmentInstance> getName2Env()
+    {
+        return name2Env;
+    }
+
+    public void setName2Env(Map<String, EnvironmentInstance> name2Env) {
+        this.name2Env = name2Env;
+    }
 
     public int getTerminationTicks()
     {
@@ -39,13 +48,7 @@ public class World
         this.entities = entities;
     }
 
-    public Set<EnvironmentInstance> getEnvironmentVariables() {
-        return environmentVariables;
-    }
 
-    public void setEnvironmentVariables(Set<EnvironmentInstance> environmentVariables) {
-        this.environmentVariables = environmentVariables;
-    }
 
     public Set<Rules> getRules() {
         return rules;
@@ -71,7 +74,7 @@ public class World
     {
         // init
 
-        environmentVariables=new HashSet<EnvironmentInstance>();
+        name2Env=new HashMap<>();
         rules=new HashSet<Rules>();
         entities=new ArrayList<Entity>();
     }
@@ -134,15 +137,5 @@ public class World
 
     }
 
-    public Object environment(String envName)
-    {
-        for(EnvironmentInstance eI :environmentVariables)
-        {
-            if(eI.getEnvironmentProperty().getNameOfProperty().equals(envName))
-            {
-                return eI.getEnvironmentProperty().getEdata().getData();
-            }
-        }
-        throw new RuntimeException("environment name not found");
-    }
+
 }

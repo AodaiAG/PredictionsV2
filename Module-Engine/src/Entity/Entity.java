@@ -24,7 +24,8 @@ public class Entity
         return numberOfInstances;
     }
 
-    public void setNumberOfInstances(int numberOfInstances) {
+    public void setNumberOfInstances(int numberOfInstances)
+    {
         this.numberOfInstances = numberOfInstances;
     }
 
@@ -33,11 +34,13 @@ public class Entity
         this.entityInstances = entities;
     }
 
-    public Set<Property> getPropertiesOfTheEntity() {
+    public Set<Property> getPropertiesOfTheEntity()
+    {
         return propertiesOfTheEntity;
     }
 
-    public void setPropertiesOfTheEntity(Set<Property> propertiesOfTheEntity) {
+    public void setPropertiesOfTheEntity(Set<Property> propertiesOfTheEntity)
+    {
         this.propertiesOfTheEntity = propertiesOfTheEntity;
     }
 
@@ -55,7 +58,8 @@ public class Entity
         this.nameOfEntity = nameOfEntity;
     }
 
-    public List<EntityInstance> getEntities() {
+    public List<EntityInstance> getEntities()
+    {
         return entityInstances;
     }
 }

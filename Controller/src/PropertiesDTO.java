@@ -1,5 +1,4 @@
 import Entity.Property;
-import Entity.eData;
 
 public class PropertiesDTO{
     private final String NameOfProperty;
