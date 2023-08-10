@@ -121,7 +121,11 @@ public class MultipleCondition extends ConditionAction
     public void setListOfConditions(List<ConditionAction> listOfConditions) {
         this.listOfConditions = listOfConditions;
     }
-
+    @Override
+    public String getNameOfAction()
+    {
+        return "multipleCondition";
+    }
 
     @Override
     public void ActivateAction(Entity e) throws Exception

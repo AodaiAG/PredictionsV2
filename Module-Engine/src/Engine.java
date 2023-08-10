@@ -22,6 +22,17 @@ import Entity.Entity;
 
 public class Engine implements IEngine
 {
+
+    public RulesDTO convertRuleToDTO(Rules rule)
+    {
+        Set<String> actionNames=new HashSet<>();
+        int numberofActions=rule.getActions().size();
+        for(Action action:rule.getActions())
+        {
+            actionNames.add(action.getNameOfAction());
+        }
+        return new RulesDTO(rule.getNameOfRule(),rule.getTicks(),rule.getProbability(),numberofActions,actionNames);
+    }
     @Override
     public EntityDTO convertEntityToDTO(Entity entity) {
         Set<PropertyDTO> propertyDTOs = new HashSet<>();

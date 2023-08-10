@@ -29,6 +29,11 @@ private String entityToKill;
 
 
     }
+    @Override
+    public String getNameOfAction()
+    {
+        return "kill";
+    }
     void ActivateAction(Collection<Entity> list)
     {
 

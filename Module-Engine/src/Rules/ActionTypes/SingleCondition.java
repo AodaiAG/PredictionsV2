@@ -82,6 +82,10 @@ public class SingleCondition extends ConditionAction
         }
 
     }
-
+    @Override
+    public String getNameOfAction()
+    {
+        return "SingleCondition";
+    }
 
 }

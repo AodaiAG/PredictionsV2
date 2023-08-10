@@ -42,6 +42,11 @@ public class DecreaseAction implements Action
     public void setExpression(String expression) {
         this.expression = expression;
     }
+    @Override
+    public String getNameOfAction()
+    {
+        return "decrease";
+    }
 
     @Override
     public void ActivateAction(Entity e) throws Exception

@@ -26,6 +26,11 @@ public class CalculationAction implements Action
         return typeOfCondition;
     }
 
+    @Override
+    public String getNameOfAction()
+    {
+        return "calculation";
+    }
 
     public String getResultProp()
     {

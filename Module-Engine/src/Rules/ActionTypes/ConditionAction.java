@@ -54,6 +54,11 @@ public  class ConditionAction implements Action
     {
         this.conditionResult = conditionResult;
     }
+    @Override
+    public String getNameOfAction()
+    {
+        return "condition";
+    }
 
     @Override
     public void ActivateAction(Entity e) throws Exception {

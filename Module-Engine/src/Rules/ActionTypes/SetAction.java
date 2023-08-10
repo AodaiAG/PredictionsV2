@@ -42,6 +42,11 @@ public class SetAction implements Action
     public void setExpression(String expression) {
         this.expression = expression;
     }
+    @Override
+    public String getNameOfAction()
+    {
+        return "set";
+    }
 
     @Override
     public void ActivateAction(Entity e) throws Exception
