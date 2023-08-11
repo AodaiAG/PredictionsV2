@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Data
 {
-    private DataType type;
+    private DataType dataType;
 
     private String dataString;
 
@@ -16,7 +16,7 @@ public class Data
 
     public  void calculateNewVal(String initVal, Boolean isRandomInitialize)
     {
-        dataString =type.calculateNewVal(initVal,isRandomInitialize,from,to);
+        dataString = dataType.calculateNewVal(initVal,isRandomInitialize,from,to);
     }
 
     public  void decrease(String value) throws Exception
@@ -24,7 +24,7 @@ public class Data
 
         try
         {
-           dataString= type.decrease(value,dataString,from,to);
+           dataString= dataType.decrease(value,dataString,from,to);
         }
         catch(Exception e)
         {
@@ -37,7 +37,7 @@ public class Data
 
         try
         {
-            dataString= type.increase(value,dataString,from,to);
+            dataString= dataType.increase(value,dataString,from,to);
         }
         catch(Exception e)
         {
@@ -48,7 +48,7 @@ public class Data
     {
         try
         {
-            dataString= type.setNewValue(value,from,to);
+            dataString= dataType.setNewValue(value,from,to);
         }
         catch(Exception e)
         {
@@ -59,7 +59,7 @@ public class Data
     {
         try
         {
-            dataString= type.multiply(arg1,arg2,from,to);
+            dataString= dataType.multiply(arg1,arg2,from,to);
         }
         catch(Exception e)
         {
@@ -71,7 +71,7 @@ public class Data
     {
         try
         {
-            dataString= type.divide(arg1,arg2,from,to);
+            dataString= dataType.divide(arg1,arg2,from,to);
         }
         catch(Exception e)
         {
@@ -82,7 +82,7 @@ public class Data
     {
         try
         {
-            return type.compareTo(comparedto,to,dataString);
+            return dataType.compareTo(comparedto,to,dataString);
         }
         catch(Exception e)
         {
@@ -90,13 +90,13 @@ public class Data
         }
     }
 
-    public DataType getType() {
-        return type;
+    public DataType getDataType() {
+        return dataType;
     }
 
-    public void setType(DataType type)
+    public void setDataType(DataType dataType)
     {
-        this.type = type;
+        this.dataType = dataType;
     }
 
     public String getDataString() {

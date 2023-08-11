@@ -6,7 +6,7 @@ public class Property
 
     private boolean isRandomInitialize;
 
-    private Data e_data;
+    private Data data;
 
 
     @Override
@@ -19,21 +19,18 @@ public class Property
         return super.equals(obj);
     }
 
-    public Data getE_data() {
-        return e_data;
+    public Data getData() {
+        return data;
     }
 
-    public void setE_data(Data e_data)
-    {
-        this.e_data = e_data;
-    }
+
 
     public Data getEdata() {
-        return e_data;
+        return data;
     }
 
     public void setData(Data data) {
-        this.e_data = data;
+        this.data = data;
     }
 
     public String getNameOfProperty() {
@@ -53,6 +50,6 @@ public class Property
     }
 
     public String getTypeString(){
-        return this.e_data.getType().getDataTypeString();
+        return this.data.getDataType().getDataTypeString();
     }
 }

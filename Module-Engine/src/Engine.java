@@ -10,7 +10,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import Entity.Property;
 import java.util.Set;
@@ -74,7 +73,7 @@ public class Engine implements IEngine
 
     public PropertyDTO convertPropertyToDTO(Property property)
     {
-            return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getE_data().from, property.getE_data().to,property.getE_data().getDataString());
+            return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getData().from, property.getData().to,property.getData().getDataString());
     }
 
     public World world=new World();
@@ -271,7 +270,7 @@ public class Engine implements IEngine
         res.setNameOfProperty(name);
         res.setRandomInitialize(bool);
         Data eD=new Data();
-        eD.setType(DataType.valueOf(type.toUpperCase()) );
+        eD.setDataType(DataType.valueOf(type.toUpperCase()) );
         eD.setFrom(from);
         eD.setTo(to);
         eD.calculateNewVal(init, bool);
