@@ -51,7 +51,7 @@ public class UI
         System.out.println("2- Rules");
         int userChosingFurtherDetails=sc.nextInt();
         checkIfNumberIsWithinRange(userChosingFurtherDetails,2);
-
+// 11.8.2023
 
 
 
