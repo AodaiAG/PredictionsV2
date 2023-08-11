@@ -15,6 +15,15 @@ public class WorldDTO
         this.terminationDTO = terminationDTO;
         this.environmentDTOS=env;
     }
+
+    public List<EnvironmentDTO> getEnvironmentDTOS() {
+        return environmentDTOS;
+    }
+
+    public void setEnvironmentDTOS(List<EnvironmentDTO> environmentDTOS) {
+        this.environmentDTOS = environmentDTOS;
+    }
+
     public List<EntityDTO> getEntityDTOSet() {
         return entityDTOSet;
     }

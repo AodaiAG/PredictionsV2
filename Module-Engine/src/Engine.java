@@ -260,7 +260,7 @@ public class Engine implements IEngine
             newEntity.setEntities(first);
             this.world.getEntities().add(newEntity);
 
-            System.out.println("test");
+
         }
 
     }

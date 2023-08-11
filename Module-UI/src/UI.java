@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.temporal.ValueRange;
 import java.util.Scanner;
 
 public class UI
@@ -45,18 +46,37 @@ public class UI
     {
 
         Scanner sc= new Scanner(System.in);
-        System.out.println("There are"+worldDTO.getEntityDTOSet().size()+"entities,"+worldDTO.getRulesDTOSet().size()+"Laws in the current simulation");
+        System.out.println("There are "+worldDTO.getEntityDTOSet().size()+" entities, "+worldDTO.getRulesDTOSet().size()+" Laws in the current simulation");
         System.out.println("Please,enter the number of which you would like to get further details about: ");
         System.out.println("1- Entities");
         System.out.println("2- Rules");
         int userChosingFurtherDetails=sc.nextInt();
         checkIfNumberIsWithinRange(userChosingFurtherDetails,2);
+        PrintEntityDTO(worldDTO.getEntityDTOSet().get(0));
+
 // 11.8.2023
 
 
 
 
 
+    }
+    void printPropertDTO(PropertyDTO p)
+    {
+        System.out.println("Name: "+p.getNameOfProperty() +'\n' +"Type: "+p.getNameOfDataType()+'\n'+"Range: "+p.getFrom()+"-"+p.getTo()+"" +
+                '\n'+  "Is randomly initialized: "+p.isRandomInitialize()+'\n') ;
+
+    }
+    void PrintEntityDTO(EntityDTO e)
+    {
+        int i=1;
+        System.out.println("Name: "+e.getName()+'\n'+ "Population number: "+e.getNumberOfInstances()+'\n'+"List of the Properties: "+'\n');
+        for(PropertyDTO p:e.getProperties())
+        {
+            System.out.println("Property number "+i+":");
+            printPropertDTO(p);
+            i++;
+        }
     }
     void checkIfNumberIsWithinRange(int number,int bound)
     {

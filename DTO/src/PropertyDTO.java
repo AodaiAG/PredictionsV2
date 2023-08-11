@@ -17,6 +17,26 @@ public class PropertyDTO
         this.to = to;
     }
 
+    public String getNameOfDataType() {
+        return nameOfDataType;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public String getDataString() {
+        return dataString;
+    }
+
+    public void setDataString(String dataString) {
+        this.dataString = dataString;
+    }
+
     public String getNameOfProperty() {
         return NameOfProperty;
     }

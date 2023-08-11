@@ -7,6 +7,8 @@ public class Main
 
         UI user=new UI();
         user.getFileDirectoryAndLoadSimulation();
+        WorldDTO world=user.engine.convertWorldToDTO();
+        user.PrintWorldDetails(world);
 
 
     }
