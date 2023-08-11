@@ -27,6 +27,7 @@ public class Engine implements IEngine
     {
         List<EntityDTO> entityDTOSet=new ArrayList<>();
         List<RulesDTO> rulesDTOSet=new ArrayList<>();
+        List<EnvironmentDTO> envSet=new ArrayList<>();
         TerminationDTO terminationDTO=new TerminationDTO(world.getTerminationTicks(), world.getTerminationSeconds());
         for(Entity e: world.getEntities())
         {
@@ -37,7 +38,13 @@ public class Engine implements IEngine
             rulesDTOSet.add(convertRuleToDTO(r));
 
         }
-        return new WorldDTO(entityDTOSet,rulesDTOSet,terminationDTO);
+        for(EnvironmentInstance env:world.getName2Env().values())
+        {
+            PropertyDTO pDto=convertPropertyToDTO(env.getEnvironmentProperty());
+            EnvironmentDTO dto=new EnvironmentDTO(pDto);
+            envSet.add(dto);
+        }
+        return new WorldDTO(entityDTOSet,envSet,rulesDTOSet,terminationDTO);
 
 
     }
@@ -67,7 +74,7 @@ public class Engine implements IEngine
 
     public PropertyDTO convertPropertyToDTO(Property property)
     {
-            return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getE_data().from, property.getE_data().to);
+            return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getE_data().from, property.getE_data().to,property.getE_data().getDataString());
     }
 
     public World world=new World();

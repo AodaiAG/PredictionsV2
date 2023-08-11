@@ -1,12 +1,14 @@
-public class PropertyDTO {
+public class PropertyDTO
+{
     private final String NameOfProperty;
     private final boolean randomInitialize;
-
     private final String nameOfDataType;
     private final String from;
     private final String to;
+    private String dataString;
 
-    public PropertyDTO(String nameOfProperty, Boolean randomInitialize, String nameOfDataType, String from, String to)
+
+    public PropertyDTO(String nameOfProperty, Boolean randomInitialize, String nameOfDataType, String from, String to, String dataString)
     {
         this.NameOfProperty = nameOfProperty;
         this.randomInitialize = randomInitialize;

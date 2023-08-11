@@ -5,13 +5,15 @@ public class WorldDTO
 {
     private List<EntityDTO> entityDTOSet;
     private List<RulesDTO> rulesDTOSet;
-     private TerminationDTO terminationDTO;
+    private TerminationDTO terminationDTO;
+    private List<EnvironmentDTO> environmentDTOS;
 
-    public WorldDTO(List<EntityDTO> entityDTOSet, List<RulesDTO> rulesDTOSet, TerminationDTO terminationDTO)
+    public WorldDTO(List<EntityDTO> entityDTOSet, List<EnvironmentDTO> env, List<RulesDTO> rulesDTOSet, TerminationDTO terminationDTO)
     {
         this.entityDTOSet = entityDTOSet;
         this.rulesDTOSet = rulesDTOSet;
         this.terminationDTO = terminationDTO;
+        this.environmentDTOS=env;
     }
     public List<EntityDTO> getEntityDTOSet() {
         return entityDTOSet;
