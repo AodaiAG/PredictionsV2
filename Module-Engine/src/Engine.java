@@ -22,8 +22,10 @@ import Entity.Entity;
 public class Engine implements IEngine
 {
 
-    public WorldDTO convertWorldToDTO(World world)
+    public WorldDTO convertWorldToDTO()
     {
+
+        World world=this.world;
         List<EntityDTO> entityDTOSet=new ArrayList<>();
         List<RulesDTO> rulesDTOSet=new ArrayList<>();
         List<EnvironmentDTO> envSet=new ArrayList<>();
@@ -58,7 +60,7 @@ public class Engine implements IEngine
         }
         return new RulesDTO(rule.getNameOfRule(),rule.getTicks(),rule.getProbability(),numberofActions,actionNames);
     }
-    @Override
+
     public EntityDTO convertEntityToDTO(Entity entity)
     {
         List<PropertyDTO> propertyDTOs = new ArrayList<>();
