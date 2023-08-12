@@ -3,16 +3,12 @@ package Rules.ActionTypes;
 
 
 import Entity.Entity;
-import Rules.Rules;
-import com.sun.xml.internal.ws.api.pipe.Engine;
+import Rules.Rule;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
-
-
-import static com.sun.xml.internal.ws.streaming.XMLStreamReaderUtil.getAttributes;
 
 public class MultipleCondition extends ConditionAction
 {
@@ -39,7 +35,7 @@ public class MultipleCondition extends ConditionAction
         Element el=(Element) nodelist;
        //NodeList wanted= el.getElementsByTagName("PRD-condition");
        NodeList wanted= nodelist.getChildNodes();
-       Rules justToCallFunction =new Rules();
+       Rule justToCallFunction =new Rule();
 
 
        for(int i=0;i<wanted.getLength();i++)

@@ -44,11 +44,6 @@ public class Entity
         this.propertiesOfTheEntity = propertiesOfTheEntity;
     }
 
-    public int getNumberOfEntities()
-    {
-        numberOfInstances= entityInstances.size();
-        return numberOfInstances;
-    }
     public String getNameOfEntity() {
         return nameOfEntity;
     }

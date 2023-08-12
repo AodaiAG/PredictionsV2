@@ -47,6 +47,4 @@ public class WorldDTO
     public void setTerminationDTO(TerminationDTO terminationDTO) {
         this.terminationDTO = terminationDTO;
     }
-
-
 }

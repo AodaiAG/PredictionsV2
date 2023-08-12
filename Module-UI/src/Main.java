@@ -10,7 +10,6 @@ public class Main
         WorldDTO world=user.engine.convertWorldToDTO();
         user.PrintWorldDetails(world);
 
-
     }
 
 

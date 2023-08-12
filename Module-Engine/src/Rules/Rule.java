@@ -6,24 +6,22 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public class Rules
+public class Rule
 {
-
     private String nameOfRule;
+
     private String whenActivated;
-    private int ticks=1;
-    private double probability;
+
+    Activation activation;
+
     private List<Action> actions;
 
     public String getNameOfRule()
     {
         return nameOfRule;
     }
-
 
     public void setNameOfRule(String nameOfRule) {
         this.nameOfRule = nameOfRule;
@@ -38,20 +36,12 @@ public class Rules
         this.whenActivated = whenActivated;
     }
 
-    public int getTicks() {
-        return ticks;
+    public Activation getActivation() {
+        return activation;
     }
 
-    public void setTicks(int ticks) {
-        this.ticks = ticks;
-    }
-
-    public double getProbability() {
-        return probability;
-    }
-
-    public void setProbability(double probability) {
-        this.probability = probability;
+    public void setActivation(Activation activation) {
+        this.activation = activation;
     }
 
     public List<Action> getActions() {
@@ -62,24 +52,20 @@ public class Rules
         this.actions = actions;
     }
 
-    public Rules()
+    public Rule()
     {
         actions=new ArrayList<>();
     }
 
     public  Action CreateAction(Node ActionNode)
     {
-
-
         String whichEntityActionWork=  ActionNode.getAttributes().getNamedItem("entity").getTextContent();
         String typeOfAction=  ActionNode.getAttributes().getNamedItem("type").getTextContent();
 
         switch (typeOfAction)
         {
-
             case "condition":
             {
-
                 ConditionAction conditionA=new ConditionAction();
 
                 conditionA.setNameOfEntity(whichEntityActionWork);
@@ -88,7 +74,7 @@ public class Rules
                 String typeOfCondition=c.getAttributes().getNamedItem("singularity").getTextContent();
                 if(typeOfCondition.equals("single"))
                 {
-                    SingleCondition single=new SingleCondition();
+                    SingleCondition single = new SingleCondition();
                     single.setNameofEntity(c.getAttributes().getNamedItem("entity").getTextContent());
                     single.setNameofProperty(c.getAttributes().getNamedItem("property").getTextContent());
                     single.setOperator(c.getAttributes().getNamedItem("operator").getTextContent());
@@ -96,14 +82,10 @@ public class Rules
                     conditionA.setCondition(single);
                 }
                 if(typeOfCondition.equals("multiple"))
-
                 {
-
                     MultipleCondition tocallfunc=new MultipleCondition();
                     conditionA.setCondition(tocallfunc.createMultipleCondition(c));
-
                 }
-
 
                 // then
 
@@ -114,11 +96,8 @@ public class Rules
                     for(int p=0;p<thenNodes.getLength();p++)
                     {
                         conditionA.getActionsToDoIfTrue().add(p,CreateAction(thenNodes.item(p)));
-
                     }
-
                 }
-
 
                 Element elseNodesF=(Element)(((Element) ActionNode).getElementsByTagName("PRD-else").item(0));
                 if(elseNodesF!=null)
@@ -130,25 +109,20 @@ public class Rules
                         conditionA.getActionsToDoIfFalse().add(p,CreateAction(elseNodes.item(p)));
 
                     }
-
                 }
                 return conditionA;
-
-
-
-
             }
+
             case "increase":
             {
-
                 IncreaseAction action=new IncreaseAction();
                 action.setEntityName(whichEntityActionWork);
                 action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
                 action.setExpression(ActionNode.getAttributes().getNamedItem("by").getTextContent());
 
                 return action;
-
             }
+
             case "decrease":
             {
                 DecreaseAction action=new DecreaseAction();
@@ -156,26 +130,20 @@ public class Rules
                 action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
                 action.setExpression(ActionNode.getAttributes().getNamedItem("by").getTextContent());
                 return action;
-
-
             }
+
             case "calculation":
             {
-
-
                 CalculationAction action=new CalculationAction();
                 NodeList mul= ((Element) ActionNode).getElementsByTagName("PRD-multiply");
                 NodeList div=((Element) ActionNode).getElementsByTagName("PRD-divide");
                 if(mul.item(0)!=null)
                 {
-
                     action.setExpression1(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent());
                     action.setExpression2( mul.item(0).getAttributes().getNamedItem("arg2").getTextContent());
                     action.setCalType("multiply");
                     action.setResultProp(ActionNode.getAttributes().getNamedItem("result-prop").getTextContent());
                     return action;
-
-
                 }
                 if(div.item(0)!=null)
                 {
@@ -185,9 +153,7 @@ public class Rules
                     action.setResultProp(ActionNode.getAttributes().getNamedItem("result-prop").getTextContent());
                     return action;
                 }
-
                 break;
-
             }
 
             case "set":
@@ -197,8 +163,6 @@ public class Rules
                 action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
                 action.setExpression(ActionNode.getAttributes().getNamedItem("value").getTextContent());
                 return action;
-
-
             }
 
             case "kill":
@@ -206,17 +170,8 @@ public class Rules
                 KillAction action=new KillAction();
                 action.setEntityToKill(ActionNode.getAttributes().getNamedItem("entity").getTextContent());
                 return action;
-
             }
-
-
-
-
-
-
         }
-
         throw new RuntimeException("emptyList");
     }
-
 }

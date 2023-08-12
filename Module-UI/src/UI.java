@@ -4,16 +4,14 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.temporal.ValueRange;
 import java.util.Scanner;
 
 public class UI
 {
-    IEngine engine=new Engine();
+    IEngine engine = new Engine();
 
     void getFileDirectoryAndLoadSimulation()
     {
-
         Scanner sc= new Scanner(System.in);
         System.out.println("Please, enter the directory of the file you wish to load : ");
         String path=sc.nextLine();
@@ -25,59 +23,44 @@ public class UI
                 System.out.println("You have entered a wrong file directory,please enter a valid one: ");
                 path=sc.nextLine();
                 dd = Paths.get(path);
-
             }
 
             Uri uri=new Uri(path);
             File f=new File(String.valueOf(uri));
             engine.ParseXmlAndLoadWorld(f);
             System.out.println("File Loaded successfully!");
+            WorldDTO newWorldDTO= engine.convertWorldToDTO();
+            PrintWorldDetails(newWorldDTO);
 
         } catch (Exception e)
         {
             throw new RuntimeException(e);
-
         }
     }
 
-
-
     void PrintWorldDetails(WorldDTO worldDTO)
     {
-
         Scanner sc= new Scanner(System.in);
-        System.out.println("There are "+worldDTO.getEntityDTOSet().size()+" entities, "+worldDTO.getRulesDTOSet().size()+" Laws in the current simulation");
+        System.out.println("There are " + worldDTO.getEntityDTOSet().size() + " entities," + worldDTO.getRulesDTOSet().size() + " Laws in the current simulation");
+        Printer newPr = new Printer();
+        System.out.println("ENTITIES");
+        for (EntityDTO edto: worldDTO.getEntityDTOSet())
+        {
+          newPr.printEntity(edto);
+        }
+        System.out.println("\nRULES");
+        for (RulesDTO ruleDTO: worldDTO.getRulesDTOSet()) {
+            newPr.printRule(ruleDTO);
+        }
         System.out.println("Please,enter the number of which you would like to get further details about: ");
         System.out.println("1- Entities");
         System.out.println("2- Rules");
         int userChosingFurtherDetails=sc.nextInt();
         checkIfNumberIsWithinRange(userChosingFurtherDetails,2);
-        PrintEntityDTO(worldDTO.getEntityDTOSet().get(0));
-
 // 11.8.2023
 
-
-
-
-
     }
-    void printPropertDTO(PropertyDTO p)
-    {
-        System.out.println("Name: "+p.getNameOfProperty() +'\n' +"Type: "+p.getNameOfDataType()+'\n'+"Range: "+p.getFrom()+"-"+p.getTo()+"" +
-                '\n'+  "Is randomly initialized: "+p.isRandomInitialize()+'\n') ;
 
-    }
-    void PrintEntityDTO(EntityDTO e)
-    {
-        int i=1;
-        System.out.println("Name: "+e.getName()+'\n'+ "Population number: "+e.getNumberOfInstances()+'\n'+"List of the Properties: "+'\n');
-        for(PropertyDTO p:e.getProperties())
-        {
-            System.out.println("Property number "+i+":");
-            printPropertDTO(p);
-            i++;
-        }
-    }
     void checkIfNumberIsWithinRange(int number,int bound)
     {
         boolean option;

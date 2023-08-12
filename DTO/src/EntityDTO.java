@@ -9,7 +9,7 @@ public class EntityDTO
 
   private List<PropertyDTO> properties;
 
-    public EntityDTO(String name, int numOfInstances,List<PropertyDTO> propDTO)
+    public EntityDTO(String name, int numOfInstances, List<PropertyDTO> propDTO)
     {
       this.name = name;
       this.numberOfInstances = numOfInstances;
@@ -40,4 +40,3 @@ public class EntityDTO
     this.properties = properties;
   }
 }
-
