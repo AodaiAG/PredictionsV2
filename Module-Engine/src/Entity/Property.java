@@ -8,7 +8,6 @@ public class Property
 
     private Data data;
 
-
     @Override
     public int hashCode() {
         return super.hashCode();

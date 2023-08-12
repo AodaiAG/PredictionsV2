@@ -1,7 +1,7 @@
 package Rules.ActionTypes;
 
 
-
+import Entity.EntityInstance;
 import Entity.Entity;
 import Rules.Rule;
 import org.w3c.dom.Element;
@@ -124,7 +124,7 @@ public class MultipleCondition extends ConditionAction
     }
 
     @Override
-    public void ActivateAction(Entity e) throws Exception
+    public void ActivateAction(EntityInstance e) throws Exception
     {
 
             switch (logical)

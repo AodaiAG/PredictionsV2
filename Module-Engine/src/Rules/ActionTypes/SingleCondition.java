@@ -2,6 +2,7 @@ package Rules.ActionTypes;
 
 import Entity.Entity;
 import Entity.Property;
+import Entity.EntityInstance;
 
 public class SingleCondition extends ConditionAction
 {
@@ -61,7 +62,7 @@ public class SingleCondition extends ConditionAction
     }
 
     @Override
-    public void ActivateAction(Entity e) throws Exception
+    public void ActivateAction(EntityInstance e) throws Exception
     {
         Property wanted=new Property();
 

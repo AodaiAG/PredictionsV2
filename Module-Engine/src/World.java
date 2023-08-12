@@ -10,6 +10,8 @@ public class World
 {
     private int terminationTicks;
     private int terminationSeconds;
+    private int ticksCounter;
+    private int secondMeasurment;
     private List<Entity> entities;
     private Map<String,EnvironmentInstance> name2Env;
     private Set<Rule> rules;

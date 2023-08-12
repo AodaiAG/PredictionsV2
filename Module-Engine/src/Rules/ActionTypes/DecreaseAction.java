@@ -2,8 +2,10 @@ package Rules.ActionTypes;
 
 import Entity.Entity;
 import Entity.Property;
+import Entity.EntityInstance;
 
-public class DecreaseAction implements Action
+
+public class DecreaseAction extends Action
 {
     private String entityName;
     private String propertyName;
@@ -49,15 +51,12 @@ public class DecreaseAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e) throws Exception
+    public void ActivateAction(EntityInstance e) throws Exception
     {
-
-
         Object value = new Object();
         // value =evaluteExpression();
         // need to convert the value to string
         String sValue=new String();
-
 
         for(Property t : e.getPropertiesOfTheEntity())
         {
@@ -73,7 +72,5 @@ public class DecreaseAction implements Action
 
             }
         }
-
-
     }
 }

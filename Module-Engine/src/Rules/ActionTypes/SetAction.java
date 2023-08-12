@@ -2,8 +2,10 @@ package Rules.ActionTypes;
 
 import Entity.Entity;
 import Entity.Property;
+import Entity.EntityInstance;
 
-public class SetAction implements Action
+
+public class SetAction extends Action
 {
     private String entityName;
     private String propertyName;
@@ -49,7 +51,7 @@ public class SetAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e) throws Exception
+    public void ActivateAction(EntityInstance e) throws Exception
     {
         Object value=new Object();
         //Object value=eval(expression)

@@ -1,12 +1,20 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
+import Entity.EntityInstance;
 
-public interface Action
+public abstract class Action
 {
+     private String nameOfEntity;
 
-     public void ActivateAction( Entity e) throws Exception;
-     public String getNameOfAction();
+     abstract public void ActivateAction(EntityInstance e) throws Exception;
 
+     abstract public String getNameOfAction();
 
+     public String getNameOfEntity() {
+          return nameOfEntity;
+     }
+
+     public void setNameOfEntity(String nameOfEntity) {
+          this.nameOfEntity = nameOfEntity;
+     }
 }

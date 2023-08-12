@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Scanner;
 
 public class UI
@@ -40,6 +41,7 @@ public class UI
 
     void PrintWorldDetails(WorldDTO worldDTO)
     {
+        int index = 1;
         Scanner sc= new Scanner(System.in);
         System.out.println("There are " + worldDTO.getEntityDTOSet().size() + " entities," + worldDTO.getRulesDTOSet().size() + " Laws in the current simulation");
         Printer newPr = new Printer();
@@ -50,15 +52,13 @@ public class UI
         }
         System.out.println("\nRULES");
         for (RulesDTO ruleDTO: worldDTO.getRulesDTOSet()) {
+            System.out.println();
+            System.out.println("#Rule Number " + index + ":");
             newPr.printRule(ruleDTO);
+            index++;
         }
-        System.out.println("Please,enter the number of which you would like to get further details about: ");
-        System.out.println("1- Entities");
-        System.out.println("2- Rules");
-        int userChosingFurtherDetails=sc.nextInt();
-        checkIfNumberIsWithinRange(userChosingFurtherDetails,2);
-// 11.8.2023
-
+        newPr.printTermination(worldDTO.getTerminationDTO());
+        environmentInitByUser(worldDTO.getEnvironmentDTOS(), newPr);
     }
 
     void checkIfNumberIsWithinRange(int number,int bound)
@@ -71,12 +71,52 @@ public class UI
             System.out.println("Please, choose a valid option number :");
             number=sc.nextInt();
             option=number>=1&&number<=bound;
-
         }
     }
 
+    public void environmentInitByUser(List<EnvironmentDTO> eDlist, Printer pr)
+    {
+        Scanner sc= new Scanner(System.in);
+        String userChoice = "";
+        boolean validData = false;
 
+        for(EnvironmentDTO ed: eDlist)
+        {
+            System.out.println();
+            pr.printProperty(ed.getEnProperty(), true);
+            System.out.println("Would you like to initialize the value? (yes / no)");
 
+            do {
+                userChoice = sc.nextLine();
+                userChoice = userChoice.toLowerCase();
+                validData = userChoice.equals("yes") || userChoice.equals("no");
 
+                if (!validData) {
+                    System.out.println("Please enter yes or no");
+                }
+            } while (!validData);
 
+            String enteredData ="";
+            switch (userChoice) {
+                case "yes":
+                    boolean isValid = false;
+                    while (!isValid) {
+                        System.out.println("Please enter a value of type " + ed.getEnProperty().getNameOfDataType() + " within the given range: ");
+                        enteredData = sc.nextLine();
+                        try {
+                            this.engine.setDataToEnvironmentVar(ed, enteredData);
+                            isValid = true;
+                        } catch (Exception e) {
+                            System.out.print("The data you entered is not valid, since ");
+                            System.out.println(e.getMessage());
+                            System.out.println("Please try again ");
+                        }
+                    }
+                    break;
+                case "no":
+                    System.out.println("Value initialized automatically");
+                    break;
+            }
+        }
+    }
 }

@@ -18,6 +18,10 @@ public class WorldDTO
     public List<EntityDTO> getEntityDTOSet() {
         return entityDTOSet;
     }
+    public List<EnvironmentDTO> getEnvironmentDTOS() {
+        return environmentDTOS;
+    }
+
 
     public void setEntityDTOSet(List<EntityDTO> entityDTOSet) {
         this.entityDTOSet = entityDTOSet;

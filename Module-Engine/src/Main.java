@@ -23,7 +23,6 @@ public class Main
                 System.out.println("you have entered a wrong file directory,please enter a valid one: ");
                 path=s.nextLine();
                 dd = Paths.get(path);
-
             }
 
             Uri uri=new Uri(path);
@@ -37,10 +36,5 @@ public class Main
             throw new RuntimeException(e);
 
         }
-
-
-
-
-
     }
 }

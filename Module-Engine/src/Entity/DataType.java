@@ -272,11 +272,9 @@ public enum DataType
                     throw new Exception("The result of this action is out of the predefined range");
 
                 }
-
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
@@ -284,7 +282,6 @@ public enum DataType
         @Override
         public String divide(String arg1,String arg2,String from,String to) throws Exception
         {
-
             try
             {
                 Float a1=Float.parseFloat(arg1);
@@ -305,16 +302,11 @@ public enum DataType
                         throw new Exception("The result of this action is out of the predefined range");
                     }
                 }
-
-
             }
             catch (Exception e)
             {
-
                 throw e;
             }
-
-
         }
 
         @Override
@@ -331,13 +323,11 @@ public enum DataType
                 {
                     throw new Exception("Value out of range !");
                 }
-
             }
             catch (Exception e)
             {
                 throw e;
             }
-
         }
 
         @Override
