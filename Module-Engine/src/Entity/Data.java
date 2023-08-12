@@ -8,6 +8,16 @@ public class Data
 
     private String dataString;
 
+    private boolean isRangeExist;
+
+    public boolean isRangeExist() {
+        return isRangeExist;
+    }
+
+    public void setRangeExist(boolean rangeExist) {
+        isRangeExist = rangeExist;
+    }
+
     public String from;
 
     public String to;

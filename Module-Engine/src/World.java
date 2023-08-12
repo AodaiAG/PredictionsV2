@@ -1,6 +1,6 @@
 import Entity.EntityInstance;
 import Environment.EnvironmentInstance;
-import Rules.Rules;
+import Rules.Rule;
 import Entity.Entity;
 
 import java.lang.reflect.Field;
@@ -12,7 +12,7 @@ public class World
     private int terminationSeconds;
     private List<Entity> entities;
     private Map<String,EnvironmentInstance> name2Env;
-    private Set<Rules> rules;
+    private Set<Rule> rules;
 
     public Map<String, EnvironmentInstance> getName2Env()
     {
@@ -50,11 +50,11 @@ public class World
 
 
 
-    public Set<Rules> getRules() {
+    public Set<Rule> getRules() {
         return rules;
     }
 
-    public void setRules(Set<Rules> rules) {
+    public void setRules(Set<Rule> rules) {
         this.rules = rules;
     }
 
@@ -75,11 +75,9 @@ public class World
         // init
 
         name2Env=new HashMap<>();
-        rules=new HashSet<Rules>();
+        rules=new HashSet<Rule>();
         entities=new ArrayList<Entity>();
     }
-
-
 
     public static Object RandomFun(Properties e, int upperbound)
     {
@@ -134,8 +132,5 @@ public class World
         typeOfField=resField.getType().getSimpleName();
 
         return typeOfField;
-
     }
-
-
 }

@@ -1,6 +1,7 @@
 import Environment.EnvironmentInstance;
 import Rules.ActionTypes.*;
-import Rules.Rules;
+import Rules.Rule;
+import Rules.Activation;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import Entity.EntityInstance;
@@ -17,27 +18,28 @@ import Entity.Data;
 import Entity.DataType;
 import Entity.Entity;
 
-
-
 public class Engine implements IEngine
 {
+    public World world;
+
+    public Engine() {
+        this.world = new World();
+    }
 
     public WorldDTO convertWorldToDTO()
     {
-
-        World world=this.world;
-        List<EntityDTO> entityDTOSet=new ArrayList<>();
-        List<RulesDTO> rulesDTOSet=new ArrayList<>();
+        World world = this.world;
+        List<EntityDTO> entityDTOSet = new ArrayList<>();
+        List<RulesDTO> rulesDTOSet = new ArrayList<>();
         List<EnvironmentDTO> envSet=new ArrayList<>();
         TerminationDTO terminationDTO=new TerminationDTO(world.getTerminationTicks(), world.getTerminationSeconds());
         for(Entity e: world.getEntities())
         {
             entityDTOSet.add(convertEntityToDTO(e));
         }
-        for(Rules r: world.getRules())
+        for(Rule r: world.getRules())
         {
             rulesDTOSet.add(convertRuleToDTO(r));
-
         }
         for(EnvironmentInstance env:world.getName2Env().values())
         {
@@ -45,12 +47,10 @@ public class Engine implements IEngine
             EnvironmentDTO dto=new EnvironmentDTO(pDto);
             envSet.add(dto);
         }
-        return new WorldDTO(entityDTOSet,envSet,rulesDTOSet,terminationDTO);
-
-
+        return new WorldDTO(entityDTOSet, envSet, rulesDTOSet, terminationDTO);
     }
 
-    public RulesDTO convertRuleToDTO(Rules rule)
+    public RulesDTO convertRuleToDTO(Rule rule)
     {
         List<String> actionNames=new ArrayList<>();
         int numberofActions=rule.getActions().size();
@@ -58,7 +58,7 @@ public class Engine implements IEngine
         {
             actionNames.add(action.getNameOfAction());
         }
-        return new RulesDTO(rule.getNameOfRule(),rule.getTicks(),rule.getProbability(),numberofActions,actionNames);
+        return new RulesDTO(rule.getNameOfRule(), rule.getActivation().getTicks(), rule.getActivation().getProbability(), numberofActions,actionNames);
     }
 
     public EntityDTO convertEntityToDTO(Entity entity)
@@ -75,14 +75,11 @@ public class Engine implements IEngine
 
     public PropertyDTO convertPropertyToDTO(Property property)
     {
-            return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getData().from, property.getData().to,property.getData().getDataString());
+            return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getData().from, property.getData().to,property.getData().getDataString(), property.getData().isRangeExist());
     }
-
-    public World world=new World();
 
     public void ParseXmlAndLoadWorld(File file)
     {
-
         DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
         try
         {
@@ -103,16 +100,11 @@ public class Engine implements IEngine
 
             NodeList prdRules = doc.getElementsByTagName("PRD-rule");
             initRulesFromFile(prdRules,this.world);
-//
+
             String ticks = doc.getElementsByTagName("PRD-by-ticks").item(0).getAttributes().getNamedItem("count").getTextContent();
             String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
             this.world.setTerminationTicks(Integer.parseInt(ticks));
             this.world.setTerminationSeconds(Integer.parseInt(seconds));
-
-
-
-
-
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
@@ -122,33 +114,33 @@ public class Engine implements IEngine
 
     private void initRulesFromFile(NodeList list, World world)
     {
-        Rules justToCallFunction=new Rules();
-        for(int i=0;i<list.getLength();i++)
+        Rule justToCallFunction = new Rule();
+        for(int i = 0; i < list.getLength(); i++)
         {
-            Rules newRule=new Rules();
-            Node item=list.item(i);
-            Element el=(Element) item;
-            String nameOfRule=((Element) item).getAttribute("name");
+            Rule newRule = new Rule();
+            Node item = list.item(i);
+            Element el = (Element) item;
+            String nameOfRule = ((Element) item).getAttribute("name");
             newRule.setNameOfRule(nameOfRule);
-            NodeList prdActivtionL=((Element) item).getElementsByTagName("PRD-activation");
-            if(prdActivtionL.getLength()!=0)//if not empty
+            Activation activation = new Activation();
+            NodeList prdActivtionL = ((Element) item).getElementsByTagName("PRD-activation");
+            if(prdActivtionL.getLength() != 0)//if not empty
             {
                 Node ticksNode=((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("ticks");
-                if(ticksNode!=null)
+                if(ticksNode != null)
                 {
                     String tickString=ticksNode.getTextContent();
-                    newRule.setTicks(Integer.parseInt(tickString));
+                    activation.setTicks(Integer.parseInt(tickString));
                 }
                 Node probNode=((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("probability");
-                if(probNode!=null)
+                if(probNode != null)
                 {
                     String probString=probNode.getTextContent();
-                    newRule.setProbability(Double.parseDouble(probString));
+                    activation.setProbability(Double.parseDouble(probString));
                 }
             }
-
+            newRule.setActivation(activation);
             NodeList actionsListOfaRule= ((Element) item).getElementsByTagName("PRD-actions").item(0).getChildNodes();
-
 
             for(int m=0;m<actionsListOfaRule.getLength();m++)
             {
@@ -159,17 +151,14 @@ public class Engine implements IEngine
                     newRule.getActions().add(action);
                 }
             }
-
             this.world.getRules().add(newRule);
         }
     }
-
 
     public void initEvironmentFromFile(NodeList list,World w)
     {
         for(int i=0;i<list.getLength();i++)
         {
-
             Node item=list.item(i);
             Element el=(Element) item;
             String from=new String();
@@ -181,16 +170,15 @@ public class Engine implements IEngine
             {
                 from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
                 to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
-
-                Property eN1=  initProperty(type,prdName,from,to,true,"1");
+                Property eN1=  initProperty(type, prdName, true, from, to, true, "1");
                 EnvironmentInstance environmentInstance=new EnvironmentInstance();
                 environmentInstance.setEnvironmentProperty(eN1);
                 world.getName2Env().put(prdName,environmentInstance);
             }
             else
             {
-               Property eN= initProperty(type,prdName,from,to,true,"1");
-                EnvironmentInstance environmentInstance=new EnvironmentInstance();
+                Property eN= initProperty(type, prdName, false, from, to, true, "1");
+                EnvironmentInstance environmentInstance = new EnvironmentInstance();
                 environmentInstance.setEnvironmentProperty(eN);
                 world.getName2Env().put(prdName,environmentInstance);
             }
@@ -201,14 +189,14 @@ public class Engine implements IEngine
     {
         for(int i=0;i<list.getLength();i++)
         {
-
-
-            Entity newEntity=new Entity();
+            Entity newEntity = new Entity();
             Node item=list.item(i);
             Element el=(Element) item;
             String name=item.getAttributes().getNamedItem("name").getTextContent();
             newEntity.setNameOfEntity(name);
             String population= ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
+            int popNumber=Integer.parseInt(population);
+            newEntity.setNumberOfInstances(popNumber);
 
             NodeList entityProperty =((Element) item).getElementsByTagName("PRD-property");
             EntityInstance e1=new EntityInstance();
@@ -216,43 +204,44 @@ public class Engine implements IEngine
 
             for(int j = 0; j< entityProperty.getLength(); j++)
             {
-                String from=new String();
-                String to=new String();
-                Node item2= entityProperty.item(j);
-                Element el2=(Element) item2;
-                String type=((Element) item2).getAttribute("type");
-                String prdName=((Element) item2).getElementsByTagName("PRD-name").item(0).getTextContent();
-                if(((Element) item2).getElementsByTagName("PRD-range").item(0)!=null)
+                String from = "";
+                String to = "";
+                boolean isRange = false;
+                Node item2 = entityProperty.item(j);
+                Element el2 = (Element) item2;
+                String type = ((Element) item2).getAttribute("type");
+                String prdName = ((Element) item2).getElementsByTagName("PRD-name").item(0).getTextContent();
+
+                if(((Element) item2).getElementsByTagName("PRD-range").item(0) != null)
                 {
                     from=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
                     to=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
+                    isRange = true;
                 }
 
                 String isRandom=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("random-initialize").getTextContent();
-                String initValue=new String();
-                initValue="1"; // random value
+                String initValue = "1"; // random value
 
 
                 if(isRandom.equals("false"))
                 {
                     initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
-                    Property property = initProperty(type,prdName,from,to,true, initValue);
+                    Property property = initProperty(type, prdName, isRange, from, to, true, initValue);
                     e1.getPropertiesOfTheEnitiy().add(property);
                 }
                 else
                 {
-                    Property property = initProperty(type, prdName, from, to,true, initValue);
+                    Property property = initProperty(type, prdName, isRange, from, to,true, initValue);
                     e1.getPropertiesOfTheEnitiy().add(property);
                 }
             }
 
-            // create collection of entites
+            // create collection of entities
             List<EntityInstance> first=new ArrayList<>();
-            int popNumber=Integer.parseInt(population);
             Set<Property> propOfEntity = e1.getPropertiesOfTheEnitiy();
             newEntity.setPropertiesOfTheEntity(propOfEntity);
 
-            for(int m=0;m<popNumber;m++)
+            for(int m=0; m < popNumber; m++)
             {
                 first.add(e1);
             }
@@ -262,31 +251,27 @@ public class Engine implements IEngine
 
             System.out.println("test");
         }
-
     }
 
-    Property initProperty(String type, String name, String from , String to, boolean bool, String init)
+    Property initProperty(String type, String name, boolean isRange, String from , String to, boolean bool, String init)
     {
-        //valueOf(type.toUpperCase()
         Property res = new Property();
         res.setNameOfProperty(name);
         res.setRandomInitialize(bool);
-        Data eD=new Data();
-        eD.setDataType(DataType.valueOf(type.toUpperCase()) );
-        eD.setFrom(from);
-        eD.setTo(to);
+        Data eD = new Data();
+        eD.setDataType(DataType.valueOf(type.toUpperCase()));
+        eD.setRangeExist(isRange);
+        if(isRange){
+            eD.setFrom(from);
+            eD.setTo(to);
+        }
         eD.calculateNewVal(init, bool);
         res.setData(eD);
-
-
         return res;
     }
-
 
     private World getWorld()
     {
         return this.world;
-
     }
-
 }

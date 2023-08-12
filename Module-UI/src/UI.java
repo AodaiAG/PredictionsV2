@@ -8,11 +8,10 @@ import java.util.Scanner;
 
 public class UI
 {
-    IEngine engine=new Engine();
+    IEngine engine = new Engine();
 
     void getFileDirectoryAndLoadSimulation()
     {
-
         Scanner sc= new Scanner(System.in);
         System.out.println("Please, enter the directory of the file you wish to load : ");
         String path=sc.nextLine();
@@ -24,28 +23,35 @@ public class UI
                 System.out.println("You have entered a wrong file directory,please enter a valid one: ");
                 path=sc.nextLine();
                 dd = Paths.get(path);
-
             }
 
             Uri uri=new Uri(path);
             File f=new File(String.valueOf(uri));
             engine.ParseXmlAndLoadWorld(f);
             System.out.println("File Loaded successfully!");
+            WorldDTO newWorldDTO= engine.convertWorldToDTO();
+            PrintWorldDetails(newWorldDTO);
 
         } catch (Exception e)
         {
             throw new RuntimeException(e);
-
         }
     }
 
-
-
     void PrintWorldDetails(WorldDTO worldDTO)
     {
-
         Scanner sc= new Scanner(System.in);
-        System.out.println("There are"+worldDTO.getEntityDTOSet().size()+"entities,"+worldDTO.getRulesDTOSet().size()+"Laws in the current simulation");
+        System.out.println("There are " + worldDTO.getEntityDTOSet().size() + " entities," + worldDTO.getRulesDTOSet().size() + " Laws in the current simulation");
+        Printer newPr = new Printer();
+        System.out.println("ENTITIES");
+        for (EntityDTO edto: worldDTO.getEntityDTOSet())
+        {
+          newPr.printEntity(edto);
+        }
+        System.out.println("\nRULES");
+        for (RulesDTO ruleDTO: worldDTO.getRulesDTOSet()) {
+            newPr.printRule(ruleDTO);
+        }
         System.out.println("Please,enter the number of which you would like to get further details about: ");
         System.out.println("1- Entities");
         System.out.println("2- Rules");
@@ -53,11 +59,8 @@ public class UI
         checkIfNumberIsWithinRange(userChosingFurtherDetails,2);
 // 11.8.2023
 
-
-
-
-
     }
+
     void checkIfNumberIsWithinRange(int number,int bound)
     {
         boolean option;

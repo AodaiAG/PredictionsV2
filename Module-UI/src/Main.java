@@ -8,7 +8,6 @@ public class Main
         UI user=new UI();
         user.getFileDirectoryAndLoadSimulation();
 
-
     }
 
 
