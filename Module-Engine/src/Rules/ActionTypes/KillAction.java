@@ -3,8 +3,10 @@ package Rules.ActionTypes;
 import Entity.Entity;
 
 import java.util.Collection;
+import Entity.EntityInstance;
 
-public class KillAction implements Action
+
+public class KillAction extends Action
 {
 
 private String entityToKill;
@@ -23,7 +25,7 @@ private String entityToKill;
     }
 
     @Override
-    public void ActivateAction(Entity e) throws Exception
+    public void ActivateAction(EntityInstance e) throws Exception
     {
 
 

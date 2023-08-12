@@ -2,8 +2,10 @@ package Rules.ActionTypes;
 
 import Entity.Entity;
 import Entity.Property;
+import Entity.EntityInstance;
 
-public class CalculationAction implements Action
+
+public class CalculationAction extends Action
 {
     private String typeOfCondition;
     private String resultProp;
@@ -67,7 +69,7 @@ public class CalculationAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e) throws Exception {
+    public void ActivateAction(EntityInstance e) throws Exception {
 
         String arg1=new String();
         String arg2=new String();

@@ -7,10 +7,10 @@ import java.util.Set;
 public class EntityInstance
 {
     private String NameOfEntity;
-    private Set<Property> propertiesOfTheEnitiy;
+    private Set<Property> propertiesOfTheEntity;
     public EntityInstance()
     {
-        propertiesOfTheEnitiy=new HashSet<Property>();
+        propertiesOfTheEntity =new HashSet<Property>();
     }
 
     public String getNameOfEntity()
@@ -35,14 +35,14 @@ public class EntityInstance
         NameOfEntity = nameOfEntity;
     }
 
-    public Set<Property> getPropertiesOfTheEnitiy()
+    public Set<Property> getPropertiesOfTheEntity()
     {
-        return propertiesOfTheEnitiy;
+        return propertiesOfTheEntity;
     }
 
-    public void setPropertiesOfTheEnitiy(Set<Property> propertiesOfTheEnitiy)
+    public void setPropertiesOfTheEntity(Set<Property> propertiesOfTheEntity)
     {
-        this.propertiesOfTheEnitiy = propertiesOfTheEnitiy;
+        this.propertiesOfTheEntity = propertiesOfTheEntity;
     }
 
     public static String getTypeOfEntity(EntityInstance e)

@@ -4,20 +4,24 @@ import jdk.nashorn.internal.parser.JSONParser;
 public class Printer {
 
     public void printEntity(EntityDTO entityDTO) {
+        int index = 1;
         System.out.println("Entity Name: " + entityDTO.getName());
         System.out.println("Population: " + entityDTO.getNumberOfInstances());
         System.out.println("Properties: ");
         for (PropertyDTO pd: entityDTO.getProperties())
         {
-            printProperty(pd);
+            System.out.println();
+            System.out.println("#Property Number " + index + ":");
+            printProperty(pd, false);
+            index++;
         }
     }
 
-    public void printProperty(PropertyDTO propertyDTO)
+    public void printProperty(PropertyDTO propertyDTO, boolean isEnvironmentVar)
     {
-        System.out.println("Property Name: " + propertyDTO.getNameOfProperty());
+        System.out.println((isEnvironmentVar ? "Environment Variable Name: " : "Property Name: " ) + propertyDTO.getNameOfProperty());
         System.out.print(("Type: " + propertyDTO.getNameOfDataType()));
-        System.out.println((propertyDTO.isRange()) ? "\nRange: from = " + propertyDTO.getFrom() + " to = " + propertyDTO.getTo():"");
+        System.out.println((propertyDTO.isRange()) ? "\nRange: " + propertyDTO.getFrom() + " - " + propertyDTO.getTo():"");
         System.out.println("Is Random Initialized: " + (propertyDTO.isRandomInitialize() ? "true" : "false"));
     }
 
@@ -29,5 +33,17 @@ public class Printer {
         for (String nameOfAction : ruleDTO.getNamesOfActions()) {
             System.out.println("Name Of Action: " + nameOfAction);
         }
+    }
+    public void printTermination(TerminationDTO terminationDTO)
+    {
+        System.out.println("\nTerminations:");
+        System.out.println("termination by ticks: " + terminationDTO.getTerminationTicks());
+        System.out.println("termination by seconds: " + terminationDTO.getTerminationSeconds());
+    }
+
+    public void printEnvironment(EnvironmentDTO environmentDTO)
+    {
+        //print key and value
+       // printProperty(environmentDTO.getEnProperty());
     }
 }

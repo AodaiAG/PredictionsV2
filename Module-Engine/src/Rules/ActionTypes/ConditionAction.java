@@ -4,14 +4,15 @@ import Entity.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import Entity.EntityInstance;
 
-public  class ConditionAction implements Action
+
+public  class ConditionAction extends Action
 {
     private Boolean conditionResult;
     private ConditionAction condition;
     private List<Action> actionsToDoIfTrue;
     private List<Action> actionsToDoIfFalse;
-    private String nameOfEntity;
 
     public ConditionAction getCondition() {
         return condition;
@@ -37,14 +38,6 @@ public  class ConditionAction implements Action
         this.actionsToDoIfFalse = actionsToDoIfFalse;
     }
 
-    public String getNameOfEntity() {
-        return nameOfEntity;
-    }
-
-    public void setNameOfEntity(String nameOfEntity) {
-        this.nameOfEntity = nameOfEntity;
-    }
-
     public Boolean getConditionResult()
     {
         return conditionResult;
@@ -61,7 +54,7 @@ public  class ConditionAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e) throws Exception {
+    public void ActivateAction(EntityInstance e) throws Exception {
 
         condition.ActivateAction(e);
         conditionResult=condition.getConditionResult();
@@ -84,23 +77,12 @@ public  class ConditionAction implements Action
                     a.ActivateAction(e);
                 }
             }
-
-
         }
-
-
-
     }
 
     public ConditionAction()
     {
-
-        nameOfEntity=new String();
         actionsToDoIfTrue=new ArrayList<>();
         actionsToDoIfFalse=new ArrayList<>();
-
     }
-
-
-
 }

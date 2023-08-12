@@ -2,8 +2,10 @@ package Rules.ActionTypes;
 
 import Entity.Entity;
 import Entity.Property;
+import Entity.EntityInstance;
 
-public class IncreaseAction implements Action
+
+public class IncreaseAction extends Action
 {
    private String entityName;
    private String propertyName;
@@ -48,7 +50,7 @@ public class IncreaseAction implements Action
     }
 
     @Override
-    public void ActivateAction(Entity e) throws Exception
+    public void ActivateAction(EntityInstance e) throws Exception
     {
 
 

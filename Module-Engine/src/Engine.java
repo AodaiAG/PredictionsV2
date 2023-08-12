@@ -50,6 +50,18 @@ public class Engine implements IEngine
         return new WorldDTO(entityDTOSet, envSet, rulesDTOSet, terminationDTO);
     }
 
+    @Override
+    public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception {
+       EnvironmentInstance environmentInstance = this.world.getName2Env().get(environmentDTO.getEnProperty().getNameOfProperty());
+       try{
+           environmentInstance.getEnvironmentProperty().getEdata().setNewValue(userValue);
+       }
+       catch(Exception e)
+        {
+            throw  e;
+        }
+    }
+
     public RulesDTO convertRuleToDTO(Rule rule)
     {
         List<String> actionNames=new ArrayList<>();
@@ -227,18 +239,18 @@ public class Engine implements IEngine
                 {
                     initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
                     Property property = initProperty(type, prdName, isRange, from, to, true, initValue);
-                    e1.getPropertiesOfTheEnitiy().add(property);
+                    e1.getPropertiesOfTheEntity().add(property);
                 }
                 else
                 {
                     Property property = initProperty(type, prdName, isRange, from, to,true, initValue);
-                    e1.getPropertiesOfTheEnitiy().add(property);
+                    e1.getPropertiesOfTheEntity().add(property);
                 }
             }
 
             // create collection of entities
             List<EntityInstance> first=new ArrayList<>();
-            Set<Property> propOfEntity = e1.getPropertiesOfTheEnitiy();
+            Set<Property> propOfEntity = e1.getPropertiesOfTheEntity();
             newEntity.setPropertiesOfTheEntity(propOfEntity);
 
             for(int m=0; m < popNumber; m++)
