@@ -68,6 +68,13 @@ public class Engine implements IEngine
     public void startSimulation()
     {
 
+        int tick=0;
+
+        for (Rule rule : this.world.getRules())
+        {
+            rule.isActivated(world.getEntities(),tick,1);
+            tick++;
+        }
     }
 
     public RulesDTO convertRuleToDTO(Rule rule)

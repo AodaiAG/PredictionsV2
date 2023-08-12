@@ -92,7 +92,7 @@ public class Data
     {
         try
         {
-            return dataType.compareTo(comparedto,to,dataString);
+            return dataType.compareTo(comparedto,Operator,dataString);
         }
         catch(Exception e)
         {

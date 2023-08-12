@@ -13,6 +13,7 @@ public enum DataType
         @Override
         public Boolean compareTo(String comparedto, String Operator,String dataString) throws Exception
         {
+
             try
             {
                 Float ComparedTodata=Float.parseFloat(comparedto);
@@ -29,12 +30,12 @@ public enum DataType
                         return mydata!=ComparedTodata;
 
                     }
-                    case "Bt":
+                    case "bt":
                     {
                         return mydata>ComparedTodata;
 
                     }
-                    case "Lt":
+                    case "lt":
                     {
                         return mydata<ComparedTodata;
 

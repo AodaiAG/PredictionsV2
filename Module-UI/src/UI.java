@@ -78,6 +78,7 @@ public class UI
     {
         Printer pr=new Printer();
         environmentInitByUser(worldDTO.getEnvironmentDTOS(),pr);
+        engine.startSimulation();
 
     }
     public void environmentInitByUser(List<EnvironmentDTO> eDlist, Printer pr)
