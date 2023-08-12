@@ -24,6 +24,7 @@ public class PropertyDTO
         this.to = to;
     }
 
+
     public String getNameOfDataType() {
         return nameOfDataType;
     }
@@ -34,14 +35,6 @@ public class PropertyDTO
 
     public String getTo() {
         return to;
-    }
-
-    public String getDataString() {
-        return dataString;
-    }
-
-    public void setDataString(String dataString) {
-        this.dataString = dataString;
     }
 
     public String getNameOfProperty() {
@@ -54,21 +47,15 @@ public class PropertyDTO
         return randomInitialize;
     }
 
-    public String getNameOfDataType() {
-        return nameOfDataType;
-    }
 
-    public boolean isRange() {
+
+    public boolean isRange()
+    {
         return isRange;
     }
 
-    public String getFrom() {
-        return from;
-    }
 
-    public String getTo() {
-        return to;
-    }
+
 
     public String getDataString() {
         return dataString;
