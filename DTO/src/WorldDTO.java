@@ -16,9 +16,7 @@ public class WorldDTO
         this.environmentDTOS=env;
     }
 
-    public List<EnvironmentDTO> getEnvironmentDTOS() {
-        return environmentDTOS;
-    }
+
 
     public void setEnvironmentDTOS(List<EnvironmentDTO> environmentDTOS) {
         this.environmentDTOS = environmentDTOS;

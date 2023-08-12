@@ -127,7 +127,7 @@ public enum DataType
             }
             catch (Exception e)
             {
-                throw e;
+                throw new Exception("The data you entered is not of type Decimal ");
             }
         }
 
@@ -326,7 +326,7 @@ public enum DataType
             }
             catch (Exception e)
             {
-                throw e;
+                throw new Exception("The data you entered is not of type Float ");
             }
         }
 
@@ -478,11 +478,12 @@ public enum DataType
             try
             {
                 Boolean res=Boolean.valueOf(value);
+
                 return Boolean.toString(res);
             }
             catch (Exception e)
             {
-                throw  e;
+                throw new Exception("The data you entered is not of type Boolean ");
             }
 
 
@@ -522,7 +523,8 @@ public enum DataType
 
     STRING {
         @Override
-        public String getDataTypeString() {
+        public String getDataTypeString()
+        {
             return "String";
         }
 

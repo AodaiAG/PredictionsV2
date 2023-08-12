@@ -30,8 +30,8 @@ public class UI
             File f=new File(String.valueOf(uri));
             engine.ParseXmlAndLoadWorld(f);
             System.out.println("File Loaded successfully!");
-            WorldDTO newWorldDTO= engine.convertWorldToDTO();
-            PrintWorldDetails(newWorldDTO);
+
+
 
         } catch (Exception e)
         {
@@ -45,12 +45,12 @@ public class UI
         Scanner sc= new Scanner(System.in);
         System.out.println("There are " + worldDTO.getEntityDTOSet().size() + " entities," + worldDTO.getRulesDTOSet().size() + " Laws in the current simulation");
         Printer newPr = new Printer();
-        System.out.println("ENTITIES");
+        System.out.println("** ENTITIES **");
         for (EntityDTO edto: worldDTO.getEntityDTOSet())
         {
           newPr.printEntity(edto);
         }
-        System.out.println("\nRULES");
+        System.out.println("\n** RULES **");
         for (RulesDTO ruleDTO: worldDTO.getRulesDTOSet()) {
             System.out.println();
             System.out.println("#Rule Number " + index + ":");
@@ -58,7 +58,7 @@ public class UI
             index++;
         }
         newPr.printTermination(worldDTO.getTerminationDTO());
-        environmentInitByUser(worldDTO.getEnvironmentDTOS(), newPr);
+
     }
 
     void checkIfNumberIsWithinRange(int number,int bound)
@@ -74,15 +74,26 @@ public class UI
         }
     }
 
+    public void startSimulation(WorldDTO worldDTO)
+    {
+        Printer pr=new Printer();
+        environmentInitByUser(worldDTO.getEnvironmentDTOS(),pr);
+
+    }
     public void environmentInitByUser(List<EnvironmentDTO> eDlist, Printer pr)
     {
         Scanner sc= new Scanner(System.in);
         String userChoice = "";
         boolean validData = false;
 
+        int i=0;
+        System.out.println('\n'+"** Environment Variables **: ");
         for(EnvironmentDTO ed: eDlist)
         {
-            System.out.println();
+            if(i!=0)
+            {
+                System.out.println();
+            }
             pr.printProperty(ed.getEnProperty(), true);
             System.out.println("Would you like to initialize the value? (yes / no)");
 
@@ -117,6 +128,7 @@ public class UI
                     System.out.println("Value initialized automatically");
                     break;
             }
+            i++;
         }
     }
 }

@@ -55,11 +55,19 @@ public class Engine implements IEngine
        EnvironmentInstance environmentInstance = this.world.getName2Env().get(environmentDTO.getEnProperty().getNameOfProperty());
        try{
            environmentInstance.getEnvironmentProperty().getEdata().setNewValue(userValue);
+           environmentInstance.getEnvironmentProperty().setRandomInitialize(false);
+
        }
        catch(Exception e)
         {
             throw  e;
         }
+    }
+
+    @Override
+    public void startSimulation()
+    {
+
     }
 
     public RulesDTO convertRuleToDTO(Rule rule)

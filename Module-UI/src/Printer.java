@@ -1,7 +1,10 @@
 import Rules.ActionTypes.Action;
 import jdk.nashorn.internal.parser.JSONParser;
 
-public class Printer {
+import java.util.List;
+
+public class Printer
+{
 
     public void printEntity(EntityDTO entityDTO) {
         int index = 1;
@@ -36,12 +39,12 @@ public class Printer {
     }
     public void printTermination(TerminationDTO terminationDTO)
     {
-        System.out.println("\nTerminations:");
+        System.out.println("\n** Terminations **:");
         System.out.println("termination by ticks: " + terminationDTO.getTerminationTicks());
         System.out.println("termination by seconds: " + terminationDTO.getTerminationSeconds());
     }
 
-    public void printEnvironment(EnvironmentDTO environmentDTO)
+    public void printEnvironment(List<EnvironmentDTO> environmentDTOList)
     {
         //print key and value
        // printProperty(environmentDTO.getEnProperty());
