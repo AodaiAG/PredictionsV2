@@ -82,11 +82,12 @@ public class UI
 
     public void startSimulation(WorldDTO worldDTO)
     {
-        Printer pr=new Printer();
+        Printer pr = new Printer();
         environmentInitByUser(worldDTO.getEnvironmentDTOS(),pr);
         engine.startSimulation();
 
     }
+
     public void environmentInitByUser(List<EnvironmentDTO> eDlist, Printer pr)
     {
         Scanner sc= new Scanner(System.in);

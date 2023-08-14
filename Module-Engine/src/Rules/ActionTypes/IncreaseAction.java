@@ -13,14 +13,13 @@ public class IncreaseAction extends Action
 
     public IncreaseAction()
     {
-
-
         expression=new String();
         propertyName=new String();
         entityName=new String();
     }
 
-    public String getEntityName() {
+    @Override
+    public String getNameOfEntity() {
         return entityName;
     }
 
@@ -43,6 +42,7 @@ public class IncreaseAction extends Action
     public void setExpression(String expression) {
         this.expression = expression;
     }
+
     @Override
     public String getNameOfAction()
     {
@@ -52,8 +52,6 @@ public class IncreaseAction extends Action
     @Override
     public void ActivateAction(EntityInstance e) throws Exception
     {
-
-
         Object value = new Object();
 
          // value =evaluteExpression();

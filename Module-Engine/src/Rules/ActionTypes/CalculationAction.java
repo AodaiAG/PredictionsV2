@@ -7,16 +7,22 @@ import Expression.Expression;
 
 public class CalculationAction extends Action
 {
+    private String entityName;
+
     private String typeOfCondition;
+
     private String resultProp;
+
     private String calType;
+
     private String expression1;
+
     private String expression2;
 
     public CalculationAction()
     {
-
         resultProp=new String();
+        entityName = "";
         typeOfCondition=new String();
         calType=new String();
         expression1=new String();
@@ -24,12 +30,15 @@ public class CalculationAction extends Action
         typeOfCondition="calculation";
     }
 
+    @Override
+    public String getNameOfEntity() {
+        return entityName;
+    }
     public String getTypeOfCondition()
     {
         return typeOfCondition;
     }
 
-    @Override
     public String getNameOfAction()
     {
         return "calculation";
@@ -70,15 +79,14 @@ public class CalculationAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception
+    public void ActivateAction(EntityInstance entityInstance) throws Exception
     {
-         Expression expression=new Expression(getFunctions());
+        Expression expression = new Expression(getFunctions(), entityInstance);
 
         String arg1=expression.evaluateExpression(expression1);
         String arg2=expression.evaluateExpression(expression2);
 
-
-        for(Property t : e.getPropertiesOfTheEntity())
+        for(Property t : entityInstance.getPropertiesOfTheEntity())
         {
             if(t.getNameOfProperty().equals(resultProp))
             {
@@ -86,7 +94,6 @@ public class CalculationAction extends Action
                 {
                     case "divide":
                     {
-
                         try {
                             t.getData().divide(arg1,arg2);
                         } catch (Exception ex)
@@ -105,8 +112,6 @@ public class CalculationAction extends Action
 
                     }
                 }
-
-
             }
         }
     }

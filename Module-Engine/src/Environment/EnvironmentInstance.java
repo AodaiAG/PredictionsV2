@@ -3,7 +3,8 @@ import Entity.Property;
 
 public class EnvironmentInstance
 {
-    private Property EnvironmentProperty=new Property();
+    private Property EnvironmentProperty = new Property();
+
     public Property getEnvironmentProperty() {
         return EnvironmentProperty;
     }

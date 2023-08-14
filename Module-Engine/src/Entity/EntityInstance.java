@@ -7,7 +7,9 @@ import java.util.Set;
 public class EntityInstance
 {
     private String NameOfEntity;
+
     private Set<Property> propertiesOfTheEntity;
+
     public EntityInstance()
     {
         propertiesOfTheEntity =new HashSet<Property>();

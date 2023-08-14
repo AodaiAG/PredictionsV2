@@ -12,16 +12,13 @@ public class SetAction extends Action
 
     public SetAction()
     {
-
-
-
         entityName=new String();
         propertyName=new String();
         expression=new String();
 
     }
-
-    public String getEntityName() {
+    @Override
+    public String getNameOfEntity() {
         return entityName;
     }
 

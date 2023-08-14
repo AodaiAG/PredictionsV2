@@ -1,97 +1,106 @@
 package Expression;
-
+import Entity.EntityInstance;
+import Entity.Property;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import Entity.Data; //to delete
 
 public class Expression
 {
     private  final Map<String, Function<String[], String>> FUNCTIONS = new HashMap<>();
-    AuxiliaryMethods auxiliaryMethods;
 
-    public Expression(AuxiliaryMethods f)
+    private final AuxiliaryMethods auxiliaryMethods;
+
+    private final EntityInstance entityInstance;
+
+    public Expression(AuxiliaryMethods f, EntityInstance entityInstance)
     {
-        auxiliaryMethods =f;
-        // Define auxiliary functions here
+        this.entityInstance = entityInstance;
+        auxiliaryMethods = f;
         FUNCTIONS.put("random", args -> generateRandom(args[0]));
         FUNCTIONS.put("environment", args -> getEnvironmentValue(args[0]));
         // Add more functions as needed
     }
 
-    private  String generateRandom(String arg)
+    private String generateRandom(String arg)
     {
-
         return auxiliaryMethods.random(arg);
     }
-    private  String getEnvironmentValue(String arg)
-    {
 
+    private String getEnvironmentValue(String arg)
+    {
         return auxiliaryMethods.environment(arg);
     }
 
-    public  String evaluateExpression(String expression)
+    public String evaluateExpression(String expression)
     {
-
-        if (expression.length() == 0) {
+        if (expression.isEmpty())
+        {
             return ""; // Empty expression
         }
 
-     String firstWord;
-        int startIndex=expression.indexOf("(");
-        int endIndex=expression.indexOf(")");
-        firstWord=expression.substring(0,startIndex);
+        String firstWord;
+        int startIndex = expression.indexOf("(");
+        int endIndex = expression.indexOf(")");
+        firstWord = expression.substring(0, startIndex);
 
-        String arguments=expression.substring(startIndex+1,endIndex);
+        String arguments = expression.substring(startIndex + 1, endIndex);
         String[] argumentArray = arguments.split(",");
-
 
         if (FUNCTIONS.containsKey(firstWord))
         {
             Function<String[], String> function = FUNCTIONS.get(firstWord);
             return function.apply(argumentArray);
         }
+
         else
         {
-            // Assuming contextEntity and contextProperty are defined elsewhere
-            // Replace with actual logic to fetch context entity and property
-           // if (contextEntity != null && contextProperty != null)
-
-          //  {
-               // return contextEntity.getPropertyValue(contextProperty, firstWord);
-          //  }
-            if (true)
+            for (Property p : entityInstance.getPropertiesOfTheEntity())
             {
-
-            }
-            else
-            {
-                try
+                if (p.getNameOfProperty() == expression)
                 {
-                    // Try to convert to number
-                    Double.parseDouble(firstWord);
-                    return firstWord;
+                    return p.getData().getDataString();
                 }
-                catch (NumberFormatException e)
+                else
                 {
-                    // Try to parse as boolean
-                    if (firstWord.equalsIgnoreCase("true") || firstWord.equalsIgnoreCase("false"))
+                    try
                     {
+                        // Try to convert to number
+                        Double.parseDouble(firstWord);
                         return firstWord;
                     }
-                    // Just treat as a string
-                    return expression;
-                }
+                    catch (NumberFormatException e)
+                    {
+                        // Try to parse as boolean
+                        if (firstWord.equalsIgnoreCase("true") || firstWord.equalsIgnoreCase("false"))
+                        {
+                            return firstWord;
+                        }
+                        // Just treat as a string
+                        return expression;
+                    }                }
             }
         }
-        return "h";
+        return "hi";
     }
 
     // Example usage
-    public  void main(String[] args) {
-
-
-        String expression2 = "environment(cigarets-critical)";
-        String result2 = evaluateExpression(expression2);
-        System.out.println("Result 2: " + result2);
-    }
+//    public static void main(String[] args)
+//    {
+//        EntityInstance ei = new EntityInstance();
+//        ei.setNameOfEntity("Dora");
+//        ei.setPropertiesOfTheEntity(new HashSet<>());
+//        Property p = new Property();
+//        p.setRandomInitialize(false);
+//        p.setNameOfProperty("P1");
+//        Data d = new Data();
+//        d.setDataString("Str");
+//        ei.getPropertiesOfTheEntity().add(p);
+//        String expression2 = "environment(cigarets-critical)";
+//        String result2 = evaluateExpression(expression2, ei );
+//        System.out.println("Result 2: " + result2);
+//    }
 }

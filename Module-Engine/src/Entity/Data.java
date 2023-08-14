@@ -7,6 +7,7 @@ public class Data
     private DataType dataType;
 
     private String dataString;
+
     private boolean isRangeExist;
 
     public boolean isRangeExist() {
@@ -28,9 +29,8 @@ public class Data
         dataString = dataType.calculateNewVal(initVal,isRandomInitialize,from,to);
     }
 
-    public  void decrease(String value) throws Exception
+    public void decrease(String value) throws Exception
     {
-
         try
         {
            dataString= dataType.decrease(value,dataString,from,to);
@@ -41,9 +41,8 @@ public class Data
         }
 
     }
-    public  void increase(String value) throws Exception
+    public void increase(String value) throws Exception
     {
-
         try
         {
             dataString= dataType.increase(value,dataString,from,to);

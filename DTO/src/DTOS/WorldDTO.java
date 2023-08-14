@@ -5,8 +5,11 @@ import java.util.List;
 public class WorldDTO
 {
     private List<EntityDTO> entityDTOSet;
+
     private List<RulesDTO> rulesDTOSet;
+
     private TerminationDTO terminationDTO;
+
     private List<EnvironmentDTO> environmentDTOS;
 
     public WorldDTO(List<EntityDTO> entityDTOSet, List<EnvironmentDTO> env, List<RulesDTO> rulesDTOSet, TerminationDTO terminationDTO)
@@ -17,8 +20,6 @@ public class WorldDTO
         this.environmentDTOS=env;
     }
 
-
-
     public void setEnvironmentDTOS(List<EnvironmentDTO> environmentDTOS) {
         this.environmentDTOS = environmentDTOS;
     }
@@ -26,10 +27,10 @@ public class WorldDTO
     public List<EntityDTO> getEntityDTOSet() {
         return entityDTOSet;
     }
+
     public List<EnvironmentDTO> getEnvironmentDTOS() {
         return environmentDTOS;
     }
-
 
     public void setEntityDTOSet(List<EntityDTO> entityDTOSet) {
         this.entityDTOSet = entityDTOSet;

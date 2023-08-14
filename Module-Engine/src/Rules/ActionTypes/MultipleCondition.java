@@ -16,6 +16,7 @@ public class MultipleCondition extends ConditionAction
     private String logical;
     private List<ConditionAction> listOfConditions;
 
+
     @Override
     public Boolean getConditionResult()
     {

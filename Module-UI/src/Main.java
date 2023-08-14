@@ -6,12 +6,11 @@ public class Main
 {
     public static void main(String[] args)
     {
-        UI user=new UI();
+        UI user = new UI();
         user.getFileDirectoryAndLoadSimulation();
         WorldDTO worldDTO=user.engine.convertWorldToDTO();
         user.PrintWorldDetails(worldDTO);
         user.startSimulation(worldDTO);
-
 
     }
 }

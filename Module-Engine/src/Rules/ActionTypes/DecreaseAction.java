@@ -2,23 +2,21 @@ package Rules.ActionTypes;
 
 import Entity.Property;
 import Entity.EntityInstance;
-
+import Expression.Expression;
 
 public class DecreaseAction extends Action
 {
     private String entityName;
-    private String propertyName;
-    private String expression;
 
+    private String propertyName;
+
+    private String expressionStr;
 
     public DecreaseAction()
     {
-
-
-        propertyName=new String();
-        entityName=new String();
-        expression=new String();
-
+        propertyName = new String();
+        entityName = new String();
+        expressionStr = new String();
     }
 
     public String getEntityName() {
@@ -37,13 +35,14 @@ public class DecreaseAction extends Action
         this.propertyName = propertyName;
     }
 
-    public String getExpression() {
-        return expression;
+    public String getExpressionStr() {
+        return expressionStr;
     }
 
-    public void setExpression(String expression) {
-        this.expression = expression;
+    public void setExpressionStr(String expressionStr) {
+        this.expressionStr = expressionStr;
     }
+
     @Override
     public String getNameOfAction()
     {
@@ -51,20 +50,24 @@ public class DecreaseAction extends Action
     }
 
     @Override
+    public String getNameOfEntity() {
+        return entityName;
+    }
+
+    @Override
     public void ActivateAction(EntityInstance e) throws Exception
     {
+        Expression expression = new Expression(super.getFunctions(), e);
         Object value = new Object();
-        // value =evaluteExpression();
-        // need to convert the value to string
-        String sValue=new String();
+        String strVal = expression.evaluateExpression(expressionStr);
 
-        for(Property t : e.getPropertiesOfTheEntity())
+        for(Property property : e.getPropertiesOfTheEntity())
         {
-            if(t.getNameOfProperty().equals(propertyName))
+            if(property.getNameOfProperty().equals(propertyName))
             {
                 try
                 {
-                    t.getData().increase(sValue);
+                    property.getData().increase(strVal);
                 } catch (Exception ex)
                 {
                     throw ex;

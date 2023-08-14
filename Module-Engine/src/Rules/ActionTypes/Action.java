@@ -1,13 +1,18 @@
 package Rules.ActionTypes;
+import Entity.Entity;
 import Entity.EntityInstance;
 import Expression.AuxiliaryMethods;
 import sun.security.pkcs11.wrapper.Functions;
 
+import java.util.List;
+
 
 public abstract class Action
 {
-     private String nameOfEntity;
+  //   private String nameOfEntity;
+
      private AuxiliaryMethods functions;
+
      public AuxiliaryMethods getFunctions()
      {
           return functions;
@@ -22,12 +27,21 @@ public abstract class Action
 
      abstract public String getNameOfAction();
 
-     public String getNameOfEntity()
-     {
-          return nameOfEntity;
+     public abstract String getNameOfEntity();
+
+//     public void setNameOfEntity(String nameOfEntity) {
+//          this.nameOfEntity = nameOfEntity;
+//     }
+
+     public Entity findEntityAccordingName(List<Entity> entities, String currentEntityName) throws Exception {
+          for (Entity entity : entities) {
+               if (entity.getNameOfEntity().equals(currentEntityName)) {
+                    return entity;
+               } else {
+                    throw new Exception("Entity not found");
+               }
+          }
+          return null;
      }
 
-     public void setNameOfEntity(String nameOfEntity) {
-          this.nameOfEntity = nameOfEntity;
-     }
 }

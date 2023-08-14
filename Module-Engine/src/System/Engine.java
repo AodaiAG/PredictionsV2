@@ -21,7 +21,6 @@ import Entity.Data;
 import Entity.DataType;
 import Entity.Entity;
 
-
 public class Engine implements IEngine
 {
     public World world;
@@ -32,8 +31,6 @@ public class Engine implements IEngine
 
     public WorldDTO convertWorldToDTO()
     {
-
-
         World world = this.world;
         List<EntityDTO> entityDTOSet = new ArrayList<>();
         List<RulesDTO> rulesDTOSet = new ArrayList<>();
@@ -62,7 +59,6 @@ public class Engine implements IEngine
        try{
            environmentInstance.getEnvironmentProperty().getData().setNewValue(userValue);
            environmentInstance.getEnvironmentProperty().setRandomInitialize(false);
-
        }
        catch(Exception e)
         {
@@ -73,12 +69,10 @@ public class Engine implements IEngine
     @Override
     public void startSimulation()
     {
-
         int tick=0;
 
         for (Rule rule : this.world.getRules())
         {
-
             rule.isActivated(world.getEntities(),tick,1);
             tick++;
         }
@@ -103,13 +97,12 @@ public class Engine implements IEngine
         {
             propertyDTOs.add(convertPropertyToDTO(p));
         }
-
         return new EntityDTO(entity.getNameOfEntity(), entity.getNumberOfInstances(), propertyDTOs);
     }
 
     public PropertyDTO convertPropertyToDTO(Property property)
     {
-            return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getData().from, property.getData().to,property.getData().getDataString(), property.getData().isRangeExist());
+        return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getData().from, property.getData().to,property.getData().getDataString(), property.getData().isRangeExist());
     }
 
     public void ParseXmlAndLoadWorld(File file)
@@ -148,7 +141,7 @@ public class Engine implements IEngine
 
     private void initRulesFromFile(NodeList list, World world)
     {
-        AuxiliaryMethods f =new AuxiliaryMethods(world);
+        AuxiliaryMethods f = new AuxiliaryMethods(world);
         Rule justToCallFunction = new Rule();
         for(int i = 0; i < list.getLength(); i++)
         {
@@ -284,8 +277,6 @@ public class Engine implements IEngine
 
             newEntity.setEntities(first);
             this.world.getEntities().add(newEntity);
-
-
         }
     }
 

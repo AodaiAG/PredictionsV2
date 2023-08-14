@@ -2,18 +2,32 @@ package Rules.ActionTypes;
 
 import java.util.ArrayList;
 import java.util.List;
-import Entity.EntityInstance;
 
+import Entity.Entity;
+import Entity.EntityInstance;
 
 public  class ConditionAction extends Action
 {
+    private String entityName;
+
     private Boolean conditionResult;
+
     private ConditionAction condition;
+
     private List<Action> actionsToDoIfTrue;
+
     private List<Action> actionsToDoIfFalse;
 
     public ConditionAction getCondition() {
         return condition;
+    }
+
+    public String getNameOfEntity() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
     public void setCondition(ConditionAction condition) {
@@ -58,7 +72,7 @@ public  class ConditionAction extends Action
         conditionResult=condition.getConditionResult();
         if(conditionResult)
         {
-            if(actionsToDoIfTrue.size()!=0)
+            if(!actionsToDoIfTrue.isEmpty())
             {
                 for(Action a:actionsToDoIfTrue)
                 {
@@ -68,7 +82,7 @@ public  class ConditionAction extends Action
         }
         else
         {
-            if(actionsToDoIfFalse.size()!=0)
+            if(!actionsToDoIfFalse.isEmpty())
             {
                 for(Action a:actionsToDoIfFalse)
                 {

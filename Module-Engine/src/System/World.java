@@ -11,11 +11,17 @@ import java.util.*;
 public class World implements IWorld
 {
     private int terminationTicks;
+
     private int terminationSeconds;
+
     private int ticksCounter;
+
     private int secondMeasurment;
+
     private List<Entity> entities;
+
     private Map<String,EnvironmentInstance> name2Env;
+
     private Set<Rule> rules;
 
     public Map<String, EnvironmentInstance> getName2Env()
@@ -53,13 +59,12 @@ public class World implements IWorld
         this.entities = entities;
     }
 
-
-
     public Set<Rule> getRules() {
         return rules;
     }
 
     public void setRules(Set<Rule> rules) {
+
         this.rules = rules;
     }
 
@@ -71,10 +76,10 @@ public class World implements IWorld
             EntityInstance e=new EntityInstance();
             e.setNameOfEntity(name);
             res.add(e);
-
         }
         return res;
     }
+
     public World()
     {
         // init
@@ -83,7 +88,6 @@ public class World implements IWorld
         rules=new HashSet<Rule>();
         entities=new ArrayList<Entity>();
     }
-
 
     public String random(String arg)
     {
@@ -106,17 +110,17 @@ public class World implements IWorld
         EnvironmentInstance en=getName2Env().get(nameOfEnvironmentVariable);
         return en.getEnvironmentProperty().getData().getDataString();
     }
+
     public static String getTypeOfEntity(EntityInstance e)
     {
-        Field resField= null;
+        Field resField = null;
         try {
             resField = e.getClass().getField("Type");
         } catch (NoSuchFieldException ex) {
             throw new RuntimeException(ex);
         }
-        String typeOfField=new String();
+        String typeOfField = new String();
         typeOfField=resField.getType().getSimpleName();
-
         return typeOfField;
     }
 }

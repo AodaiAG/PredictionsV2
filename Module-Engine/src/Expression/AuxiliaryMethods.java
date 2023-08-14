@@ -6,18 +6,15 @@ import java.util.Map;
 import java.util.Random;
 import System.World;
 
-
-
-
  public class AuxiliaryMethods
 {
-
-
         private World world;
+
         public AuxiliaryMethods(World world)
         {
             this.world = world;
         }
+
         public World getWorld()
         {
             return world;
@@ -27,13 +24,13 @@ import System.World;
             this.world = world;
         }
 
-
         public String environment(String nameOfEnv)
         {
             Map<String, EnvironmentInstance> name2Env = world.getName2Env();
             EnvironmentInstance en=name2Env.get(nameOfEnv);
             return en.getEnvironmentProperty().getData().getDataString();
         }
+
         public String random(String arg)
         {
             try {
@@ -49,5 +46,4 @@ import System.World;
                 throw new IllegalArgumentException("Argument must be a numeric value");
             }
         }
-
 }

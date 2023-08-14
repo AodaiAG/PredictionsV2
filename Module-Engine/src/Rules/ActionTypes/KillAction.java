@@ -8,15 +8,19 @@ import Entity.EntityInstance;
 
 public class KillAction extends Action
 {
+    private String entityName;
 
-private String entityToKill;
-    public KillAction()
-    {
+    private String entityToKill;
+        public KillAction()
+        {
+            entityName = "";
+            entityToKill=new String();
+        }
 
-
-        entityToKill=new String();
+    @Override
+    public String getNameOfEntity() {
+        return entityName;
     }
-
     public String getEntityToKill() {
         return entityToKill;
     }
