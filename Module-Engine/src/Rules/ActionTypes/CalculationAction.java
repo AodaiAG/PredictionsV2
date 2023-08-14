@@ -1,6 +1,5 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
 import Entity.Property;
 import Entity.EntityInstance;
 
@@ -15,6 +14,7 @@ public class CalculationAction extends Action
 
     public CalculationAction()
     {
+
         resultProp=new String();
         typeOfCondition=new String();
         calType=new String();
@@ -86,7 +86,7 @@ public class CalculationAction extends Action
                     {
 
                         try {
-                            t.getEdata().divide(arg1,arg2);
+                            t.getData().divide(arg1,arg2);
                         } catch (Exception ex)
                         {
                             throw ex;
@@ -96,7 +96,7 @@ public class CalculationAction extends Action
                     case "multiply":
                     {
                         try {
-                            t.getEdata().multiply(arg1,arg2);
+                            t.getData().multiply(arg1,arg2);
                         } catch (Exception ex) {
                             throw ex;
                         }

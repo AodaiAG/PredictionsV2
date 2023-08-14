@@ -1,7 +1,6 @@
 import com.sun.jndi.toolkit.url.Uri;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

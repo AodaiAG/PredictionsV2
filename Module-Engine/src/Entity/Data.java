@@ -7,7 +7,6 @@ public class Data
     private DataType dataType;
 
     private String dataString;
-
     private boolean isRangeExist;
 
     public boolean isRangeExist() {

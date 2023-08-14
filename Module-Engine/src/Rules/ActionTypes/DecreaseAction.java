@@ -1,6 +1,5 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
 import Entity.Property;
 import Entity.EntityInstance;
 
@@ -14,6 +13,7 @@ public class DecreaseAction extends Action
 
     public DecreaseAction()
     {
+
 
         propertyName=new String();
         entityName=new String();
@@ -64,7 +64,7 @@ public class DecreaseAction extends Action
             {
                 try
                 {
-                    t.getEdata().increase(sValue);
+                    t.getData().increase(sValue);
                 } catch (Exception ex)
                 {
                     throw ex;

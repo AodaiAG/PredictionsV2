@@ -1,4 +1,6 @@
+package System;
 import Environment.EnvironmentInstance;
+import Expression.AuxiliaryMethods;
 import Rules.ActionTypes.*;
 import Rules.Rule;
 import Rules.Activation;
@@ -18,6 +20,7 @@ import Entity.Data;
 import Entity.DataType;
 import Entity.Entity;
 
+
 public class Engine implements IEngine
 {
     public World world;
@@ -28,6 +31,7 @@ public class Engine implements IEngine
 
     public WorldDTO convertWorldToDTO()
     {
+
         World world = this.world;
         List<EntityDTO> entityDTOSet = new ArrayList<>();
         List<RulesDTO> rulesDTOSet = new ArrayList<>();
@@ -54,7 +58,7 @@ public class Engine implements IEngine
     public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception {
        EnvironmentInstance environmentInstance = this.world.getName2Env().get(environmentDTO.getEnProperty().getNameOfProperty());
        try{
-           environmentInstance.getEnvironmentProperty().getEdata().setNewValue(userValue);
+           environmentInstance.getEnvironmentProperty().getData().setNewValue(userValue);
            environmentInstance.getEnvironmentProperty().setRandomInitialize(false);
 
        }
@@ -72,6 +76,7 @@ public class Engine implements IEngine
 
         for (Rule rule : this.world.getRules())
         {
+
             rule.isActivated(world.getEntities(),tick,1);
             tick++;
         }
@@ -141,10 +146,12 @@ public class Engine implements IEngine
 
     private void initRulesFromFile(NodeList list, World world)
     {
+        AuxiliaryMethods f =new AuxiliaryMethods(world);
         Rule justToCallFunction = new Rule();
         for(int i = 0; i < list.getLength(); i++)
         {
             Rule newRule = new Rule();
+            //newRule.setFunctions(f);
             Node item = list.item(i);
             Element el = (Element) item;
             String nameOfRule = ((Element) item).getAttribute("name");

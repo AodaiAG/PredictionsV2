@@ -13,6 +13,7 @@ private String entityToKill;
     public KillAction()
     {
 
+
         entityToKill=new String();
     }
 

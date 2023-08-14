@@ -1,6 +1,5 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
 import Entity.Property;
 import Entity.EntityInstance;
 
@@ -13,6 +12,7 @@ public class SetAction extends Action
 
     public SetAction()
     {
+
 
 
         entityName=new String();
@@ -62,7 +62,7 @@ public class SetAction extends Action
             {
                 try
                 {
-                    t.getEdata().setNewValue(sValue);
+                    t.getData().setNewValue(sValue);
                 } catch (Exception ex)
                 {
                     throw ex;

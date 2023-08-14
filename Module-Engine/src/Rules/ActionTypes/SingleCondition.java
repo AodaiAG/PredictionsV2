@@ -76,7 +76,7 @@ public class SingleCondition extends ConditionAction
         }
         try
         {
-            this.conditionResult=wanted.getEdata().compareTo(value,operator);
+            this.conditionResult=wanted.getData().compareTo(value,operator);
         } catch (Exception ex)
         {
             throw ex;

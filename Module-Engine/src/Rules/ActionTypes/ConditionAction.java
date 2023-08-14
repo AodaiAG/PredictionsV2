@@ -1,7 +1,5 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
-
 import java.util.ArrayList;
 import java.util.List;
 import Entity.EntityInstance;
@@ -82,6 +80,7 @@ public  class ConditionAction extends Action
 
     public ConditionAction()
     {
+
         actionsToDoIfTrue=new ArrayList<>();
         actionsToDoIfFalse=new ArrayList<>();
     }

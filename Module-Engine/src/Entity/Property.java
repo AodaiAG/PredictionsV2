@@ -22,12 +22,6 @@ public class Property
         return data;
     }
 
-
-
-    public Data getEdata() {
-        return data;
-    }
-
     public void setData(Data data) {
         this.data = data;
     }

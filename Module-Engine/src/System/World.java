@@ -1,3 +1,5 @@
+package System;
+
 import Entity.EntityInstance;
 import Environment.EnvironmentInstance;
 import Rules.Rule;
@@ -6,7 +8,7 @@ import Entity.Entity;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class World
+public class World implements IWorld
 {
     private int terminationTicks;
     private int terminationSeconds;
@@ -21,9 +23,13 @@ public class World
         return name2Env;
     }
 
+
+
+
     public void setName2Env(Map<String, EnvironmentInstance> name2Env) {
         this.name2Env = name2Env;
     }
+
 
     public int getTerminationTicks()
     {
@@ -81,47 +87,28 @@ public class World
         entities=new ArrayList<Entity>();
     }
 
-    public static Object RandomFun(Properties e, int upperbound)
+
+    public String random(String arg)
     {
-
-        Random r=new Random();
         try {
-            Field resField=e.getClass().getField("Type");
-            String typeOfField=resField.getType().getSimpleName();
-            switch (typeOfField)
-
-            {
-                case "Integer":
-                    return r.nextInt(upperbound);
-
-                case "Float":
-                    return  0 + (upperbound - 0) * r.nextFloat();
-
-                case "Boolean":
-                    return r.nextBoolean();
-
-                case "String":
-                {
-                    int leftLimit = 97; // letter 'a'
-                    int rightLimit = 122; // letter 'z'
-                    int targetStringLength = 50;
-                    Random random = new Random();
-                    StringBuilder buffer = new StringBuilder(targetStringLength);
-                    for (int i = 0; i < targetStringLength; i++) {
-                        int randomLimitedInt = leftLimit + (int)
-                                (random.nextFloat() * (rightLimit - leftLimit + 1));
-                        buffer.append((char) randomLimitedInt);
-                    }
-                    String generatedString = buffer.toString();
-                    return generatedString;
-                }
+            int maxRange = Integer.parseInt(arg);
+            if (maxRange < 0) {
+                throw new IllegalArgumentException("Argument must be a non-negative integer");
             }
-        } catch (NoSuchFieldException ex) {
-            throw new RuntimeException(ex);
+
+            Random random = new Random();
+            int randomValue = random.nextInt(maxRange + 1);
+            return String.valueOf(randomValue);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Argument must be a numeric value");
         }
-        return 5;
     }
 
+    public  String environment(String nameOfEnvironmentVariable)
+    {
+        EnvironmentInstance en=getName2Env().get(nameOfEnvironmentVariable);
+        return en.getEnvironmentProperty().getData().getDataString();
+    }
     public static String getTypeOfEntity(EntityInstance e)
     {
         Field resField= null;

@@ -1,6 +1,7 @@
 package Rules;
 
 import Entity.Entity;
+import Expression.AuxiliaryMethods;
 import Rules.ActionTypes.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -8,8 +9,11 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 import Entity.EntityInstance;
+import sun.security.pkcs11.wrapper.Functions;
 
-public class Rule {
+
+public class Rule
+{
     private String nameOfRule;
 
     private String whenActivated;
@@ -17,6 +21,12 @@ public class Rule {
     private Activation activation;
 
     private List<Action> actions;
+
+    private AuxiliaryMethods functions;
+
+
+
+
 
     public String getNameOfRule() {
         return nameOfRule;
@@ -54,7 +64,8 @@ public class Rule {
         actions = new ArrayList<>();
     }
 
-    public Action CreateAction(Node ActionNode) {
+    public Action CreateAction(Node ActionNode)
+    {
 
         String whichEntityActionWork = ActionNode.getAttributes().getNamedItem("entity").getTextContent();
         String typeOfAction = ActionNode.getAttributes().getNamedItem("type").getTextContent();
@@ -62,6 +73,7 @@ public class Rule {
         switch (typeOfAction) {
             case "condition": {
                 ConditionAction conditionA = new ConditionAction();
+                conditionA.setFunctions(this.functions);
 
                 conditionA.setNameOfEntity(whichEntityActionWork);
 
@@ -104,6 +116,7 @@ public class Rule {
 
             case "increase": {
                 IncreaseAction action = new IncreaseAction();
+                action.setFunctions(this.functions);
                 action.setEntityName(whichEntityActionWork);
                 action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
                 action.setExpression(ActionNode.getAttributes().getNamedItem("by").getTextContent());
@@ -113,6 +126,7 @@ public class Rule {
 
             case "decrease": {
                 DecreaseAction action = new DecreaseAction();
+                action.setFunctions(this.functions);
                 action.setEntityName(whichEntityActionWork);
                 action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
                 action.setExpression(ActionNode.getAttributes().getNamedItem("by").getTextContent());
@@ -121,6 +135,7 @@ public class Rule {
 
             case "calculation": {
                 CalculationAction action = new CalculationAction();
+                action.setFunctions(this.functions);
                 NodeList mul = ((Element) ActionNode).getElementsByTagName("PRD-multiply");
                 NodeList div = ((Element) ActionNode).getElementsByTagName("PRD-divide");
                 if (mul.item(0) != null) {
@@ -144,6 +159,7 @@ public class Rule {
 
             case "set": {
                 SetAction action = new SetAction();
+                action.setFunctions(this.functions);
                 action.setEntityName(whichEntityActionWork);
                 action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
                 action.setExpression(ActionNode.getAttributes().getNamedItem("value").getTextContent());
@@ -152,6 +168,7 @@ public class Rule {
 
             case "kill": {
                 KillAction action = new KillAction();
+                action.setFunctions(this.functions);
                 action.setEntityToKill(ActionNode.getAttributes().getNamedItem("entity").getTextContent());
                 return action;
             }
@@ -170,7 +187,8 @@ public class Rule {
                 try
                 {
                     currentEntity = findEntityAccordingName(entities, currentEntityName);
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     System.out.println(e.getMessage());
                     continue;
@@ -181,7 +199,8 @@ public class Rule {
                     try
                     {
                         action.ActivateAction(eI);
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         throw new RuntimeException(e);
                     }
