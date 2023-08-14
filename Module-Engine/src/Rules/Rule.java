@@ -24,9 +24,13 @@ public class Rule
 
     private AuxiliaryMethods functions;
 
+    public AuxiliaryMethods getFunctions() {
+        return functions;
+    }
 
-
-
+    public void setFunctions(AuxiliaryMethods functions) {
+        this.functions = functions;
+    }
 
     public String getNameOfRule() {
         return nameOfRule;

@@ -9,7 +9,7 @@ public class Expression
     private  final Map<String, Function<String[], String>> FUNCTIONS = new HashMap<>();
     AuxiliaryMethods auxiliaryMethods;
 
-    Expression(AuxiliaryMethods f)
+    public Expression(AuxiliaryMethods f)
     {
         auxiliaryMethods =f;
         // Define auxiliary functions here
@@ -21,17 +21,12 @@ public class Expression
     private  String generateRandom(String arg)
     {
 
-
-
-
-
-
-        return arg;
+        return auxiliaryMethods.random(arg);
     }
     private  String getEnvironmentValue(String arg)
     {
 
-        return arg;
+        return auxiliaryMethods.environment(arg);
     }
 
     public  String evaluateExpression(String expression)

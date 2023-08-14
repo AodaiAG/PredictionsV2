@@ -2,6 +2,7 @@ package Rules.ActionTypes;
 
 import Entity.Property;
 import Entity.EntityInstance;
+import Expression.Expression;
 
 
 public class CalculationAction extends Action
@@ -69,12 +70,13 @@ public class CalculationAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception {
+    public void ActivateAction(EntityInstance e) throws Exception
+    {
+         Expression expression=new Expression(getFunctions());
 
-        String arg1=new String();
-        String arg2=new String();
-        //arg1=evalute(exp1)
-        //arg2=evalute(exp2)
+        String arg1=expression.evaluateExpression(expression1);
+        String arg2=expression.evaluateExpression(expression2);
+
 
         for(Property t : e.getPropertiesOfTheEntity())
         {

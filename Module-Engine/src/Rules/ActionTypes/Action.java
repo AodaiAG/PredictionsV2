@@ -8,7 +8,6 @@ public abstract class Action
 {
      private String nameOfEntity;
      private AuxiliaryMethods functions;
-
      public AuxiliaryMethods getFunctions()
      {
           return functions;

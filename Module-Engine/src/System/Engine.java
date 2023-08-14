@@ -153,7 +153,7 @@ public class Engine implements IEngine
         for(int i = 0; i < list.getLength(); i++)
         {
             Rule newRule = new Rule();
-            //newRule.setFunctions(f);
+            newRule.setFunctions(f);
             Node item = list.item(i);
             Element el = (Element) item;
             String nameOfRule = ((Element) item).getAttribute("name");

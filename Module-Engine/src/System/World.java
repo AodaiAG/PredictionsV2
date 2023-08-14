@@ -23,9 +23,6 @@ public class World implements IWorld
         return name2Env;
     }
 
-
-
-
     public void setName2Env(Map<String, EnvironmentInstance> name2Env) {
         this.name2Env = name2Env;
     }
