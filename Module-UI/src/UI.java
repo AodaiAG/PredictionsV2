@@ -1,3 +1,7 @@
+import DTOS.EntityDTO;
+import DTOS.EnvironmentDTO;
+import DTOS.RulesDTO;
+import DTOS.WorldDTO;
 import com.sun.jndi.toolkit.url.Uri;
 
 import java.io.File;
@@ -6,6 +10,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
+import System.IEngine;
+import System.Engine;
 
 public class UI
 {

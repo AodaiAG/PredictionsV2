@@ -1,4 +1,5 @@
 package System;
+import DTOS.*;
 import Environment.EnvironmentInstance;
 import Expression.AuxiliaryMethods;
 import Rules.ActionTypes.*;
@@ -31,6 +32,7 @@ public class Engine implements IEngine
 
     public WorldDTO convertWorldToDTO()
     {
+
 
         World world = this.world;
         List<EntityDTO> entityDTOSet = new ArrayList<>();

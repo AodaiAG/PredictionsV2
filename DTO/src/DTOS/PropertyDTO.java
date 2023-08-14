@@ -1,3 +1,5 @@
+package DTOS;
+
 public class PropertyDTO
 {
     private final String NameOfProperty;

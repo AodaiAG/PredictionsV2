@@ -1,3 +1,5 @@
+package DTOS;
+
 public class TerminationDTO
 {
     private int terminationTicks;
