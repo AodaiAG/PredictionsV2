@@ -88,7 +88,7 @@ public class Engine implements IEngine
         long delay = this.world.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
         timer.schedule(task, delay);
         simulationTerminated=tick!=this.world.getTerminationTicks() && !isTimeUp[0];
-        while(!simulationTerminated)
+        while(simulationTerminated)
         {
             for (Rule rule : this.world.getRules())
             {
