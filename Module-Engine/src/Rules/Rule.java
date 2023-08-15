@@ -176,20 +176,27 @@ public class Rule {
         throw new RuntimeException("emptyList");
     }
 
-    public void isActivated(List<Entity> entities, int ticks, double generatedProbability) {
-        if (ticks % activation.getTicks() == 0 || generatedProbability < activation.getProbability()) {
-            for (Action action : this.actions) {
+    public void isActivated(List<Entity> entities, int ticks, double generatedProbability)
+    {
+        if (ticks % activation.getTicks() == 0 || generatedProbability < activation.getProbability())
+        {
+            for (Action action : this.actions)
+            {
                 String currentEntityName = action.getNameOfEntity();
                 Entity currentEntity = null;
-                try {
+                try
+                {
                     currentEntity = action.findEntityAccordingName(entities, currentEntityName);
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     System.out.println(e.getMessage());
                     continue;
                     //throw new RuntimeException(e);
                 }
-                for (EntityInstance eI : currentEntity.getEntities()) {
-                    try {
+                for (EntityInstance eI : currentEntity.getEntities())
+                {
+                    try
+                    {
                         action.ActivateAction(eI);
                     } catch (Exception e) {
                         throw new RuntimeException(e);

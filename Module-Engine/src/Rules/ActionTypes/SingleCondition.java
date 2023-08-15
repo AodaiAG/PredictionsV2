@@ -4,6 +4,7 @@ import Entity.Entity;
 import Entity.Property;
 import Entity.EntityInstance;
 import Expression.AuxiliaryMethods;
+import Expression.Expression;
 
 public class SingleCondition extends ConditionAction
 {
@@ -66,6 +67,8 @@ public class SingleCondition extends ConditionAction
     public void ActivateAction(EntityInstance e) throws Exception
     {
         Property wanted=new Property();
+        Expression exp=new Expression(getFunctions(),e);
+        String svalue=exp.evaluateExpression(value);
 
         for (Property p : e.getPropertiesOfTheEntity())
         {
@@ -77,7 +80,7 @@ public class SingleCondition extends ConditionAction
         }
         try
         {
-            this.conditionResult=wanted.getData().compareTo(value,operator);
+            this.conditionResult=wanted.getData().compareTo(svalue,operator);
         } catch (Exception ex)
         {
             throw ex;

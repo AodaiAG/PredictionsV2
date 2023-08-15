@@ -3,6 +3,7 @@ package Rules.ActionTypes;
 import Entity.Property;
 import Entity.EntityInstance;
 import Expression.AuxiliaryMethods;
+import Expression.Expression;
 
 
 public class IncreaseAction extends Action
@@ -56,11 +57,10 @@ public class IncreaseAction extends Action
     @Override
     public void ActivateAction(EntityInstance e) throws Exception
     {
-        Object value = new Object();
 
-         // value =evaluteExpression();
-        // need to convert the value to string
-        String sValue=new String();
+
+        Expression exp=new Expression(getFunctions(),e);
+        String sValue=exp.evaluateExpression(expression);
 
 
         for(Property t : e.getPropertiesOfTheEntity())

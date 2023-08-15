@@ -3,6 +3,7 @@ package Rules.ActionTypes;
 import Entity.Property;
 import Entity.EntityInstance;
 import Expression.AuxiliaryMethods;
+import Expression.Expression;
 
 
 public class SetAction extends Action
@@ -56,9 +57,10 @@ public class SetAction extends Action
     @Override
     public void ActivateAction(EntityInstance e) throws Exception
     {
-        Object value=new Object();
-        //Object value=eval(expression)
-        String sValue=new String();
+         Expression exp=new Expression(getFunctions(),e);
+
+
+        String sValue=exp.evaluateExpression(expression);
         for(Property t : e.getPropertiesOfTheEntity())
         {
             if (t.getNameOfProperty().equals(propertyName))
