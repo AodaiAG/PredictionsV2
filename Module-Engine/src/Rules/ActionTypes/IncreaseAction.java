@@ -2,6 +2,7 @@ package Rules.ActionTypes;
 
 import Entity.Property;
 import Entity.EntityInstance;
+import Expression.AuxiliaryMethods;
 
 
 public class IncreaseAction extends Action
@@ -17,7 +18,10 @@ public class IncreaseAction extends Action
         propertyName=new String();
         entityName=new String();
     }
-
+    @Override
+    public void setFunctions(AuxiliaryMethods functions) {
+        super.functions = functions;
+    }
     @Override
     public String getNameOfEntity() {
         return entityName;

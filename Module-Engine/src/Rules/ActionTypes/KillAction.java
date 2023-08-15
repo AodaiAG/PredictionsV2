@@ -4,6 +4,7 @@ import Entity.Entity;
 
 import java.util.Collection;
 import Entity.EntityInstance;
+import Expression.AuxiliaryMethods;
 
 
 public class KillAction extends Action
@@ -16,7 +17,10 @@ public class KillAction extends Action
             entityName = "";
             entityToKill=new String();
         }
-
+    @Override
+    public void setFunctions(AuxiliaryMethods functions) {
+        super.functions = functions;
+    }
     @Override
     public String getNameOfEntity() {
         return entityName;

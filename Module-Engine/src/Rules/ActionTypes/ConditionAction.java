@@ -5,6 +5,7 @@ import java.util.List;
 
 import Entity.Entity;
 import Entity.EntityInstance;
+import Expression.AuxiliaryMethods;
 
 public  class ConditionAction extends Action
 {
@@ -28,6 +29,11 @@ public  class ConditionAction extends Action
 
     public void setEntityName(String entityName) {
         this.entityName = entityName;
+    }
+
+    @Override
+    public void setFunctions(AuxiliaryMethods functions) {
+        super.functions = functions;
     }
 
     public void setCondition(ConditionAction condition) {

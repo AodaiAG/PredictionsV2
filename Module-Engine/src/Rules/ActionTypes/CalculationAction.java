@@ -3,7 +3,7 @@ package Rules.ActionTypes;
 import Entity.Property;
 import Entity.EntityInstance;
 import Expression.Expression;
-
+import Expression.AuxiliaryMethods;
 
 public class CalculationAction extends Action
 {
@@ -12,6 +12,11 @@ public class CalculationAction extends Action
     private String typeOfCondition;
 
     private String resultProp;
+
+@Override
+    public void setFunctions(AuxiliaryMethods functions) {
+        super.functions = functions;
+    }
 
     private String calType;
 

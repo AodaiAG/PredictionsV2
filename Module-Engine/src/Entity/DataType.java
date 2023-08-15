@@ -334,14 +334,13 @@ public enum DataType
         @Override
         public String decrease(String value,String dataString,String from,String to) throws Exception
         {
-
             try
             {
-                Float fvalue=Float.parseFloat(value);
-                Float res=Float.parseFloat(dataString) - fvalue;
-                Float fromvalue=Float.parseFloat(from);
-                Float tovalue=Float.parseFloat(to);
-                if(res>=fromvalue&&res<=tovalue)
+                Float fvalue = Float.parseFloat(value);
+                Float res = Float.parseFloat(dataString) - fvalue;
+                Float fromvalue = Float.parseFloat(from);
+                Float tovalue = Float.parseFloat(to);
+                if(res >= fromvalue && res <= tovalue)
                 {
                     return res.toString();
                 }

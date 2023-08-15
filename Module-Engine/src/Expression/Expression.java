@@ -8,84 +8,76 @@ import java.util.Map;
 import java.util.function.Function;
 import Entity.Data; //to delete
 
-public class Expression
-{
-    private  final Map<String, Function<String[], String>> FUNCTIONS = new HashMap<>();
+public class Expression {
+    private final Map<String, Function<String[], String>> FUNCTIONS = new HashMap<>();
 
     private final AuxiliaryMethods auxiliaryMethods;
 
     private final EntityInstance entityInstance;
 
-    public Expression(AuxiliaryMethods f, EntityInstance entityInstance)
-    {
+    public Expression(AuxiliaryMethods f, EntityInstance entityInstance) {
         this.entityInstance = entityInstance;
-        auxiliaryMethods = f;
+        this.auxiliaryMethods = f;
         FUNCTIONS.put("random", args -> generateRandom(args[0]));
         FUNCTIONS.put("environment", args -> getEnvironmentValue(args[0]));
         // Add more functions as needed
     }
 
-    private String generateRandom(String arg)
-    {
+    private String generateRandom(String arg) {
         return auxiliaryMethods.random(arg);
     }
 
-    private String getEnvironmentValue(String arg)
-    {
+    private String getEnvironmentValue(String arg) {
         return auxiliaryMethods.environment(arg);
     }
 
     public String evaluateExpression(String expression)
     {
-        if (expression.isEmpty())
-        {
+        if (expression.isEmpty()) {
             return ""; // Empty expression
         }
 
-        String firstWord;
+        String firstWord = "";
+        boolean isAMethod = false;
         int startIndex = expression.indexOf("(");
         int endIndex = expression.indexOf(")");
-        firstWord = expression.substring(0, startIndex);
+        String arguments = "";
+        String[] argumentArray = null;
+        if (startIndex > 0) {
+            firstWord = expression.substring(0, startIndex);
+            arguments = expression.substring(startIndex + 1, endIndex);
+            argumentArray = arguments.split(",");
+            isAMethod = true;
+        }
 
-        String arguments = expression.substring(startIndex + 1, endIndex);
-        String[] argumentArray = arguments.split(",");
-
-        if (FUNCTIONS.containsKey(firstWord))
+        if (FUNCTIONS.containsKey(firstWord) && isAMethod)
         {
             Function<String[], String> function = FUNCTIONS.get(firstWord);
             return function.apply(argumentArray);
-        }
-
-        else
-        {
+        } else {
             for (Property p : entityInstance.getPropertiesOfTheEntity())
             {
-                if (p.getNameOfProperty() == expression)
+                if (p.getNameOfProperty().equals(expression))
                 {
                     return p.getData().getDataString();
                 }
-                else
-                {
-                    try
-                    {
-                        // Try to convert to number
-                        Double.parseDouble(firstWord);
-                        return firstWord;
-                    }
-                    catch (NumberFormatException e)
-                    {
-                        // Try to parse as boolean
-                        if (firstWord.equalsIgnoreCase("true") || firstWord.equalsIgnoreCase("false"))
-                        {
-                            return firstWord;
-                        }
-                        // Just treat as a string
-                        return expression;
-                    }                }
+            }
+            try
+            {
+                // Try to convert to number
+                Double.parseDouble(firstWord);
+                return firstWord;
+            } catch (NumberFormatException e) {
+                // Try to parse as boolean
+                if (firstWord.equalsIgnoreCase("true") || firstWord.equalsIgnoreCase("false")) {
+                    return firstWord;
+                }
+                // Just treat as a string
+                return expression;
             }
         }
-        return "hi";
     }
+}
 
     // Example usage
 //    public static void main(String[] args)
@@ -103,4 +95,3 @@ public class Expression
 //        String result2 = evaluateExpression(expression2, ei );
 //        System.out.println("Result 2: " + result2);
 //    }
-}

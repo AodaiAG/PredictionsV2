@@ -3,25 +3,20 @@ import Entity.Entity;
 import Entity.EntityInstance;
 import Expression.AuxiliaryMethods;
 import sun.security.pkcs11.wrapper.Functions;
-
 import java.util.List;
-
 
 public abstract class Action
 {
   //   private String nameOfEntity;
 
-     private AuxiliaryMethods functions;
+     protected AuxiliaryMethods functions;
 
      public AuxiliaryMethods getFunctions()
      {
           return functions;
      }
 
-     public void setFunctions(AuxiliaryMethods functions)
-     {
-          this.functions = functions;
-     }
+     abstract public void setFunctions(AuxiliaryMethods functions);
 
      abstract public void ActivateAction(EntityInstance e) throws Exception;
 

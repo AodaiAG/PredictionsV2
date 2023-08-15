@@ -2,6 +2,7 @@ package Rules.ActionTypes;
 
 import Entity.Property;
 import Entity.EntityInstance;
+import Expression.AuxiliaryMethods;
 
 
 public class SetAction extends Action
@@ -20,6 +21,11 @@ public class SetAction extends Action
     @Override
     public String getNameOfEntity() {
         return entityName;
+    }
+
+    @Override
+    public void setFunctions(AuxiliaryMethods functions) {
+        super.functions = functions;
     }
 
     public void setEntityName(String entityName) {

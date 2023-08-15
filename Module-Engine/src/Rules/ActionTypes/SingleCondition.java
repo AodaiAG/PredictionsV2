@@ -3,6 +3,7 @@ package Rules.ActionTypes;
 import Entity.Entity;
 import Entity.Property;
 import Entity.EntityInstance;
+import Expression.AuxiliaryMethods;
 
 public class SingleCondition extends ConditionAction
 {

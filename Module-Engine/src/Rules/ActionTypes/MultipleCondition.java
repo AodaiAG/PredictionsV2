@@ -90,17 +90,8 @@ public class MultipleCondition extends ConditionAction
                 res.getActionsToDoIfFalse().add(p,justToCallFunction.CreateAction(elseNodes.item(p)));
 
             }
-
-
         }
-
-
-
-
-
        return res;
-
-
     }
 
     public String getLogical() {

@@ -2,7 +2,7 @@ package Rules.ActionTypes;
 
 import Entity.Property;
 import Entity.EntityInstance;
-import Expression.Expression;
+import Expression.*;
 
 public class DecreaseAction extends Action
 {
@@ -17,6 +17,11 @@ public class DecreaseAction extends Action
         propertyName = new String();
         entityName = new String();
         expressionStr = new String();
+    }
+
+    @Override
+    public void setFunctions(AuxiliaryMethods functions) {
+        super.functions = functions;
     }
 
     public String getEntityName() {
@@ -67,7 +72,7 @@ public class DecreaseAction extends Action
             {
                 try
                 {
-                    property.getData().increase(strVal);
+                    property.getData().decrease(strVal);
                 } catch (Exception ex)
                 {
                     throw ex;

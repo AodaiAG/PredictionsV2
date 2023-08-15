@@ -143,6 +143,7 @@ public class Engine implements IEngine
     {
         AuxiliaryMethods f = new AuxiliaryMethods(world);
         Rule justToCallFunction = new Rule();
+        justToCallFunction.setFunctions(f);
         for(int i = 0; i < list.getLength(); i++)
         {
             Rule newRule = new Rule();
@@ -255,7 +256,7 @@ public class Engine implements IEngine
                 if(isRandom.equals("false"))
                 {
                     initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
-                    Property property = initProperty(type, prdName, isRange, from, to, true, initValue);
+                    Property property = initProperty(type, prdName, isRange, from, to, false, initValue);
                     e1.getPropertiesOfTheEntity().add(property);
                 }
                 else
