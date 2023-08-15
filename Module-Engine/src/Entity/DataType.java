@@ -475,22 +475,16 @@ public enum DataType
         @Override
         public String setNewValue(String value,String from,String to) throws Exception
         {
-
-
                 if((value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")))
                 {
-
                     Boolean res=Boolean.valueOf(value);
                     return Boolean.toString(res);
                 }
 
-
-            else
-            {
-                throw new Exception("The data you entered is not of type Boolean ");
-            }
-
-
+                else
+                {
+                    throw new Exception("The data you entered is not of type Boolean ");
+                }
         }
 
 

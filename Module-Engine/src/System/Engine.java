@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import Entity.Property;
+
+import java.util.Random;
 import java.util.Set;
 import Entity.Data;
 import Entity.DataType;
@@ -70,11 +72,15 @@ public class Engine implements IEngine
     public void startSimulation()
     {
         int tick=0;
-
+        Random random=new Random();
+        double generatedProbability;
+        generatedProbability=random.nextDouble();
         for (Rule rule : this.world.getRules())
         {
-            rule.isActivated(world.getEntities(),tick,1);
+            rule.isActivated(world.getEntities(),tick,generatedProbability);
             tick++;
+            generatedProbability=random.nextDouble();
+
         }
     }
 
