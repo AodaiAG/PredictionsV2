@@ -32,11 +32,12 @@ public class MultipleCondition extends ConditionAction
     public  MultipleCondition createMultipleCondition(Node nodelist)
     {
         MultipleCondition res=new MultipleCondition();
+        res.setFunctions(functions);
         res.setLogical(nodelist.getAttributes().getNamedItem("logical").getTextContent());
         Element el=(Element) nodelist;
-       //NodeList wanted= el.getElementsByTagName("PRD-condition");
        NodeList wanted= nodelist.getChildNodes();
        Rule justToCallFunction =new Rule();
+        justToCallFunction.setFunctions(functions);
 
 
        for(int i=0;i<wanted.getLength();i++)
@@ -50,6 +51,7 @@ public class MultipleCondition extends ConditionAction
                if(conditionType.equals("single"))
                {
                    SingleCondition single=new SingleCondition();
+                   single.setFunctions(getFunctions());
                    single.setNameofEntity(node.getAttributes().getNamedItem("entity").getTextContent());
                    single.setNameofProperty(node.getAttributes().getNamedItem("property").getTextContent());
                    single.setOperator(node.getAttributes().getNamedItem("operator").getTextContent());

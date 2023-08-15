@@ -59,7 +59,6 @@ public class SetAction extends Action
     {
          Expression exp=new Expression(getFunctions(),e);
 
-
         String sValue=exp.evaluateExpression(expression);
         for(Property t : e.getPropertiesOfTheEntity())
         {

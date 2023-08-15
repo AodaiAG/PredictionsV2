@@ -66,33 +66,40 @@ public class Rule {
         actions = new ArrayList<>();
     }
 
-    public Action CreateAction(Node ActionNode) {
+    public Action CreateAction(Node ActionNode)
+    {
         String whichEntityActionWork = ActionNode.getAttributes().getNamedItem("entity").getTextContent();
         String typeOfAction = ActionNode.getAttributes().getNamedItem("type").getTextContent();
 
-        switch (typeOfAction) {
-            case "condition": {
+        switch (typeOfAction)
+        {
+            case "condition":
+            {
                 ConditionAction conditionA = new ConditionAction();
                 conditionA.setFunctions(this.functions);
-
                 conditionA.setEntityName(whichEntityActionWork);
 
                 Node c = ((Element) ActionNode).getElementsByTagName("PRD-condition").item(0);
                 String typeOfCondition = c.getAttributes().getNamedItem("singularity").getTextContent();
-                if (typeOfCondition.equals("single")) {
+                if (typeOfCondition.equals("single"))
+                {
                     SingleCondition single = new SingleCondition();
+                    single.setFunctions(this.functions);
                     single.setNameofEntity(c.getAttributes().getNamedItem("entity").getTextContent());
                     single.setNameofProperty(c.getAttributes().getNamedItem("property").getTextContent());
                     single.setOperator(c.getAttributes().getNamedItem("operator").getTextContent());
                     single.setValue(c.getAttributes().getNamedItem("value").getTextContent());
                     conditionA.setCondition(single);
                 }
-                if (typeOfCondition.equals("multiple")) {
+                if (typeOfCondition.equals("multiple"))
+                {
+
                     MultipleCondition tocallfunc = new MultipleCondition();
+                    tocallfunc.setFunctions(this.functions);
                     conditionA.setCondition(tocallfunc.createMultipleCondition(c));
                 }
 
-                // then
+
 
                 Element thenNodesF = (Element) (((Element) ActionNode).getElementsByTagName("PRD-then").item(0));
                 if (thenNodesF != null) {
@@ -106,7 +113,8 @@ public class Rule {
                 if (elseNodesF != null) {
                     NodeList elseNodes = elseNodesF.getElementsByTagName("PRD-action");
 
-                    for (int p = 0; p < elseNodes.getLength(); p++) {
+                    for (int p = 0; p < elseNodes.getLength(); p++)
+                    {
                         conditionA.getActionsToDoIfFalse().add(p, CreateAction(elseNodes.item(p)));
 
                     }
