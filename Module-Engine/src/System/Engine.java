@@ -13,12 +13,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 import Entity.Property;
 
-import java.util.Random;
-import java.util.Set;
 import Entity.Data;
 import Entity.DataType;
 import Entity.Entity;
@@ -72,15 +70,38 @@ public class Engine implements IEngine
     public void startSimulation()
     {
         int tick=0;
-        Random random=new Random();
         double generatedProbability;
+        Boolean simulationTerminated;
+        Random random=new Random();
         generatedProbability=random.nextDouble();
-        for (Rule rule : this.world.getRules())
+        final Boolean[] isTimeUp = new Boolean[1];
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask()
         {
-            rule.isActivated(world.getEntities(),tick,generatedProbability);
-            tick++;
-            generatedProbability=random.nextDouble();
+            @Override
+            public void run()
+            {
+                isTimeUp[0] =true;
+            }
+        };
+        isTimeUp[0]=false;
+        long delay = this.world.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
+        timer.schedule(task, delay);
+        simulationTerminated=tick!=this.world.getTerminationTicks() && !isTimeUp[0];
+        while(!simulationTerminated)
+        {
+            for (Rule rule : this.world.getRules())
+            {
+                rule.isActivated(world.getEntities(),tick,generatedProbability);
+                tick++;
+                generatedProbability=random.nextDouble();
+                simulationTerminated=tick!=this.world.getTerminationTicks() && !isTimeUp[0];
+                if(simulationTerminated)
+                {
+                    break;
+                }
 
+            }
         }
     }
 

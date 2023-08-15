@@ -1,8 +1,5 @@
 package Rules.ActionTypes;
-
 import Entity.Entity;
-
-import java.util.Collection;
 import Entity.EntityInstance;
 import Expression.AuxiliaryMethods;
 
@@ -36,8 +33,20 @@ public class KillAction extends Action
     @Override
     public void ActivateAction(EntityInstance e) throws Exception
     {
+        try
+        {
+            Entity entityToKill=findEntityAccordingName(functions.getWorld().getEntities(),e.getNameOfEntity());
+            Boolean isKilled=entityToKill.getEntities().remove(e);
+            if(!isKilled)
+            {
+                throw new Exception("Entity instance Not Found!");
+            }
 
-
+        }
+        catch (Exception exception)
+        {
+            throw  exception;
+        }
 
     }
     @Override
@@ -45,22 +54,5 @@ public class KillAction extends Action
     {
         return "kill";
     }
-    void ActivateAction(Collection<Entity> list)
-    {
-
-        for(Entity e : list)
-        {
-            if(e.getNameOfEntity().equals(entityToKill))
-            {
-                Entity wanted=e;
-                boolean response=list.remove(wanted);
-            }
-        }
-
-
-
-    }
-
-
 
 }

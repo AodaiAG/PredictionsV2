@@ -11,6 +11,6 @@ public class Main
         WorldDTO worldDTO=user.engine.convertWorldToDTO();
         user.PrintWorldDetails(worldDTO);
         user.startSimulation(worldDTO);
-
     }
+
 }
