@@ -81,7 +81,7 @@ public class UI
         Object[] array = simulations.keySet().toArray(); // array[uuid]
         for(int i=0;i<array.length;i++)
         {
-            System.out.println("Simulation number "+i+1+"ID: "+array[i]);
+            System.out.println("Simulation number "+(i+1)+" ID: "+array[i]);
 
         }
         System.out.println("Please, enter the simulation's number for which you would like to see the results: ");
