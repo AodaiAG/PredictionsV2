@@ -86,7 +86,7 @@ public class Engine implements IEngine
     }
 
     @Override
-    public Map<String, Integer> endOfSimulationHandlerShowPropertyHistogram(UUID simulatioID, String entityName) {
+    public void endOfSimulationHandlerShowPropertyHistogram(UUID simulatioID, Entity entity) {
         Simulation simulation = simulations.get(simulatioID);
 
         //simulation.showPropertyHistogram(); //suppose to get entity...

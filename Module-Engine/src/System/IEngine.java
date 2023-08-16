@@ -2,6 +2,7 @@ package System;
 
 import DTOS.EnvironmentDTO;
 import DTOS.WorldDTO;
+import Entity.Entity;
 
 import java.io.File;
 import java.util.Map;
@@ -14,4 +15,5 @@ public interface IEngine
     public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception;
     public UUID startSimulation();
     public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulatioID);
-}
+    public void endOfSimulationHandlerShowPropertyHistogram(UUID simulatioID, Entity entity);
+    }
