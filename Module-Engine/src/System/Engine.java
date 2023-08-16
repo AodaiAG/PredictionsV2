@@ -21,8 +21,8 @@ import Entity.Entity;
 
 public class Engine implements IEngine
 {
+    private static boolean programRunning;
     private Map<UUID, Simulation> simulations = new HashMap<>();
-
     public World world;
 
     public Engine() {
@@ -72,10 +72,47 @@ public class Engine implements IEngine
     {
         WorldDTO worldBeforeChanging = convertWorldToDTO();
         UUID simulationId = UUID.randomUUID();
-        Simulation simulation = new Simulation(getWorld(), worldBeforeChanging);
-        simulation.runSimulation();
+        runSimulation();
+        WorldDTO worldAfter = convertWorldToDTO();
+        Simulation simulation = new Simulation(worldBeforeChanging, worldAfter);
         simulations.put(simulationId, simulation);
         return simulationId;
+    }
+
+    @Override
+    public Map<UUID,Simulation> getSimulations()
+    {
+       return this.simulations;
+    }
+
+    public void runSimulation()
+    {
+        Random random = new Random();
+        double generatedProbability;
+        generatedProbability = random.nextDouble();
+        int ticksCounter = 0;
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                programRunning = false;
+                System.out.println("Time's up");
+            }
+        };
+
+        int ticksAmount = this.world.getTerminationTicks();
+        long delay =(long) this.world.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
+        timer.schedule(task, delay);
+
+        while (ticksCounter < ticksAmount && programRunning) {
+            for (Rule rule : this.world.getRules()) { //is it start over?
+                rule.isActivated(world.getEntities(), ticksCounter, generatedProbability);
+                generatedProbability = random.nextDouble();
+            }
+            ticksCounter++;
+        }
+        timer.cancel(); // Cancel the timer when simulation is done
     }
 
     @Override
@@ -123,12 +160,29 @@ public class Engine implements IEngine
     public EntityDTO convertEntityToDTO(Entity entity)
     {
         List<PropertyDTO> propertyDTOs = new ArrayList<>();
+        List<PropertyDTO> instancepropertyDTOs = new ArrayList<>();
+        List<EntityInstancesDTO> entityInstancesDTOS=new ArrayList<>();
 
         for (Property p: entity.getPropertiesOfTheEntity())
         {
             propertyDTOs.add(convertPropertyToDTO(p));
         }
-        return new EntityDTO(entity.getNameOfEntity(), entity.getNumberOfInstances(), propertyDTOs);
+
+        for(EntityInstance entityInstance: entity.getEntities())
+        {
+
+            for(Property property:entityInstance.getPropertiesOfTheEntity())
+            {
+                instancepropertyDTOs.add(convertPropertyToDTO(property));
+            }
+
+            EntityInstancesDTO entityInstancesDTO=new EntityInstancesDTO(instancepropertyDTOs,entityInstance.getNameOfEntity());
+            entityInstancesDTOS.add(entityInstancesDTO);
+        }
+
+
+
+        return new EntityDTO(entity.getNameOfEntity(), entity.getNumberOfInstances(), propertyDTOs,entityInstancesDTOS);
     }
 
     public PropertyDTO convertPropertyToDTO(Property property)

@@ -13,7 +13,10 @@ public class Main
         WorldDTO worldDTOBeforeSimulation = user.engine.convertWorldToDTO(); //old values be kept
         user.PrintWorldDetails(worldDTOBeforeSimulation);
         user.runSimulation(worldDTOBeforeSimulation);
-        WorldDTO WorldDTOAfterSimulation = user.engine.convertWorldToDTO(); //updated world turn into worldDTO
+        user.showAllSimulationsChooseWhichToShowDetails();
+
+
+
 
 
     }

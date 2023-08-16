@@ -7,15 +7,26 @@ public class EntityDTO
   private String name;
 
   private int numberOfInstances;
-
+  private List<EntityInstancesDTO> instancesDTOS;
   private List<PropertyDTO> properties;
 
-    public EntityDTO(String name, int numOfInstances, List<PropertyDTO> propDTO)
+    public EntityDTO(String name, int numOfInstances, List<PropertyDTO> propDTO,List<EntityInstancesDTO>ldto)
     {
       this.name = name;
       this.numberOfInstances = numOfInstances;
       this.properties = propDTO;
+      instancesDTOS=ldto;
     }
+
+  public List<EntityInstancesDTO> getInstancesDTOS()
+  {
+    return instancesDTOS;
+  }
+
+  public void setInstancesDTOS(List<EntityInstancesDTO> instancesDTOS)
+  {
+    this.instancesDTOS = instancesDTOS;
+  }
 
   public String getName() {
     return name;
