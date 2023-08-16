@@ -4,11 +4,14 @@ import DTOS.EnvironmentDTO;
 import DTOS.WorldDTO;
 
 import java.io.File;
+import java.util.Map;
+import java.util.UUID;
 
 public interface IEngine
 {
     public void ParseXmlAndLoadWorld( File file);
     public WorldDTO convertWorldToDTO();
     public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception;
-    public void startSimulation();
+    public UUID startSimulation();
+    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulatioID);
 }

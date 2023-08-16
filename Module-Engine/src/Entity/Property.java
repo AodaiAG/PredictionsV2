@@ -7,6 +7,7 @@ public class Property
     private boolean isRandomInitialize;
 
     private Data data;
+    //map <data, instances amount>
 
     @Override
     public int hashCode() {

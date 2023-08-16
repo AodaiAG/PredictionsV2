@@ -144,6 +144,7 @@ public class Rule {
             case "calculation": {
                 CalculationAction action = new CalculationAction();
                 action.setFunctions(this.functions);
+                action.setEntityName(whichEntityActionWork);
                 NodeList mul = ((Element) ActionNode).getElementsByTagName("PRD-multiply");
                 NodeList div = ((Element) ActionNode).getElementsByTagName("PRD-divide");
                 if (mul.item(0) != null) {

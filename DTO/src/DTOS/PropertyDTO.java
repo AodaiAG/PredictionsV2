@@ -49,15 +49,10 @@ public class PropertyDTO
         return randomInitialize;
     }
 
-
-
     public boolean isRange()
     {
         return isRange;
     }
-
-
-
 
     public String getDataString() {
         return dataString;

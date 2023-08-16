@@ -14,15 +14,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-
 import Entity.Property;
-
 import Entity.Data;
 import Entity.DataType;
 import Entity.Entity;
 
 public class Engine implements IEngine
 {
+    private Map<UUID, Simulation> simulations = new HashMap<>();
+
     public World world;
 
     public Engine() {
@@ -66,43 +66,30 @@ public class Engine implements IEngine
         }
     }
 
+    //command #3
     @Override
-    public void startSimulation()
+    public UUID startSimulation()
     {
-        int tick=0;
-        double generatedProbability;
-        Boolean simulationTerminated;
-        Random random=new Random();
-        generatedProbability=random.nextDouble();
-        final Boolean[] isTimeUp = new Boolean[1];
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask()
-        {
-            @Override
-            public void run()
-            {
-                isTimeUp[0] =true;
-            }
-        };
-        isTimeUp[0]=false;
-        long delay = this.world.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
-        timer.schedule(task, delay);
-        simulationTerminated=tick!=this.world.getTerminationTicks() && !isTimeUp[0];
-        while(simulationTerminated)
-        {
-            for (Rule rule : this.world.getRules())
-            {
-                rule.isActivated(world.getEntities(),tick,generatedProbability);
-                tick++;
-                generatedProbability=random.nextDouble();
-                simulationTerminated=tick!=this.world.getTerminationTicks() && !isTimeUp[0];
-                if(simulationTerminated)
-                {
-                    break;
-                }
+        WorldDTO worldBeforeChanging = convertWorldToDTO();
+        UUID simulationId = UUID.randomUUID();
+        Simulation simulation = new Simulation(getWorld(), worldBeforeChanging);
+        simulation.runSimulation();
+        simulations.put(simulationId, simulation);
+        return simulationId;
+    }
 
-            }
-        }
+    @Override
+    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulatioID) {
+        Simulation simulation = simulations.get(simulatioID);
+        simulation.initQuantities();
+        return simulation.getInitialQuantities(); //map of the old entites
+    }
+
+    @Override
+    public Map<String, Integer> endOfSimulationHandlerShowPropertyHistogram(UUID simulatioID, String entityName) {
+        Simulation simulation = simulations.get(simulatioID);
+
+        //simulation.showPropertyHistogram(); //suppose to get entity...
     }
 
     public RulesDTO convertRuleToDTO(Rule rule)

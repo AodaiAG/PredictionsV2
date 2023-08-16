@@ -35,6 +35,11 @@ public class CalculationAction extends Action
         typeOfCondition="calculation";
     }
 
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
+    }
+
     @Override
     public String getNameOfEntity() {
         return entityName;
@@ -88,19 +93,19 @@ public class CalculationAction extends Action
     {
         Expression expression = new Expression(getFunctions(), entityInstance);
 
-        String arg1=expression.evaluateExpression(expression1);
-        String arg2=expression.evaluateExpression(expression2);
+        String arg1 = expression.evaluateExpression(expression1);
+        String arg2 = expression.evaluateExpression(expression2);
 
-        for(Property t : entityInstance.getPropertiesOfTheEntity())
+        for(Property property : entityInstance.getPropertiesOfTheEntity())
         {
-            if(t.getNameOfProperty().equals(resultProp))
+            if(property.getNameOfProperty().equals(resultProp))
             {
                 switch (calType)
                 {
                     case "divide":
                     {
                         try {
-                            t.getData().divide(arg1,arg2);
+                            property.getData().divide(arg1,arg2);
                         } catch (Exception ex)
                         {
                             throw ex;
@@ -110,7 +115,7 @@ public class CalculationAction extends Action
                     case "multiply":
                     {
                         try {
-                            t.getData().multiply(arg1,arg2);
+                            property.getData().multiply(arg1,arg2);
                         } catch (Exception ex) {
                             throw ex;
                         }

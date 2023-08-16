@@ -9,7 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.UUID;
+
 import System.IEngine;
 import System.Engine;
 
@@ -37,8 +40,6 @@ public class UI
             engine.ParseXmlAndLoadWorld(f);
             System.out.println("File Loaded successfully!");
 
-
-
         } catch (Exception e)
         {
             throw new RuntimeException(e);
@@ -64,7 +65,54 @@ public class UI
             index++;
         }
         newPr.printTermination(worldDTO.getTerminationDTO());
+    }
 
+    public void endOfSimulation(UUID currSimulationID, WorldDTO worldDTO) {
+        Scanner sc = new Scanner(System.in);
+        boolean validChoice = false;
+
+        while (!validChoice) {
+            System.out.println("Please choose an option: (press the option number)");
+            System.out.println("1. Show entities amount before and after the simulation.");
+            System.out.println("2. Show Property Histogram");
+
+            int choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    Map<String, Integer> initialQuantitiesMap= engine.endOfSimulationHandlerShowQuantities(currSimulationID);
+                    showEntitiesAmount(initialQuantitiesMap, worldDTO);
+                    validChoice = true; // Set flag to exit the loop
+                    break;
+                case 2:
+
+                    showPropertyHistogram();
+                    validChoice = true; // Set flag to exit the loop
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please choose a valid option.");
+                    break;
+            }
+        }
+    }
+
+    public void runSimulation(WorldDTO worldDTO)
+    {
+        Printer pr = new Printer();
+        environmentInitByUser(worldDTO.getEnvironmentDTOS(),pr);
+        UUID currSimulationID = engine.startSimulation();
+        endOfSimulation(currSimulationID, worldDTO);
+    }
+
+    private void showEntitiesAmount(Map<String, Integer> initialQuantitiesMap, WorldDTO worldDTO) {
+        for (EntityDTO eD:worldDTO.getEntityDTOSet()) {
+            int initialQuantity = initialQuantitiesMap.getOrDefault(eD.getName(), 0);
+            int finalQuantity = eD.getNumberOfInstances();
+            System.out.println(eD.getName() + ": Initial=" + initialQuantity + ", Final=" + finalQuantity);
+        }
+    }
+
+    private void showPropertyHistogram() {
+        // Implement showPropertyHistogram method as previously shown
     }
 
     void checkIfNumberIsWithinRange(int number,int bound)
@@ -80,13 +128,6 @@ public class UI
         }
     }
 
-    public void startSimulation(WorldDTO worldDTO)
-    {
-        Printer pr = new Printer();
-        environmentInitByUser(worldDTO.getEnvironmentDTOS(),pr);
-        engine.startSimulation();
-
-    }
 
     public void environmentInitByUser(List<EnvironmentDTO> eDlist, Printer pr)
     {

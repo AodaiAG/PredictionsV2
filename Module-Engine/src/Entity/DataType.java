@@ -55,9 +55,9 @@ public enum DataType
         {
             try
             {
-                Integer a1=Integer.parseInt(arg1);
-                Integer a2=Integer.parseInt(arg2);
-                Integer res=a1*a2;
+                Integer a1 = Integer.parseInt(arg1);
+                Integer a2 = Integer.parseInt(arg2);
+                Integer res = a1 * a2;
                 if(isInRange(res,from,to))
                 {
                     return res.toString();

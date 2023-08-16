@@ -39,8 +39,8 @@ public class Data
         {
             throw e;
         }
-
     }
+
     public void increase(String value) throws Exception
     {
         try
@@ -63,18 +63,18 @@ public class Data
             throw e;
         }
     }
-    public  void multiply(String arg1,String arg2) throws Exception
+    public void multiply(String arg1,String arg2) throws Exception
     {
         try
         {
-            dataString= dataType.multiply(arg1,arg2,from,to);
+            dataString = dataType.multiply(arg1,arg2,from,to);
         }
         catch(Exception e)
         {
             throw e;
         }
-
     }
+
     public void divide(String arg1,String arg2) throws Exception
     {
         try
