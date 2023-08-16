@@ -36,7 +36,6 @@ public abstract class Action
                {
                     return entity;
                }
-
           }
           throw new Exception("Entity not found");
      }

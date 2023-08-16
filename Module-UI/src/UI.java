@@ -67,7 +67,7 @@ public class UI
         newPr.printTermination(worldDTO.getTerminationDTO());
     }
 
-    public void endOfSimulation(UUID currSimulationID, WorldDTO worldDTO) {
+    public void endOfSimulation(UUID currSimulationID, WorldDTO updatedWorldDTO) {
         Scanner sc = new Scanner(System.in);
         boolean validChoice = false;
 
@@ -79,13 +79,18 @@ public class UI
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
-                    Map<String, Integer> initialQuantitiesMap= engine.endOfSimulationHandlerShowQuantities(currSimulationID);
-                    showEntitiesAmount(initialQuantitiesMap, worldDTO);
+                    Map<String, Integer> initialQuantitiesMap = engine.endOfSimulationHandlerShowQuantities(currSimulationID);
+                    showEntitiesAmount(initialQuantitiesMap, updatedWorldDTO);
                     validChoice = true; // Set flag to exit the loop
                     break;
                 case 2:
-
-                    showPropertyHistogram();
+                    String nameOfChosenEntity = "";
+                    //show entity list
+                    //choose one entity
+                    //show properties of the chosen entity from entityDto
+                    //choose one property
+                    String chosenPropertyName = "";
+                  //  Map<> = engine.endOfSimulationHandlerPropertyHistogram(currSimulationID, nameOfChosenEntity, chosenPropertyName);
                     validChoice = true; // Set flag to exit the loop
                     break;
                 default:
@@ -103,8 +108,9 @@ public class UI
         endOfSimulation(currSimulationID, worldDTO);
     }
 
-    private void showEntitiesAmount(Map<String, Integer> initialQuantitiesMap, WorldDTO worldDTO) {
-        for (EntityDTO eD:worldDTO.getEntityDTOSet()) {
+    private void showEntitiesAmount(Map<String, Integer> initialQuantitiesMap, WorldDTO finalWorldDTO)
+    {
+        for (EntityDTO eD: finalWorldDTO.getEntityDTOSet()) {
             int initialQuantity = initialQuantitiesMap.getOrDefault(eD.getName(), 0);
             int finalQuantity = eD.getNumberOfInstances();
             System.out.println(eD.getName() + ": Initial=" + initialQuantity + ", Final=" + finalQuantity);
@@ -112,6 +118,7 @@ public class UI
     }
 
     private void showPropertyHistogram() {
+        //print the map <entiny...
         // Implement showPropertyHistogram method as previously shown
     }
 

@@ -79,17 +79,34 @@ public class Engine implements IEngine
     }
 
     @Override
-    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulatioID) {
-        Simulation simulation = simulations.get(simulatioID);
+    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID) { //<nameOfEntity, numOfInstances>
+        Simulation simulation = simulations.get(simulationID);
         simulation.initQuantities();
         return simulation.getInitialQuantities(); //map of the old entites
     }
 
     @Override
-    public void endOfSimulationHandlerShowPropertyHistogram(UUID simulatioID, Entity entity) {
-        Simulation simulation = simulations.get(simulatioID);
+    public void endOfSimulationHandlerPropertyHistogram(UUID simulationID, String chosenEntityName, String chosenPropertyName)
+    {
+        Simulation simulation = simulations.get(simulationID);
+        try {
+            Entity chosenEntity = findEntityAccordingName(this.world.getEntities(),chosenEntityName);
+            simulation.initPropertyHistogramAndReturnValueCounts(chosenEntity, chosenPropertyName);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        //simulation.showPropertyHistogram(); //suppose to get entity...
+    public Entity findEntityAccordingName(List<Entity> entities, String currentEntityName) throws Exception
+    {
+        for (Entity entity : entities)
+        {
+            if (entity.getNameOfEntity().equals(currentEntityName))
+            {
+                return entity;
+            }
+        }
+        throw new Exception("Entity not found");
     }
 
     public RulesDTO convertRuleToDTO(Rule rule)

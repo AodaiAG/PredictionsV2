@@ -10,9 +10,11 @@ public class Main
     {
         UI user = new UI();
         user.getFileDirectoryAndLoadSimulation();
-        WorldDTO worldDTO=user.engine.convertWorldToDTO();
-        user.PrintWorldDetails(worldDTO);
-       // UUID cuurSimulation = user.startUISimulation(worldDTO);
+        WorldDTO worldDTOBeforeSimulation = user.engine.convertWorldToDTO(); //old values be kept
+        user.PrintWorldDetails(worldDTOBeforeSimulation);
+        user.runSimulation(worldDTOBeforeSimulation);
+        WorldDTO WorldDTOAfterSimulation = user.engine.convertWorldToDTO(); //updated world turn into worldDTO
+
 
     }
 

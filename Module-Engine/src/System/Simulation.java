@@ -13,6 +13,9 @@ public class Simulation
     private static boolean programRunning;
     private World worldRes;
     private WorldDTO oldWorldDTO;
+    private final Map<String, Map<String, Integer>> propertyValueCounts = new HashMap<>(); //<entityName <property, instancesAmount>>
+
+    private Map<String, Integer> initialQuantities = new HashMap<>();
 
     public Map<String, Map<String, Integer>> getPropertyValueCounts() {
         return propertyValueCounts;
@@ -22,9 +25,6 @@ public class Simulation
         return initialQuantities;
     }
 
-    Map<String, Integer> initialQuantities = new HashMap<>();
-
-    private final Map<String, Map<String, Integer>> propertyValueCounts = new HashMap<>(); //<entity <property, instancesAmount>>
 
     public Simulation(World world, WorldDTO worldDTO) {
         this.worldRes = world;
@@ -61,19 +61,22 @@ public class Simulation
         timer.cancel(); // Cancel the timer when simulation is done
     }
 
-    public void showPropertyHistogram(Entity entity)
+    public Map<String, Integer> initPropertyHistogramAndReturnValueCounts(Entity entity,String propertyName) //<nameOfProperty, map<valueOfProperty, amountOfInstancesWithThisValue>
     {
         for (EntityInstance instance:entity.getEntities()) {
             for (Property property : instance.getPropertiesOfTheEntity()) {
-                String propertyName = property.getNameOfProperty();
-                String propertyValue = property.getData().getDataString();
+                String localPropertyName = property.getNameOfProperty();
+                String localPropertyValue = property.getData().getDataString();
 
-                propertyValueCounts.putIfAbsent(propertyName, new HashMap<>());
-                Map<String, Integer> valueCounts = propertyValueCounts.get(propertyName);
-                valueCounts.put(propertyValue, valueCounts.getOrDefault(propertyValue, 0) + 1);
+                propertyValueCounts.putIfAbsent(localPropertyName, new HashMap<>());
+                Map<String, Integer> valueCounts = propertyValueCounts.get(localPropertyName);
+                valueCounts.put(localPropertyValue, valueCounts.getOrDefault(localPropertyValue, 0) + 1);
             }
         }
+        return propertyValueCounts.get(propertyName);
     }
+
+
 
     public void initQuantities()
     {
