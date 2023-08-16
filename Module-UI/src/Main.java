@@ -52,7 +52,6 @@ public class Main
                 case 5:
                 {
                     {
-
                         validChoice=true;
                         break;
                     }

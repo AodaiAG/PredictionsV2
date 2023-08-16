@@ -2,6 +2,8 @@ import DTOS.*;
 import com.sun.jndi.toolkit.url.Uri;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -250,53 +252,68 @@ public class UI
 
     public void environmentInitByUser(List<EnvironmentDTO> eDlist, Printer pr)
     {
-        Scanner sc= new Scanner(System.in);
-        String userChoice = "";
+        Scanner sc = new Scanner(System.in);
+        int userChoice;
         boolean validData = false;
 
-        int i=0;
-        System.out.println('\n'+"** Environment Variables **: ");
-        for(EnvironmentDTO ed: eDlist)
+        int i = 0;
+        System.out.println('\n' + "** Environment Variables **: ");
+        for (EnvironmentDTO environmentDTO : eDlist)
         {
-            if(i!=0)
-            {
-                System.out.println();
-            }
-            pr.printProperty(ed.getEnProperty(), true);
-            System.out.println("Would you like to initialize the value? (yes / no)");
+            System.out.println("Property number " + (i + 1) + ": ");
+            pr.printProperty(environmentDTO.getEnProperty(), true);
+            System.out.println('\n');
+            i++;
+        }
 
-            do {
-                userChoice = sc.nextLine();
-                userChoice = userChoice.toLowerCase();
-                validData = userChoice.equals("yes") || userChoice.equals("no");
+        PrintWriter writer= new PrintWriter(System.out);
 
-                if (!validData) {
-                    System.out.println("Please enter yes or no");
-                }
-            } while (!validData);
+        String enteredData;
+        boolean isValid = false;
+        boolean validOption = false;
+        boolean finished = false;
 
-            String enteredData ="";
-            switch (userChoice) {
-                case "yes":
-                    boolean isValid = false;
-                    while (!isValid) {
-                        System.out.println("Please enter a value of type " + ed.getEnProperty().getNameOfDataType() + " within the given range: ");
-                        enteredData = sc.nextLine();
-                        try {
-                            this.engine.setDataToEnvironmentVar(ed, enteredData);
+
+        String userChoiceString;
+        while (!finished)
+        {
+            System.out.println("Please enter a number of a variable you wish to init (0 if you're done): ");
+            userChoiceString = sc.next();
+            if (userChoiceString.matches("\\d+")) {
+                userChoice = Integer.parseInt(userChoiceString);
+                if (userChoice == 0) {
+                    break;
+                } else if (userChoice >= 1 && userChoice <= eDlist.size())
+                {
+                    while (!isValid)
+                    {
+
+                        System.out.println("Please enter a value of type " + eDlist.get(userChoice - 1).getEnProperty().getNameOfDataType() + " within the given range: ");
+                        enteredData = sc.next();
+                        try
+                        {
+                            this.engine.setDataToEnvironmentVar(eDlist.get(userChoice - 1), enteredData);
+                            System.out.println("Initialized successfully !");
                             isValid = true;
-                        } catch (Exception e) {
+                        } catch (Exception e)
+                        {
                             System.out.print("The data you entered is not valid, since ");
                             System.out.println(e.getMessage());
                             System.out.println("Please try again ");
                         }
                     }
-                    break;
-                case "no":
-                    System.out.println("Value initialized automatically");
-                    break;
+                    isValid=false;
+                } else {
+                    System.out.println("Invalid choice. Please enter a valid option.");
+                }
+            } else
+            {
+                System.out.println("Please , enter a valid option: ");
+                continue;
             }
-            i++;
+
+
         }
+
     }
 }
