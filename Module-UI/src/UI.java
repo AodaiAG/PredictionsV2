@@ -205,6 +205,7 @@ public class UI
             System.out.println("Please choose an option: (Enter the option number)");
             System.out.println("1. Show entities amount before and after the simulation.");
             System.out.println("2. Show Property Histogram");
+            System.out.println("3. Exit");
 
             int choice = sc.nextInt();
             switch (choice)
@@ -218,6 +219,11 @@ public class UI
                 case 2:
                 {
                     PrintSimulationAccordingToHistogram(simulation);
+                    break;
+                }
+                case 3:
+                {
+                    validChoice=true;
                     break;
                 }
 
