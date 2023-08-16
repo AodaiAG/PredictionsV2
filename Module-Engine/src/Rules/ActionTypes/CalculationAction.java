@@ -1,25 +1,61 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
-import Entity.Properties;
+import Entity.Property;
+import Entity.EntityInstance;
+import Expression.Expression;
+import Expression.AuxiliaryMethods;
 
 public class CalculationAction extends Action
 {
-private String resultProp;
-private String calType;
-private String expression1;
-private String expression2;
+    private String entityName;
+
+    private String typeOfCondition;
+
+    private String resultProp;
+
+@Override
+    public void setFunctions(AuxiliaryMethods functions) {
+        super.functions = functions;
+    }
+
+    private String calType;
+
+    private String expression1;
+
+    private String expression2;
+
     public CalculationAction()
     {
-        super("calculation");
         resultProp=new String();
+        entityName = "";
+        typeOfCondition=new String();
         calType=new String();
         expression1=new String();
         expression2=new String();
+        typeOfCondition="calculation";
     }
 
 
-    public String getResultProp() {
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
+    }
+
+    @Override
+    public String getNameOfEntity() {
+        return entityName;
+    }
+    public String getTypeOfCondition()
+    {
+        return typeOfCondition;
+    }
+
+    public String getNameOfAction()
+    {
+        return "calculation";
+    }
+
+    public String getResultProp()
+    {
         return resultProp;
     }
 
@@ -43,7 +79,8 @@ private String expression2;
         this.expression1 = expression1;
     }
 
-    public String getExpression2() {
+    public String getExpression2()
+    {
         return expression2;
     }
 
@@ -52,54 +89,40 @@ private String expression2;
     }
 
     @Override
-    void ActivateAction(Entity e)
+    public void ActivateAction(EntityInstance entityInstance) throws Exception
     {
-        Object arg1=new Object();
-        Object arg2=new Object();
+        Expression expression = new Expression(getFunctions(), entityInstance);
 
-        //arg1=evalute(exp1)
-        //arg2=evalute(exp2)
+        String arg1 = expression.evaluateExpression(expression1);
+        String arg2 = expression.evaluateExpression(expression2);
 
-        for(Properties t : e.getPropertiesOfTheEnitiy())
+        for(Property property : entityInstance.getPropertiesOfTheEntity())
         {
-            if(t.getNameOfProperty().equals(resultProp))
+            if(property.getNameOfProperty().equals(resultProp))
             {
-                switch (t.getType().getClass().getSimpleName())
+                switch (calType)
                 {
-                    case "Integer":
+                    case "divide":
                     {
-                        if(calType.equals("multiply"))
+                        try {
+                            property.getData().divide(arg1,arg2);
+                        } catch (Exception ex)
                         {
-                            t.setType((Integer)((Integer)arg1*(Integer)arg2));
+                            throw ex;
                         }
-                        if(calType.equals("divide"))
-                        {
-
-                            t.setType((Integer)((Integer)arg1/(Integer)arg2));
-                        }
-
                     }
-                    case "Float":
-                    {
-                        if(calType.equals("multiply"))
-                        {
-                            t.setType((Float)((Float)arg1*(Float)arg2));
-                        }
-                        if(calType.equals("divide"))
-                        {
-                            t.setType((Float)((Float)arg1/(Float)arg2));
 
+                    case "multiply":
+                    {
+                        try {
+                            property.getData().multiply(arg1,arg2);
+                        } catch (Exception ex) {
+                            throw ex;
                         }
 
                     }
                 }
             }
         }
-
-
-
-
-
-
     }
 }

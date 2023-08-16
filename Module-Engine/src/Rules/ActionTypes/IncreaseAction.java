@@ -1,7 +1,10 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
-import Entity.Properties;
+import Entity.Property;
+import Entity.EntityInstance;
+import Expression.AuxiliaryMethods;
+import Expression.Expression;
+
 
 public class IncreaseAction extends Action
 {
@@ -12,13 +15,16 @@ public class IncreaseAction extends Action
 
     public IncreaseAction()
     {
-        super("increase");
         expression=new String();
         propertyName=new String();
         entityName=new String();
     }
-
-    public String getEntityName() {
+    @Override
+    public void setFunctions(AuxiliaryMethods functions) {
+        super.functions = functions;
+    }
+    @Override
+    public String getNameOfEntity() {
         return entityName;
     }
 
@@ -43,38 +49,31 @@ public class IncreaseAction extends Action
     }
 
     @Override
-    void ActivateAction(Entity e)
+    public String getNameOfAction()
+    {
+        return "increase";
+    }
+
+    @Override
+    public void ActivateAction(EntityInstance e) throws Exception
     {
 
 
-        Object value = new Object();
-       // value =evaluteExpression();
+        Expression exp=new Expression(getFunctions(),e);
+        String sValue=exp.evaluateExpression(expression);
 
 
-        for(Properties t : e.getPropertiesOfTheEnitiy())
+        for(Property t : e.getPropertiesOfTheEntity())
         {
             if(t.getNameOfProperty().equals(propertyName))
             {
-                switch (t.getType().getClass().getSimpleName())
+                try
                 {
-                    case "Integer":
-                    {
+                    t.getData().decrease(sValue);
+                } catch (Exception ex)
+                {
 
-                        if((Integer)t.getType()+(Integer)value<=t.range[1] && (Integer)t.getType()+(Integer)value>=t.range[0])
-                        {
-                            t.setType((Integer)t.getType()+(Integer)value);
-
-                        }
-                    }
-                    case "Float":
-                    {
-                        if((Float)t.getType()+(Float)value<=t.range[1] && (Float)t.getType()+(Float)value>=t.range[0])
-                        {
-                            t.setType((Float)t.getType()+(Float)value);
-
-                        }
-
-                    }
+                    throw ex;
                 }
 
             }

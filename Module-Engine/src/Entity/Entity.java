@@ -1,64 +1,60 @@
 package Entity;
 
-import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import Entity.Properties;
 
 public class Entity
 {
-   private   int numberOfEntity;
-    private String NameOfEntity;
-    private Set<Properties> propertiesOfTheEnitiy;
+    private String nameOfEntity;
+    private int numberOfInstances;
+    private List<EntityInstance> entityInstances;
+    private Set<Property> propertiesOfTheEntity;
+
     public Entity()
     {
-
-     propertiesOfTheEnitiy=new HashSet<Properties>();
-
+        this.nameOfEntity = new String();
+        this.entityInstances = new ArrayList<EntityInstance>();
+        propertiesOfTheEntity = new HashSet<>();
     }
 
- public int getNumberOfEntity()
- {
-  return numberOfEntity;
- }
+    public int getNumberOfInstances()
+    {
+        return numberOfInstances;
+    }
 
- public void setNumberOfEntity(int numberOfEntity)
- {
-  this.numberOfEntity = numberOfEntity;
- }
+    public void setNumberOfInstances(int numberOfInstances)
+    {
+        this.numberOfInstances = numberOfInstances;
+    }
 
- public String getNameOfEntity()
- {
-  return NameOfEntity;
- }
+    public void setEntities(List<EntityInstance> entities)
+    {
+        this.entityInstances = entities;
+    }
 
- public void setNameOfEntity(String nameOfEntity)
- {
-  NameOfEntity = nameOfEntity;
- }
+    public Set<Property> getPropertiesOfTheEntity()
+    {
+        return propertiesOfTheEntity;
+    }
 
- public Set<Properties> getPropertiesOfTheEnitiy()
- {
-  return propertiesOfTheEnitiy;
- }
+    public void setPropertiesOfTheEntity(Set<Property> propertiesOfTheEntity)
+    {
+        this.propertiesOfTheEntity = propertiesOfTheEntity;
+    }
 
- public void setPropertiesOfTheEnitiy(Set<Properties> propertiesOfTheEnitiy)
- {
-  this.propertiesOfTheEnitiy = propertiesOfTheEnitiy;
- }
+    public String getNameOfEntity() {
+        return nameOfEntity;
+    }
 
- public static String getTypeOfEntity(Entity e)
- {
-  Field resField= null;
-  try {
-   resField = e.getClass().getField("Type");
-  } catch (NoSuchFieldException ex) {
-   throw new RuntimeException(ex);
-  }
-  String typeOfField=new String();
-  typeOfField=resField.getType().getSimpleName();
+    public void setNameOfEntity(String nameOfEntity)
+    {
+        this.nameOfEntity = nameOfEntity;
+    }
 
-  return typeOfField;
-
- }
+    public List<EntityInstance> getEntities()
+    {
+        return entityInstances;
+    }
 }

@@ -1,7 +1,10 @@
 package Rules.ActionTypes;
 
-import Entity.Entity;
-import Entity.Properties;
+import Entity.Property;
+import Entity.EntityInstance;
+import Expression.AuxiliaryMethods;
+import Expression.Expression;
+
 
 public class SetAction extends Action
 {
@@ -11,16 +14,19 @@ public class SetAction extends Action
 
     public SetAction()
     {
-        super("set");
-
         entityName=new String();
         propertyName=new String();
         expression=new String();
 
     }
-
-    public String getEntityName() {
+    @Override
+    public String getNameOfEntity() {
         return entityName;
+    }
+
+    @Override
+    public void setFunctions(AuxiliaryMethods functions) {
+        super.functions = functions;
     }
 
     public void setEntityName(String entityName) {
@@ -42,44 +48,28 @@ public class SetAction extends Action
     public void setExpression(String expression) {
         this.expression = expression;
     }
+    @Override
+    public String getNameOfAction()
+    {
+        return "set";
+    }
 
     @Override
-    void ActivateAction(Entity e)
+    public void ActivateAction(EntityInstance e) throws Exception
     {
-        Object value=new Object();
-        //Object value=eval(expression)
-        for(Properties t : e.getPropertiesOfTheEnitiy())
+         Expression exp=new Expression(getFunctions(),e);
+
+        String sValue=exp.evaluateExpression(expression);
+        for(Property t : e.getPropertiesOfTheEntity())
         {
             if (t.getNameOfProperty().equals(propertyName))
             {
-                switch (t.getType().getClass().getSimpleName())
+                try
                 {
-                    case "Integer":
-                    {
-                        if((Integer)value>=t.range[0] && (Integer)value<=t.range[1])
-                        {
-                            t.setType(value);
-                        }
-                    }
-                    case "Float":
-                    {
-                        if((Float)value>=t.range[0] && (Float)value<=t.range[1])
-                        {
-                            t.setType(value);
-                        }
-                    }
-                    case "Boolean":
-                    {
-
-                        t.setType(value);
-                    }
-                    case "String":
-                    {
-
-                        t.setType(value);
-                    }
-
-
+                    t.getData().setNewValue(sValue);
+                } catch (Exception ex)
+                {
+                    throw ex;
                 }
 
             }

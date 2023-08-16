@@ -1,19 +1,27 @@
 package Rules.ActionTypes;
-
 import Entity.Entity;
+import Entity.EntityInstance;
+import Expression.AuxiliaryMethods;
 
-import java.util.Collection;
 
 public class KillAction extends Action
 {
+    private String entityName;
 
-private String entityToKill;
-    public KillAction()
-    {
-        super("kill");
-        entityToKill=new String();
+    private String entityToKill;
+        public KillAction()
+        {
+            entityName = "";
+            entityToKill=new String();
+        }
+    @Override
+    public void setFunctions(AuxiliaryMethods functions) {
+        super.functions = functions;
     }
-
+    @Override
+    public String getNameOfEntity() {
+        return entityName;
+    }
     public String getEntityToKill() {
         return entityToKill;
     }
@@ -23,28 +31,28 @@ private String entityToKill;
     }
 
     @Override
-    void ActivateAction(Entity e)
+    public void ActivateAction(EntityInstance e) throws Exception
     {
-
-
-
-    }
-    void ActivateAction(Collection<Entity> list)
-    {
-
-        for(Entity e : list)
+        try
         {
-            if(e.getNameOfEntity().equals(entityToKill))
+            Entity entityToKill=findEntityAccordingName(functions.getWorld().getEntities(),e.getNameOfEntity());
+            Boolean isKilled=entityToKill.getEntities().remove(e);
+            if(!isKilled)
             {
-                Entity wanted=e;
-                boolean response=list.remove(wanted);
+                throw new Exception("Entity instance Not Found!");
             }
+
+        }
+        catch (Exception exception)
+        {
+            throw  exception;
         }
 
-
-
     }
-
-
+    @Override
+    public String getNameOfAction()
+    {
+        return "kill";
+    }
 
 }

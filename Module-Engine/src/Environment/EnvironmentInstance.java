@@ -1,9 +1,18 @@
 package Environment;
+import Entity.Property;
 
-
-import Entity.Properties;
-
-public class EnvironmentInstance extends Properties
+public class EnvironmentInstance
 {
+    private Property EnvironmentProperty = new Property();
+
+    public Property getEnvironmentProperty() {
+        return EnvironmentProperty;
+    }
+
+    public void setEnvironmentProperty(Property EnvironmentProperty) {
+        this.EnvironmentProperty = EnvironmentProperty;
+    }
+
+
 
 }
