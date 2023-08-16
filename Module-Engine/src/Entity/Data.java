@@ -37,7 +37,7 @@ public class Data
         }
         catch(Exception e)
         {
-            throw e;
+
         }
     }
 
@@ -49,7 +49,7 @@ public class Data
         }
         catch(Exception e)
         {
-            throw e;
+
         }
     }
     public  void setNewValue(String value)throws Exception
@@ -60,7 +60,7 @@ public class Data
         }
         catch(Exception e)
         {
-            throw e;
+
         }
     }
     public void multiply(String arg1,String arg2) throws Exception
@@ -71,7 +71,7 @@ public class Data
         }
         catch(Exception e)
         {
-            throw e;
+
         }
     }
 
@@ -83,7 +83,7 @@ public class Data
         }
         catch(Exception e)
         {
-            throw e;
+
         }
     }
     public  Boolean compareTo(String comparedto,String Operator) throws Exception
@@ -94,7 +94,7 @@ public class Data
         }
         catch(Exception e)
         {
-            throw e;
+           throw e;
         }
     }
 
