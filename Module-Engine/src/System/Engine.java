@@ -367,7 +367,6 @@ public class Engine implements IEngine
             {
                    EntityInstance added= e1.clone();
                    first.add(added);
-
             }
 
             newEntity.setEntities(first);
