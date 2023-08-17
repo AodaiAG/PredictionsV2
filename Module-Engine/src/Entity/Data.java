@@ -107,7 +107,9 @@ public class Data
         this.dataType = dataType;
     }
 
-    public String getDataString() {
+    public String getDataString()
+    {
+
         return dataString;
     }
 

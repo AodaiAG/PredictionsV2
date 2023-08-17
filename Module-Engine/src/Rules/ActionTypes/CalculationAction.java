@@ -104,11 +104,12 @@ public class CalculationAction extends Action
                 {
                     case "divide":
                     {
-                        try {
+                        try
+                        {
                             property.getData().divide(arg1,arg2);
                         } catch (Exception ex)
                         {
-                            throw ex;
+
                         }
                     }
 
@@ -117,7 +118,7 @@ public class CalculationAction extends Action
                         try {
                             property.getData().multiply(arg1,arg2);
                         } catch (Exception ex) {
-                            throw ex;
+
                         }
 
                     }

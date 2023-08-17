@@ -68,6 +68,7 @@ public class UI
 
     public void runSimulation(WorldDTO worldDTO)
     {
+
         Printer pr = new Printer();
         environmentInitByUser(worldDTO.getEnvironmentDTOS(),pr);
         UUID currSimulationID = engine.startSimulation();

@@ -7,8 +7,18 @@ import java.util.Set;
 public class EntityInstance
 {
     private String NameOfEntity;
-
     private Set<Property> propertiesOfTheEntity;
+    Boolean isTobeKilled=false;
+
+    public Boolean getTobeKilled()
+    {
+        return isTobeKilled;
+    }
+
+    public void setTobeKilled(Boolean tobeKilled)
+    {
+        isTobeKilled = tobeKilled;
+    }
 
     public EntityInstance()
     {

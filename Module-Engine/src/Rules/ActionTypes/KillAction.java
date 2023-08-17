@@ -3,17 +3,23 @@ import Entity.Entity;
 import Entity.EntityInstance;
 import Expression.AuxiliaryMethods;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class KillAction extends Action
 {
     private String entityName;
 
     private String entityToKill;
+
         public KillAction()
         {
             entityName = "";
             entityToKill=new String();
+
         }
+
     @Override
     public void setFunctions(AuxiliaryMethods functions) {
         super.functions = functions;
@@ -33,22 +39,21 @@ public class KillAction extends Action
     @Override
     public void ActivateAction(EntityInstance e) throws Exception
     {
-        try
-        {
-            Entity entityToKill=findEntityAccordingName(functions.getWorld().getEntities(),e.getNameOfEntity());
-            Boolean isKilled=entityToKill.getEntities().remove(e);
-            if(!isKilled)
-            {
-                throw new Exception("Entity instance Not Found!");
-            }
-
-        }
-        catch (Exception exception)
-        {
-            throw  exception;
-        }
+        e.setTobeKilled(true);
+         for(Entity entity: functions.getWorld().getEntities())
+         {
+             if(e.getNameOfEntity().equals(entity.getNameOfEntity()))
+             {
+                int numbOfinstance= entity.getNumberOfInstances()-1;
+                entity.setNumberOfInstances(numbOfinstance);
+             }
+         }
 
     }
+
+
+
+
     @Override
     public String getNameOfAction()
     {

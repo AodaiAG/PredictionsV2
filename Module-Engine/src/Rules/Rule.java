@@ -200,17 +200,32 @@ public class Rule {
                 {
                     System.out.println(e.getMessage());
                     continue;
-                    //throw new RuntimeException(e);
+
                 }
-                for (EntityInstance eI : currentEntity.getEntities())
+                System.out.println(currentEntity.getEntities().size());
+                if(currentEntity.getEntities().size()!=0)
                 {
-                    try
+
+                    for (EntityInstance eI : currentEntity.getEntities())
                     {
-                        action.ActivateAction(eI);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        try
+                        {
+                            if (eI != null)
+                             {
+                                 action.ActivateAction(eI);
+                             }
+
+                        } catch (Exception e)
+                        {
+
+                        }
                     }
+
+                   currentEntity.getEntities().removeIf(entityInstance ->entityInstance.getTobeKilled()==true );
+
+
                 }
+
             }
         }
     }

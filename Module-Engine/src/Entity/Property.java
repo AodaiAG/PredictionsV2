@@ -43,7 +43,8 @@ public class Property
         isRandomInitialize = randomInitialize;
     }
 
-    public String getTypeString(){
+    public String getTypeString()
+    {
         return this.data.getDataType().getDataTypeString();
     }
 }

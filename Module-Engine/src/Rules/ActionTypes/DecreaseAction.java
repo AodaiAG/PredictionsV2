@@ -75,7 +75,7 @@ public class DecreaseAction extends Action
                     property.getData().decrease(strVal);
                 } catch (Exception ex)
                 {
-                    throw ex;
+
                 }
 
             }

@@ -12,6 +12,7 @@ public class Entity
     private List<EntityInstance> entityInstances;
     private Set<Property> propertiesOfTheEntity;
 
+
     public Entity()
     {
         this.nameOfEntity = new String();

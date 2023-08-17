@@ -24,6 +24,7 @@ public class PropertyDTO
         this.isRange = isRange;
         this.from = from;
         this.to = to;
+        this.dataString=dataString;
     }
 
 

@@ -81,9 +81,10 @@ public class SingleCondition extends ConditionAction
         try
         {
             this.conditionResult=wanted.getData().compareTo(svalue,operator);
+
         } catch (Exception ex)
         {
-            throw ex;
+
         }
 
     }

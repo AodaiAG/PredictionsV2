@@ -21,7 +21,7 @@ import Entity.Entity;
 
 public class Engine implements IEngine
 {
-    private static boolean programRunning;
+    private static boolean programRunning=true;
     private Map<UUID, Simulation> simulations = new HashMap<>();
     public World world;
 
@@ -95,9 +95,11 @@ public class Engine implements IEngine
 
         TimerTask task = new TimerTask() {
             @Override
-            public void run() {
+            public void run()
+            {
                 programRunning = false;
                 System.out.println("Time's up");
+                timer.cancel();
             }
         };
 
@@ -105,8 +107,10 @@ public class Engine implements IEngine
         long delay =(long) this.world.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
         timer.schedule(task, delay);
 
-        while (ticksCounter < ticksAmount && programRunning) {
-            for (Rule rule : this.world.getRules()) { //is it start over?
+        while (ticksCounter < ticksAmount && programRunning)
+        {
+            for (Rule rule : this.world.getRules())
+            {
                 rule.isActivated(world.getEntities(), ticksCounter, generatedProbability);
                 generatedProbability = random.nextDouble();
             }
@@ -160,7 +164,7 @@ public class Engine implements IEngine
     public EntityDTO convertEntityToDTO(Entity entity)
     {
         List<PropertyDTO> propertyDTOs = new ArrayList<>();
-        List<PropertyDTO> instancepropertyDTOs = new ArrayList<>();
+
         List<EntityInstancesDTO> entityInstancesDTOS=new ArrayList<>();
 
         for (Property p: entity.getPropertiesOfTheEntity())
@@ -170,12 +174,12 @@ public class Engine implements IEngine
 
         for(EntityInstance entityInstance: entity.getEntities())
         {
+            List<PropertyDTO> instancepropertyDTOs = new ArrayList<>();
 
             for(Property property:entityInstance.getPropertiesOfTheEntity())
             {
                 instancepropertyDTOs.add(convertPropertyToDTO(property));
             }
-
             EntityInstancesDTO entityInstancesDTO=new EntityInstancesDTO(instancepropertyDTOs,entityInstance.getNameOfEntity());
             entityInstancesDTOS.add(entityInstancesDTO);
         }

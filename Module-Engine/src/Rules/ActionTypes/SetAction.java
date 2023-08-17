@@ -69,7 +69,7 @@ public class SetAction extends Action
                     t.getData().setNewValue(sValue);
                 } catch (Exception ex)
                 {
-                    throw ex;
+
                 }
 
             }

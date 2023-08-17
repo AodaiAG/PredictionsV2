@@ -22,7 +22,7 @@ public class World implements IWorld
 
     private Map<String,EnvironmentInstance> name2Env;
 
-    private Set<Rule> rules;
+    private List<Rule> rules;
 
     public Map<String, EnvironmentInstance> getName2Env()
     {
@@ -59,11 +59,12 @@ public class World implements IWorld
         this.entities = entities;
     }
 
-    public Set<Rule> getRules() {
+    public List<Rule> getRules() {
         return rules;
     }
 
-    public void setRules(Set<Rule> rules) {
+    public void setRules(List<Rule> rules)
+    {
 
         this.rules = rules;
     }
@@ -85,7 +86,7 @@ public class World implements IWorld
         // init
 
         name2Env=new HashMap<>();
-        rules=new HashSet<Rule>();
+        rules=new ArrayList<>();
         entities=new ArrayList<Entity>();
     }
 

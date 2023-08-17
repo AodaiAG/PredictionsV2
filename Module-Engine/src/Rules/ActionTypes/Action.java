@@ -24,9 +24,7 @@ public abstract class Action
 
      public abstract String getNameOfEntity();
 
-//     public void setNameOfEntity(String nameOfEntity) {
-//          this.nameOfEntity = nameOfEntity;
-//     }
+
 
      public Entity findEntityAccordingName(List<Entity> entities, String currentEntityName) throws Exception
      {

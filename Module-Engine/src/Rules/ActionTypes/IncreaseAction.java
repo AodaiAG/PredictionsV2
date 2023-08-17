@@ -69,11 +69,11 @@ public class IncreaseAction extends Action
             {
                 try
                 {
-                    t.getData().decrease(sValue);
-                } catch (Exception ex)
+                    t.getData().increase(sValue);
+                }
+                catch (Exception ex)
                 {
 
-                    throw ex;
                 }
 
             }
