@@ -120,7 +120,8 @@ public class Engine implements IEngine
     }
 
     @Override
-    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID) { //<nameOfEntity, numOfInstances>
+    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID)
+    {
         Simulation simulation = simulations.get(simulationID);
         simulation.initQuantities();
         return simulation.getInitialQuantities(); //map of the old entites
@@ -365,7 +366,18 @@ public class Engine implements IEngine
 
             for(int m=0; m < popNumber; m++)
             {
+
                    EntityInstance added= e1.clone();
+                   for(Property p: added.getPropertiesOfTheEntity())
+                   {
+                       boolean isInitrandom=p.isRandomInitialize();
+                       String initval=p.getData().getDataString();
+                       if(isInitrandom)
+                       {
+                           p.getData().calculateNewVal(initval, true);
+                       }
+                   }
+
                    first.add(added);
             }
 
@@ -382,7 +394,8 @@ public class Engine implements IEngine
         Data eD = new Data();
         eD.setDataType(DataType.valueOf(type.toUpperCase()));
         eD.setRangeExist(isRange);
-        if(isRange){
+        if(isRange)
+        {
             eD.setFrom(from);
             eD.setTo(to);
         }

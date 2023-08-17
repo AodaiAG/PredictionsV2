@@ -22,7 +22,6 @@ public class Data
         res.setRangeExist(this.isRangeExist);
         return res;
 
-
     }
 
 
@@ -52,6 +51,7 @@ public class Data
         }
         catch(Exception e)
         {
+
 
         }
     }

@@ -223,7 +223,6 @@ public class Rule {
 
                    currentEntity.getEntities().removeIf(entityInstance ->entityInstance.getTobeKilled()==true );
 
-
                 }
 
             }

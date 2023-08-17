@@ -23,7 +23,6 @@ public class EntityInstance
     @Override
     public EntityInstance clone()
     {
-
         EntityInstance res=new EntityInstance();
         res.setNameOfEntity(this.NameOfEntity);
         res.setTobeKilled(isTobeKilled);
@@ -33,7 +32,6 @@ public class EntityInstance
             psetres.add(p.clone());
         }
         res.setPropertiesOfTheEntity(psetres);
-
         return res;
     }
 
