@@ -351,7 +351,9 @@ public class Engine implements IEngine
                 else
                 {
                     Property property = initProperty(type, prdName, isRange, from, to,true, initValue);
-                    e1.getPropertiesOfTheEntity().add(property);
+                    Property propAdded=new Property();
+                    propAdded=property;
+                    e1.getPropertiesOfTheEntity().add(propAdded);
                 }
             }
 
@@ -360,9 +362,12 @@ public class Engine implements IEngine
             Set<Property> propOfEntity = e1.getPropertiesOfTheEntity();
             newEntity.setPropertiesOfTheEntity(propOfEntity);
 
+
             for(int m=0; m < popNumber; m++)
             {
-                first.add(e1);
+                   EntityInstance added= e1.clone();
+                   first.add(added);
+
             }
 
             newEntity.setEntities(first);

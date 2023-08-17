@@ -4,11 +4,27 @@ import java.util.Random;
 
 public class Data
 {
+
     private DataType dataType;
-
     private String dataString;
-
+    public String from;
+    public String to;
     private boolean isRangeExist;
+
+    @Override
+    public Data clone()
+    {
+        Data res=new Data();
+        res.setDataType(this.dataType);
+        res.setDataString(this.dataString);
+        res.setFrom(this.from);
+        res.setTo(this.to);
+        res.setRangeExist(this.isRangeExist);
+        return res;
+
+
+    }
+
 
     public boolean isRangeExist() {
         return isRangeExist;
@@ -18,11 +34,10 @@ public class Data
         isRangeExist = rangeExist;
     }
 
-    public String from;
-
-    public String to;
 
     final Random r = new Random();
+
+
 
     public  void calculateNewVal(String initVal, Boolean isRandomInitialize)
     {

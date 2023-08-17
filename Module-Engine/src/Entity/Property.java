@@ -15,6 +15,16 @@ public class Property
     }
 
     @Override
+    public Property clone()
+    {
+        Property res=new Property();
+        res.setNameOfProperty(this.NameOfProperty);
+        res.setRandomInitialize(isRandomInitialize);
+        res.setData(this.data.clone());
+        return res;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
     }

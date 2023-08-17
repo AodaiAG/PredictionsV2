@@ -20,6 +20,12 @@ public class Entity
         propertiesOfTheEntity = new HashSet<>();
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
+
     public int getNumberOfInstances()
     {
         return numberOfInstances;

@@ -4,7 +4,9 @@ import java.util.Random;
 
 public enum DataType
 {
+
     DECIMAL {
+
         @Override
         public String getDataTypeString() {
             return "Decimal";

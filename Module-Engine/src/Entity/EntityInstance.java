@@ -20,6 +20,23 @@ public class EntityInstance
         isTobeKilled = tobeKilled;
     }
 
+    @Override
+    public EntityInstance clone()
+    {
+
+        EntityInstance res=new EntityInstance();
+        res.setNameOfEntity(this.NameOfEntity);
+        res.setTobeKilled(isTobeKilled);
+        Set<Property>psetres=new HashSet<>();
+        for(Property p:this.propertiesOfTheEntity)
+        {
+            psetres.add(p.clone());
+        }
+        res.setPropertiesOfTheEntity(psetres);
+
+        return res;
+    }
+
     public EntityInstance()
     {
         propertiesOfTheEntity =new HashSet<Property>();
