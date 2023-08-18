@@ -404,9 +404,9 @@ public enum DataType
         @Override
         public String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to)
         {
-
             float val;
-            if (isRandomInitialize) {
+            if (isRandomInitialize)
+            {
                 val = Float.parseFloat(from) + r.nextFloat() * (Float.parseFloat(to) - Float.parseFloat(from));
             } else {
                 val = Float.parseFloat(initValue);

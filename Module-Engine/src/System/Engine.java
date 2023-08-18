@@ -1,6 +1,7 @@
 package System;
 import DTOS.*;
 import Environment.EnvironmentInstance;
+import ExceptionHandler.ExceptionHandler;
 import Expression.AuxiliaryMethods;
 import Rules.ActionTypes.*;
 import Rules.Rule;
@@ -134,7 +135,8 @@ public class Engine implements IEngine
         try {
             Entity chosenEntity = findEntityAccordingName(this.world.getEntities(),chosenEntityName);
             simulation.initPropertyHistogramAndReturnValueCounts(chosenEntity, chosenPropertyName);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
@@ -165,9 +167,7 @@ public class Engine implements IEngine
     public EntityDTO convertEntityToDTO(Entity entity)
     {
         List<PropertyDTO> propertyDTOs = new ArrayList<>();
-
         List<EntityInstancesDTO> entityInstancesDTOS=new ArrayList<>();
-
         for (Property p: entity.getPropertiesOfTheEntity())
         {
             propertyDTOs.add(convertPropertyToDTO(p));
@@ -223,7 +223,7 @@ public class Engine implements IEngine
             this.world.setTerminationTicks(Integer.parseInt(ticks));
             this.world.setTerminationSeconds(Integer.parseInt(seconds));
         }
-        catch (ParserConfigurationException | SAXException | IOException e)
+        catch (Exception e)
         {
             throw new RuntimeException(e);
         }
@@ -271,120 +271,156 @@ public class Engine implements IEngine
                     newRule.getActions().add(action);
                 }
             }
+
             this.world.getRules().add(newRule);
         }
     }
 
-    public void initEvironmentFromFile(NodeList list,World w)
+    public void initEvironmentFromFile(NodeList list,World w) throws Exception
     {
+         ExceptionHandler exceptionHandler=new ExceptionHandler();
         for(int i=0;i<list.getLength();i++)
         {
-            Node item=list.item(i);
-            Element el=(Element) item;
-            String from=new String();
-            String to=new String();
+           try
+           {
+               Node item=list.item(i);
+               Element el=(Element) item;
+               String from=new String();
+               String to=new String();
 
-            String type=((Element) item).getAttribute("type");
-            String prdName=((Element) item).getElementsByTagName("PRD-name").item(0).getTextContent();
-            if((((Element) item).getElementsByTagName("PRD-range").item(0))!=null)
-            {
-                from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
-                to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
-                Property eN1=  initProperty(type, prdName, true, from, to, true, "1");
-                EnvironmentInstance environmentInstance=new EnvironmentInstance();
-                environmentInstance.setEnvironmentProperty(eN1);
-                world.getName2Env().put(prdName,environmentInstance);
-            }
-            else
-            {
-                Property eN= initProperty(type, prdName, false, from, to, true, "1");
-                EnvironmentInstance environmentInstance = new EnvironmentInstance();
-                environmentInstance.setEnvironmentProperty(eN);
-                world.getName2Env().put(prdName,environmentInstance);
-            }
+               String type=((Element) item).getAttribute("type");
+               exceptionHandler.checkIfTypeNotSupported(type);
+               String prdName=((Element) item).getElementsByTagName("PRD-name").item(0).getTextContent();
+
+               if((((Element) item).getElementsByTagName("PRD-range").item(0))!=null)
+               {
+                   from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
+                   to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
+                   exceptionHandler.checkFromToRange(from,to);
+                   Property eN1=  initProperty(type, prdName, true, from, to, true, "1");
+                   EnvironmentInstance environmentInstance=new EnvironmentInstance();
+                   environmentInstance.setEnvironmentProperty(eN1);
+                   world.getName2Env().put(prdName,environmentInstance);
+               }
+               else
+               {
+                   Property eN= initProperty(type, prdName, false, from, to, true, "1");
+                   EnvironmentInstance environmentInstance = new EnvironmentInstance();
+                   environmentInstance.setEnvironmentProperty(eN);
+                   world.getName2Env().put(prdName,environmentInstance);
+               }
+           }
+
+           catch (Exception e)
+           {
+               throw e;
+           }
         }
     }
 
     public void initEntitiesFromFile(NodeList list,World w)
     {
+
+        ExceptionHandler exceptionHandler=new ExceptionHandler();
         for(int i=0;i<list.getLength();i++)
         {
-            Entity newEntity = new Entity();
-            Node item=list.item(i);
-            Element el=(Element) item;
-            String name=item.getAttributes().getNamedItem("name").getTextContent();
-            newEntity.setNameOfEntity(name);
-            String population= ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
-            int popNumber=Integer.parseInt(population);
-            newEntity.setNumberOfInstances(popNumber);
 
-            NodeList entityProperty =((Element) item).getElementsByTagName("PRD-property");
-            EntityInstance e1=new EntityInstance();
-            e1.setNameOfEntity(name);
-
-            for(int j = 0; j< entityProperty.getLength(); j++)
+            try
             {
-                String from = "";
-                String to = "";
-                boolean isRange = false;
-                Node item2 = entityProperty.item(j);
-                Element el2 = (Element) item2;
-                String type = ((Element) item2).getAttribute("type");
-                String prdName = ((Element) item2).getElementsByTagName("PRD-name").item(0).getTextContent();
-
-                if(((Element) item2).getElementsByTagName("PRD-range").item(0) != null)
+                Entity newEntity = new Entity();
+                Node item=list.item(i);
+                Element el=(Element) item;
+                String name=item.getAttributes().getNamedItem("name").getTextContent();
+                newEntity.setNameOfEntity(name);
+                String population= ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
+                try
                 {
-                    from=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
-                    to=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
-                    isRange = true;
+                    exceptionHandler.checkIfValueMatchesType(population,"decimal");
+                }
+                catch(Exception e1)
+                {
+                    throw new RuntimeException("Population number is not numeric!");
+                }
+                int popNumber=Integer.parseInt(population);
+                newEntity.setNumberOfInstances(popNumber);
+
+                NodeList entityProperty =((Element) item).getElementsByTagName("PRD-property");
+                EntityInstance e1=new EntityInstance();
+                e1.setNameOfEntity(name);
+
+                for(int j = 0; j< entityProperty.getLength(); j++)
+                {
+                    String from = "";
+                    String to = "";
+                    boolean isRange = false;
+                    Node item2 = entityProperty.item(j);
+                    Element el2 = (Element) item2;
+                    String type = ((Element) item2).getAttribute("type");
+                    String prdName = ((Element) item2).getElementsByTagName("PRD-name").item(0).getTextContent();
+
+                    if(((Element) item2).getElementsByTagName("PRD-range").item(0) != null)
+                    {
+                        from=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
+                        to=((Element) item2).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
+                        isRange = true;
+                    }
+
+                    String isRandom=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("random-initialize").getTextContent();
+                    String initValue = "1"; // random value
+
+
+                    if(isRandom.equals("false"))
+                    {
+                        initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
+                        Property property = initProperty(type, prdName, isRange, from, to, false, initValue);
+                        e1.getPropertiesOfTheEntity().add(property);
+                    }
+                    else
+                    {
+                        Property property = initProperty(type, prdName, isRange, from, to,true, initValue);
+                        Property propAdded=new Property();
+                        propAdded=property;
+                        e1.getPropertiesOfTheEntity().add(propAdded);
+                    }
                 }
 
-                String isRandom=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("random-initialize").getTextContent();
-                String initValue = "1"; // random value
+                // create collection of entities
+                List<EntityInstance> first=new ArrayList<>();
+                Set<Property> propOfEntity = e1.getPropertiesOfTheEntity();
+                newEntity.setPropertiesOfTheEntity(propOfEntity);
 
 
-                if(isRandom.equals("false"))
+                for(int m=0; m < popNumber; m++)
                 {
-                    initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
-                    Property property = initProperty(type, prdName, isRange, from, to, false, initValue);
-                    e1.getPropertiesOfTheEntity().add(property);
+
+                    EntityInstance added= e1.clone();
+                    for(Property p: added.getPropertiesOfTheEntity())
+                    {
+                        boolean isInitrandom=p.isRandomInitialize();
+                        String initval=p.getData().getDataString();
+                        if(isInitrandom)
+                        {
+                            p.getData().calculateNewVal(initval, true);
+                        }
+                    }
+
+                    first.add(added);
                 }
-                else
-                {
-                    Property property = initProperty(type, prdName, isRange, from, to,true, initValue);
-                    Property propAdded=new Property();
-                    propAdded=property;
-                    e1.getPropertiesOfTheEntity().add(propAdded);
-                }
+
+                newEntity.setEntities(first);
+                this.world.getEntities().add(newEntity);
             }
 
-            // create collection of entities
-            List<EntityInstance> first=new ArrayList<>();
-            Set<Property> propOfEntity = e1.getPropertiesOfTheEntity();
-            newEntity.setPropertiesOfTheEntity(propOfEntity);
-
-
-            for(int m=0; m < popNumber; m++)
+            catch (Exception e)
             {
-
-                   EntityInstance added= e1.clone();
-                   for(Property p: added.getPropertiesOfTheEntity())
-                   {
-                       boolean isInitrandom=p.isRandomInitialize();
-                       String initval=p.getData().getDataString();
-                       if(isInitrandom)
-                       {
-                           p.getData().calculateNewVal(initval, true);
-                       }
-                   }
-
-                   first.add(added);
+                throw e;
             }
 
-            newEntity.setEntities(first);
-            this.world.getEntities().add(newEntity);
         }
+
+
     }
+
 
     Property initProperty(String type, String name, boolean isRange, String from , String to, boolean bool, String init)
     {
