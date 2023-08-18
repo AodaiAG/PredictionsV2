@@ -33,7 +33,8 @@ public class Expression {
 
     public String evaluateExpression(String expression)
     {
-        if (expression.isEmpty()) {
+        if (expression.isEmpty())
+        {
             return ""; // Empty expression
         }
 
@@ -43,7 +44,8 @@ public class Expression {
         int endIndex = expression.indexOf(")");
         String arguments = "";
         String[] argumentArray = null;
-        if (startIndex > 0) {
+        if (startIndex > 0)
+        {
             firstWord = expression.substring(0, startIndex);
             arguments = expression.substring(startIndex + 1, endIndex);
             argumentArray = arguments.split(",");
@@ -54,7 +56,8 @@ public class Expression {
         {
             Function<String[], String> function = FUNCTIONS.get(firstWord);
             return function.apply(argumentArray);
-        } else {
+        } else
+        {
             for (Property p : entityInstance.getPropertiesOfTheEntity())
             {
                 if (p.getNameOfProperty().equals(expression))
@@ -67,7 +70,8 @@ public class Expression {
                 // Try to convert to number
                 Double.parseDouble(firstWord);
                 return firstWord;
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e)
+            {
                 // Try to parse as boolean
                 if (firstWord.equalsIgnoreCase("true") || firstWord.equalsIgnoreCase("false")) {
                     return firstWord;

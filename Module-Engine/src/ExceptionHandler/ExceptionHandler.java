@@ -7,32 +7,30 @@ public class ExceptionHandler
     {
         String lowc=type.toLowerCase();
 
-        if (!lowc.equals("decimal")||!lowc.equals("boolean")||!lowc.equals("float")||!lowc.equals("string"))
+        if (!lowc.equals("decimal")&&!lowc.equals("boolean")&&!lowc.equals("float")&&!lowc.equals("string"))
         {
             throw new Exception("type not Supported!");
         }
 
     }
-    public void checkFromToRange(String from , String to)throws Exception
-    {
-        try
-        {
-            Float fromf=Float.parseFloat(from);
-            Float tof=Float.parseFloat(to);
-            if(tof>=fromf)
-            {
+    public void checkFromToRange(String from, String to) throws Exception {
+        try {
+            Float fromf = Float.parseFloat(from);
+            Float tof = Float.parseFloat(to);
+
+            if (fromf > tof) {
                 throw new Exception("The range is not mathematically intact!");
             }
-        }
-        catch (Exception e)
+        } catch (NumberFormatException e)
         {
             throw new Exception("The range is not numeric!");
         }
-
     }
 
 
-   public void checkIfInRange(String value,String from,String to) throws Exception
+
+
+    public void checkIfInRange(String value,String from,String to) throws Exception
     {
 
         Float fvalue = Float.parseFloat(value);

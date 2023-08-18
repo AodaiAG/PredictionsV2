@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface IEngine
 {
-    public void ParseXmlAndLoadWorld( File file);
+    public void ParseXmlAndLoadWorld( File file) throws Exception;
     public WorldDTO convertWorldToDTO();
     public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception;
     public UUID startSimulation();

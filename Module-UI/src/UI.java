@@ -35,7 +35,14 @@ public class UI
                 case 1:
                 {
                     {
-                        getFileDirectoryAndLoadSimulation();
+                       try
+                       {
+                           getFileDirectoryAndLoadSimulation();
+                       }
+                       catch (Exception e)
+                       {
+                           System.out.println(e.getMessage());
+                       }
                         break;
                     }
                 }

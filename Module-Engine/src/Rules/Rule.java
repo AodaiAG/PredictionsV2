@@ -1,6 +1,7 @@
 package Rules;
 
 import Entity.Entity;
+import ExceptionHandler.ActionExceptionHandler;
 import Expression.AuxiliaryMethods;
 import Rules.ActionTypes.*;
 import org.w3c.dom.Element;
@@ -9,7 +10,7 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 import Entity.EntityInstance;
-
+import System.World;
 
 public class Rule {
     private String nameOfRule;
@@ -66,120 +67,175 @@ public class Rule {
         actions = new ArrayList<>();
     }
 
-    public Action CreateAction(Node ActionNode)
+    public Action CreateAction(Node ActionNode) throws Exception
     {
-        String whichEntityActionWork = ActionNode.getAttributes().getNamedItem("entity").getTextContent();
-        String typeOfAction = ActionNode.getAttributes().getNamedItem("type").getTextContent();
+       try
+       {
+           World world=functions.getWorld();
+           ActionExceptionHandler actionExceptionHandler=new ActionExceptionHandler();
 
-        switch (typeOfAction)
-        {
-            case "condition":
-            {
-                ConditionAction conditionA = new ConditionAction();
-                conditionA.setFunctions(this.functions);
-                conditionA.setEntityName(whichEntityActionWork);
+           String whichEntityActionWork = ActionNode.getAttributes().getNamedItem("entity").getTextContent();
+           actionExceptionHandler.checkIfEntityExists(world.getEntities(),whichEntityActionWork);
 
-                Node c = ((Element) ActionNode).getElementsByTagName("PRD-condition").item(0);
-                String typeOfCondition = c.getAttributes().getNamedItem("singularity").getTextContent();
-                if (typeOfCondition.equals("single"))
-                {
-                    SingleCondition single = new SingleCondition();
-                    single.setFunctions(this.functions);
-                    single.setNameofEntity(c.getAttributes().getNamedItem("entity").getTextContent());
-                    single.setNameofProperty(c.getAttributes().getNamedItem("property").getTextContent());
-                    single.setOperator(c.getAttributes().getNamedItem("operator").getTextContent());
-                    single.setValue(c.getAttributes().getNamedItem("value").getTextContent());
-                    conditionA.setCondition(single);
-                }
-                if (typeOfCondition.equals("multiple"))
-                {
+           String typeOfAction = ActionNode.getAttributes().getNamedItem("type").getTextContent();
+           actionExceptionHandler.checkIfActionTypeValid(typeOfAction);
 
-                    MultipleCondition tocallfunc = new MultipleCondition();
-                    tocallfunc.setFunctions(this.functions);
-                    conditionA.setCondition(tocallfunc.createMultipleCondition(c));
-                }
 
-                Element thenNodesF = (Element) (((Element) ActionNode).getElementsByTagName("PRD-then").item(0));
-                if (thenNodesF != null) {
-                    NodeList thenNodes = thenNodesF.getElementsByTagName("PRD-action");
-                    for (int p = 0; p < thenNodes.getLength(); p++) {
-                        conditionA.getActionsToDoIfTrue().add(p, CreateAction(thenNodes.item(p)));
-                    }
-                }
+           switch (typeOfAction)
+           {
+               case "condition":
+               {
+                   ConditionAction conditionA = new ConditionAction();
+                   conditionA.setFunctions(this.functions);
+                   conditionA.setEntityName(whichEntityActionWork);
+                   Node c = ((Element) ActionNode).getElementsByTagName("PRD-condition").item(0);
+                   String typeOfCondition = c.getAttributes().getNamedItem("singularity").getTextContent();
+                   actionExceptionHandler.conditionCheckSingularity(typeOfCondition);
 
-                Element elseNodesF = (Element) (((Element) ActionNode).getElementsByTagName("PRD-else").item(0));
-                if (elseNodesF != null) {
-                    NodeList elseNodes = elseNodesF.getElementsByTagName("PRD-action");
 
-                    for (int p = 0; p < elseNodes.getLength(); p++)
-                    {
-                        conditionA.getActionsToDoIfFalse().add(p, CreateAction(elseNodes.item(p)));
+                   if (typeOfCondition.equals("single"))
+                   {
+                       SingleCondition single = new SingleCondition();
+                       single.setFunctions(this.functions);
 
-                    }
-                }
-                return conditionA;
-            }
+                       actionExceptionHandler.checkIfEntityExists(world.getEntities(),c.getAttributes().getNamedItem("entity").getTextContent());
+                       single.setNameofEntity(c.getAttributes().getNamedItem("entity").getTextContent());
 
-            case "increase": {
-                IncreaseAction action = new IncreaseAction();
-                action.setFunctions(this.functions);
-                action.setEntityName(whichEntityActionWork);
-                action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
-                action.setExpression(ActionNode.getAttributes().getNamedItem("by").getTextContent());
-                return action;
-            }
+                       Entity tobechecked=getEntityAccordingToNamee(world,c.getAttributes().getNamedItem("entity").getTextContent());
+                       single.setNameofProperty(c.getAttributes().getNamedItem("property").getTextContent());
+                       actionExceptionHandler.checkIfPropertyExists(tobechecked.getPropertiesOfTheEntity(),c.getAttributes().getNamedItem("property").getTextContent());
 
-            case "decrease": {
-                DecreaseAction action = new DecreaseAction();
-                action.setFunctions(this.functions);
-                action.setEntityName(whichEntityActionWork);
-                action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
-                action.setExpressionStr(ActionNode.getAttributes().getNamedItem("by").getTextContent());
-                return action;
-            }
+                       actionExceptionHandler.conditionSingleCheckoperator(c.getAttributes().getNamedItem("operator").getTextContent());
+                       single.setOperator(c.getAttributes().getNamedItem("operator").getTextContent());
 
-            case "calculation": {
-                CalculationAction action = new CalculationAction();
-                action.setFunctions(this.functions);
-                action.setEntityName(whichEntityActionWork);
-                NodeList mul = ((Element) ActionNode).getElementsByTagName("PRD-multiply");
-                NodeList div = ((Element) ActionNode).getElementsByTagName("PRD-divide");
-                if (mul.item(0) != null) {
-                    action.setExpression1(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent());
-                    action.setExpression2(mul.item(0).getAttributes().getNamedItem("arg2").getTextContent());
-                    action.setCalType("multiply");
-                    action.setResultProp(ActionNode.getAttributes().getNamedItem("result-prop").getTextContent());
-                    return action;
-                }
-                if (div.item(0) != null) {
-                    action.setExpression1(div.item(0).getAttributes().getNamedItem("arg1").getTextContent());
-                    ;
-                    action.setExpression2(div.item(0).getAttributes().getNamedItem("arg2").getTextContent());
-                    ;
-                    action.setCalType("divide");
-                    action.setResultProp(ActionNode.getAttributes().getNamedItem("result-prop").getTextContent());
-                    return action;
-                }
-                break;
-            }
+                       actionExceptionHandler.checkIfExpressionisValid(c.getAttributes().getNamedItem("value").getTextContent(),c.getAttributes().getNamedItem("entity").getTextContent(),world,"condition");
+                       single.setValue(c.getAttributes().getNamedItem("value").getTextContent());
 
-            case "set": {
-                SetAction action = new SetAction();
-                action.setFunctions(this.functions);
-                action.setEntityName(whichEntityActionWork);
-                action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
-                action.setExpression(ActionNode.getAttributes().getNamedItem("value").getTextContent());
-                return action;
-            }
 
-            case "kill": {
-                KillAction action = new KillAction();
-                action.setFunctions(this.functions);
-                action.setEntityToKill(ActionNode.getAttributes().getNamedItem("entity").getTextContent());
-                return action;
-            }
-        }
+
+
+                       conditionA.setCondition(single);
+                   }
+                   if (typeOfCondition.equals("multiple"))
+                   {
+
+                       MultipleCondition tocallfunc = new MultipleCondition();
+                       tocallfunc.setFunctions(this.functions);
+                       conditionA.setCondition(tocallfunc.createMultipleCondition(c));
+                   }
+
+                   Element thenNodesF = (Element) (((Element) ActionNode).getElementsByTagName("PRD-then").item(0));
+                   if (thenNodesF != null)
+                   {
+                       NodeList thenNodes = thenNodesF.getElementsByTagName("PRD-action");
+                       for (int p = 0; p < thenNodes.getLength(); p++) {
+                           conditionA.getActionsToDoIfTrue().add(p, CreateAction(thenNodes.item(p)));
+                       }
+                   }
+
+                   Element elseNodesF = (Element) (((Element) ActionNode).getElementsByTagName("PRD-else").item(0));
+                   if (elseNodesF != null) {
+                       NodeList elseNodes = elseNodesF.getElementsByTagName("PRD-action");
+
+                       for (int p = 0; p < elseNodes.getLength(); p++)
+                       {
+                           conditionA.getActionsToDoIfFalse().add(p, CreateAction(elseNodes.item(p)));
+
+                       }
+                   }
+                   return conditionA;
+               }
+
+               case "increase":
+               {
+                   IncreaseAction action = new IncreaseAction();
+                   action.setFunctions(this.functions);
+                   action.setEntityName(whichEntityActionWork);
+                  Entity tobeCheked= getEntityAccordingToNamee(world,whichEntityActionWork);
+                   action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
+                   actionExceptionHandler.checkIfPropertyExists(tobeCheked.getPropertiesOfTheEntity(),ActionNode.getAttributes().getNamedItem("property").getTextContent());
+                   action.setExpression(ActionNode.getAttributes().getNamedItem("by").getTextContent());
+                   actionExceptionHandler.checkIfExpressionisValid(ActionNode.getAttributes().getNamedItem("by").getTextContent(),whichEntityActionWork,world,"increase");
+                   return action;
+               }
+
+               case "decrease":
+               {
+                   DecreaseAction action = new DecreaseAction();
+                   action.setFunctions(this.functions);
+                   action.setEntityName(whichEntityActionWork);
+                   Entity tobeCheked= getEntityAccordingToNamee(world,whichEntityActionWork);
+
+                   action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
+                   actionExceptionHandler.checkIfPropertyExists(tobeCheked.getPropertiesOfTheEntity(),ActionNode.getAttributes().getNamedItem("property").getTextContent());
+
+                   action.setExpressionStr(ActionNode.getAttributes().getNamedItem("by").getTextContent());
+                   actionExceptionHandler.checkIfExpressionisValid(ActionNode.getAttributes().getNamedItem("by").getTextContent(),whichEntityActionWork,world,"decrease");
+                   return action;
+               }
+
+               case "calculation":
+               {
+                   CalculationAction action = new CalculationAction();
+                   action.setFunctions(this.functions);
+                   action.setEntityName(whichEntityActionWork);
+                   NodeList mul = ((Element) ActionNode).getElementsByTagName("PRD-multiply");
+                   NodeList div = ((Element) ActionNode).getElementsByTagName("PRD-divide");
+                   if (mul.item(0) != null) {
+                       action.setExpression1(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent());
+                       action.setExpression2(mul.item(0).getAttributes().getNamedItem("arg2").getTextContent());
+                       action.setCalType("multiply");
+                       action.setResultProp(ActionNode.getAttributes().getNamedItem("result-prop").getTextContent());
+                       return action;
+                   }
+                   if (div.item(0) != null) {
+                       action.setExpression1(div.item(0).getAttributes().getNamedItem("arg1").getTextContent());
+                       ;
+                       action.setExpression2(div.item(0).getAttributes().getNamedItem("arg2").getTextContent());
+                       ;
+                       action.setCalType("divide");
+                       action.setResultProp(ActionNode.getAttributes().getNamedItem("result-prop").getTextContent());
+                       return action;
+                   }
+                   break;
+               }
+
+               case "set":
+               {
+                   SetAction action = new SetAction();
+                   action.setFunctions(this.functions);
+                   action.setEntityName(whichEntityActionWork);
+                   action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
+                   action.setExpression(ActionNode.getAttributes().getNamedItem("value").getTextContent());
+                   return action;
+               }
+
+               case "kill":
+               {
+                   KillAction action = new KillAction();
+                   action.setFunctions(this.functions);
+                   action.setEntityToKill(ActionNode.getAttributes().getNamedItem("entity").getTextContent());
+                   return action;
+               }
+           }
+       }
+       catch (Exception e)
+       {
+           throw e;
+       }
         throw new RuntimeException("emptyList");
+    }
+
+    Entity getEntityAccordingToNamee(World world,String entityWorksOn) throws Exception
+    {
+        for(Entity entity:world.getEntities())
+        {
+            if(entity.getNameOfEntity().equals(entityWorksOn));
+            return entity;
+
+        }
+            throw new Exception("entity name: "+entityWorksOn+ " not found!");
+
     }
 
     public void isActivated(List<Entity> entities, int ticks, double generatedProbability)

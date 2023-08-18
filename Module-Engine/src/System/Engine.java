@@ -1,24 +1,22 @@
 package System;
 import DTOS.*;
 import Environment.EnvironmentInstance;
-import ExceptionHandler.ExceptionHandler;
 import Expression.AuxiliaryMethods;
 import Rules.ActionTypes.*;
 import Rules.Rule;
 import Rules.Activation;
 import org.w3c.dom.*;
-import org.xml.sax.SAXException;
 import Entity.EntityInstance;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import Entity.Property;
 import Entity.Data;
 import Entity.DataType;
 import Entity.Entity;
+import ExceptionHandler.PropertyExceptionHandler;
+import  ExceptionHandler.RuleExceptionHandler;
 
 public class Engine implements IEngine
 {
@@ -195,8 +193,7 @@ public class Engine implements IEngine
         return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getData().from, property.getData().to,property.getData().getDataString(), property.getData().isRangeExist());
     }
 
-    public void ParseXmlAndLoadWorld(File file)
-    {
+    public void ParseXmlAndLoadWorld(File file) throws Exception {
         DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
         try
         {
@@ -225,60 +222,72 @@ public class Engine implements IEngine
         }
         catch (Exception e)
         {
-            throw new RuntimeException(e);
+            throw  e;
         }
     }
 
-    private void initRulesFromFile(NodeList list, World world)
+    private void initRulesFromFile(NodeList list, World world) throws Exception
     {
-        AuxiliaryMethods f = new AuxiliaryMethods(world);
-        Rule justToCallFunction = new Rule();
-        justToCallFunction.setFunctions(f);
-        for(int i = 0; i < list.getLength(); i++)
-        {
-            Rule newRule = new Rule();
-            newRule.setFunctions(f);
-            Node item = list.item(i);
-            Element el = (Element) item;
-            String nameOfRule = ((Element) item).getAttribute("name");
-            newRule.setNameOfRule(nameOfRule);
-            Activation activation = new Activation();
-            NodeList prdActivtionL = ((Element) item).getElementsByTagName("PRD-activation");
-            if(prdActivtionL.getLength() != 0)//if not empty
-            {
-                Node ticksNode=((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("ticks");
-                if(ticksNode != null)
-                {
-                    String tickString=ticksNode.getTextContent();
-                    activation.setTicks(Integer.parseInt(tickString));
-                }
-                Node probNode=((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("probability");
-                if(probNode != null)
-                {
-                    String probString=probNode.getTextContent();
-                    activation.setProbability(Double.parseDouble(probString));
-                }
-            }
-            newRule.setActivation(activation);
-            NodeList actionsListOfaRule= ((Element) item).getElementsByTagName("PRD-actions").item(0).getChildNodes();
+        String nameOfRule=new String();
+       try
+       {
+           RuleExceptionHandler ruleExceptionHandler=new RuleExceptionHandler();
+           AuxiliaryMethods f = new AuxiliaryMethods(world);
+           Rule justToCallFunction = new Rule();
+           justToCallFunction.setFunctions(f);
+           for(int i = 0; i < list.getLength(); i++)
+           {
+               Rule newRule = new Rule();
+               newRule.setFunctions(f);
+               Node item = list.item(i);
+               Element el = (Element) item;
+                nameOfRule = ((Element) item).getAttribute("name");
+               newRule.setNameOfRule(nameOfRule);
+               Activation activation = new Activation();
+               NodeList prdActivtionL = ((Element) item).getElementsByTagName("PRD-activation");
+               if(prdActivtionL.getLength() != 0)//if not empty
+               {
+                   Node ticksNode=((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("ticks");
+                   if(ticksNode != null)
+                   {
+                       String tickString=ticksNode.getTextContent();
+                       ruleExceptionHandler.checkTicksActivation(tickString);
+                       activation.setTicks(Integer.parseInt(tickString));
+                   }
+                   Node probNode=((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("probability");
+                   if(probNode != null)
+                   {
+                       String probString=probNode.getTextContent();
+                       ruleExceptionHandler.checkProbabiltyActivation(probString);
+                       activation.setProbability(Double.parseDouble(probString));
+                   }
+               }
 
-            for(int m=0;m<actionsListOfaRule.getLength();m++)
-            {
-                if(actionsListOfaRule.item(m).getNodeType()==Node.ELEMENT_NODE)
-                {
-                    Action action=justToCallFunction.CreateAction(actionsListOfaRule.item(m));
+               newRule.setActivation(activation);
+               NodeList actionsListOfaRule= ((Element) item).getElementsByTagName("PRD-actions").item(0).getChildNodes();
 
-                    newRule.getActions().add(action);
-                }
-            }
+               for(int m=0;m<actionsListOfaRule.getLength();m++)
+               {
+                   if(actionsListOfaRule.item(m).getNodeType()==Node.ELEMENT_NODE)
+                   {
+                       Action action=justToCallFunction.CreateAction(actionsListOfaRule.item(m));
 
-            this.world.getRules().add(newRule);
-        }
+                       newRule.getActions().add(action);
+                   }
+               }
+
+               this.world.getRules().add(newRule);
+           }
+       }
+       catch(Exception e)
+       {
+           throw new Exception("Problem occurred while Parsing xml at rule name "+nameOfRule+" reason/s:"+'\n'+e.getMessage());
+       }
     }
 
     public void initEvironmentFromFile(NodeList list,World w) throws Exception
     {
-         ExceptionHandler exceptionHandler=new ExceptionHandler();
+         PropertyExceptionHandler exceptionHandler=new PropertyExceptionHandler();
         for(int i=0;i<list.getLength();i++)
         {
            try
@@ -289,14 +298,13 @@ public class Engine implements IEngine
                String to=new String();
 
                String type=((Element) item).getAttribute("type");
-               exceptionHandler.checkIfTypeNotSupported(type);
                String prdName=((Element) item).getElementsByTagName("PRD-name").item(0).getTextContent();
 
                if((((Element) item).getElementsByTagName("PRD-range").item(0))!=null)
                {
                    from=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
                    to=((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
-                   exceptionHandler.checkFromToRange(from,to);
+                   exceptionHandler.Handle(type, prdName, true, from, to, true, "1");
                    Property eN1=  initProperty(type, prdName, true, from, to, true, "1");
                    EnvironmentInstance environmentInstance=new EnvironmentInstance();
                    environmentInstance.setEnvironmentProperty(eN1);
@@ -304,6 +312,7 @@ public class Engine implements IEngine
                }
                else
                {
+                   exceptionHandler.Handle(type, prdName, false, from, to, true, "1");
                    Property eN= initProperty(type, prdName, false, from, to, true, "1");
                    EnvironmentInstance environmentInstance = new EnvironmentInstance();
                    environmentInstance.setEnvironmentProperty(eN);
@@ -318,10 +327,10 @@ public class Engine implements IEngine
         }
     }
 
-    public void initEntitiesFromFile(NodeList list,World w)
+    public void initEntitiesFromFile(NodeList list,World w) throws Exception
     {
 
-        ExceptionHandler exceptionHandler=new ExceptionHandler();
+        PropertyExceptionHandler exceptionHandler=new PropertyExceptionHandler();
         for(int i=0;i<list.getLength();i++)
         {
 
@@ -372,11 +381,13 @@ public class Engine implements IEngine
                     if(isRandom.equals("false"))
                     {
                         initValue=((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
+                        exceptionHandler.Handle(type, prdName, isRange, from, to, false, initValue);
                         Property property = initProperty(type, prdName, isRange, from, to, false, initValue);
                         e1.getPropertiesOfTheEntity().add(property);
                     }
                     else
                     {
+                        exceptionHandler.Handle(type, prdName, isRange, from, to,true, initValue);
                         Property property = initProperty(type, prdName, isRange, from, to,true, initValue);
                         Property propAdded=new Property();
                         propAdded=property;

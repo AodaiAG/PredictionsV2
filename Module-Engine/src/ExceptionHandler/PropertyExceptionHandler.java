@@ -5,62 +5,41 @@ import Entity.Property;
 public class PropertyExceptionHandler extends ExceptionHandler
 {
 
-       /*
+  public void Handle(String type,String name,boolean doesitHaveRange,String from,String to,boolean isintrandom,String initvalue) throws Exception
+    {
 
-            void PropertyHandler(Property p)throws Exception
+        try
+        {
+            checkIfTypeNotSupported(type);
+            if(doesitHaveRange)
             {
+                checkFromToRange(from, to);
 
-
-                switch (p.getTypeString())
+                if(!isintrandom)
                 {
-                    case "decimal":
-                    {
-                        try
-                        {
-                            checkFromToRange();
-
-                        }
-
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
-                        break;
-                    }
-                    case "boolean":
-                    {
-                        try
-                        {
-                            Integer.parseInt(value);
-                        } catch (Exception e)
-                        {
-                            throw e;
-                        }
-                        break;
-
-                    }
-
-                    case "float":
-                    {
-                        try {
-                            Integer.parseInt(value);
-                        } catch (Exception e) {
-                            throw e;
-                        }
-                        break;
-
-
-                    }
-
-                    default:
-                    {
-                        checkIfTypeNotSupported(p.getTypeString());
-                    }
+                    checkIfValueMatchesType(initvalue,type);
+                    checkIfInRange(initvalue,from,to);
                 }
 
             }
-       /
-        */
+
+            if(!isintrandom)
+            {
+
+                checkIfValueMatchesType(initvalue,type);
+
+            }
+        }
+
+        catch (Exception e)
+        {
+
+            throw new Exception("Problem occurred while Parsing xml file in property name "+name +" reasons: "+'\n'+e.getMessage());
+        }
+
+    }
+
+
 
 
 

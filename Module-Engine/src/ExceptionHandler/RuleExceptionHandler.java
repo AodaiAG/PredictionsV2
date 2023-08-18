@@ -1,7 +1,13 @@
 package ExceptionHandler;
 
-public class RuleExceptionHandler
+import Entity.Entity;
+
+import java.util.List;
+
+public class RuleExceptionHandler extends ActionExceptionHandler
 {
+
+
 
 
 }
