@@ -99,8 +99,6 @@ public class Rule {
                     conditionA.setCondition(tocallfunc.createMultipleCondition(c));
                 }
 
-
-
                 Element thenNodesF = (Element) (((Element) ActionNode).getElementsByTagName("PRD-then").item(0));
                 if (thenNodesF != null) {
                     NodeList thenNodes = thenNodesF.getElementsByTagName("PRD-action");
@@ -128,7 +126,6 @@ public class Rule {
                 action.setEntityName(whichEntityActionWork);
                 action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
                 action.setExpression(ActionNode.getAttributes().getNamedItem("by").getTextContent());
-
                 return action;
             }
 
@@ -203,9 +200,8 @@ public class Rule {
 
                 }
                 System.out.println(currentEntity.getEntities().size());
-                if(currentEntity.getEntities().size()!=0)
+                if(currentEntity.getEntities().size() != 0)
                 {
-
                     for (EntityInstance eI : currentEntity.getEntities())
                     {
                         try
@@ -220,11 +216,9 @@ public class Rule {
 
                         }
                     }
-
-                   currentEntity.getEntities().removeIf(entityInstance ->entityInstance.getTobeKilled()==true );
-
+                   boolean hasRemoved = currentEntity.getEntities().removeIf(entityInstance ->entityInstance.getTobeKilled() == true );
+                    System.out.println(hasRemoved);
                 }
-
             }
         }
     }

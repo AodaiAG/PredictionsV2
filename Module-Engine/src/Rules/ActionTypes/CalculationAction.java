@@ -106,11 +106,12 @@ public class CalculationAction extends Action
                     {
                         try
                         {
-                            property.getData().divide(arg1,arg2);
+                            property.getData().divide(arg1, arg2);
                         } catch (Exception ex)
                         {
 
                         }
+                        break;
                     }
 
                     case "multiply":
@@ -120,7 +121,7 @@ public class CalculationAction extends Action
                         } catch (Exception ex) {
 
                         }
-
+                        break;
                     }
                 }
             }

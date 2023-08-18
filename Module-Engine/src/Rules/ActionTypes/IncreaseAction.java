@@ -57,28 +57,23 @@ public class IncreaseAction extends Action
     @Override
     public void ActivateAction(EntityInstance e) throws Exception
     {
+        Expression exp = new Expression(getFunctions(), e);
+        String sValue = exp.evaluateExpression(expression);
 
-
-        Expression exp=new Expression(getFunctions(),e);
-        String sValue=exp.evaluateExpression(expression);
-
-
-        for(Property t : e.getPropertiesOfTheEntity())
+        for(Property property : e.getPropertiesOfTheEntity())
         {
-            if(t.getNameOfProperty().equals(propertyName))
+            if(property.getNameOfProperty().equals(propertyName))
             {
                 try
                 {
-                    t.getData().increase(sValue);
+                    property.getData().increase(sValue);
+                    break;
                 }
                 catch (Exception ex)
                 {
 
                 }
-
             }
         }
-
-
     }
 }

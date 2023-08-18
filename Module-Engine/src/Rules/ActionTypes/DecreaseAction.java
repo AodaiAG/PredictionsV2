@@ -63,7 +63,7 @@ public class DecreaseAction extends Action
     public void ActivateAction(EntityInstance e) throws Exception
     {
         Expression expression = new Expression(super.getFunctions(), e);
-        Object value = new Object();
+       // Object value = new Object();
         String strVal = expression.evaluateExpression(expressionStr);
 
         for(Property property : e.getPropertiesOfTheEntity())
@@ -73,6 +73,7 @@ public class DecreaseAction extends Action
                 try
                 {
                     property.getData().decrease(strVal);
+                    break;
                 } catch (Exception ex)
                 {
 

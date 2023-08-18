@@ -4,7 +4,6 @@ import java.util.List;
 
 public class Printer
 {
-
     public void printEntity(EntityDTO entityDTO) {
         int index = 1;
         System.out.println("Entity Name: " + entityDTO.getName());
