@@ -329,6 +329,7 @@ public class Engine implements IEngine
 
     public void initEntitiesFromFile(NodeList list,World w) throws Exception
     {
+        String name=new String();
 
         PropertyExceptionHandler exceptionHandler=new PropertyExceptionHandler();
         for(int i=0;i<list.getLength();i++)
@@ -339,7 +340,7 @@ public class Engine implements IEngine
                 Entity newEntity = new Entity();
                 Node item=list.item(i);
                 Element el=(Element) item;
-                String name=item.getAttributes().getNamedItem("name").getTextContent();
+                 name=item.getAttributes().getNamedItem("name").getTextContent();
                 newEntity.setNameOfEntity(name);
                 String population= ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
                 try
@@ -424,7 +425,7 @@ public class Engine implements IEngine
 
             catch (Exception e)
             {
-                throw e;
+                throw new Exception("Error at entity name: "+name+ " "+e.getMessage());
             }
 
         }

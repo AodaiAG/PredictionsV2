@@ -175,7 +175,7 @@ public class ActionExceptionHandler
                }
                catch (Exception e)
                {
-                   throw new Exception("Expression is not a predefined method,nor a property in "+entityWorksOn+ " nor does it match the action type! ");
+                   throw new Exception(exp+" not a predefined method,nor a property in "+entityWorksOn+ " nor does it match the action type" +typeofAction +" !");
 
                }
                break;
@@ -188,7 +188,7 @@ public class ActionExceptionHandler
                }
                catch (Exception e)
                {
-                   throw new Exception("Expression is not a predefined method,nor a property in "+entityWorksOn+ " nor does it match the action type! ");
+                   throw new Exception(exp+" not a predefined method,nor a property in "+entityWorksOn+ " nor does it match the action type " +typeofAction +" !");
 
                }
                break;
@@ -197,6 +197,16 @@ public class ActionExceptionHandler
 
        }
 
+
+
+    }
+
+    public void throwableCheckIfpropertyExists(Boolean isExists,String entityName,String nameofProperty) throws Exception
+    {
+        if (!isExists)
+        {
+            throw new Exception("Property name " + nameofProperty + " doesn't exists in entity " + entityName);
+        }
 
 
     }

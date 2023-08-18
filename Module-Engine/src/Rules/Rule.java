@@ -103,7 +103,8 @@ public class Rule {
 
                        Entity tobechecked=getEntityAccordingToNamee(world,c.getAttributes().getNamedItem("entity").getTextContent());
                        single.setNameofProperty(c.getAttributes().getNamedItem("property").getTextContent());
-                       actionExceptionHandler.checkIfPropertyExists(tobechecked.getPropertiesOfTheEntity(),c.getAttributes().getNamedItem("property").getTextContent());
+                       Boolean isProperty=actionExceptionHandler.checkIfPropertyExists(tobechecked.getPropertiesOfTheEntity(),c.getAttributes().getNamedItem("property").getTextContent());
+                       actionExceptionHandler.throwableCheckIfpropertyExists(isProperty,whichEntityActionWork,c.getAttributes().getNamedItem("property").getTextContent());
 
                        actionExceptionHandler.conditionSingleCheckoperator(c.getAttributes().getNamedItem("operator").getTextContent());
                        single.setOperator(c.getAttributes().getNamedItem("operator").getTextContent());
@@ -152,8 +153,11 @@ public class Rule {
                    action.setFunctions(this.functions);
                    action.setEntityName(whichEntityActionWork);
                   Entity tobeCheked= getEntityAccordingToNamee(world,whichEntityActionWork);
+                   String nameofProperty=ActionNode.getAttributes().getNamedItem("property").getTextContent();
                    action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
-                   actionExceptionHandler.checkIfPropertyExists(tobeCheked.getPropertiesOfTheEntity(),ActionNode.getAttributes().getNamedItem("property").getTextContent());
+                   Boolean isProperty=actionExceptionHandler.checkIfPropertyExists(tobeCheked.getPropertiesOfTheEntity(),ActionNode.getAttributes().getNamedItem("property").getTextContent());
+                   actionExceptionHandler.throwableCheckIfpropertyExists(isProperty,whichEntityActionWork,nameofProperty);
+
                    action.setExpression(ActionNode.getAttributes().getNamedItem("by").getTextContent());
                    actionExceptionHandler.checkIfExpressionisValid(ActionNode.getAttributes().getNamedItem("by").getTextContent(),whichEntityActionWork,world,"increase");
                    return action;
@@ -167,8 +171,8 @@ public class Rule {
                    Entity tobeCheked= getEntityAccordingToNamee(world,whichEntityActionWork);
 
                    action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
-                   actionExceptionHandler.checkIfPropertyExists(tobeCheked.getPropertiesOfTheEntity(),ActionNode.getAttributes().getNamedItem("property").getTextContent());
-
+                   Boolean isProperty=actionExceptionHandler.checkIfPropertyExists(tobeCheked.getPropertiesOfTheEntity(),ActionNode.getAttributes().getNamedItem("property").getTextContent());
+                   actionExceptionHandler.throwableCheckIfpropertyExists(isProperty,whichEntityActionWork,ActionNode.getAttributes().getNamedItem("property").getTextContent());
                    action.setExpressionStr(ActionNode.getAttributes().getNamedItem("by").getTextContent());
                    actionExceptionHandler.checkIfExpressionisValid(ActionNode.getAttributes().getNamedItem("by").getTextContent(),whichEntityActionWork,world,"decrease");
                    return action;
@@ -176,19 +180,27 @@ public class Rule {
 
                case "calculation":
                {
+
                    CalculationAction action = new CalculationAction();
                    action.setFunctions(this.functions);
                    action.setEntityName(whichEntityActionWork);
                    NodeList mul = ((Element) ActionNode).getElementsByTagName("PRD-multiply");
                    NodeList div = ((Element) ActionNode).getElementsByTagName("PRD-divide");
-                   if (mul.item(0) != null) {
+                   if (mul.item(0) != null)
+                   {
+
                        action.setExpression1(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent());
                        action.setExpression2(mul.item(0).getAttributes().getNamedItem("arg2").getTextContent());
+                       actionExceptionHandler.checkIfExpressionisValid(mul.item(0).getAttributes().getNamedItem("arg1").getTextContent(),whichEntityActionWork,world,"calculation");
+                       actionExceptionHandler.checkIfExpressionisValid(mul.item(0).getAttributes().getNamedItem("arg2").getTextContent(),whichEntityActionWork,world,"calculation");
                        action.setCalType("multiply");
                        action.setResultProp(ActionNode.getAttributes().getNamedItem("result-prop").getTextContent());
                        return action;
                    }
-                   if (div.item(0) != null) {
+                   if (div.item(0) != null)
+                   {
+                       actionExceptionHandler.checkIfExpressionisValid(div.item(0).getAttributes().getNamedItem("arg1").getTextContent(),whichEntityActionWork,world,"calculation");
+                       actionExceptionHandler.checkIfExpressionisValid(div.item(0).getAttributes().getNamedItem("arg2").getTextContent(),whichEntityActionWork,world,"calculation");
                        action.setExpression1(div.item(0).getAttributes().getNamedItem("arg1").getTextContent());
                        ;
                        action.setExpression2(div.item(0).getAttributes().getNamedItem("arg2").getTextContent());
@@ -206,6 +218,10 @@ public class Rule {
                    action.setFunctions(this.functions);
                    action.setEntityName(whichEntityActionWork);
                    action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
+                   Entity tobeCheked= getEntityAccordingToNamee(world,whichEntityActionWork);
+                   Boolean isProperty=actionExceptionHandler.checkIfPropertyExists(tobeCheked.getPropertiesOfTheEntity(),ActionNode.getAttributes().getNamedItem("property").getTextContent());
+                   actionExceptionHandler.throwableCheckIfpropertyExists(isProperty,whichEntityActionWork,ActionNode.getAttributes().getNamedItem("property").getTextContent());
+
                    action.setExpression(ActionNode.getAttributes().getNamedItem("value").getTextContent());
                    return action;
                }
@@ -214,7 +230,9 @@ public class Rule {
                {
                    KillAction action = new KillAction();
                    action.setFunctions(this.functions);
+                   Entity tobeCheked= getEntityAccordingToNamee(world,ActionNode.getAttributes().getNamedItem("entity").getTextContent());
                    action.setEntityToKill(ActionNode.getAttributes().getNamedItem("entity").getTextContent());
+
                    return action;
                }
            }
