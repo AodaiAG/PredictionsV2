@@ -66,21 +66,21 @@ public class SingleCondition extends ConditionAction
     @Override
     public void ActivateAction(EntityInstance e) throws Exception
     {
-        Property wanted=new Property();
-        Expression exp=new Expression(getFunctions(),e);
-        String svalue=exp.evaluateExpression(value);
+        Property wanted = new Property();
+        Expression exp = new Expression(getFunctions(), e);
+        String svalue = exp.evaluateExpression(value);
 
         for (Property p : e.getPropertiesOfTheEntity())
         {
             if(p.getNameOfProperty().equals(nameofProperty))
             {
-                wanted=p;
+                wanted = p;
+                break;
             }
-
         }
         try
         {
-            this.conditionResult=wanted.getData().compareTo(svalue,operator);
+            this.conditionResult = wanted.getData().compareTo(svalue, operator);
 
         } catch (Exception ex)
         {

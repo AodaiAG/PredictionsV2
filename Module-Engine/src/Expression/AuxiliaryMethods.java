@@ -27,7 +27,7 @@ import System.World;
         public String environment(String nameOfEnv)
         {
             Map<String, EnvironmentInstance> name2Env = world.getName2Env();
-            EnvironmentInstance en=name2Env.get(nameOfEnv);
+            EnvironmentInstance en = name2Env.get(nameOfEnv);
             return en.getEnvironmentProperty().getData().getDataString();
         }
 

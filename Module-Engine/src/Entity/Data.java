@@ -47,7 +47,7 @@ public class Data
     {
         try
         {
-           dataString= dataType.decrease(value,dataString,from,to);
+           dataString= dataType.decrease(value, dataString, from, to);
         }
         catch(Exception e)
         {
@@ -60,7 +60,7 @@ public class Data
     {
         try
         {
-            dataString= dataType.increase(value,dataString,from,to);
+            dataString= dataType.increase(value, dataString, from, to);
         }
         catch(Exception e)
         {
@@ -71,7 +71,7 @@ public class Data
     {
         try
         {
-            dataString= dataType.setNewValue(value,from,to);
+            dataString= dataType.setNewValue(value, from, to);
         }
         catch(Exception e)
         {
@@ -82,7 +82,7 @@ public class Data
     {
         try
         {
-            dataString = dataType.multiply(arg1,arg2,from,to);
+            dataString = dataType.multiply(arg1, arg2, from, to);
         }
         catch(Exception e)
         {
@@ -94,7 +94,7 @@ public class Data
     {
         try
         {
-            dataString= dataType.divide(arg1,arg2,from,to);
+            dataString= dataType.divide(arg1, arg2, from, to);
         }
         catch(Exception e)
         {
@@ -105,7 +105,7 @@ public class Data
     {
         try
         {
-            return dataType.compareTo(comparedto,Operator,dataString);
+            return dataType.compareTo(comparedto, Operator, dataString);
         }
         catch(Exception e)
         {

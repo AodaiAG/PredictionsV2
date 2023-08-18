@@ -4,9 +4,7 @@ import java.util.Random;
 
 public enum DataType
 {
-
     DECIMAL {
-
         @Override
         public String getDataTypeString() {
             return "Decimal";
@@ -18,33 +16,32 @@ public enum DataType
 
             try
             {
-                Float ComparedTodata=Float.parseFloat(comparedto);
-                Float mydata=Float.parseFloat(dataString);
+                Float ComparedTodata = Float.parseFloat(comparedto);
+                Float mydata = Float.parseFloat(dataString);
                 switch (Operator)
                 {
                     case "=":
                     {
-                        return mydata==ComparedTodata;
+                        return mydata == ComparedTodata;
 
                     }
                     case "!=":
                     {
-                        return mydata!=ComparedTodata;
+                        return mydata != ComparedTodata;
 
                     }
                     case "bt":
                     {
-                        return mydata>ComparedTodata;
+                        return mydata > ComparedTodata;
 
                     }
                     case "lt":
                     {
-                        return mydata<ComparedTodata;
+                        return mydata < ComparedTodata;
 
                     }
                     default:throw new Exception("operator not legit");
                 }
-
             }
             catch (Exception e)
             {
@@ -82,19 +79,18 @@ public enum DataType
         @Override
         public String divide(String arg1, String arg2,String from,String to) throws Exception
         {
-
             try
             {
-                Integer a1=Integer.parseInt(arg1);
-                Integer a2=Integer.parseInt(arg2);
-                if(a2==0)
+                Integer a1 = Integer.parseInt(arg1);
+                Integer a2 = Integer.parseInt(arg2);
+                if(a2 == 0)
                 {
                     throw new Exception("You can't divide by 0 !");
                 }
                 else
                 {
-                    Integer res=a1/a2;
-                    if(isInRange(res,from,to))
+                    Integer res = a1 / a2;
+                    if(isInRange(res, from, to))
                     {
                        return res.toString();
                     }
@@ -103,12 +99,9 @@ public enum DataType
                         throw new Exception("The result of this action is out of the predefined range");
                     }
                 }
-
-
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
@@ -222,13 +215,13 @@ public enum DataType
         {
             try
             {
-                Float ComparedTodata=Float.parseFloat(comparedto);
+                Float ComparedTodata = Float.parseFloat(comparedto);
                 Float mydata=Float.parseFloat(dataString);
                 switch (Operator)
                 {
                     case "=":
                     {
-                        return mydata==ComparedTodata;
+                        return mydata == ComparedTodata;
 
                     }
                     case "!=":
@@ -236,12 +229,12 @@ public enum DataType
                         return mydata!=ComparedTodata;
 
                     }
-                    case "Bt":
+                    case "bt":
                     {
                         return mydata>ComparedTodata;
 
                     }
-                    case "Lt":
+                    case "lt":
                     {
                         return mydata<ComparedTodata;
 
@@ -259,21 +252,20 @@ public enum DataType
         }
 
         @Override
-        public String multiply(String arg1,String arg2,String from,String to) throws Exception
+        public String multiply(String arg1, String arg2, String from, String to) throws Exception
         {
             try
             {
-                Float a1=Float.parseFloat(arg1);
-                Float a2=Float.parseFloat(arg2);
-                Float res=a1*a2;
-                if(isInRange(res,from,to))
+                Float a1 = Float.parseFloat(arg1);
+                Float a2 = Float.parseFloat(arg2);
+                Float res = a1 * a2;
+                if(isInRange(res, from, to))
                 {
                     return res.toString();
                 }
                 else
                 {
                     throw new Exception("The result of this action is out of the predefined range");
-
                 }
             }
             catch (Exception e)
@@ -283,20 +275,20 @@ public enum DataType
         }
 
         @Override
-        public String divide(String arg1,String arg2,String from,String to) throws Exception
+        public String divide(String arg1, String arg2, String from, String to) throws Exception
         {
             try
             {
-                Float a1=Float.parseFloat(arg1);
-                Float a2=Float.parseFloat(arg2);
-                if(a2==0)
+                Float a1 = Float.parseFloat(arg1);
+                Float a2 = Float.parseFloat(arg2);
+                if(a2 == 0)
                 {
                     throw new Exception("You can't divide by 0 !");
                 }
                 else
                 {
-                    Float res=a1/a2;
-                    if(isInRange(res,from,to))
+                    Float res = a1/a2;
+                    if(isInRange(res, from, to))
                     {
                        return res.toString();
                     }
@@ -334,7 +326,7 @@ public enum DataType
         }
 
         @Override
-        public String decrease(String value,String dataString,String from,String to) throws Exception
+        public String decrease(String value, String dataString, String from, String to) throws Exception
         {
             try
             {
@@ -348,6 +340,7 @@ public enum DataType
                 }
                 else
                 {
+                    //to delete?
                     throw new Exception("The result of this action is out of the predefined range");
                 }
             }
@@ -355,26 +348,15 @@ public enum DataType
             {
                 throw e;
             }
-
-
-
         }
 
         public Boolean isInRange(Float value,String from,String to)
         {
-            Float fromvalue=Float.parseFloat(from);
-            Float tovalue=Float.parseFloat(to);
-            if(value>=fromvalue&&value<=tovalue)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-
+            Float fromvalue = Float.parseFloat(from);
+            Float tovalue = Float.parseFloat(to);
+            return value >= fromvalue && value <= tovalue;
         }
+
         @Override
         public String increase(String value,String dataString,String from,String to) throws Exception
         {
@@ -446,29 +428,24 @@ public enum DataType
                     case "Lt":
                     {
                         throw new Exception("Comparator not legit in the context of Boolean");
-
                     }
                     default:throw new Exception("operator not legit");
                 }
-
             }
             catch (Exception e)
             {
                 throw new Exception("comparison doesn't make sense");
             }
-
-
-
         }
 
         @Override
-        public String multiply(String arg1,String arg2,String from,String to) throws Exception
+        public String multiply(String arg1, String arg2, String from,String to) throws Exception
         {
             throw new Exception("Can't apply this action to type boolean");
         }
 
         @Override
-        public String divide(String arg1,String arg2,String from,String to) throws Exception
+        public String divide(String arg1, String arg2, String from, String to) throws Exception
         {
             throw new Exception("Can't apply this action to type boolean");
 
@@ -566,8 +543,6 @@ public enum DataType
                         {
                             return false;
                         }
-
-
                     }
                     case "Lt":
                     {

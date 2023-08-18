@@ -1,6 +1,5 @@
 package Rules.ActionTypes;
 
-
 import Entity.EntityInstance;
 import Entity.Entity;
 import Rules.Rule;
@@ -127,10 +126,9 @@ public class MultipleCondition extends ConditionAction
                     {
                         for (ConditionAction c:listOfConditions)
                         {
-
                             c.ActivateAction(e);
                             Boolean result=c.getConditionResult();
-                            if(result==false)
+                            if(!result)
                             {
                                 conditionResult=false;
                                 break;
@@ -142,15 +140,16 @@ public class MultipleCondition extends ConditionAction
                     }
                     case"or":
                     {
-                        conditionResult=false;
+                        conditionResult = false;
                         for (ConditionAction c:listOfConditions)
                         {
                             c.ActivateAction(e);
-                            Boolean result=c.getConditionResult();
+                            Boolean result = c.getConditionResult();
 
-                            if(result==true)
+                            if(result)
                             {
-                                conditionResult=true;
+                                conditionResult = true;
+                                break;
                             }
 
                         }
