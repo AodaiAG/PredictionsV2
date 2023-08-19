@@ -290,8 +290,8 @@ public class Rule {
 
                         }
                     }
-                   boolean hasRemoved = currentEntity.getEntities().removeIf(entityInstance ->entityInstance.getTobeKilled() == true );
 
+                   boolean hasRemoved = currentEntity.getEntities().removeIf(entityInstance ->entityInstance.getTobeKilled() == true );
                 }
             }
         }
