@@ -72,6 +72,7 @@ public class Engine implements IEngine {
         WorldDTO worldBeforeChanging = convertWorldToDTO();
         UUID simulationId = UUID.randomUUID();
         runSimulation();
+
         WorldDTO worldAfter = convertWorldToDTO();
         Simulation simulation = new Simulation(worldBeforeChanging, worldAfter);
         simulations.put(simulationId, simulation);
@@ -110,18 +111,23 @@ public class Engine implements IEngine {
         long delay = (long) this.world.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
         timer.schedule(task, delay);
 
-        while (ticksCounter < ticksAmount && programRunning) {
-            for (Rule rule : this.world.getRules()) {
+        while (ticksCounter < ticksAmount && programRunning)
+        {
+            for (Rule rule : this.world.getRules())
+            {
+
                 rule.isActivated(world.getEntities(), ticksCounter, generatedProbability);
                 generatedProbability = random.nextDouble();
             }
+            System.out.println("Ticks : "+ ticksCounter+" population: "+world.getEntities().get(0).getNumberOfInstances());
             ticksCounter++;
         }
         timer.cancel(); // Cancel the timer when simulation is done
     }
 
     @Override
-    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID) {
+    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID)
+    {
         Simulation simulation = simulations.get(simulationID);
         simulation.initQuantities();
         return simulation.getInitialQuantities(); //map of the old entites

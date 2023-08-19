@@ -273,7 +273,7 @@ public class Rule {
                     continue;
 
                 }
-                System.out.println(currentEntity.getEntities().size());
+
                 if(currentEntity.getEntities().size() != 0)
                 {
                     for (EntityInstance eI : currentEntity.getEntities())
@@ -291,7 +291,7 @@ public class Rule {
                         }
                     }
                    boolean hasRemoved = currentEntity.getEntities().removeIf(entityInstance ->entityInstance.getTobeKilled() == true );
-                    System.out.println(hasRemoved);
+
                 }
             }
         }

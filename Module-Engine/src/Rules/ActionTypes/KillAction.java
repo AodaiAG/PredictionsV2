@@ -39,6 +39,7 @@ public class KillAction extends Action
     @Override
     public void ActivateAction(EntityInstance e) throws Exception
     {
+
         e.setTobeKilled(true);
          for(Entity entity: functions.getWorld().getEntities())
          {

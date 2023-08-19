@@ -74,6 +74,7 @@ public  class ConditionAction extends Action
     @Override
     public void ActivateAction(EntityInstance e) throws Exception
     {
+
         condition.ActivateAction(e);
         conditionResult=condition.getConditionResult();
         if(conditionResult)

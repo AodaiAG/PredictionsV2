@@ -158,6 +158,7 @@ public class MultipleCondition extends ConditionAction
             {
                     case "and":
                     {
+                        conditionResult = true;
                         for (ConditionAction c:listOfConditions)
                         {
                             c.ActivateAction(e);
@@ -172,6 +173,7 @@ public class MultipleCondition extends ConditionAction
 
                         break;
                     }
+
                     case"or":
                     {
                         conditionResult = false;
@@ -187,6 +189,7 @@ public class MultipleCondition extends ConditionAction
                             }
 
                         }
+
                         break;
 
                     }
