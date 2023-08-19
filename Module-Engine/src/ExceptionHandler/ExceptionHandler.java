@@ -9,16 +9,18 @@ public class ExceptionHandler
 
         if (!lowc.equals("decimal")&&!lowc.equals("boolean")&&!lowc.equals("float")&&!lowc.equals("string"))
         {
-            throw new Exception("type not Supported!");
+            throw new Exception("type "+type+" not Supported!");
         }
 
     }
-    public void checkFromToRange(String from, String to) throws Exception {
+    public void checkFromToRange(String from, String to) throws Exception
+    {
         try {
             Float fromf = Float.parseFloat(from);
             Float tof = Float.parseFloat(to);
 
-            if (fromf > tof) {
+            if (fromf > tof)
+            {
                 throw new Exception("The range is not mathematically intact!");
             }
         } catch (NumberFormatException e)

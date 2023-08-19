@@ -116,9 +116,12 @@ public class CalculationAction extends Action
 
                     case "multiply":
                     {
-                        try {
+                        try
+                        {
                             property.getData().multiply(arg1,arg2);
-                        } catch (Exception ex) {
+
+                        } catch (Exception ex)
+                        {
 
                         }
                         break;

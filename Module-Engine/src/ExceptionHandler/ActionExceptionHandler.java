@@ -23,7 +23,7 @@ public class ActionExceptionHandler
             }
 
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             throw new RuntimeException("probability Activation for rule/action should be numeric!");
         }

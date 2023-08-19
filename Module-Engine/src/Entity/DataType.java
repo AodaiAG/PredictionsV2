@@ -420,12 +420,12 @@ public enum DataType
                         return Boolean.parseBoolean(dataString)!=Boolean.parseBoolean(comparedto);
 
                     }
-                    case "Bt":
+                    case "bt":
                     {
                         throw new Exception("Comparator not legit in the context of Boolean");
 
                     }
-                    case "Lt":
+                    case "lt":
                     {
                         throw new Exception("Comparator not legit in the context of Boolean");
                     }
@@ -520,15 +520,15 @@ public enum DataType
                 {
                     case "=":
                     {
-                        return dataString==comparedto;
+                        return dataString.equals(comparedto);
 
                     }
                     case "!=":
                     {
-                        return dataString!=comparedto;
+                        return !( dataString.equals(comparedto) );
 
                     }
-                    case "Bt":
+                    case "bt":
                     {
                         int res=dataString.compareTo(comparedto);
                         if(res==0)
@@ -544,7 +544,7 @@ public enum DataType
                             return false;
                         }
                     }
-                    case "Lt":
+                    case "lt":
                     {
                         int res=dataString.compareTo(comparedto);
                         if(res==0)

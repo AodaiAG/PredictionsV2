@@ -18,7 +18,6 @@ public class UI
 
     public void programFlow()
     {
-        WorldDTO worldDTOBeforeSimulation = engine.convertWorldToDTO(); //old values be kept
         userChoiceHandler();
     }
 
@@ -50,25 +49,26 @@ public class UI
                 case 2:
                 {
                     {
-                        PrintWorldDetails(engine.convertWorldToDTO());
+                        PrintWorldDetails(engine);
                         break;
                     }
                 }
                 case 3:
                 {
-                    runSimulation(engine.convertWorldToDTO());
+                    CheckAndrunSimulation(engine);
                     break;
                 }
                 case 4:
                 {
                     showAllSimulationsChooseWhichToShowDetails();
+                    break;
                 }
                 case 5:
                 {
-                    {
+
                         exit =true;
                         break;
-                    }
+
                 }
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");
@@ -103,8 +103,21 @@ public class UI
         }
     }
 
-    void PrintWorldDetails(WorldDTO worldDTO)
+    void PrintWorldDetails(IEngine engine)
     {
+       if(engine.isWordNull())
+       {
+           System.out.println("There is no current simulation in the system");
+       }
+       else
+       {
+           PrintWorldDTODetails(engine.convertWorldToDTO());
+       }
+    }
+
+    void PrintWorldDTODetails(WorldDTO worldDTO)
+    {
+
         int index = 1;
         System.out.println("There are " + worldDTO.getEntityDTOSet().size() + " entities," + worldDTO.getRulesDTOSet().size() + " Laws in the current simulation");
         Printer newPr = new Printer();
@@ -122,31 +135,55 @@ public class UI
         newPr.printTermination(worldDTO.getTerminationDTO());
     }
 
+
+    public void CheckAndrunSimulation(IEngine engine)
+    {
+        if(engine.isWordNull())
+        {
+            System.out.println("There is no current simulation in the system");
+        }
+        else
+        {
+            runSimulation(engine.convertWorldToDTO());
+        }
+    }
     public void runSimulation(WorldDTO worldDTO)
     {
         Printer pr = new Printer();
         environmentInitByUser(worldDTO.getEnvironmentDTOS(),pr);
         UUID currSimulationID = engine.startSimulation();
         System.out.println("Simulation id: "+ currSimulationID);
+        Simulation lastSimulation=engine.getSimulations().get(currSimulationID);
+        printSimulationDetails(lastSimulation);
 
     }
     void showAllSimulationsChooseWhichToShowDetails()
     {
-        Scanner sc = new Scanner(System.in);
-        Map<UUID, Simulation> simulations = this.engine.getSimulations();
-        System.out.println("**Simulations in the system** : ");
-        Object[] array = simulations.keySet().toArray(); // array[uuid]
-        for(int i = 0; i < array.length; i++)
+        int simulationCount=this.engine.getSimulations().size();
+
+        if(simulationCount==0)
         {
-            System.out.println("Simulation number " + (i + 1) + " ID: " + array[i]);
+            System.out.println("There is not current simulations in the system,");
 
         }
-        System.out.println("Please, enter the simulation's number for which you would like to see the results: ");
-        int userChoice = sc.nextInt();
-        checkIfNumberIsWithinRange(userChoice, array.length);
-        UUID chosenSimulationId= (UUID) array[userChoice -1];
-        Simulation choosenSimulation = simulations.get(chosenSimulationId);
-        printSimulationDetails(choosenSimulation);
+        else
+        {
+            Scanner sc = new Scanner(System.in);
+            Map<UUID, Simulation> simulations = this.engine.getSimulations();
+            System.out.println("**Simulations in the system** : ");
+            Object[] array = simulations.keySet().toArray(); // array[uuid]
+            for(int i = 0; i < array.length; i++)
+            {
+                System.out.println("Simulation number " + (i + 1) + " ID: " + array[i]);
+
+            }
+            System.out.println("Please, enter the simulation's number for which you would like to see the results: ");
+            int userChoice = sc.nextInt();
+            checkIfNumberIsWithinRange(userChoice, array.length);
+            UUID chosenSimulationId= (UUID) array[userChoice -1];
+            Simulation choosenSimulation = simulations.get(chosenSimulationId);
+            printSimulationDetails(choosenSimulation);
+        }
     }
 
     void PrintSimulationAccordingToAmounts(Simulation simulation)
