@@ -42,7 +42,8 @@ public class Engine implements IEngine {
         {
             rulesDTOSet.add(convertRuleToDTO(r));
         }
-        for (EnvironmentInstance env : world.getName2Env().values()) {
+        for (EnvironmentInstance env : world.getName2Env().values())
+        {
             PropertyDTO pDto = convertPropertyToDTO(env.getEnvironmentProperty());
             EnvironmentDTO dto = new EnvironmentDTO(pDto);
             envSet.add(dto);
@@ -51,12 +52,15 @@ public class Engine implements IEngine {
     }
 
     @Override
-    public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception {
+    public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception
+    {
         EnvironmentInstance environmentInstance = this.world.getName2Env().get(environmentDTO.getEnProperty().getNameOfProperty());
-        try {
+        try
+        {
             environmentInstance.getEnvironmentProperty().getData().setNewValue(userValue);
             environmentInstance.getEnvironmentProperty().setRandomInitialize(false);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw e;
         }
     }

@@ -8,7 +8,8 @@ import java.util.Map;
 import java.util.function.Function;
 import Entity.Data; //to delete
 
-public class Expression {
+public class Expression
+{
     private final Map<String, Function<String[], String>> FUNCTIONS = new HashMap<>();
 
     private final AuxiliaryMethods auxiliaryMethods;
