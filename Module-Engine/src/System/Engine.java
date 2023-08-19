@@ -102,7 +102,8 @@ public class Engine implements IEngine
 
         TimerTask task = new TimerTask() {
             @Override
-            public void run() {
+            public void run()
+            {
                 programRunning = false;
                 System.out.println("Time's up");
                 timer.cancel();
