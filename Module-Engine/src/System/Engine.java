@@ -21,11 +21,12 @@ import Entity.Entity;
 import ExceptionHandler.PropertyExceptionHandler;
 import ExceptionHandler.RuleExceptionHandler;
 
-public class Engine implements IEngine {
+public class Engine implements IEngine
+{
     private static boolean programRunning = true;
     private Map<UUID, Simulation> simulations = new HashMap<>();
+    public Random r = new Random();
     public World world;
-
 
 
     public WorldDTO convertWorldToDTO()
@@ -71,6 +72,7 @@ public class Engine implements IEngine {
     {
         WorldDTO worldBeforeChanging = convertWorldToDTO();
         UUID simulationId = UUID.randomUUID();
+
         runSimulation();
 
         WorldDTO worldAfter = convertWorldToDTO();
@@ -92,9 +94,9 @@ public class Engine implements IEngine {
 
     public void runSimulation()
     {
-        Random random = new Random();
+
         double generatedProbability;
-        generatedProbability = random.nextDouble();
+        generatedProbability = r.nextDouble();
         int ticksCounter = 0;
         Timer timer = new Timer();
 
@@ -117,7 +119,7 @@ public class Engine implements IEngine {
             {
 
                 rule.isActivated(world.getEntities(), ticksCounter, generatedProbability);
-                generatedProbability = random.nextDouble();
+                generatedProbability = r.nextDouble();
             }
             System.out.println("Ticks : "+ ticksCounter+" population: "+world.getEntities().get(0).getNumberOfInstances());
             ticksCounter++;
@@ -304,7 +306,8 @@ public class Engine implements IEngine {
         }
     }
 
-    public void initEntitiesFromFile(NodeList list, World w) throws Exception {
+    public void initEntitiesFromFile(NodeList list, World w) throws Exception
+    {
         String name = new String();
 
         PropertyExceptionHandler exceptionHandler = new PropertyExceptionHandler();
@@ -368,14 +371,18 @@ public class Engine implements IEngine {
                 newEntity.setPropertiesOfTheEntity(propOfEntity);
 
 
-                for (int m = 0; m < popNumber; m++) {
+                for (int m = 0; m < popNumber; m++)
+                {
 
                     EntityInstance added = e1.clone();
-                    for (Property p : added.getPropertiesOfTheEntity()) {
+
+                    for (Property p : added.getPropertiesOfTheEntity())
+                    {
                         boolean isInitrandom = p.isRandomInitialize();
                         String initval = p.getData().getDataString();
-                        if (isInitrandom) {
-                            p.getData().calculateNewVal(initval, true);
+                        if (isInitrandom)
+                        {
+                            p.getData().calculateNewVal(initval, true,r);
                         }
                     }
 
@@ -394,7 +401,9 @@ public class Engine implements IEngine {
     }
 
 
-    Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init) {
+    Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init)
+    {
+
         Property res = new Property();
         res.setNameOfProperty(name);
         res.setRandomInitialize(bool);
@@ -405,7 +414,7 @@ public class Engine implements IEngine {
             eD.setFrom(from);
             eD.setTo(to);
         }
-        eD.calculateNewVal(init, bool);
+        eD.calculateNewVal(init, bool,r);
         res.setData(eD);
         return res;
     }

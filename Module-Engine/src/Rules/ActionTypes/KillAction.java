@@ -5,7 +5,7 @@ import Expression.AuxiliaryMethods;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import Entity.Property;
 
 public class KillAction extends Action
 {
@@ -41,6 +41,14 @@ public class KillAction extends Action
     {
 
         e.setTobeKilled(true);
+
+        for(Property p :e.getPropertiesOfTheEntity())
+        {
+            if(p.getNameOfProperty().equals("age"))
+            {
+                System.out.println("Age: "+p.getData().getDataString());
+            }
+        }
          for(Entity entity: functions.getWorld().getEntities())
          {
              if(e.getNameOfEntity().equals(entity.getNameOfEntity()))

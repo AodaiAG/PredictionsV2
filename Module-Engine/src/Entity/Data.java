@@ -38,9 +38,9 @@ public class Data
 
 
 
-    public  void calculateNewVal(String initVal, Boolean isRandomInitialize)
+    public  void calculateNewVal(String initVal, Boolean isRandomInitialize,Random r)
     {
-        dataString = dataType.calculateNewVal(initVal,isRandomInitialize,from,to);
+        dataString = dataType.calculateNewVal(initVal,isRandomInitialize,from,to,r);
     }
 
     public void decrease(String value) throws Exception
