@@ -4,8 +4,7 @@ public class Activation {
     private int ticks = 1;
     private double probability = 1;
 
-    public int getTicks()
-    {
+    public int getTicks() {
         return ticks;
     }
 

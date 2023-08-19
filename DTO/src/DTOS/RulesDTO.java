@@ -3,16 +3,14 @@ package DTOS;
 import java.util.List;
 import java.util.Set;
 
-public class RulesDTO
-{
+public class RulesDTO {
     private String nameOfRule;
     private int ticks;
     private double probability;
     private int numberOfActions;
     private List<String> namesOfActions;
 
-    public RulesDTO(String nameOfRule, int ticks, double probability, int numberOfActions, List<String> namesOfActions)
-    {
+    public RulesDTO(String nameOfRule, int ticks, double probability, int numberOfActions, List<String> namesOfActions) {
         this.nameOfRule = nameOfRule;
         this.ticks = ticks;
         this.probability = probability;

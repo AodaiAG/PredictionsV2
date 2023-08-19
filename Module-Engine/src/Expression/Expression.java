@@ -1,11 +1,14 @@
 package Expression;
+
 import Entity.EntityInstance;
 import Entity.Property;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+
 import Entity.Data; //to delete
 
 public class Expression {
@@ -31,8 +34,7 @@ public class Expression {
         return auxiliaryMethods.environment(arg);
     }
 
-    public String evaluateExpression(String expression)
-    {
+    public String evaluateExpression(String expression) {
         if (expression.isEmpty()) {
             return ""; // Empty expression
         }
@@ -50,20 +52,16 @@ public class Expression {
             isAMethod = true;
         }
 
-        if (FUNCTIONS.containsKey(firstWord) && isAMethod)
-        {
+        if (FUNCTIONS.containsKey(firstWord) && isAMethod) {
             Function<String[], String> function = FUNCTIONS.get(firstWord);
             return function.apply(argumentArray);
         } else {
-            for (Property p : entityInstance.getPropertiesOfTheEntity())
-            {
-                if (p.getNameOfProperty().equals(expression))
-                {
+            for (Property p : entityInstance.getPropertiesOfTheEntity()) {
+                if (p.getNameOfProperty().equals(expression)) {
                     return p.getData().getDataString();
                 }
             }
-            try
-            {
+            try {
                 // Try to convert to number
                 Double.parseDouble(firstWord);
                 return firstWord;
@@ -78,20 +76,3 @@ public class Expression {
         }
     }
 }
-
-    // Example usage
-//    public static void main(String[] args)
-//    {
-//        EntityInstance ei = new EntityInstance();
-//        ei.setNameOfEntity("Dora");
-//        ei.setPropertiesOfTheEntity(new HashSet<>());
-//        Property p = new Property();
-//        p.setRandomInitialize(false);
-//        p.setNameOfProperty("P1");
-//        Data d = new Data();
-//        d.setDataString("Str");
-//        ei.getPropertiesOfTheEntity().add(p);
-//        String expression2 = "environment(cigarets-critical)";
-//        String result2 = evaluateExpression(expression2, ei );
-//        System.out.println("Result 2: " + result2);
-//    }

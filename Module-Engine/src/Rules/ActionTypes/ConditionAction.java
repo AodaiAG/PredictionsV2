@@ -7,8 +7,7 @@ import Entity.Entity;
 import Entity.EntityInstance;
 import Expression.AuxiliaryMethods;
 
-public  class ConditionAction extends Action
-{
+public class ConditionAction extends Action {
     private String entityName;
 
     private Boolean conditionResult;
@@ -40,7 +39,7 @@ public  class ConditionAction extends Action
         this.condition = condition;
     }
 
-    public  List<Action> getActionsToDoIfTrue() {
+    public List<Action> getActionsToDoIfTrue() {
         return actionsToDoIfTrue;
     }
 
@@ -48,7 +47,7 @@ public  class ConditionAction extends Action
         this.actionsToDoIfTrue = actionsToDoIfTrue;
     }
 
-    public  List<Action> getActionsToDoIfFalse() {
+    public List<Action> getActionsToDoIfFalse() {
         return actionsToDoIfFalse;
     }
 
@@ -56,52 +55,41 @@ public  class ConditionAction extends Action
         this.actionsToDoIfFalse = actionsToDoIfFalse;
     }
 
-    public Boolean getConditionResult()
-    {
+    public Boolean getConditionResult() {
         return conditionResult;
     }
 
-    public void setConditionResult(Boolean conditionResult)
-    {
+    public void setConditionResult(Boolean conditionResult) {
         this.conditionResult = conditionResult;
     }
+
     @Override
-    public String getNameOfAction()
-    {
+    public String getNameOfAction() {
         return "condition";
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception
-    {
+    public void ActivateAction(EntityInstance e) throws Exception {
         condition.ActivateAction(e);
-        conditionResult=condition.getConditionResult();
-        if(conditionResult)
-        {
-            if(!actionsToDoIfTrue.isEmpty())
-            {
-                for(Action a:actionsToDoIfTrue)
-                {
+        conditionResult = condition.getConditionResult();
+        if (conditionResult) {
+            if (!actionsToDoIfTrue.isEmpty()) {
+                for (Action a : actionsToDoIfTrue) {
                     a.ActivateAction(e);
                 }
             }
-        }
-        else
-        {
-            if(!actionsToDoIfFalse.isEmpty())
-            {
-                for(Action a:actionsToDoIfFalse)
-                {
+        } else {
+            if (!actionsToDoIfFalse.isEmpty()) {
+                for (Action a : actionsToDoIfFalse) {
                     a.ActivateAction(e);
                 }
             }
         }
     }
 
-    public ConditionAction()
-    {
+    public ConditionAction() {
 
-        actionsToDoIfTrue=new ArrayList<>();
-        actionsToDoIfFalse=new ArrayList<>();
+        actionsToDoIfTrue = new ArrayList<>();
+        actionsToDoIfFalse = new ArrayList<>();
     }
 }

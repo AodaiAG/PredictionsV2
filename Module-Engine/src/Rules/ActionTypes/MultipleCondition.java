@@ -6,19 +6,17 @@ import Rules.Rule;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultipleCondition extends ConditionAction
-{
+public class MultipleCondition extends ConditionAction {
     private Boolean conditionResult;
     private String logical;
     private List<ConditionAction> listOfConditions;
 
-
     @Override
-    public Boolean getConditionResult()
-    {
+    public Boolean getConditionResult() {
         return conditionResult;
     }
 
@@ -27,72 +25,52 @@ public class MultipleCondition extends ConditionAction
         this.conditionResult = conditionResult;
     }
 
-
-    public  MultipleCondition createMultipleCondition(Node nodelist)
-    {
-        MultipleCondition res=new MultipleCondition();
+    public MultipleCondition createMultipleCondition(Node nodelist) {
+        MultipleCondition res = new MultipleCondition();
         res.setFunctions(functions);
         res.setLogical(nodelist.getAttributes().getNamedItem("logical").getTextContent());
-        Element el=(Element) nodelist;
-       NodeList wanted= nodelist.getChildNodes();
-       Rule justToCallFunction =new Rule();
+        Element el = (Element) nodelist;
+        NodeList wanted = nodelist.getChildNodes();
+        Rule justToCallFunction = new Rule();
         justToCallFunction.setFunctions(functions);
 
-
-       for(int i=0;i<wanted.getLength();i++)
-       {
-
-
-           if(wanted.item(i).getNodeType()==Node.ELEMENT_NODE)
-           {
-               Node node=wanted.item(i);
-               String conditionType=node.getAttributes().getNamedItem("singularity").getTextContent();
-               if(conditionType.equals("single"))
-               {
-                   SingleCondition single=new SingleCondition();
-                   single.setFunctions(getFunctions());
-                   single.setNameofEntity(node.getAttributes().getNamedItem("entity").getTextContent());
-                   single.setNameofProperty(node.getAttributes().getNamedItem("property").getTextContent());
-                   single.setOperator(node.getAttributes().getNamedItem("operator").getTextContent());
-                   single.setValue(node.getAttributes().getNamedItem("value").getTextContent());
-                   res.getListOfConditions().add(single);
-               }
-               if(conditionType.equals("multiple"))
-               {
-                   res.getListOfConditions().add(createMultipleCondition(node));
-               }
-
-
-           }
-       }
-
+        for (int i = 0; i < wanted.getLength(); i++) {
+            if (wanted.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                Node node = wanted.item(i);
+                String conditionType = node.getAttributes().getNamedItem("singularity").getTextContent();
+                if (conditionType.equals("single")) {
+                    SingleCondition single = new SingleCondition();
+                    single.setFunctions(getFunctions());
+                    single.setNameofEntity(node.getAttributes().getNamedItem("entity").getTextContent());
+                    single.setNameofProperty(node.getAttributes().getNamedItem("property").getTextContent());
+                    single.setOperator(node.getAttributes().getNamedItem("operator").getTextContent());
+                    single.setValue(node.getAttributes().getNamedItem("value").getTextContent());
+                    res.getListOfConditions().add(single);
+                }
+                if (conditionType.equals("multiple")) {
+                    res.getListOfConditions().add(createMultipleCondition(node));
+                }
+            }
+        }
         // then
-
-        Element thenNodesF=(Element)(((Element) nodelist).getElementsByTagName("PRD-then").item(0));
-        if(thenNodesF!=null)
-        {
-            NodeList thenNodes=thenNodesF.getElementsByTagName("PRD-action");
-            for(int p=0;p<thenNodes.getLength();p++)
-            {
-                res.getActionsToDoIfTrue().add(p,justToCallFunction.CreateAction(thenNodes.item(p)));
+        Element thenNodesF = (Element) (((Element) nodelist).getElementsByTagName("PRD-then").item(0));
+        if (thenNodesF != null) {
+            NodeList thenNodes = thenNodesF.getElementsByTagName("PRD-action");
+            for (int p = 0; p < thenNodes.getLength(); p++) {
+                res.getActionsToDoIfTrue().add(p, justToCallFunction.CreateAction(thenNodes.item(p)));
 
             }
 
         }
 
-
-        Element elseNodesF=(Element)(((Element) nodelist).getElementsByTagName("PRD-else").item(0));
-        if(elseNodesF!=null)
-        {
-            NodeList elseNodes=elseNodesF.getElementsByTagName("PRD-action");
-
-            for(int p=0;p<elseNodes.getLength();p++)
-            {
-                res.getActionsToDoIfFalse().add(p,justToCallFunction.CreateAction(elseNodes.item(p)));
-
+        Element elseNodesF = (Element) (((Element) nodelist).getElementsByTagName("PRD-else").item(0));
+        if (elseNodesF != null) {
+            NodeList elseNodes = elseNodesF.getElementsByTagName("PRD-action");
+            for (int p = 0; p < elseNodes.getLength(); p++) {
+                res.getActionsToDoIfFalse().add(p, justToCallFunction.CreateAction(elseNodes.item(p)));
             }
         }
-       return res;
+        return res;
     }
 
     public String getLogical() {
@@ -110,62 +88,45 @@ public class MultipleCondition extends ConditionAction
     public void setListOfConditions(List<ConditionAction> listOfConditions) {
         this.listOfConditions = listOfConditions;
     }
+
     @Override
-    public String getNameOfAction()
-    {
+    public String getNameOfAction() {
         return "multipleCondition";
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception
-    {
-
-            switch (logical)
-            {
-                    case "and":
-                    {
-                        for (ConditionAction c:listOfConditions)
-                        {
-                            c.ActivateAction(e);
-                            Boolean result=c.getConditionResult();
-                            if(!result)
-                            {
-                                conditionResult=false;
-                                break;
-                            }
-
-                        }
-
-                        break;
-                    }
-                    case"or":
-                    {
+    public void ActivateAction(EntityInstance e) throws Exception {
+        switch (logical) {
+            case "and": {
+                for (ConditionAction c : listOfConditions) {
+                    c.ActivateAction(e);
+                    Boolean result = c.getConditionResult();
+                    if (!result) {
                         conditionResult = false;
-                        for (ConditionAction c:listOfConditions)
-                        {
-                            c.ActivateAction(e);
-                            Boolean result = c.getConditionResult();
-
-                            if(result)
-                            {
-                                conditionResult = true;
-                                break;
-                            }
-
-                        }
                         break;
-
                     }
+                }
+                break;
+            }
+            case "or": {
+                conditionResult = false;
+                for (ConditionAction c : listOfConditions) {
+                    c.ActivateAction(e);
+                    Boolean result = c.getConditionResult();
 
+                    if (result) {
+                        conditionResult = true;
+                        break;
+                    }
+                }
+                break;
+            }
         }
     }
 
-    public MultipleCondition()
-    {
-        logical=new String();
-        listOfConditions=new ArrayList<>();
-        conditionResult=true;
+    public MultipleCondition() {
+        logical = new String();
+        listOfConditions = new ArrayList<>();
+        conditionResult = true;
     }
-
-
 }

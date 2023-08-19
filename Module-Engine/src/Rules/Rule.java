@@ -6,8 +6,10 @@ import Rules.ActionTypes.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import Entity.EntityInstance;
 
 
@@ -66,23 +68,19 @@ public class Rule {
         actions = new ArrayList<>();
     }
 
-    public Action CreateAction(Node ActionNode)
-    {
+    public Action CreateAction(Node ActionNode) {
         String whichEntityActionWork = ActionNode.getAttributes().getNamedItem("entity").getTextContent();
         String typeOfAction = ActionNode.getAttributes().getNamedItem("type").getTextContent();
 
-        switch (typeOfAction)
-        {
-            case "condition":
-            {
+        switch (typeOfAction) {
+            case "condition": {
                 ConditionAction conditionA = new ConditionAction();
                 conditionA.setFunctions(this.functions);
                 conditionA.setEntityName(whichEntityActionWork);
 
                 Node c = ((Element) ActionNode).getElementsByTagName("PRD-condition").item(0);
                 String typeOfCondition = c.getAttributes().getNamedItem("singularity").getTextContent();
-                if (typeOfCondition.equals("single"))
-                {
+                if (typeOfCondition.equals("single")) {
                     SingleCondition single = new SingleCondition();
                     single.setFunctions(this.functions);
                     single.setNameofEntity(c.getAttributes().getNamedItem("entity").getTextContent());
@@ -91,8 +89,7 @@ public class Rule {
                     single.setValue(c.getAttributes().getNamedItem("value").getTextContent());
                     conditionA.setCondition(single);
                 }
-                if (typeOfCondition.equals("multiple"))
-                {
+                if (typeOfCondition.equals("multiple")) {
 
                     MultipleCondition tocallfunc = new MultipleCondition();
                     tocallfunc.setFunctions(this.functions);
@@ -111,8 +108,7 @@ public class Rule {
                 if (elseNodesF != null) {
                     NodeList elseNodes = elseNodesF.getElementsByTagName("PRD-action");
 
-                    for (int p = 0; p < elseNodes.getLength(); p++)
-                    {
+                    for (int p = 0; p < elseNodes.getLength(); p++) {
                         conditionA.getActionsToDoIfFalse().add(p, CreateAction(elseNodes.item(p)));
 
                     }
@@ -182,41 +178,31 @@ public class Rule {
         throw new RuntimeException("emptyList");
     }
 
-    public void isActivated(List<Entity> entities, int ticks, double generatedProbability)
-    {
-        if (ticks % activation.getTicks() == 0 || generatedProbability < activation.getProbability())
-        {
-            for (Action action : this.actions)
-            {
+    public void isActivated(List<Entity> entities, int ticks, double generatedProbability) {
+        if (ticks % activation.getTicks() == 0 || generatedProbability < activation.getProbability()) {
+            for (Action action : this.actions) {
                 String currentEntityName = action.getNameOfEntity();
                 Entity currentEntity = null;
-                try
-                {
+                try {
                     currentEntity = action.findEntityAccordingName(entities, currentEntityName);
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
                     continue;
 
                 }
                 System.out.println(currentEntity.getEntities().size());
-                if(currentEntity.getEntities().size() != 0)
-                {
-                    for (EntityInstance eI : currentEntity.getEntities())
-                    {
-                        try
-                        {
-                            if (eI != null)
-                             {
-                                 action.ActivateAction(eI);
-                             }
+                if (currentEntity.getEntities().size() != 0) {
+                    for (EntityInstance eI : currentEntity.getEntities()) {
+                        try {
+                            if (eI != null) {
+                                action.ActivateAction(eI);
+                            }
 
-                        } catch (Exception e)
-                        {
+                        } catch (Exception e) {
 
                         }
                     }
-                   boolean hasRemoved = currentEntity.getEntities().removeIf(entityInstance ->entityInstance.getTobeKilled() == true );
+                    boolean hasRemoved = currentEntity.getEntities().removeIf(entityInstance -> entityInstance.getTobeKilled() == true);
                     System.out.println(hasRemoved);
                 }
             }

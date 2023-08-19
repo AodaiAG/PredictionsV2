@@ -5,10 +5,10 @@ import DTOS.WorldDTO;
 import Entity.Entity;
 import Entity.EntityInstance;
 import Entity.Property;
+
 import java.util.*;
 
-public class Simulation
-{
+public class Simulation {
     private static boolean programRunning;
     private WorldDTO wordAfterSimulation;
     private WorldDTO wordBeforeSimulation;
@@ -25,8 +25,7 @@ public class Simulation
     }
 
 
-    public Simulation(WorldDTO worldBefore, WorldDTO worldAfter)
-    {
+    public Simulation(WorldDTO worldBefore, WorldDTO worldAfter) {
         this.wordAfterSimulation = worldAfter;
         wordBeforeSimulation = worldBefore;
         programRunning = true;
@@ -50,7 +49,7 @@ public class Simulation
 
     public Map<String, Integer> initPropertyHistogramAndReturnValueCounts(Entity entity, String propertyName) //<nameOfProperty, map<valueOfProperty, amountOfInstancesWithThisValue>
     {
-        for (EntityInstance instance:entity.getEntities()) {
+        for (EntityInstance instance : entity.getEntities()) {
             for (Property property : instance.getPropertiesOfTheEntity()) {
                 String localPropertyName = property.getNameOfProperty();
                 String localPropertyValue = property.getData().getDataString();
@@ -64,16 +63,13 @@ public class Simulation
     }
 
 
-
-    public void initQuantities()
-    {
+    public void initQuantities() {
         for (EntityDTO entityDTO : this.wordBeforeSimulation.getEntityDTOSet()) {
             initialQuantities.put(entityDTO.getName(), entityDTO.getNumberOfInstances());
         }
     }
 
-    public void showEntitiesAmount()
-    {
+    public void showEntitiesAmount() {
         initQuantities();
 
     }

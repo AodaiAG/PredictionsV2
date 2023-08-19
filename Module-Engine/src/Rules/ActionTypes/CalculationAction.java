@@ -5,15 +5,14 @@ import Entity.EntityInstance;
 import Expression.Expression;
 import Expression.AuxiliaryMethods;
 
-public class CalculationAction extends Action
-{
+public class CalculationAction extends Action {
     private String entityName;
 
     private String typeOfCondition;
 
     private String resultProp;
 
-@Override
+    @Override
     public void setFunctions(AuxiliaryMethods functions) {
         super.functions = functions;
     }
@@ -24,15 +23,14 @@ public class CalculationAction extends Action
 
     private String expression2;
 
-    public CalculationAction()
-    {
-        resultProp=new String();
+    public CalculationAction() {
+        resultProp = new String();
         entityName = "";
-        typeOfCondition=new String();
-        calType=new String();
-        expression1=new String();
-        expression2=new String();
-        typeOfCondition="calculation";
+        typeOfCondition = new String();
+        calType = new String();
+        expression1 = new String();
+        expression2 = new String();
+        typeOfCondition = "calculation";
     }
 
 
@@ -44,18 +42,16 @@ public class CalculationAction extends Action
     public String getNameOfEntity() {
         return entityName;
     }
-    public String getTypeOfCondition()
-    {
+
+    public String getTypeOfCondition() {
         return typeOfCondition;
     }
 
-    public String getNameOfAction()
-    {
+    public String getNameOfAction() {
         return "calculation";
     }
 
-    public String getResultProp()
-    {
+    public String getResultProp() {
         return resultProp;
     }
 
@@ -79,8 +75,7 @@ public class CalculationAction extends Action
         this.expression1 = expression1;
     }
 
-    public String getExpression2()
-    {
+    public String getExpression2() {
         return expression2;
     }
 
@@ -89,35 +84,27 @@ public class CalculationAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance entityInstance) throws Exception
-    {
+    public void ActivateAction(EntityInstance entityInstance) throws Exception {
         Expression expression = new Expression(getFunctions(), entityInstance);
 
         String arg1 = expression.evaluateExpression(expression1);
         String arg2 = expression.evaluateExpression(expression2);
 
-        for(Property property : entityInstance.getPropertiesOfTheEntity())
-        {
-            if(property.getNameOfProperty().equals(resultProp))
-            {
-                switch (calType)
-                {
-                    case "divide":
-                    {
-                        try
-                        {
+        for (Property property : entityInstance.getPropertiesOfTheEntity()) {
+            if (property.getNameOfProperty().equals(resultProp)) {
+                switch (calType) {
+                    case "divide": {
+                        try {
                             property.getData().divide(arg1, arg2);
-                        } catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
 
                         }
                         break;
                     }
 
-                    case "multiply":
-                    {
+                    case "multiply": {
                         try {
-                            property.getData().multiply(arg1,arg2);
+                            property.getData().multiply(arg1, arg2);
                         } catch (Exception ex) {
 
                         }

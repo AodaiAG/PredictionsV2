@@ -8,24 +8,22 @@ import Entity.Entity;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class World implements IWorld
-{
+public class World implements IWorld {
     private int terminationTicks;
 
     private int terminationSeconds;
 
     private int ticksCounter;
 
-    private int secondMeasurment;
+    private int secondMeasurement;
 
     private List<Entity> entities;
 
-    private Map<String,EnvironmentInstance> name2Env;
+    private Map<String, EnvironmentInstance> name2Env;
 
     private List<Rule> rules;
 
-    public Map<String, EnvironmentInstance> getName2Env()
-    {
+    public Map<String, EnvironmentInstance> getName2Env() {
         return name2Env;
     }
 
@@ -34,8 +32,7 @@ public class World implements IWorld
     }
 
 
-    public int getTerminationTicks()
-    {
+    public int getTerminationTicks() {
         return terminationTicks;
     }
 
@@ -63,35 +60,30 @@ public class World implements IWorld
         return rules;
     }
 
-    public void setRules(List<Rule> rules)
-    {
+    public void setRules(List<Rule> rules) {
 
         this.rules = rules;
     }
 
-    public List<EntityInstance> CreateEntityWithPopulation(String name, int popNumber)
-    {
-        List<EntityInstance> res=new ArrayList<>();
-        for(int i=0;i<popNumber;i++)
-        {
-            EntityInstance e=new EntityInstance();
+    public List<EntityInstance> CreateEntityWithPopulation(String name, int popNumber) {
+        List<EntityInstance> res = new ArrayList<>();
+        for (int i = 0; i < popNumber; i++) {
+            EntityInstance e = new EntityInstance();
             e.setNameOfEntity(name);
             res.add(e);
         }
         return res;
     }
 
-    public World()
-    {
+    public World() {
         // init
 
-        name2Env=new HashMap<>();
-        rules=new ArrayList<>();
-        entities=new ArrayList<Entity>();
+        name2Env = new HashMap<>();
+        rules = new ArrayList<>();
+        entities = new ArrayList<Entity>();
     }
 
-    public String random(String arg)
-    {
+    public String random(String arg) {
         try {
             int maxRange = Integer.parseInt(arg);
             if (maxRange < 0) {
@@ -106,14 +98,12 @@ public class World implements IWorld
         }
     }
 
-    public  String environment(String nameOfEnvironmentVariable)
-    {
-        EnvironmentInstance en=getName2Env().get(nameOfEnvironmentVariable);
+    public String environment(String nameOfEnvironmentVariable) {
+        EnvironmentInstance en = getName2Env().get(nameOfEnvironmentVariable);
         return en.getEnvironmentProperty().getData().getDataString();
     }
 
-    public static String getTypeOfEntity(EntityInstance e)
-    {
+    public static String getTypeOfEntity(EntityInstance e) {
         Field resField = null;
         try {
             resField = e.getClass().getField("Type");
@@ -121,7 +111,7 @@ public class World implements IWorld
             throw new RuntimeException(ex);
         }
         String typeOfField = new String();
-        typeOfField=resField.getType().getSimpleName();
+        typeOfField = resField.getType().getSimpleName();
         return typeOfField;
     }
 }

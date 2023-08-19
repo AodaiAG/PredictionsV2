@@ -1,7 +1,6 @@
 package Entity;
 
-public class Property
-{
+public class Property {
     private String NameOfProperty;
 
     private boolean isRandomInitialize;
@@ -15,9 +14,8 @@ public class Property
     }
 
     @Override
-    public Property clone()
-    {
-        Property res=new Property();
+    public Property clone() {
+        Property res = new Property();
         res.setNameOfProperty(this.NameOfProperty);
         res.setRandomInitialize(isRandomInitialize);
         res.setData(this.data.clone());
@@ -53,8 +51,7 @@ public class Property
         isRandomInitialize = randomInitialize;
     }
 
-    public String getTypeString()
-    {
+    public String getTypeString() {
         return this.data.getDataType().getDataTypeString();
     }
 }
