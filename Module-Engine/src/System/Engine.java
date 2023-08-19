@@ -21,11 +21,12 @@ import Entity.Entity;
 import ExceptionHandler.PropertyExceptionHandler;
 import ExceptionHandler.RuleExceptionHandler;
 
-public class Engine implements IEngine {
+public class Engine implements IEngine
+{
     private static boolean programRunning = true;
     private Map<UUID, Simulation> simulations = new HashMap<>();
+    public Random r = new Random();
     public World world;
-
 
 
     public WorldDTO convertWorldToDTO()
@@ -71,7 +72,9 @@ public class Engine implements IEngine {
     {
         WorldDTO worldBeforeChanging = convertWorldToDTO();
         UUID simulationId = UUID.randomUUID();
+
         runSimulation();
+
         WorldDTO worldAfter = convertWorldToDTO();
         Simulation simulation = new Simulation(worldBeforeChanging, worldAfter);
         simulations.put(simulationId, simulation);
@@ -91,9 +94,9 @@ public class Engine implements IEngine {
 
     public void runSimulation()
     {
-        Random random = new Random();
+
         double generatedProbability;
-        generatedProbability = random.nextDouble();
+        generatedProbability = r.nextDouble();
         int ticksCounter = 0;
         Timer timer = new Timer();
 
@@ -110,18 +113,23 @@ public class Engine implements IEngine {
         long delay = (long) this.world.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
         timer.schedule(task, delay);
 
-        while (ticksCounter < ticksAmount && programRunning) {
-            for (Rule rule : this.world.getRules()) {
+        while (ticksCounter < ticksAmount && programRunning)
+        {
+            for (Rule rule : this.world.getRules())
+            {
+
                 rule.isActivated(world.getEntities(), ticksCounter, generatedProbability);
-                generatedProbability = random.nextDouble();
+                generatedProbability = r.nextDouble();
             }
+            System.out.println("Ticks : "+ ticksCounter+" population: "+world.getEntities().get(0).getNumberOfInstances());
             ticksCounter++;
         }
         timer.cancel(); // Cancel the timer when simulation is done
     }
 
     @Override
-    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID) {
+    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID)
+    {
         Simulation simulation = simulations.get(simulationID);
         simulation.initQuantities();
         return simulation.getInitialQuantities(); //map of the old entites
@@ -298,7 +306,8 @@ public class Engine implements IEngine {
         }
     }
 
-    public void initEntitiesFromFile(NodeList list, World w) throws Exception {
+    public void initEntitiesFromFile(NodeList list, World w) throws Exception
+    {
         String name = new String();
 
         PropertyExceptionHandler exceptionHandler = new PropertyExceptionHandler();
@@ -362,14 +371,18 @@ public class Engine implements IEngine {
                 newEntity.setPropertiesOfTheEntity(propOfEntity);
 
 
-                for (int m = 0; m < popNumber; m++) {
+                for (int m = 0; m < popNumber; m++)
+                {
 
                     EntityInstance added = e1.clone();
-                    for (Property p : added.getPropertiesOfTheEntity()) {
+
+                    for (Property p : added.getPropertiesOfTheEntity())
+                    {
                         boolean isInitrandom = p.isRandomInitialize();
                         String initval = p.getData().getDataString();
-                        if (isInitrandom) {
-                            p.getData().calculateNewVal(initval, true);
+                        if (isInitrandom)
+                        {
+                            p.getData().calculateNewVal(initval, true,r);
                         }
                     }
 
@@ -388,7 +401,9 @@ public class Engine implements IEngine {
     }
 
 
-    Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init) {
+    Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init)
+    {
+
         Property res = new Property();
         res.setNameOfProperty(name);
         res.setRandomInitialize(bool);
@@ -399,7 +414,7 @@ public class Engine implements IEngine {
             eD.setFrom(from);
             eD.setTo(to);
         }
-        eD.calculateNewVal(init, bool);
+        eD.calculateNewVal(init, bool,r);
         res.setData(eD);
         return res;
     }

@@ -4,7 +4,8 @@ import java.util.Random;
 
 public enum DataType
 {
-    DECIMAL {
+    DECIMAL
+            {
         @Override
         public String getDataTypeString() {
             return "Decimal";
@@ -187,7 +188,7 @@ public enum DataType
 
 
         @Override
-        public String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to)
+        public String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to,Random r)
         {
 
             int val;
@@ -384,7 +385,7 @@ public enum DataType
         }
 
         @Override
-        public String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to)
+        public String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to,Random r)
         {
             float val;
             if (isRandomInitialize)
@@ -482,7 +483,7 @@ public enum DataType
 
 
         @Override
-        public String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to)
+        public String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to,Random r)
         {
 
             {
@@ -599,7 +600,7 @@ public enum DataType
         }
 
         @Override
-        public String  calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to)
+        public String  calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to,Random r)
         {
             String val;
             if (isRandomInitialize) {
@@ -620,9 +621,9 @@ public enum DataType
         }
     };
 
-    final Random r = new Random();
+     Random r = new Random();
 
-    public abstract String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to);
+    public abstract String calculateNewVal(String initValue, Boolean isRandomInitialize,String from, String to,Random r);
     public abstract String decrease(String value,String dataString,String from,String to) throws Exception;
     public abstract String increase(String value,String dataString,String from,String to)  throws Exception;
     public abstract String setNewValue(String value,String from,String to)throws Exception;

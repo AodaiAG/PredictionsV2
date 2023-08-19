@@ -48,6 +48,7 @@ public class UI
 
                 case 2:
                 {
+
                     {
                         PrintWorldDetails(engine);
                         break;
