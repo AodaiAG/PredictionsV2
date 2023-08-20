@@ -1,4 +1,4 @@
-import DTOS.*;
+import pDTOS.*;
 
 import java.util.List;
 
@@ -37,10 +37,5 @@ public class Printer {
         System.out.println("\n** Terminations **:");
         System.out.println("termination by ticks: " + terminationDTO.getTerminationTicks());
         System.out.println("termination by seconds: " + terminationDTO.getTerminationSeconds());
-    }
-
-    public void printEnvironment(List<EnvironmentDTO> environmentDTOList) {
-        //print key and value
-        // printProperty(environmentDTO.getEnProperty());
     }
 }

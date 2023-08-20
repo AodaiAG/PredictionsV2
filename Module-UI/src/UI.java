@@ -1,4 +1,4 @@
-import DTOS.*;
+import pDTOS.*;
 import com.sun.jndi.toolkit.url.Uri;
 
 import java.io.File;
@@ -8,9 +8,9 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import System.IEngine;
-import System.Engine;
-import System.Simulation;
+import pSystem.IEngine;
+import pSystem.Engine;
+import pSystem.Simulation;
 
 public class UI {
     IEngine engine = new Engine();
@@ -21,8 +21,7 @@ public class UI {
         userChoiceHandler();
     }
 
-    public void userChoiceHandler()
-    {
+    public void userChoiceHandler() {
         Scanner sc = new Scanner(System.in);
         do {
             printMainMenu();
@@ -56,8 +55,7 @@ public class UI {
         } while (!shouldExit);
     }
 
-    void getFileDirectoryAndLoadSimulation()
-    {
+    void getFileDirectoryAndLoadSimulation() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Please, enter the directory of the file you wish to load : ");
         String path = sc.nextLine();
@@ -90,8 +88,10 @@ public class UI {
     void PrintWorldDTODetails(WorldDTO worldDTO) {
 
         int index = 1;
-        //change 1-is
-        System.out.println("There are " + worldDTO.getEntityDTOSet().size() + " entities, " + worldDTO.getRulesDTOSet().size() + " Laws in the current simulation");
+        int numOfEntities = worldDTO.getEntityDTOSet().size();
+        int numOfRules = worldDTO.getRulesDTOSet().size();
+        System.out.println("There " + (numOfEntities == 1 ? "is" : "are") + " " + numOfEntities + (numOfEntities == 1 ? " entity, " : " entities, ") + numOfRules + " Law" + (numOfRules == 1 ? "" : "s") + " in the current simulation.");
+
         Printer newPr = new Printer();
         System.out.println("** ENTITIES **");
         for (EntityDTO entityDTO : worldDTO.getEntityDTOSet())
@@ -108,7 +108,6 @@ public class UI {
         newPr.printTermination(worldDTO.getTerminationDTO());
     }
 
-
     public void checkAndRunSimulation(IEngine engine) {
         if (engine.isWordNull()) {
             System.out.println("There is no current simulation in the system");
@@ -117,10 +116,10 @@ public class UI {
         }
     }
 
-    public void runSimulation(WorldDTO worldDTO)
-    {
+    public void runSimulation(WorldDTO worldDTO) {
         Printer pr = new Printer();
         environmentInitByUser(worldDTO.getEnvironmentDTOS(), pr);
+        printEnvironmentVariable(worldDTO.getEnvironmentDTOS(), pr);
         UUID currSimulationID = engine.startSimulation();
         Simulation lastSimulation = engine.getSimulations().get(currSimulationID);
         System.out.println("the simulation ended by " + lastSimulation.getReasonForTermination());
@@ -159,7 +158,7 @@ public class UI {
         }
     }
 
-    void PrintSimulationAccordingToAmounts(Simulation simulation) {
+    void printSimulationAccordingToAmounts(Simulation simulation) {
         WorldDTO worldBefore = simulation.getWordBeforeSimulation();
         WorldDTO worldAfter = simulation.getWordAfterSimulation();
 
@@ -205,8 +204,8 @@ public class UI {
         return pName2pCount;
     }
 
-    void PrintSimulationAccordingToHistogram(Simulation simulation) {
-        System.out.println("Entities in the simulation: " + '\n');
+    void printSimulationAccordingToHistogram(Simulation simulation) {
+        System.out.println("Entities in the simulation:" + '\n');
         WorldDTO wordAfterSimulation = simulation.getWordAfterSimulation();
         List<EntityDTO> entities = wordAfterSimulation.getEntityDTOSet();
         Scanner sc = new Scanner(System.in);
@@ -214,12 +213,12 @@ public class UI {
         for (int i = 0; i < entities.size(); i++) {
             System.out.println((i + 1) + " - " + entities.get(i).getName());
         }
-        System.out.println("Please, Choose an entity: ");
+        System.out.println("Please, Choose an entity:");
         int userChoice = getUserChoice(sc, 1, entities.size());
         EntityDTO wantedEntity = entities.get(userChoice - 1);
         Map<String, Map<String, Integer>> map = setHistogramToAllPropertyInEntity(wantedEntity);
 
-        System.out.println("Properties of Entity: " + wantedEntity.getName() + '\n');
+        System.out.println("Properties of Entity:" + wantedEntity.getName() + '\n');
         for (int i = 0; i < wantedEntity.getProperties().size(); i++) {
             System.out.println((i + 1) + "- " + wantedEntity.getProperties().get(i).getNameOfProperty() + '\n');
         }
@@ -246,11 +245,11 @@ public class UI {
             int choice = getUserChoice(sc, 1, 3);
             switch (choice) {
                 case 1: {
-                    PrintSimulationAccordingToAmounts(simulation);
+                    printSimulationAccordingToAmounts(simulation);
                     break;
                 }
                 case 2: {
-                    PrintSimulationAccordingToHistogram(simulation);
+                    printSimulationAccordingToHistogram(simulation);
                     break;
                 }
                 case 3: {
@@ -260,17 +259,31 @@ public class UI {
         }
     }
 
+    public void printEnvironmentVariable(List<EnvironmentDTO> eDlist, Printer pr) {
+        int i = 0;
+        System.out.println();
+        System.out.println("** Environment Variables **:");
+        System.out.println("Name --> Value:");
+        System.out.println();
+
+        for (EnvironmentDTO environmentDTO : eDlist)
+        {
+            System.out.println("#Environment Variable Number " + (i + 1) + ":");
+            System.out.println(environmentDTO.getEnProperty().getNameOfProperty()+" --> "+environmentDTO.getEnProperty().getDataString());
+            System.out.println();
+            i++;
+        }
+    }
+
     public void environmentInitByUser(List<EnvironmentDTO> eDlist, Printer pr) {
         Scanner sc = new Scanner(System.in);
 
         int i = 0;
+        System.out.println();
         System.out.println("** Environment Variables **: ");
-        System.out.println("Name->Value: ");
-
-        for (EnvironmentDTO environmentDTO : eDlist)
-        {
+        for (EnvironmentDTO environmentDTO : eDlist) {
             System.out.println("Property number " + (i + 1) + ": ");
-            System.out.println(environmentDTO.getEnProperty().getNameOfProperty()+" -> "+environmentDTO.getEnProperty().getDataString());
+            pr.printProperty(environmentDTO.getEnProperty(), true);
             System.out.println();
             i++;
         }
@@ -279,7 +292,7 @@ public class UI {
         boolean finished = false;
 
         while (!finished) {
-            System.out.println("Please enter a number of a variable you wish to init (0 if you're done): ");
+            System.out.println("Please enter a number of a variable you wish to init (0 if you're done):");
             int userChoiceEnvFromList = getUserChoice(sc, 0, eDlist.size());
 
             if (userChoiceEnvFromList == 0) {
