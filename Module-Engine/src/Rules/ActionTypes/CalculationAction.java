@@ -5,7 +5,8 @@ import Entity.EntityInstance;
 import Expression.Expression;
 import Expression.AuxiliaryMethods;
 
-public class CalculationAction extends Action {
+public class CalculationAction extends Action
+{
     private String entityName;
 
     private String typeOfCondition;

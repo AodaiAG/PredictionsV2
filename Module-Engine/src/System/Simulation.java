@@ -8,7 +8,8 @@ import Entity.Property;
 
 import java.util.*;
 
-public class Simulation {
+public class Simulation
+{
     private static boolean programRunning;
     private WorldDTO wordAfterSimulation;
     private WorldDTO wordBeforeSimulation;

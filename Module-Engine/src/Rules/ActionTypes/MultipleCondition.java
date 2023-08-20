@@ -13,7 +13,8 @@ import java.util.List;
 
 import System.World;
 
-public class MultipleCondition extends ConditionAction {
+public class MultipleCondition extends ConditionAction
+{
     private Boolean conditionResult;
     private String logical;
     private List<ConditionAction> listOfConditions;

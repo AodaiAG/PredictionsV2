@@ -23,15 +23,17 @@ import Entity.Entity;
 import ExceptionHandler.PropertyExceptionHandler;
 import ExceptionHandler.RuleExceptionHandler;
 
-public class Engine implements IEngine {
+public class Engine implements IEngine
+{
+    File currentXMLfilePath;
     private static boolean programRunning = true;
     private final Map<UUID, Simulation> simulations = new HashMap<>();
     public Random r = new Random();
     public World world;
-
     private WorldDTO worldBeforeChanging = null;
 
-    public List<Map.Entry<UUID, String>> getSortedSimulationsByDate() {
+    public List<Map.Entry<UUID, String>> getSortedSimulationsByDate()
+    {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy | HH.mm.ss");
 
         return simulations.entrySet().stream()
@@ -41,7 +43,8 @@ public class Engine implements IEngine {
     }
 
 
-    public WorldDTO convertWorldToDTO() {
+    public WorldDTO convertWorldToDTO()
+    {
         World world = this.world;
         List<EntityDTO> entityDTOSet = new ArrayList<>();
         List<RulesDTO> rulesDTOSet = new ArrayList<>();
@@ -78,17 +81,27 @@ public class Engine implements IEngine {
 
     //command #3
     @Override
-    public UUID startSimulation() {
-        WorldDTO oldWorldDTO = convertWorldToDTO();
-        UUID simulationId = UUID.randomUUID();
-        String reasonForTermination = runSimulation();
-        WorldDTO worldAfter = convertWorldToDTO();
-        Simulation simulation = new Simulation(oldWorldDTO, worldAfter);
-        Date currentDate = new Date(); // Replace this with the actual date you want to use
-        simulation.setRunningDate(currentDate);
-        simulation.setReasonForTermination(reasonForTermination);
-        simulations.put(simulationId, simulation);
-        return simulationId;
+    public UUID startSimulation()
+    {
+        try
+        {
+            ParseXmlAndLoadWorld(currentXMLfilePath);
+            WorldDTO oldWorldDTO = convertWorldToDTO();
+            UUID simulationId = UUID.randomUUID();
+            String reasonForTermination = runSimulation();
+            WorldDTO worldAfter = convertWorldToDTO();
+            Simulation simulation = new Simulation(oldWorldDTO, worldAfter);
+            Date currentDate = new Date(); // Replace this with the actual date you want to use
+            simulation.setRunningDate(currentDate);
+            simulation.setReasonForTermination(reasonForTermination);
+            simulations.put(simulationId, simulation);
+            return simulationId;
+        }
+
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 
     @Override
@@ -101,7 +114,8 @@ public class Engine implements IEngine {
         return this.simulations;
     }
 
-    public String runSimulation() {
+    public String runSimulation()
+    {
 
         double generatedProbability;
         generatedProbability = r.nextDouble();
@@ -199,7 +213,8 @@ public class Engine implements IEngine {
         return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getData().from, property.getData().to, property.getData().getDataString(), property.getData().isRangeExist());
     }
 
-    public void ParseXmlAndLoadWorld(File file) throws Exception {
+    public void ParseXmlAndLoadWorld(File file) throws Exception
+    {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             this.world = new World();
@@ -225,9 +240,13 @@ public class Engine implements IEngine {
             this.world.setTerminationTicks(Integer.parseInt(ticks));
             this.world.setTerminationSeconds(Integer.parseInt(seconds));
             this.worldBeforeChanging = convertWorldToDTO();
-        } catch (Exception e) {
+            currentXMLfilePath=file;
+            simulations.clear();
+        } catch (Exception e)
+        {
             throw e;
         }
+
     }
 
     private void initRulesFromFile(NodeList list, World world) throws Exception {

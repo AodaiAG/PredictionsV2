@@ -8,7 +8,8 @@ import Entity.Entity;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class World implements IWorld {
+public class World implements IWorld
+{
     private int terminationTicks;
 
     private int terminationSeconds;

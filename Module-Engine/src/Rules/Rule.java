@@ -14,7 +14,8 @@ import java.util.List;
 import Entity.EntityInstance;
 import System.World;
 
-public class Rule {
+public class Rule
+{
     private String nameOfRule;
 
     private String whenActivated;

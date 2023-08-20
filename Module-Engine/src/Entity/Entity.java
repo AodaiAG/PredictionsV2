@@ -5,7 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Entity {
+public class Entity
+{
     private String nameOfEntity;
     private int numberOfInstances;
     private int numberOfInstancesBefore;

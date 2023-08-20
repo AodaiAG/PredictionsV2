@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public interface IEngine {
+public interface IEngine
+{
     public void ParseXmlAndLoadWorld(File file) throws Exception;
 
     public WorldDTO convertWorldToDTO();

@@ -21,7 +21,8 @@ public class UI {
         userChoiceHandler();
     }
 
-    public void userChoiceHandler() {
+    public void userChoiceHandler()
+    {
         Scanner sc = new Scanner(System.in);
         do {
             printMainMenu();
@@ -55,7 +56,8 @@ public class UI {
         } while (!shouldExit);
     }
 
-    void getFileDirectoryAndLoadSimulation() {
+    void getFileDirectoryAndLoadSimulation()
+    {
         Scanner sc = new Scanner(System.in);
         System.out.println("Please, enter the directory of the file you wish to load : ");
         String path = sc.nextLine();

@@ -2,7 +2,8 @@ package Entity;
 
 import java.util.Random;
 
-public class Data {
+public class Data
+{
     private DataType dataType;
     private String dataString;
     public String from;

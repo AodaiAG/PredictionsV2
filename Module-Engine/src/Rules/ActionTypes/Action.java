@@ -7,7 +7,8 @@ import sun.security.pkcs11.wrapper.Functions;
 
 import java.util.List;
 
-public abstract class Action {
+public abstract class Action
+{
 
     protected AuxiliaryMethods functions;
 

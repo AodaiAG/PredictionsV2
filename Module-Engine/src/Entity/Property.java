@@ -1,6 +1,7 @@
 package Entity;
 
-public class Property {
+public class Property
+{
     private String NameOfProperty;
 
     private boolean isRandomInitialize;
