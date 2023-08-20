@@ -117,7 +117,8 @@ public class UI {
         }
     }
 
-    public void runSimulation(WorldDTO worldDTO) {
+    public void runSimulation(WorldDTO worldDTO)
+    {
         Printer pr = new Printer();
         environmentInitByUser(worldDTO.getEnvironmentDTOS(), pr);
         UUID currSimulationID = engine.startSimulation();
@@ -264,9 +265,12 @@ public class UI {
 
         int i = 0;
         System.out.println("** Environment Variables **: ");
-        for (EnvironmentDTO environmentDTO : eDlist) {
+        System.out.println("Name->Value: ");
+
+        for (EnvironmentDTO environmentDTO : eDlist)
+        {
             System.out.println("Property number " + (i + 1) + ": ");
-            pr.printProperty(environmentDTO.getEnProperty(), true);
+            System.out.println(environmentDTO.getEnProperty().getNameOfProperty()+" -> "+environmentDTO.getEnProperty().getDataString());
             System.out.println();
             i++;
         }

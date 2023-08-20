@@ -2,7 +2,8 @@ package DTOS;
 
 import java.util.List;
 
-public class EntityInstancesDTO {
+public class EntityInstancesDTO
+{
     private List<PropertyDTO> properties;
     String name;
 

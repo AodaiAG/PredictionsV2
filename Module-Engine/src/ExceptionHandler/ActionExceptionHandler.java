@@ -10,7 +10,8 @@ import java.util.Set;
 
 import System.World;
 
-public class ActionExceptionHandler {
+public class ActionExceptionHandler
+{
 
     public void checkProbabilityActivation(String prob) throws Exception {
         try {
@@ -24,8 +25,10 @@ public class ActionExceptionHandler {
         }
     }
 
-    public void checkTicksActivation(String ticks) throws Exception {
-        try {
+    public void checkTicksActivation(String ticks) throws Exception
+    {
+        try
+        {
             Integer res = Integer.parseInt(ticks);
         } catch (Exception e) {
             throw new Exception("ticks should be Integer!");
