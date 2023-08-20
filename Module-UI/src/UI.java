@@ -92,7 +92,8 @@ public class UI {
         System.out.println("There are " + worldDTO.getEntityDTOSet().size() + " entities, " + worldDTO.getRulesDTOSet().size() + " Laws in the current simulation");
         Printer newPr = new Printer();
         System.out.println("** ENTITIES **");
-        for (EntityDTO entityDTO : worldDTO.getEntityDTOSet()) {
+        for (EntityDTO entityDTO : worldDTO.getEntityDTOSet())
+        {
             newPr.printEntity(entityDTO);
         }
         System.out.println("\n** RULES **");
@@ -144,7 +145,7 @@ public class UI {
                 Simulation simulation = entry.getValue();
                 Date runningDate = simulation.getRunningDate();
                 formattedDate = dateFormat.format(runningDate);
-                System.out.println((i + 1) + ". Date: " + formattedDate + " Simulation ID: " + entry.getKey());
+                System.out.println((i + 1) + ". Date|Time : " + formattedDate + " | Simulation ID: " + entry.getKey());
             }
             System.out.println("Choose a simulation to view details:");
             Scanner sc = new Scanner(System.in);
