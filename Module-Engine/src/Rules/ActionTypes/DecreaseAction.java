@@ -4,19 +4,17 @@ import Entity.Property;
 import Entity.EntityInstance;
 import Expression.*;
 
-public class DecreaseAction extends Action
-{
+public class DecreaseAction extends Action {
     private String entityName;
 
     private String propertyName;
 
     private String expressionStr;
 
-    public DecreaseAction()
-    {
-        propertyName = new String();
-        entityName = new String();
-        expressionStr = new String();
+    public DecreaseAction() {
+        propertyName = "";
+        entityName = "";
+        expressionStr = "";
     }
 
     @Override
@@ -49,8 +47,7 @@ public class DecreaseAction extends Action
     }
 
     @Override
-    public String getNameOfAction()
-    {
+    public String getNameOfAction() {
         return "decrease";
     }
 
@@ -60,25 +57,18 @@ public class DecreaseAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception
-    {
+    public void ActivateAction(EntityInstance e) throws Exception {
         Expression expression = new Expression(super.getFunctions(), e);
-       // Object value = new Object();
         String strVal = expression.evaluateExpression(expressionStr);
 
-        for(Property property : e.getPropertiesOfTheEntity())
-        {
-            if(property.getNameOfProperty().equals(propertyName))
-            {
-                try
-                {
+        for (Property property : e.getPropertiesOfTheEntity()) {
+            if (property.getNameOfProperty().equals(propertyName)) {
+                try {
                     property.getData().decrease(strVal);
                     break;
-                } catch (Exception ex)
-                {
+                } catch (Exception ex) {
 
                 }
-
             }
         }
     }

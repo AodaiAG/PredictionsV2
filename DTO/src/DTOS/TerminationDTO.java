@@ -1,12 +1,10 @@
 package DTOS;
 
-public class TerminationDTO
-{
+public class TerminationDTO {
     private int terminationTicks;
     private int terminationSeconds;
 
-    public TerminationDTO(int terminationTicks, int terminationSeconds)
-    {
+    public TerminationDTO(int terminationTicks, int terminationSeconds) {
         this.terminationTicks = terminationTicks;
         this.terminationSeconds = terminationSeconds;
     }

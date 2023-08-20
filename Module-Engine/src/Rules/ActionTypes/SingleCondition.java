@@ -6,21 +6,18 @@ import Entity.EntityInstance;
 import Expression.AuxiliaryMethods;
 import Expression.Expression;
 
-public class SingleCondition extends ConditionAction
-{
+public class SingleCondition extends ConditionAction {
     private String nameofEntity;
     private String nameofProperty;
     private String operator;
     private String value;
     private Boolean conditionResult;
 
-    public SingleCondition()
-    {
-        nameofEntity=new String();
-        nameofProperty=new String();
-        operator=new String();
-        value=new String();
-
+    public SingleCondition() {
+        nameofEntity = "";
+        nameofProperty = "";
+        operator = "";
+        value = "";
     }
 
     public String getNameofEntity() {
@@ -64,34 +61,26 @@ public class SingleCondition extends ConditionAction
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception
-    {
+    public void ActivateAction(EntityInstance e) throws Exception {
         Property wanted = new Property();
         Expression exp = new Expression(getFunctions(), e);
         String svalue = exp.evaluateExpression(value);
 
-        for (Property p : e.getPropertiesOfTheEntity())
-        {
-            if(p.getNameOfProperty().equals(nameofProperty))
-            {
+        for (Property p : e.getPropertiesOfTheEntity()) {
+            if (p.getNameOfProperty().equals(nameofProperty)) {
                 wanted = p;
                 break;
             }
         }
-        try
-        {
+        try {
             this.conditionResult = wanted.getData().compareTo(svalue, operator);
 
-        } catch (Exception ex)
-        {
-
+        } catch (Exception ex) {
         }
-
     }
+
     @Override
-    public String getNameOfAction()
-    {
+    public String getNameOfAction() {
         return "SingleCondition";
     }
-
 }

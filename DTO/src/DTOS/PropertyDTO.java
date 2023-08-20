@@ -1,7 +1,6 @@
 package DTOS;
 
-public class PropertyDTO
-{
+public class PropertyDTO {
     private final String NameOfProperty;
 
     private final boolean randomInitialize;
@@ -16,17 +15,15 @@ public class PropertyDTO
 
     private String dataString;
 
-    public PropertyDTO(String nameOfProperty, Boolean randomInitialize, String nameOfDataType, String from, String to, String dataString, boolean isRange)
-    {
+    public PropertyDTO(String nameOfProperty, Boolean randomInitialize, String nameOfDataType, String from, String to, String dataString, boolean isRange) {
         this.NameOfProperty = nameOfProperty;
         this.randomInitialize = randomInitialize;
         this.nameOfDataType = nameOfDataType;
         this.isRange = isRange;
         this.from = from;
         this.to = to;
-        this.dataString=dataString;
+        this.dataString = dataString;
     }
-
 
     public String getNameOfDataType() {
         return nameOfDataType;
@@ -50,8 +47,7 @@ public class PropertyDTO
         return randomInitialize;
     }
 
-    public boolean isRange()
-    {
+    public boolean isRange() {
         return isRange;
     }
 

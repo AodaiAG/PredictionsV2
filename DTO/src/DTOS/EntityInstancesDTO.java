@@ -2,26 +2,22 @@ package DTOS;
 
 import java.util.List;
 
-public class EntityInstancesDTO
-{
+public class EntityInstancesDTO {
     private List<PropertyDTO> properties;
     String name;
 
 
-    public EntityInstancesDTO(List<PropertyDTO> properties, String name)
-    {
+    public EntityInstancesDTO(List<PropertyDTO> properties, String name) {
         this.properties = properties;
         this.name = name;
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException
-    {
+    protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
-    public List<PropertyDTO> getProperties()
-    {
+    public List<PropertyDTO> getProperties() {
         return properties;
     }
 

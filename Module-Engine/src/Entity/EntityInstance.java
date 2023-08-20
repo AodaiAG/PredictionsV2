@@ -4,87 +4,71 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EntityInstance
-{
+public class EntityInstance {
     private String NameOfEntity;
     private Set<Property> propertiesOfTheEntity;
-    Boolean isTobeKilled=false;
+    Boolean isTobeKilled = false;
 
-    public Boolean getTobeKilled()
-    {
+    public Boolean getTobeKilled() {
         return isTobeKilled;
     }
 
-    public void setTobeKilled(Boolean tobeKilled)
-    {
+    public void setTobeKilled(Boolean tobeKilled) {
         isTobeKilled = tobeKilled;
     }
 
     @Override
-    public EntityInstance clone()
-    {
-        EntityInstance res=new EntityInstance();
+    public EntityInstance clone() {
+        EntityInstance res = new EntityInstance();
         res.setNameOfEntity(this.NameOfEntity);
         res.setTobeKilled(isTobeKilled);
-        Set<Property>psetres=new HashSet<>();
-        for(Property p:this.propertiesOfTheEntity)
-        {
-            psetres.add(p.clone());
+        Set<Property> pSetRes = new HashSet<>();
+        for (Property p : this.propertiesOfTheEntity) {
+            pSetRes.add(p.clone());
         }
-        res.setPropertiesOfTheEntity(psetres);
+        res.setPropertiesOfTheEntity(pSetRes);
         return res;
     }
 
-    public EntityInstance()
-    {
-        propertiesOfTheEntity =new HashSet<Property>();
+    public EntityInstance() {
+        propertiesOfTheEntity = new HashSet<>();
     }
 
-    public String getNameOfEntity()
-    {
+    public String getNameOfEntity() {
         return NameOfEntity;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return super.hashCode();
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         return super.equals(obj);
     }
 
-    public void setNameOfEntity(String nameOfEntity)
-    {
+    public void setNameOfEntity(String nameOfEntity) {
         NameOfEntity = nameOfEntity;
     }
 
-    public Set<Property> getPropertiesOfTheEntity()
-    {
+    public Set<Property> getPropertiesOfTheEntity() {
         return propertiesOfTheEntity;
     }
 
-    public void setPropertiesOfTheEntity(Set<Property> propertiesOfTheEntity)
-    {
+    public void setPropertiesOfTheEntity(Set<Property> propertiesOfTheEntity) {
         this.propertiesOfTheEntity = propertiesOfTheEntity;
     }
 
-    public static String getTypeOfEntity(EntityInstance e)
-    {
-        Field resField= null;
+    public static String getTypeOfEntity(EntityInstance e) {
+        Field resField;
         try {
             resField = e.getClass().getField("Type");
         } catch (NoSuchFieldException ex) {
             throw new RuntimeException(ex);
         }
-        String typeOfField=new String();
-        typeOfField=resField.getType().getSimpleName();
-
+        String typeOfField;
+        typeOfField = resField.getType().getSimpleName();
         return typeOfField;
-
     }
-
 }

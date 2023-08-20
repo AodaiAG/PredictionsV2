@@ -5,20 +5,17 @@ import Entity.EntityInstance;
 import Expression.AuxiliaryMethods;
 import Expression.Expression;
 
-
-public class SetAction extends Action
-{
+public class SetAction extends Action {
     private String entityName;
     private String propertyName;
     private String expression;
 
-    public SetAction()
-    {
-        entityName=new String();
-        propertyName=new String();
-        expression=new String();
-
+    public SetAction() {
+        entityName = "";
+        propertyName = "";
+        expression = "";
     }
+
     @Override
     public String getNameOfEntity() {
         return entityName;
@@ -48,33 +45,26 @@ public class SetAction extends Action
     public void setExpression(String expression) {
         this.expression = expression;
     }
+
     @Override
-    public String getNameOfAction()
-    {
+    public String getNameOfAction() {
         return "set";
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception
-    {
-         Expression exp=new Expression(getFunctions(),e);
+    public void ActivateAction(EntityInstance e) throws Exception {
+        Expression exp = new Expression(getFunctions(), e);
 
-        String sValue=exp.evaluateExpression(expression);
-        for(Property t : e.getPropertiesOfTheEntity())
-        {
-            if (t.getNameOfProperty().equals(propertyName))
-            {
-                try
-                {
+        String sValue = exp.evaluateExpression(expression);
+        for (Property t : e.getPropertiesOfTheEntity()) {
+            if (t.getNameOfProperty().equals(propertyName)) {
+                try {
                     t.getData().setNewValue(sValue);
-                } catch (Exception ex)
-                {
+                } catch (Exception ex) {
 
                 }
                 break;
             }
         }
     }
-
-
 }

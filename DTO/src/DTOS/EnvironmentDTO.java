@@ -1,11 +1,9 @@
 package DTOS;
 
-public class EnvironmentDTO
-{
-    private PropertyDTO enProperty;
+public class EnvironmentDTO {
+    private final PropertyDTO enProperty;
 
-    public EnvironmentDTO(PropertyDTO enProperty)
-    {
+    public EnvironmentDTO(PropertyDTO enProperty) {
         this.enProperty = enProperty;
     }
 

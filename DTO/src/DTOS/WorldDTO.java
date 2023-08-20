@@ -2,8 +2,7 @@ package DTOS;
 
 import java.util.List;
 
-public class WorldDTO
-{
+public class WorldDTO {
     private List<EntityDTO> entityDTOSet;
 
     private List<RulesDTO> rulesDTOSet;
@@ -12,12 +11,11 @@ public class WorldDTO
 
     private List<EnvironmentDTO> environmentDTOS;
 
-    public WorldDTO(List<EntityDTO> entityDTOSet, List<EnvironmentDTO> env, List<RulesDTO> rulesDTOSet, TerminationDTO terminationDTO)
-    {
+    public WorldDTO(List<EntityDTO> entityDTOSet, List<EnvironmentDTO> env, List<RulesDTO> rulesDTOSet, TerminationDTO terminationDTO) {
         this.entityDTOSet = entityDTOSet;
         this.rulesDTOSet = rulesDTOSet;
         this.terminationDTO = terminationDTO;
-        this.environmentDTOS=env;
+        this.environmentDTOS = env;
     }
 
     public void setEnvironmentDTOS(List<EnvironmentDTO> environmentDTOS) {

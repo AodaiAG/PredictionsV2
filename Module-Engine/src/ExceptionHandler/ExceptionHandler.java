@@ -2,7 +2,6 @@ package ExceptionHandler;
 
 public class ExceptionHandler
 {
-
     public void checkIfTypeNotSupported(String type) throws Exception
     {
         String lowc=type.toLowerCase();
@@ -11,15 +10,15 @@ public class ExceptionHandler
         {
             throw new Exception("type "+type+" not Supported!");
         }
-
     }
+
     public void checkFromToRange(String from, String to) throws Exception
     {
         try {
-            Float fromf = Float.parseFloat(from);
-            Float tof = Float.parseFloat(to);
+            Float fromF = Float.parseFloat(from);
+            Float toF = Float.parseFloat(to);
 
-            if (fromf > tof)
+            if (fromF > toF)
             {
                 throw new Exception("The range is not mathematically intact!");
             }
@@ -29,18 +28,14 @@ public class ExceptionHandler
         }
     }
 
-
-
-
     public void checkIfInRange(String value,String from,String to) throws Exception
     {
-
-        Float fvalue = Float.parseFloat(value);
-        Float fromvalue = Float.parseFloat(from);
-        Float tovalue = Float.parseFloat(to);
-        if(fvalue >= fromvalue && fvalue <= tovalue)
+        Float fValue = Float.parseFloat(value);
+        Float fromValue = Float.parseFloat(from);
+        Float toValue = Float.parseFloat(to);
+        if(fValue >= fromValue && fValue <= toValue)
         {
-
+            //write something???
         }
         else
         {
@@ -72,7 +67,6 @@ public class ExceptionHandler
                     if((value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")))
                     {
 
-
                     }
 
                     else
@@ -81,7 +75,6 @@ public class ExceptionHandler
                     }
                 }
                 break;
-
             }
 
             case"float":
@@ -96,15 +89,6 @@ public class ExceptionHandler
                 }
                 break;
             }
-
-
-
         }
-
-
-
     }
-
-
-
 }
