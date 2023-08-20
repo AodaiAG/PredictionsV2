@@ -25,7 +25,7 @@ import ExceptionHandler.RuleExceptionHandler;
 
 public class Engine implements IEngine
 {
-    File currentXMLfilePath;
+    private File currentXMLfilePath;
     private static boolean programRunning = true;
     private final Map<UUID, Simulation> simulations = new HashMap<>();
     public Random r = new Random();
