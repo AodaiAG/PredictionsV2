@@ -85,7 +85,9 @@ public class Engine implements IEngine
     {
         try
         {
-            ParseXmlAndLoadWorld(currentXMLfilePath);
+            Engine iEngine=new Engine();
+            iEngine.ParseXmlAndLoadWorld(currentXMLfilePath);
+            this.world=iEngine.getWorld();
             WorldDTO oldWorldDTO = convertWorldToDTO();
             UUID simulationId = UUID.randomUUID();
             String reasonForTermination = runSimulation();
