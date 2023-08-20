@@ -5,7 +5,6 @@ import Entity.EntityInstance;
 import Expression.AuxiliaryMethods;
 import Expression.Expression;
 
-
 public class IncreaseAction extends Action {
     private String entityName;
     private String propertyName;

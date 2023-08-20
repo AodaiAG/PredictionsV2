@@ -14,10 +14,10 @@ public class SingleCondition extends ConditionAction {
     private Boolean conditionResult;
 
     public SingleCondition() {
-        nameofEntity = new String();
-        nameofProperty = new String();
-        operator = new String();
-        value = new String();
+        nameofEntity = "";
+        nameofProperty = "";
+        operator = "";
+        value = "";
     }
 
     public String getNameofEntity() {
@@ -76,7 +76,6 @@ public class SingleCondition extends ConditionAction {
             this.conditionResult = wanted.getData().compareTo(svalue, operator);
 
         } catch (Exception ex) {
-
         }
     }
 

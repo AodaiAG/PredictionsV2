@@ -11,9 +11,9 @@ public class SetAction extends Action {
     private String expression;
 
     public SetAction() {
-        entityName = new String();
-        propertyName = new String();
-        expression = new String();
+        entityName = "";
+        propertyName = "";
+        expression = "";
     }
 
     @Override

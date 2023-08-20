@@ -6,8 +6,4 @@ import java.util.List;
 
 public class RuleExceptionHandler extends ActionExceptionHandler
 {
-
-
-
-
 }

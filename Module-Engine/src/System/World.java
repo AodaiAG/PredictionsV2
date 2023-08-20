@@ -104,13 +104,13 @@ public class World implements IWorld {
     }
 
     public static String getTypeOfEntity(EntityInstance e) {
-        Field resField = null;
+        Field resField;
         try {
             resField = e.getClass().getField("Type");
         } catch (NoSuchFieldException ex) {
             throw new RuntimeException(ex);
         }
-        String typeOfField = new String();
+        String typeOfField;
         typeOfField = resField.getType().getSimpleName();
         return typeOfField;
     }

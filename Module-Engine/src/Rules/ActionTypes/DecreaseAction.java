@@ -12,9 +12,9 @@ public class DecreaseAction extends Action {
     private String expressionStr;
 
     public DecreaseAction() {
-        propertyName = new String();
-        entityName = new String();
-        expressionStr = new String();
+        propertyName = "";
+        entityName = "";
+        expressionStr = "";
     }
 
     @Override
@@ -59,7 +59,6 @@ public class DecreaseAction extends Action {
     @Override
     public void ActivateAction(EntityInstance e) throws Exception {
         Expression expression = new Expression(super.getFunctions(), e);
-        // Object value = new Object();
         String strVal = expression.evaluateExpression(expressionStr);
 
         for (Property property : e.getPropertiesOfTheEntity()) {
@@ -70,7 +69,6 @@ public class DecreaseAction extends Action {
                 } catch (Exception ex) {
 
                 }
-
             }
         }
     }

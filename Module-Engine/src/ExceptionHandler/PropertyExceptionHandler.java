@@ -1,49 +1,23 @@
 package ExceptionHandler;
 
-import Entity.Property;
+public class PropertyExceptionHandler extends ExceptionHandler {
 
-public class PropertyExceptionHandler extends ExceptionHandler
-{
-
-  public void Handle(String type,String name,boolean doesitHaveRange,String from,String to,boolean isintrandom,String initvalue) throws Exception
-    {
-
-        try
-        {
+    public void Handle(String type, String name, boolean hasRange, String from, String to, boolean isIntRandom, String initValue) throws Exception {
+        try {
             checkIfTypeNotSupported(type);
-            if(doesitHaveRange)
-            {
+            if (hasRange) {
                 checkFromToRange(from, to);
-
-                if(!isintrandom)
-                {
-                    checkIfValueMatchesType(initvalue,type);
-                    checkIfInRange(initvalue,from,to);
+                if (!isIntRandom) {
+                    checkIfValueMatchesType(initValue, type);
+                    checkIfInRange(initValue, from, to);
                 }
-
             }
 
-            if(!isintrandom)
-            {
-
-                checkIfValueMatchesType(initvalue,type);
-
+            if (!isIntRandom) {
+                checkIfValueMatchesType(initValue, type);
             }
+        } catch (Exception e) {
+            throw new Exception("Problem occurred while Parsing xml file in property name " + name + " reasons: " + '\n' + e.getMessage());
         }
-
-        catch (Exception e)
-        {
-
-            throw new Exception("Problem occurred while Parsing xml file in property name "+name +" reasons: "+'\n'+e.getMessage());
-        }
-
     }
-
-
-
-
-
 }
-
-
-

@@ -12,7 +12,9 @@ import Entity.EntityInstance;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import Entity.Property;
 import Entity.Data;
@@ -21,16 +23,25 @@ import Entity.Entity;
 import ExceptionHandler.PropertyExceptionHandler;
 import ExceptionHandler.RuleExceptionHandler;
 
-public class Engine implements IEngine
-{
+public class Engine implements IEngine {
     private static boolean programRunning = true;
-    private Map<UUID, Simulation> simulations = new HashMap<>();
+    private final Map<UUID, Simulation> simulations = new HashMap<>();
     public Random r = new Random();
     public World world;
 
+    private WorldDTO worldBeforeChanging = null;
 
-    public WorldDTO convertWorldToDTO()
-    {
+    public List<Map.Entry<UUID, String>> getSortedSimulationsByDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy | HH.mm.ss");
+
+        return simulations.entrySet().stream()
+                .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), dateFormat.format(entry.getValue().getRunningDate())))
+                .sorted(Comparator.comparing(Map.Entry::getValue))
+                .collect(Collectors.toList());
+    }
+
+
+    public WorldDTO convertWorldToDTO() {
         World world = this.world;
         List<EntityDTO> entityDTOSet = new ArrayList<>();
         List<RulesDTO> rulesDTOSet = new ArrayList<>();
@@ -39,12 +50,10 @@ public class Engine implements IEngine
         for (Entity e : world.getEntities()) {
             entityDTOSet.add(convertEntityToDTO(e));
         }
-        for (Rule r : world.getRules())
-        {
+        for (Rule r : world.getRules()) {
             rulesDTOSet.add(convertRuleToDTO(r));
         }
-        for (EnvironmentInstance env : world.getName2Env().values())
-        {
+        for (EnvironmentInstance env : world.getName2Env().values()) {
             PropertyDTO pDto = convertPropertyToDTO(env.getEnvironmentProperty());
             EnvironmentDTO dto = new EnvironmentDTO(pDto);
             envSet.add(dto);
@@ -52,39 +61,39 @@ public class Engine implements IEngine
         return new WorldDTO(entityDTOSet, envSet, rulesDTOSet, terminationDTO);
     }
 
+    public WorldDTO getWorldBeforeChanging() {
+        return worldBeforeChanging;
+    }
+
     @Override
-    public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception
-    {
+    public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception {
         EnvironmentInstance environmentInstance = this.world.getName2Env().get(environmentDTO.getEnProperty().getNameOfProperty());
-        try
-        {
+        try {
             environmentInstance.getEnvironmentProperty().getData().setNewValue(userValue);
             environmentInstance.getEnvironmentProperty().setRandomInitialize(false);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             throw e;
         }
     }
 
     //command #3
     @Override
-    public UUID startSimulation()
-    {
-        WorldDTO worldBeforeChanging = convertWorldToDTO();
+    public UUID startSimulation() {
+        WorldDTO oldWorldDTO = convertWorldToDTO();
         UUID simulationId = UUID.randomUUID();
-
-        runSimulation();
-
+        String reasonForTermination = runSimulation();
         WorldDTO worldAfter = convertWorldToDTO();
-        Simulation simulation = new Simulation(worldBeforeChanging, worldAfter);
+        Simulation simulation = new Simulation(oldWorldDTO, worldAfter);
+        Date currentDate = new Date(); // Replace this with the actual date you want to use
+        simulation.setRunningDate(currentDate);
+        simulation.setReasonForTermination(reasonForTermination);
         simulations.put(simulationId, simulation);
         return simulationId;
     }
 
     @Override
-    public Boolean isWordNull()
-    {
-        return world==null;
+    public Boolean isWordNull() {
+        return world == null;
     }
 
     @Override
@@ -92,8 +101,7 @@ public class Engine implements IEngine
         return this.simulations;
     }
 
-    public void runSimulation()
-    {
+    public String runSimulation() {
 
         double generatedProbability;
         generatedProbability = r.nextDouble();
@@ -115,24 +123,25 @@ public class Engine implements IEngine
 
         while (ticksCounter < ticksAmount && programRunning)
         {
-            for (Rule rule : this.world.getRules())
-            {
-
+            for (Rule rule : this.world.getRules()) {
                 rule.isActivated(world.getEntities(), ticksCounter, generatedProbability);
                 generatedProbability = r.nextDouble();
             }
-            System.out.println("Ticks : "+ ticksCounter+" population: "+world.getEntities().get(0).getNumberOfInstances());
+            System.out.println("Ticks : " + ticksCounter + " population: " + world.getEntities().get(0).getNumberOfInstances());
             ticksCounter++;
         }
         timer.cancel(); // Cancel the timer when simulation is done
+        if(ticksCounter == ticksAmount) {
+         return "ticks";
+        }
+        return "seconds";
     }
 
     @Override
-    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID)
-    {
+    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID) {
         Simulation simulation = simulations.get(simulationID);
         simulation.initQuantities();
-        return simulation.getInitialQuantities(); //map of the old entites
+        return simulation.getInitialQuantities(); //map of the old entities
     }
 
     @Override
@@ -157,11 +166,11 @@ public class Engine implements IEngine
 
     public RulesDTO convertRuleToDTO(Rule rule) {
         List<String> actionNames = new ArrayList<>();
-        int numberofActions = rule.getActions().size();
+        int numberOfActions = rule.getActions().size();
         for (Action action : rule.getActions()) {
             actionNames.add(action.getNameOfAction());
         }
-        return new RulesDTO(rule.getNameOfRule(), rule.getActivation().getTicks(), rule.getActivation().getProbability(), numberofActions, actionNames);
+        return new RulesDTO(rule.getNameOfRule(), rule.getActivation().getTicks(), rule.getActivation().getProbability(), numberOfActions, actionNames);
     }
 
     public EntityDTO convertEntityToDTO(Entity entity) {
@@ -172,12 +181,12 @@ public class Engine implements IEngine
         }
 
         for (EntityInstance entityInstance : entity.getEntities()) {
-            List<PropertyDTO> instancepropertyDTOs = new ArrayList<>();
+            List<PropertyDTO> instancePropertyDTOs = new ArrayList<>();
 
             for (Property property : entityInstance.getPropertiesOfTheEntity()) {
-                instancepropertyDTOs.add(convertPropertyToDTO(property));
+                instancePropertyDTOs.add(convertPropertyToDTO(property));
             }
-            EntityInstancesDTO entityInstancesDTO = new EntityInstancesDTO(instancepropertyDTOs, entityInstance.getNameOfEntity());
+            EntityInstancesDTO entityInstancesDTO = new EntityInstancesDTO(instancePropertyDTOs, entityInstance.getNameOfEntity());
             entityInstancesDTOS.add(entityInstancesDTO);
         }
 
@@ -189,12 +198,10 @@ public class Engine implements IEngine
         return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getData().from, property.getData().to, property.getData().getDataString(), property.getData().isRangeExist());
     }
 
-    public void ParseXmlAndLoadWorld(File file) throws Exception
-    {
+    public void ParseXmlAndLoadWorld(File file) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        try
-        {
-            this.world=new World();
+        try {
+            this.world = new World();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(file);
             doc.getDocumentElement().normalize();
@@ -204,10 +211,10 @@ public class Engine implements IEngine
             NodeList Everything = worldNode.getChildNodes();
 
             NodeList prdEvironment = doc.getElementsByTagName("PRD-env-property");
-            initEvironmentFromFile(prdEvironment, this.world);
+            initEvironmentFromFile(prdEvironment);
 
             NodeList prdEntities = doc.getElementsByTagName("PRD-entity");
-            initEntitiesFromFile(prdEntities, this.world);
+            initEntitiesFromFile(prdEntities);
 
             NodeList prdRules = doc.getElementsByTagName("PRD-rule");
             initRulesFromFile(prdRules, this.world);
@@ -216,15 +223,14 @@ public class Engine implements IEngine
             String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
             this.world.setTerminationTicks(Integer.parseInt(ticks));
             this.world.setTerminationSeconds(Integer.parseInt(seconds));
-        } catch (Exception e)
-        {
+            this.worldBeforeChanging = convertWorldToDTO();
+        } catch (Exception e) {
             throw e;
         }
     }
 
-    private void initRulesFromFile(NodeList list, World world) throws Exception
-    {
-        String nameOfRule = new String();
+    private void initRulesFromFile(NodeList list, World world) throws Exception {
+        String nameOfRule = "";
         try {
             RuleExceptionHandler ruleExceptionHandler = new RuleExceptionHandler();
             AuxiliaryMethods f = new AuxiliaryMethods(world);
@@ -250,7 +256,7 @@ public class Engine implements IEngine
                     Node probNode = ((Element) item).getElementsByTagName("PRD-activation").item(0).getAttributes().getNamedItem("probability");
                     if (probNode != null) {
                         String probString = probNode.getTextContent();
-                        ruleExceptionHandler.checkProbabiltyActivation(probString);
+                        ruleExceptionHandler.checkProbabilityActivation(probString);
                         activation.setProbability(Double.parseDouble(probString));
                     }
                 }
@@ -273,14 +279,14 @@ public class Engine implements IEngine
         }
     }
 
-    public void initEvironmentFromFile(NodeList list, World w) throws Exception {
+    public void initEvironmentFromFile(NodeList list) throws Exception {
         PropertyExceptionHandler exceptionHandler = new PropertyExceptionHandler();
         for (int i = 0; i < list.getLength(); i++) {
             try {
                 Node item = list.item(i);
                 Element el = (Element) item;
-                String from = new String();
-                String to = new String();
+                String from = "";
+                String to = "";
 
                 String type = ((Element) item).getAttribute("type");
                 String prdName = ((Element) item).getElementsByTagName("PRD-name").item(0).getTextContent();
@@ -306,8 +312,7 @@ public class Engine implements IEngine
         }
     }
 
-    public void initEntitiesFromFile(NodeList list, World w) throws Exception
-    {
+    public void initEntitiesFromFile(NodeList list) throws Exception {
         String name = new String();
 
         PropertyExceptionHandler exceptionHandler = new PropertyExceptionHandler();
@@ -359,7 +364,7 @@ public class Engine implements IEngine
                     } else {
                         exceptionHandler.Handle(type, prdName, isRange, from, to, true, initValue);
                         Property property = initProperty(type, prdName, isRange, from, to, true, initValue);
-                        Property propAdded = new Property();
+                        Property propAdded;
                         propAdded = property;
                         e1.getPropertiesOfTheEntity().add(propAdded);
                     }
@@ -371,18 +376,15 @@ public class Engine implements IEngine
                 newEntity.setPropertiesOfTheEntity(propOfEntity);
 
 
-                for (int m = 0; m < popNumber; m++)
-                {
+                for (int m = 0; m < popNumber; m++) {
 
                     EntityInstance added = e1.clone();
 
-                    for (Property p : added.getPropertiesOfTheEntity())
-                    {
-                        boolean isInitrandom = p.isRandomInitialize();
-                        String initval = p.getData().getDataString();
-                        if (isInitrandom)
-                        {
-                            p.getData().calculateNewVal(initval, true,r);
+                    for (Property p : added.getPropertiesOfTheEntity()) {
+                        boolean isInitRandom = p.isRandomInitialize();
+                        String initVal = p.getData().getDataString();
+                        if (isInitRandom) {
+                            p.getData().calculateNewVal(initVal, true);
                         }
                     }
 
@@ -401,8 +403,7 @@ public class Engine implements IEngine
     }
 
 
-    Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init)
-    {
+    Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init) {
 
         Property res = new Property();
         res.setNameOfProperty(name);
@@ -414,7 +415,7 @@ public class Engine implements IEngine
             eD.setFrom(from);
             eD.setTo(to);
         }
-        eD.calculateNewVal(init, bool,r);
+        eD.calculateNewVal(init, bool);
         res.setData(eD);
         return res;
     }
@@ -422,4 +423,5 @@ public class Engine implements IEngine
     private World getWorld() {
         return this.world;
     }
+
 }

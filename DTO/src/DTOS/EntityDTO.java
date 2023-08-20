@@ -4,7 +4,6 @@ import java.util.List;
 
 public class EntityDTO {
     private String name;
-
     private int numberOfInstances;
     private List<EntityInstancesDTO> instancesDTOS;
     private List<PropertyDTO> properties;

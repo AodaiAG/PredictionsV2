@@ -13,8 +13,33 @@ public class Simulation {
     private WorldDTO wordAfterSimulation;
     private WorldDTO wordBeforeSimulation;
     private final Map<String, Map<String, Integer>> propertyValueCounts = new HashMap<>(); //<entityName <property, instancesAmount>>
+    Date runningDate;
 
-    private Map<String, Integer> initialQuantities = new HashMap<>();
+    public String getReasonForTermination() {
+        return reasonForTermination;
+    }
+
+    public void setReasonForTermination(String reasonForTermination) {
+        this.reasonForTermination = reasonForTermination;
+    }
+
+    public void setRunningDate(Date runningDate) {
+        this.runningDate = runningDate;
+    }
+
+    public Date getRunningDate() {
+        return runningDate;
+    }
+
+    private String reasonForTermination;
+
+    private final Map<String, Integer> initialQuantities = new HashMap<>();
+
+    public Simulation(WorldDTO worldBefore, WorldDTO worldAfter) {
+        this.wordAfterSimulation = worldAfter;
+        wordBeforeSimulation = worldBefore;
+        programRunning = true;
+    }
 
     public Map<String, Map<String, Integer>> getPropertyValueCounts() {
         return propertyValueCounts;
@@ -24,12 +49,6 @@ public class Simulation {
         return initialQuantities;
     }
 
-
-    public Simulation(WorldDTO worldBefore, WorldDTO worldAfter) {
-        this.wordAfterSimulation = worldAfter;
-        wordBeforeSimulation = worldBefore;
-        programRunning = true;
-    }
 
     public WorldDTO getWordAfterSimulation() {
         return wordAfterSimulation;
@@ -62,7 +81,6 @@ public class Simulation {
         return propertyValueCounts.get(propertyName);
     }
 
-
     public void initQuantities() {
         for (EntityDTO entityDTO : this.wordBeforeSimulation.getEntityDTOSet()) {
             initialQuantities.put(entityDTO.getName(), entityDTO.getNumberOfInstances());
@@ -71,6 +89,5 @@ public class Simulation {
 
     public void showEntitiesAmount() {
         initQuantities();
-
     }
 }

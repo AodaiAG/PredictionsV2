@@ -1,7 +1,6 @@
 package Rules;
 
-public class Activation
-{
+public class Activation {
     private int ticks = 1;
     private double probability = 1;
 

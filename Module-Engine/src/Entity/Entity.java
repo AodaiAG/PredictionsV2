@@ -8,13 +8,14 @@ import java.util.Set;
 public class Entity {
     private String nameOfEntity;
     private int numberOfInstances;
+    private int numberOfInstancesBefore;
     private List<EntityInstance> entityInstances;
     private Set<Property> propertiesOfTheEntity;
 
 
     public Entity() {
-        this.nameOfEntity = new String();
-        this.entityInstances = new ArrayList<EntityInstance>();
+        this.nameOfEntity = "";
+        this.entityInstances = new ArrayList<>();
         propertiesOfTheEntity = new HashSet<>();
     }
 

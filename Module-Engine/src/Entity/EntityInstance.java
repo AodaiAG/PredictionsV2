@@ -22,16 +22,16 @@ public class EntityInstance {
         EntityInstance res = new EntityInstance();
         res.setNameOfEntity(this.NameOfEntity);
         res.setTobeKilled(isTobeKilled);
-        Set<Property> psetres = new HashSet<>();
+        Set<Property> pSetRes = new HashSet<>();
         for (Property p : this.propertiesOfTheEntity) {
-            psetres.add(p.clone());
+            pSetRes.add(p.clone());
         }
-        res.setPropertiesOfTheEntity(psetres);
+        res.setPropertiesOfTheEntity(pSetRes);
         return res;
     }
 
     public EntityInstance() {
-        propertiesOfTheEntity = new HashSet<Property>();
+        propertiesOfTheEntity = new HashSet<>();
     }
 
     public String getNameOfEntity() {
@@ -61,17 +61,14 @@ public class EntityInstance {
     }
 
     public static String getTypeOfEntity(EntityInstance e) {
-        Field resField = null;
+        Field resField;
         try {
             resField = e.getClass().getField("Type");
         } catch (NoSuchFieldException ex) {
             throw new RuntimeException(ex);
         }
-        String typeOfField = new String();
+        String typeOfField;
         typeOfField = resField.getType().getSimpleName();
-
         return typeOfField;
-
     }
-
 }

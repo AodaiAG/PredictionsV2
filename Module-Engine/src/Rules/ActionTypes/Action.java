@@ -8,7 +8,6 @@ import sun.security.pkcs11.wrapper.Functions;
 import java.util.List;
 
 public abstract class Action {
-    //   private String nameOfEntity;
 
     protected AuxiliaryMethods functions;
 
