@@ -142,7 +142,8 @@ public class UI {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy | HH.mm.ss");
             String formattedDate;
             System.out.println("\n**Simulations in the system** : ");
-            for (int i = 0; i < sortedSimulations.size(); i++) {
+            for (int i = 0; i < sortedSimulations.size(); i++)
+            {
                 Map.Entry<UUID, Simulation> entry = sortedSimulations.get(i);
                 Simulation simulation = entry.getValue();
                 Date runningDate = simulation.getRunningDate();

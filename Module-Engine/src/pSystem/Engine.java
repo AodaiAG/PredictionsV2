@@ -124,12 +124,13 @@ public class Engine implements IEngine
         int ticksCounter = 0;
         Timer timer = new Timer();
 
-        TimerTask task = new TimerTask() {
+        TimerTask task = new TimerTask()
+        {
             @Override
             public void run()
             {
                 programRunning = false;
-                System.out.println("Time's up");
+
                 timer.cancel();
             }
         };
@@ -140,7 +141,8 @@ public class Engine implements IEngine
 
         while (ticksCounter < ticksAmount && programRunning)
         {
-            for (Rule rule : this.world.getRules()) {
+            for (Rule rule : this.world.getRules())
+            {
                 rule.isActivated(world.getEntities(), ticksCounter, generatedProbability);
                 generatedProbability = r.nextDouble();
             }

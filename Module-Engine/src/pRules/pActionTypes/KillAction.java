@@ -35,15 +35,11 @@ public class KillAction extends Action {
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception {
+    public void ActivateAction(EntityInstance e) throws Exception
+    {
 
         e.setTobeKilled(true);
 
-        for (Property p : e.getPropertiesOfTheEntity()) {
-            if (p.getNameOfProperty().equals("age")) {
-                System.out.println("Age: " + p.getData().getDataString());
-            }
-        }
         for (Entity entity : functions.getWorld().getEntities()) {
             if (e.getNameOfEntity().equals(entity.getNameOfEntity())) {
                 int numbOfInstance = entity.getNumberOfInstances() - 1;

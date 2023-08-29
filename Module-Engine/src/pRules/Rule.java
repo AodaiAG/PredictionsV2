@@ -233,28 +233,36 @@ public class Rule
         throw new Exception("entity name: " + entityWorksOn + " not found!");
     }
 
-    public void isActivated(List<Entity> entities, int ticks, double generatedProbability) {
+    public void isActivated(List<Entity> entities, int ticks, double generatedProbability)
+    {
         if (ticks % activation.getTicks() == 0 && generatedProbability < activation.getProbability()) {
-            for (Action action : this.actions) {
+            for (Action action : this.actions)
+            {
                 String currentEntityName = action.getNameOfEntity();
                 Entity currentEntity;
-                try {
+                try
+                {
                     currentEntity = action.findEntityAccordingName(entities, currentEntityName);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                     continue;
                 }
 
-                if (!currentEntity.getEntities().isEmpty()) {
-                    for (EntityInstance eI : currentEntity.getEntities()) {
+                if (!currentEntity.getEntities().isEmpty())
+                {
+                    for (EntityInstance eI : currentEntity.getEntities())
+                    {
                         try {
-                            if (eI != null) {
+                            if (eI != null)
+                            {
                                 action.ActivateAction(eI);
                             }
-                        } catch (Exception e) {
+                        } catch (Exception e)
+                        {
 
                         }
                     }
+
                     boolean hasRemoved = currentEntity.getEntities().removeIf(entityInstance -> entityInstance.getTobeKilled());
                 }
             }
