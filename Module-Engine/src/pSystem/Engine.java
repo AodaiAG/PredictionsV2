@@ -224,7 +224,6 @@ public class Engine implements IEngine
             Document doc = builder.parse(file);
             doc.getDocumentElement().normalize();
 
-
             this.numbOfThreads=Integer.parseInt(doc.getElementsByTagName("PRD-thread-count").item(0).getTextContent());
 
             setGridCoordinate(doc.getElementsByTagName("PRD-grid"));
@@ -243,19 +242,37 @@ public class Engine implements IEngine
             NodeList prdRules = doc.getElementsByTagName("PRD-rule");
             initRulesFromFile(prdRules, this.world);
 
-            String ticks = doc.getElementsByTagName("PRD-by-ticks").item(0).getAttributes().getNamedItem("count").getTextContent();
-            String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
-            this.world.setTerminationTicks(Integer.parseInt(ticks));
-            this.world.setTerminationSeconds(Integer.parseInt(seconds));
+            initTermenationTerms(doc);
 
             this.worldBeforeChanging = convertWorldToDTO();
             currentXMLFilePath =file;
             simulations.clear();
+
         } catch (Exception e)
         {
             throw e;
         }
 
+    }
+    void initTermenationTerms(Document doc)
+    {
+        if (doc.getElementsByTagName("PRD-by-ticks").item(0) != null)
+        {
+            String ticks = doc.getElementsByTagName("PRD-by-ticks").item(0).getAttributes().getNamedItem("count").getTextContent();
+            this.world.setTerminationTicks(Integer.parseInt(ticks));
+
+        }
+        if (doc.getElementsByTagName("PRD-by-second").item(0) != null)
+        {
+            String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
+            this.world.setTerminationSeconds(Integer.parseInt(seconds));
+
+        }
+
+        if(doc.getElementsByTagName("PRD-by-user").item(0) != null)
+        {
+            this.world.setTerminationByUser(true);
+        }
     }
 
     void setGridCoordinate(NodeList list)
