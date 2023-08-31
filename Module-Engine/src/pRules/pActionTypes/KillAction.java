@@ -11,8 +11,7 @@ public class KillAction extends Action {
 
     private String entityToKill;
 
-    public KillAction()
-    {
+    public KillAction() {
         entityName = "";
         entityToKill = "";
     }

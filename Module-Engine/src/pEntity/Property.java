@@ -3,6 +3,7 @@ package pEntity;
 public class Property
 {
     private String NameOfProperty;
+    private String lastUnchangedTicks;
 
     private boolean isRandomInitialize;
 
@@ -20,6 +21,14 @@ public class Property
         res.setRandomInitialize(isRandomInitialize);
         res.setData(this.data.clone());
         return res;
+    }
+
+    public String getLastUnchangedTicks() {
+        return lastUnchangedTicks;
+    }
+
+    public void setLastUnchangedTicks(String lastUnchangedTicks) {
+        this.lastUnchangedTicks = lastUnchangedTicks;
     }
 
     @Override

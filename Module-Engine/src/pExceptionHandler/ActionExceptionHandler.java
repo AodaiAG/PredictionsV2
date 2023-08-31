@@ -50,7 +50,8 @@ public class ActionExceptionHandler
     public void checkIfActionTypeValid(String type) throws Exception {
         String lowCase = type.toLowerCase();
 
-        if (!lowCase.equals("condition") && !lowCase.equals("multiple") && !lowCase.equals("increase") && !lowCase.equals("decrease") && !lowCase.equals("calculation") && !lowCase.equals("set") && !lowCase.equals("kill")) {
+        if (!lowCase.equals("condition") && !lowCase.equals("multiple") && !lowCase.equals("increase") && !lowCase.equals("decrease") && !lowCase.equals("calculation") && !lowCase.equals("set") && !lowCase.equals("kill")&& !lowCase.equals("proximity")&& !lowCase.equals("replace"))
+        {
             throw new Exception("Action type " + type + " not Supported!");
         }
     }
@@ -91,7 +92,7 @@ public class ActionExceptionHandler
         int startIndex = checked.indexOf("(");
         if (startIndex > 0) {
             String firstWord = checked.substring(0, startIndex);
-            return firstWord.equals("environment") || firstWord.equals("random");
+            return firstWord.equals("environment") || firstWord.equals("random")|| firstWord.equals("evaluate")|| firstWord.equals("percent")|| firstWord.equals("ticks");
         }
         return false;
     }

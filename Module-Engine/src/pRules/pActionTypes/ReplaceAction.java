@@ -16,9 +16,7 @@ public class ReplaceAction extends Action
 
 
 
-    @Override
-    public void setFunctions(AuxiliaryMethods functions)
-    {
+    public void setFunctions(AuxiliaryMethods functions) {
         super.functions = functions;
     }
 
@@ -76,13 +74,12 @@ public class ReplaceAction extends Action
 
     }
 
-   public ReplaceAction initFromXML(Node ActionNode)
+   public void initFromXML(Node ActionNode)
     {
 
         this.entityToKill=ActionNode.getAttributes().getNamedItem("kill").getTextContent();
         this.entityToCreate=ActionNode.getAttributes().getNamedItem("create").getTextContent();
         this.mode=ActionNode.getAttributes().getNamedItem("mode").getTextContent();
-        return this;
 
 
     }

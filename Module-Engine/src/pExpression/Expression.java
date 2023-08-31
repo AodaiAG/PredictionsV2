@@ -13,16 +13,40 @@ public class Expression
 
     private final EntityInstance entityInstance;
 
-    public Expression(AuxiliaryMethods f, EntityInstance entityInstance) {
+    public Expression(AuxiliaryMethods f, EntityInstance entityInstance)
+    {
         this.entityInstance = entityInstance;
         this.auxiliaryMethods = f;
         FUNCTIONS.put("random", args -> generateRandom(args[0]));
         FUNCTIONS.put("environment", args -> getEnvironmentValue(args[0]));
+        FUNCTIONS.put("percent", args -> percent(args[0],args[1]));
+        FUNCTIONS.put("evaluate", args -> evaluate(args[0]));
+        FUNCTIONS.put("ticks", args -> ticks(args[0]));
         // Add more functions as needed
     }
 
     private String generateRandom(String arg) {
         return auxiliaryMethods.random(arg);
+    }
+    private String percent(String exp1,String exp2)
+    {
+        try
+        {
+            return auxiliaryMethods.percent(this.evaluateExpression(exp1),this.evaluateExpression(exp2));
+
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
+    }
+    private String evaluate(String arg)
+    {
+        return auxiliaryMethods.evaluate(arg);
+    }
+    private String ticks(String arg)
+    {
+       return auxiliaryMethods.ticks(arg);
     }
 
     private String getEnvironmentValue(String arg) {

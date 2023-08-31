@@ -25,7 +25,7 @@ public class World implements IWorld
     private List<Rule> rules;
 
 
-   private EntityInstancesCircularGrid grid;
+   private EntityInstancesCircularGrid grid=new EntityInstancesCircularGrid();
 
     public EntityInstancesCircularGrid getGrid()
     {

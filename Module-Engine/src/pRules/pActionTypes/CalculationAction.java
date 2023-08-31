@@ -1,5 +1,6 @@
 package pRules.pActionTypes;
 
+import org.w3c.dom.Node;
 import pEntity.Property;
 import pEntity.EntityInstance;
 import pExpression.Expression;
@@ -118,4 +119,6 @@ public class CalculationAction extends Action
             }
         }
     }
+
+
 }

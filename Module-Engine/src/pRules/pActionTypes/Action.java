@@ -1,5 +1,6 @@
 package pRules.pActionTypes;
 
+import org.w3c.dom.Node;
 import pEntity.Entity;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;

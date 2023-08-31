@@ -47,7 +47,8 @@ public class MultipleCondition extends ConditionAction
             justToCallFunction.setFunctions(functions);
 
 
-            for (int i = 0; i < wanted.getLength(); i++) {
+            for (int i = 0; i < wanted.getLength(); i++)
+            {
                 if (wanted.item(i).getNodeType() == Node.ELEMENT_NODE) {
                     Node node = wanted.item(i);
                     String conditionType = node.getAttributes().getNamedItem("singularity").getTextContent();

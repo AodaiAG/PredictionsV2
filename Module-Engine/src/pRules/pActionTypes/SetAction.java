@@ -1,5 +1,6 @@
 package pRules.pActionTypes;
 
+import org.w3c.dom.Node;
 import pEntity.Property;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
@@ -70,4 +71,6 @@ public class SetAction extends Action
             }
         }
     }
+
+
 }

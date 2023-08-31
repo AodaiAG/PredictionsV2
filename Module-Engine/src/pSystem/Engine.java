@@ -245,11 +245,9 @@ public class Engine implements IEngine
 
             String ticks = doc.getElementsByTagName("PRD-by-ticks").item(0).getAttributes().getNamedItem("count").getTextContent();
             String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
-
-
-
             this.world.setTerminationTicks(Integer.parseInt(ticks));
             this.world.setTerminationSeconds(Integer.parseInt(seconds));
+
             this.worldBeforeChanging = convertWorldToDTO();
             currentXMLFilePath =file;
             simulations.clear();
@@ -272,7 +270,8 @@ public class Engine implements IEngine
 
     }
 
-    private void initRulesFromFile(NodeList list, World world) throws Exception {
+    private void initRulesFromFile(NodeList list, World world) throws Exception
+    {
         String nameOfRule = "";
         try {
             RuleExceptionHandler ruleExceptionHandler = new RuleExceptionHandler();
@@ -309,7 +308,8 @@ public class Engine implements IEngine
                 NodeList actionsListOfaRule = ((Element) item).getElementsByTagName("PRD-actions").item(0).getChildNodes();
 
                 for (int m = 0; m < actionsListOfaRule.getLength(); m++) {
-                    if (actionsListOfaRule.item(m).getNodeType() == Node.ELEMENT_NODE) {
+                    if (actionsListOfaRule.item(m).getNodeType() == Node.ELEMENT_NODE)
+                    {
                         Action action = justToCallFunction.CreateAction(actionsListOfaRule.item(m));
 
                         newRule.getActions().add(action);
@@ -374,7 +374,8 @@ public class Engine implements IEngine
                 EntityInstance e1 = new EntityInstance();
                 e1.setNameOfEntity(name);
 
-                for (int j = 0; j < entityProperty.getLength(); j++) {
+                for (int j = 0; j < entityProperty.getLength(); j++)
+                {
                     String from = "";
                     String to = "";
                     boolean isRange = false;
@@ -406,6 +407,7 @@ public class Engine implements IEngine
                         e1.getPropertiesOfTheEntity().add(propAdded);
                     }
                 }
+                newEntity.setPropertiesOfTheEntity(e1.getPropertiesOfTheEntity());
 
                 this.world.getEntities().add(newEntity);
 

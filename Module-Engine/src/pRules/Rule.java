@@ -75,9 +75,16 @@ public class Rule
         try {
             World world = functions.getWorld();
             ActionExceptionHandler actionExceptionHandler = new ActionExceptionHandler();
+            String whichEntityActionWork = "";
+            Node whichEntityActionWorkNode = ActionNode.getAttributes().getNamedItem("entity");
+            if(whichEntityActionWorkNode!=null)
+            {
+                 whichEntityActionWork = ActionNode.getAttributes().getNamedItem("entity").getTextContent();
+                actionExceptionHandler.checkIfEntityExists(world.getEntities(), whichEntityActionWork);
 
-            String whichEntityActionWork = ActionNode.getAttributes().getNamedItem("entity").getTextContent();
-            actionExceptionHandler.checkIfEntityExists(world.getEntities(), whichEntityActionWork);
+            }
+            
+            
 
             String typeOfAction = ActionNode.getAttributes().getNamedItem("type").getTextContent();
             actionExceptionHandler.checkIfActionTypeValid(typeOfAction);
@@ -85,7 +92,7 @@ public class Rule
             NodeList prdsec = ((Element) ActionNode).getElementsByTagName("PRD-secondary-entity");
             String secondryEntity = null;
 
-            if (prdsec!=null)
+            if (prdsec.getLength()>0)
             {
                 secondryEntity =prdsec.item(0).getAttributes().getNamedItem("entity").getTextContent();
             }
@@ -129,7 +136,8 @@ public class Rule
 
                         conditionA.setCondition(single);
                     }
-                    if (typeOfCondition.equals("multiple")) {
+                    if (typeOfCondition.equals("multiple"))
+                    {
 
                         MultipleCondition toCallFunc = new MultipleCondition();
                         toCallFunc.setFunctions(this.functions);
@@ -261,13 +269,31 @@ public class Rule
 
                 case "replace":
                 {
+
                     ReplaceAction action=new ReplaceAction();
-                    return action.initFromXML(ActionNode);
+                    action.setFunctions(this.functions);
+                    if(secondryEntity!=null)
+                    {
+                        action.setSecondaryEntity(secondryEntity);
+                    }
+                    action.initFromXML(ActionNode);
+                    return action;
+
 
                 }
 
                 case "proximity":
                 {
+
+                    ProximityAction action=new ProximityAction();
+                    action.setFunctions(this.functions);
+                    if(secondryEntity!=null)
+                    {
+                        action.setSecondaryEntity(secondryEntity);
+                    }
+                    action.initFromXML(ActionNode);
+                    return action;
+
 
                 }
 
