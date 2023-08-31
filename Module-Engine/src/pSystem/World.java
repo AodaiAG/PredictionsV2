@@ -24,6 +24,12 @@ public class World implements IWorld
 
     private List<Rule> rules;
 
+    private int numOfRows;
+
+    private int numOfCols;
+
+   private EntityInstancesCircularGrid grid;
+
     public Map<String, EnvironmentInstance> getName2Env() {
         return name2Env;
     }
@@ -31,7 +37,6 @@ public class World implements IWorld
     public void setName2Env(Map<String, EnvironmentInstance> name2Env) {
         this.name2Env = name2Env;
     }
-
 
     public int getTerminationTicks() {
         return terminationTicks;
