@@ -11,7 +11,8 @@ public class KillAction extends Action {
 
     private String entityToKill;
 
-    public KillAction() {
+    public KillAction()
+    {
         entityName = "";
         entityToKill = "";
     }
@@ -35,9 +36,9 @@ public class KillAction extends Action {
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception
+    public void ActivateAction(EntityInstance... args) throws Exception
     {
-
+        EntityInstance e=args[0];
         e.setTobeKilled(true);
 
         for (Entity entity : functions.getWorld().getEntities()) {

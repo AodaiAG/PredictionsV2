@@ -10,6 +10,11 @@ public abstract class Action
 {
 
     protected AuxiliaryMethods functions;
+    protected String secondaryEntity;
+
+    public void setSecondaryEntity(String secondaryEntity) {this.secondaryEntity = secondaryEntity;}
+
+    public String getSecondaryEntity() {return secondaryEntity;}
 
     public AuxiliaryMethods getFunctions() {
         return functions;
@@ -17,7 +22,7 @@ public abstract class Action
 
     abstract public void setFunctions(AuxiliaryMethods functions);
 
-    abstract public void ActivateAction(EntityInstance e) throws Exception;
+    abstract public void ActivateAction(EntityInstance... args) throws Exception;
 
     abstract public String getNameOfAction();
 

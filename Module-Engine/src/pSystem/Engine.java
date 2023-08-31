@@ -1,13 +1,14 @@
 package pSystem;
 
 import pDTOS.*;
+import pEntity.*;
+import pEntity.Entity;
 import pEnvironment.EnvironmentInstance;
 import pExpression.AuxiliaryMethods;
 import pRules.pActionTypes.*;
 import pRules.Rule;
 import pRules.Activation;
 import org.w3c.dom.*;
-import pEntity.EntityInstance;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,10 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import pEntity.Property;
-import pEntity.Data;
-import pEntity.DataType;
-import pEntity.Entity;
 import pExceptionHandler.PropertyExceptionHandler;
 import pExceptionHandler.RuleExceptionHandler;
 
@@ -31,6 +28,8 @@ public class Engine implements IEngine
     public Random r = new Random();
     public World world;
     private WorldDTO worldBeforeChanging = null;
+    private int numbOfThreads;
+    Coordinate gridCoordinate;
 
     public List<Map.Entry<UUID, String>> getSortedSimulationsByDate()
     {
@@ -224,6 +223,12 @@ public class Engine implements IEngine
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(file);
             doc.getDocumentElement().normalize();
+
+
+            this.numbOfThreads=Integer.parseInt(doc.getElementsByTagName("PRD-thread-count").item(0).getTextContent());
+
+            setGridCoordinate(doc.getElementsByTagName("PRD-grid"));
+
             NodeList worldList = doc.getElementsByTagName("PRD-world");
 
             Node worldNode = worldList.item(0);
@@ -240,6 +245,9 @@ public class Engine implements IEngine
 
             String ticks = doc.getElementsByTagName("PRD-by-ticks").item(0).getAttributes().getNamedItem("count").getTextContent();
             String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
+
+
+
             this.world.setTerminationTicks(Integer.parseInt(ticks));
             this.world.setTerminationSeconds(Integer.parseInt(seconds));
             this.worldBeforeChanging = convertWorldToDTO();
@@ -252,6 +260,18 @@ public class Engine implements IEngine
 
     }
 
+    void setGridCoordinate(NodeList list)
+    {
+        int gridRows;
+        int gridCols;
+
+        gridRows = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("rows")).getTextContent());
+        gridCols = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("columns")).getTextContent());
+        this.world.getGrid().initEntityInstancesCircularGrid(gridRows,gridCols);
+
+
+    }
+
     private void initRulesFromFile(NodeList list, World world) throws Exception {
         String nameOfRule = "";
         try {
@@ -259,7 +279,8 @@ public class Engine implements IEngine
             AuxiliaryMethods f = new AuxiliaryMethods(world);
             Rule justToCallFunction = new Rule();
             justToCallFunction.setFunctions(f);
-            for (int i = 0; i < list.getLength(); i++) {
+            for (int i = 0; i < list.getLength(); i++)
+            {
                 Rule newRule = new Rule();
                 newRule.setFunctions(f);
                 Node item = list.item(i);
@@ -302,7 +323,8 @@ public class Engine implements IEngine
         }
     }
 
-    public void initEvironmentFromFile(NodeList list) throws Exception {
+    public void initEvironmentFromFile(NodeList list) throws Exception
+    {
         PropertyExceptionHandler exceptionHandler = new PropertyExceptionHandler();
         for (int i = 0; i < list.getLength(); i++) {
             try {
@@ -335,7 +357,8 @@ public class Engine implements IEngine
         }
     }
 
-    public void initEntitiesFromFile(NodeList list) throws Exception {
+    public void initEntitiesFromFile(NodeList list) throws Exception
+    {
         String name = new String();
 
         PropertyExceptionHandler exceptionHandler = new PropertyExceptionHandler();
@@ -347,15 +370,6 @@ public class Engine implements IEngine
                 Element el = (Element) item;
                 name = item.getAttributes().getNamedItem("name").getTextContent();
                 newEntity.setNameOfEntity(name);
-                String population = ((Element) item).getElementsByTagName("PRD-population").item(0).getTextContent();
-                try {
-                    exceptionHandler.checkIfValueMatchesType(population, "decimal");
-                } catch (Exception e1) {
-                    throw new RuntimeException("Population number is not numeric!");
-                }
-                int popNumber = Integer.parseInt(population);
-                newEntity.setNumberOfInstances(popNumber);
-
                 NodeList entityProperty = ((Element) item).getElementsByTagName("PRD-property");
                 EntityInstance e1 = new EntityInstance();
                 e1.setNameOfEntity(name);
@@ -393,33 +407,40 @@ public class Engine implements IEngine
                     }
                 }
 
-                // create collection of entities
-                List<EntityInstance> first = new ArrayList<>();
-                Set<Property> propOfEntity = e1.getPropertiesOfTheEntity();
-                newEntity.setPropertiesOfTheEntity(propOfEntity);
-
-
-                for (int m = 0; m < popNumber; m++) {
-
-                    EntityInstance added = e1.clone();
-
-                    for (Property p : added.getPropertiesOfTheEntity()) {
-                        boolean isInitRandom = p.isRandomInitialize();
-                        String initVal = p.getData().getDataString();
-                        if (isInitRandom) {
-                            p.getData().calculateNewVal(initVal, true);
-                        }
-                    }
-
-                    first.add(added);
-                }
-
-                newEntity.setEntities(first);
                 this.world.getEntities().add(newEntity);
+
             } catch (Exception e) {
                 throw new Exception("Error at entity name: " + name + " " + e.getMessage());
             }
         }
+    }
+
+    void createEntityPopulation(int popNumber,Entity entity)
+    {
+
+        List<EntityInstance> entityInstances = new ArrayList<>();
+        Set<Property> propOfEntity = entity.getPropertiesOfTheEntity();
+        EntityInstance e1=new EntityInstance();
+        e1.setPropertiesOfTheEntity(propOfEntity);
+
+        for (int m = 0; m < popNumber; m++)
+        {
+
+            EntityInstance added = e1.clone();
+
+            for (Property p : added.getPropertiesOfTheEntity()) {
+                boolean isInitRandom = p.isRandomInitialize();
+                String initVal = p.getData().getDataString();
+                if (isInitRandom) {
+                    p.getData().calculateNewVal(initVal, true);
+                }
+            }
+
+            entityInstances.add(added);
+        }
+
+        entity.setEntities(entityInstances);
+
     }
 
     Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init) {

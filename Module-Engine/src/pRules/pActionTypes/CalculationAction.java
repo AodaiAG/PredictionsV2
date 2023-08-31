@@ -85,7 +85,9 @@ public class CalculationAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance entityInstance) throws Exception {
+    public void ActivateAction(EntityInstance...  args) throws Exception
+    {
+        EntityInstance entityInstance=args[0];
         Expression expression = new Expression(getFunctions(), entityInstance);
 
         String arg1 = expression.evaluateExpression(expression1);

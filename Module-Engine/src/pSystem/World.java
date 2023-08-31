@@ -24,11 +24,13 @@ public class World implements IWorld
 
     private List<Rule> rules;
 
-    private int numOfRows;
-
-    private int numOfCols;
 
    private EntityInstancesCircularGrid grid;
+
+    public EntityInstancesCircularGrid getGrid()
+    {
+        return grid;
+    }
 
     public Map<String, EnvironmentInstance> getName2Env() {
         return name2Env;

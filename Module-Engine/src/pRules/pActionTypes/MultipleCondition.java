@@ -31,7 +31,8 @@ public class MultipleCondition extends ConditionAction
     }
 
 
-    public MultipleCondition createMultipleCondition(Node nodeList) throws Exception {
+    public MultipleCondition createMultipleCondition(Node nodeList) throws Exception
+    {
         try {
             World world = functions.getWorld();
             ActionExceptionHandler actionExceptionHandler = new ActionExceptionHandler();
@@ -131,8 +132,9 @@ public class MultipleCondition extends ConditionAction
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception
+    public void ActivateAction(EntityInstance ...args) throws Exception
     {
+        EntityInstance e=args[0];
         switch (logical) {
             case "and":
             {

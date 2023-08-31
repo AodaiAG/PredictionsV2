@@ -59,7 +59,10 @@ public class SingleCondition extends ConditionAction {
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception {
+    public void ActivateAction(EntityInstance ...args) throws Exception
+    {
+
+        EntityInstance e=args[0];
         Property wanted = new Property();
         Expression exp = new Expression(getFunctions(), e);
         String svalue = exp.evaluateExpression(value);

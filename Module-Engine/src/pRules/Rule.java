@@ -70,7 +70,8 @@ public class Rule
         actions = new ArrayList<>();
     }
 
-    public Action CreateAction(Node ActionNode) throws Exception {
+    public Action CreateAction(Node ActionNode) throws Exception
+    {
         try {
             World world = functions.getWorld();
             ActionExceptionHandler actionExceptionHandler = new ActionExceptionHandler();
@@ -81,10 +82,25 @@ public class Rule
             String typeOfAction = ActionNode.getAttributes().getNamedItem("type").getTextContent();
             actionExceptionHandler.checkIfActionTypeValid(typeOfAction);
 
+            NodeList prdsec = ((Element) ActionNode).getElementsByTagName("PRD-secondary-entity");
+            String secondryEntity = null;
 
-            switch (typeOfAction) {
-                case "condition": {
+            if (prdsec!=null)
+            {
+                secondryEntity =prdsec.item(0).getAttributes().getNamedItem("entity").getTextContent();
+            }
+
+
+
+            switch (typeOfAction)
+            {
+                case "condition":
+                {
                     ConditionAction conditionA = new ConditionAction();
+                    if(secondryEntity!=null)
+                    {
+                        conditionA.setSecondaryEntity(secondryEntity);
+                    }
                     conditionA.setFunctions(this.functions);
                     conditionA.setEntityName(whichEntityActionWork);
                     Node c = ((Element) ActionNode).getElementsByTagName("PRD-condition").item(0);
@@ -140,8 +156,13 @@ public class Rule
                     return conditionA;
                 }
 
-                case "increase": {
+                case "increase":
+                {
                     IncreaseAction action = new IncreaseAction();
+                    if(secondryEntity!=null)
+                    {
+                        action.setSecondaryEntity(secondryEntity);
+                    }
                     action.setFunctions(this.functions);
                     action.setEntityName(whichEntityActionWork);
                     Entity toBeChecked = getEntityAccordingToName(world, whichEntityActionWork);
@@ -155,8 +176,13 @@ public class Rule
                     return action;
                 }
 
-                case "decrease": {
+                case "decrease":
+                {
                     DecreaseAction action = new DecreaseAction();
+                    if(secondryEntity!=null)
+                    {
+                        action.setSecondaryEntity(secondryEntity);
+                    }
                     action.setFunctions(this.functions);
                     action.setEntityName(whichEntityActionWork);
                     Entity toBeChecked = getEntityAccordingToName(world, whichEntityActionWork);
@@ -169,9 +195,14 @@ public class Rule
                     return action;
                 }
 
-                case "calculation": {
+                case "calculation":
+                {
 
                     CalculationAction action = new CalculationAction();
+                    if(secondryEntity!=null)
+                    {
+                        action.setSecondaryEntity(secondryEntity);
+                    }
                     action.setFunctions(this.functions);
                     action.setEntityName(whichEntityActionWork);
                     NodeList mul = ((Element) ActionNode).getElementsByTagName("PRD-multiply");
@@ -198,8 +229,13 @@ public class Rule
                     break;
                 }
 
-                case "set": {
+                case "set":
+                {
                     SetAction action = new SetAction();
+                    if(secondryEntity!=null)
+                    {
+                        action.setSecondaryEntity(secondryEntity);
+                    }
                     action.setFunctions(this.functions);
                     action.setEntityName(whichEntityActionWork);
                     action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
@@ -210,15 +246,34 @@ public class Rule
                     return action;
                 }
 
-                case "kill": {
+                case "kill":
+                {
                     KillAction action = new KillAction();
+                    if(secondryEntity!=null)
+                    {
+                        action.setSecondaryEntity(secondryEntity);
+                    }
                     action.setFunctions(this.functions);
                     Entity toBeChecked = getEntityAccordingToName(world, ActionNode.getAttributes().getNamedItem("entity").getTextContent());
                     action.setEntityToKill(ActionNode.getAttributes().getNamedItem("entity").getTextContent());
                     return action;
                 }
+
+                case "replace":
+                {
+                    ReplaceAction action=new ReplaceAction();
+                    return action.initFromXML(ActionNode);
+
+                }
+
+                case "proximity":
+                {
+
+                }
+
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw e;
         }
         throw new RuntimeException("emptyList");

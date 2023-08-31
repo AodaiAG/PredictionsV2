@@ -7,13 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class EntityInstancesCircularGrid {
-    private final int numRows;
-    private final int numCols;
+public class EntityInstancesCircularGrid
+{
+    private  int numRows;
+    private  int numCols;
     private EntityInstance[][] grid;
 
 
-    public EntityInstancesCircularGrid(int numRows, int numCols) {
+    public void initEntityInstancesCircularGrid(int numRows, int numCols )
+    {
         this.numRows = numRows;
         this.numCols = numCols;
         this.grid = new EntityInstance[numRows][numCols];

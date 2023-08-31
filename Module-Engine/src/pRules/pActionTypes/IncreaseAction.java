@@ -53,7 +53,9 @@ public class IncreaseAction extends Action {
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception {
+    public void ActivateAction(EntityInstance ...args) throws Exception
+    {
+        EntityInstance e=args[0];
         Expression exp = new Expression(getFunctions(), e);
         String sValue = exp.evaluateExpression(expression);
 

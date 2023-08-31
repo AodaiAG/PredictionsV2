@@ -68,8 +68,9 @@ public class ConditionAction extends Action {
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception {
-
+    public void ActivateAction(EntityInstance... args) throws Exception
+    {
+       EntityInstance e=args[0];
         condition.ActivateAction(e);
         conditionResult = condition.getConditionResult();
         if (conditionResult) {

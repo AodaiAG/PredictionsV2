@@ -5,7 +5,8 @@ import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
 import pExpression.Expression;
 
-public class SetAction extends Action {
+public class SetAction extends Action
+{
     private String entityName;
     private String propertyName;
     private String expression;
@@ -52,7 +53,9 @@ public class SetAction extends Action {
     }
 
     @Override
-    public void ActivateAction(EntityInstance e) throws Exception {
+    public void ActivateAction(EntityInstance ...args) throws Exception
+    {
+        EntityInstance e=args[0];
         Expression exp = new Expression(getFunctions(), e);
 
         String sValue = exp.evaluateExpression(expression);
