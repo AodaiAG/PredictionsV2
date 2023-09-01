@@ -72,9 +72,12 @@ public class Rule
 
     public Action CreateAction(Node ActionNode) throws Exception
     {
-        try {
+        try
+        {
             World world = functions.getWorld();
             ActionExceptionHandler actionExceptionHandler = new ActionExceptionHandler();
+
+
             String whichEntityActionWork = "";
             Node whichEntityActionWorkNode = ActionNode.getAttributes().getNamedItem("entity");
             if(whichEntityActionWorkNode!=null)
@@ -83,19 +86,21 @@ public class Rule
                 actionExceptionHandler.checkIfEntityExists(world.getEntities(), whichEntityActionWork);
 
             }
-            
-            
+
+
+
 
             String typeOfAction = ActionNode.getAttributes().getNamedItem("type").getTextContent();
             actionExceptionHandler.checkIfActionTypeValid(typeOfAction);
+            PRDsecondaryEntity prDsecondaryEntity=new PRDsecondaryEntity();
+            prDsecondaryEntity.setFunctions(this.functions);
+            int timesparsed=prDsecondaryEntity.initFromXML(ActionNode);
 
-            NodeList prdsec = ((Element) ActionNode).getElementsByTagName("PRD-secondary-entity");
-            String secondryEntity = null;
 
-            if (prdsec.getLength()>0)
-            {
-                secondryEntity =prdsec.item(0).getAttributes().getNamedItem("entity").getTextContent();
-            }
+
+
+
+
 
 
 
@@ -103,20 +108,21 @@ public class Rule
             {
                 case "condition":
                 {
+
                     ConditionAction conditionA = new ConditionAction();
-                    if(secondryEntity!=null)
-                    {
-                        conditionA.setSecondaryEntity(secondryEntity);
-                    }
+                    conditionA.setPrDsecondaryEntity(prDsecondaryEntity);
                     conditionA.setFunctions(this.functions);
                     conditionA.setEntityName(whichEntityActionWork);
-                    Node c = ((Element) ActionNode).getElementsByTagName("PRD-condition").item(0);
-                    String typeOfCondition = c.getAttributes().getNamedItem("singularity").getTextContent();
+
+                    Node c = ((Element) ActionNode).getElementsByTagName("PRD-condition").item(timesparsed);
+                    String typeOfCondition = ((Element)c).getAttribute("singularity");
+
                     actionExceptionHandler.conditionCheckSingularity(typeOfCondition);
 
-
-                    if (typeOfCondition.equals("single")) {
+                    if (typeOfCondition.equals("single"))
+                    {
                         SingleCondition single = new SingleCondition();
+
                         single.setFunctions(this.functions);
 
                         actionExceptionHandler.checkIfEntityExists(world.getEntities(), c.getAttributes().getNamedItem("entity").getTextContent());
@@ -167,10 +173,7 @@ public class Rule
                 case "increase":
                 {
                     IncreaseAction action = new IncreaseAction();
-                    if(secondryEntity!=null)
-                    {
-                        action.setSecondaryEntity(secondryEntity);
-                    }
+                    action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
                     action.setEntityName(whichEntityActionWork);
                     Entity toBeChecked = getEntityAccordingToName(world, whichEntityActionWork);
@@ -187,10 +190,7 @@ public class Rule
                 case "decrease":
                 {
                     DecreaseAction action = new DecreaseAction();
-                    if(secondryEntity!=null)
-                    {
-                        action.setSecondaryEntity(secondryEntity);
-                    }
+                    action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
                     action.setEntityName(whichEntityActionWork);
                     Entity toBeChecked = getEntityAccordingToName(world, whichEntityActionWork);
@@ -207,10 +207,7 @@ public class Rule
                 {
 
                     CalculationAction action = new CalculationAction();
-                    if(secondryEntity!=null)
-                    {
-                        action.setSecondaryEntity(secondryEntity);
-                    }
+                    action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
                     action.setEntityName(whichEntityActionWork);
                     NodeList mul = ((Element) ActionNode).getElementsByTagName("PRD-multiply");
@@ -240,10 +237,7 @@ public class Rule
                 case "set":
                 {
                     SetAction action = new SetAction();
-                    if(secondryEntity!=null)
-                    {
-                        action.setSecondaryEntity(secondryEntity);
-                    }
+                    action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
                     action.setEntityName(whichEntityActionWork);
                     action.setPropertyName(ActionNode.getAttributes().getNamedItem("property").getTextContent());
@@ -257,10 +251,7 @@ public class Rule
                 case "kill":
                 {
                     KillAction action = new KillAction();
-                    if(secondryEntity!=null)
-                    {
-                        action.setSecondaryEntity(secondryEntity);
-                    }
+                    action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
                     Entity toBeChecked = getEntityAccordingToName(world, ActionNode.getAttributes().getNamedItem("entity").getTextContent());
                     action.setEntityToKill(ActionNode.getAttributes().getNamedItem("entity").getTextContent());
@@ -272,10 +263,7 @@ public class Rule
 
                     ReplaceAction action=new ReplaceAction();
                     action.setFunctions(this.functions);
-                    if(secondryEntity!=null)
-                    {
-                        action.setSecondaryEntity(secondryEntity);
-                    }
+                    action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.initFromXML(ActionNode);
                     return action;
 
@@ -286,11 +274,8 @@ public class Rule
                 {
 
                     ProximityAction action=new ProximityAction();
+                    action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
-                    if(secondryEntity!=null)
-                    {
-                        action.setSecondaryEntity(secondryEntity);
-                    }
                     action.initFromXML(ActionNode);
                     return action;
 

@@ -2,7 +2,8 @@ package pSystem;
 
 import pEntity.Coordinate;
 
-public enum Direction {
+public enum Direction
+{
     UP {
         @Override
         Coordinate getNextCoordinate(Coordinate cor, int gridRows, int gridCols) {

@@ -6,7 +6,8 @@ import java.util.List;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
 
-public class ConditionAction extends Action {
+public class ConditionAction extends Action
+{
     private String entityName;
 
     private Boolean conditionResult;

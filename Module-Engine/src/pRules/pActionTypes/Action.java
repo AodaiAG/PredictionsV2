@@ -11,11 +11,17 @@ public abstract class Action
 {
 
     protected AuxiliaryMethods functions;
-    protected String secondaryEntity;
+    protected PRDsecondaryEntity prDsecondaryEntity;
 
-    public void setSecondaryEntity(String secondaryEntity) {this.secondaryEntity = secondaryEntity;}
+    public PRDsecondaryEntity getPrDsecondaryEntity()
+    {
+        return prDsecondaryEntity;
+    }
 
-    public String getSecondaryEntity() {return secondaryEntity;}
+    public void setPrDsecondaryEntity(PRDsecondaryEntity prDsecondaryEntity)
+    {
+        this.prDsecondaryEntity = prDsecondaryEntity;
+    }
 
     public AuxiliaryMethods getFunctions() {
         return functions;

@@ -19,7 +19,8 @@ public class ProximityAction extends Action
     List<Action> actionList=new ArrayList<>();
 
 
-    public void setFunctions(AuxiliaryMethods functions) {
+    public void setFunctions(AuxiliaryMethods functions)
+    {
         super.functions = functions;
     }
 

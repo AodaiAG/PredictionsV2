@@ -279,7 +279,6 @@ public class Engine implements IEngine
     {
         int gridRows;
         int gridCols;
-
         gridRows = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("rows")).getTextContent());
         gridCols = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("columns")).getTextContent());
         this.world.getGrid().initEntityInstancesCircularGrid(gridRows,gridCols);
