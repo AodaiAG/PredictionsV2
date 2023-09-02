@@ -52,7 +52,6 @@ public class ReplaceAction extends Action
 
                 // genereate random values
 
-
                 EntityToCreate.getEntities().add(addedEntityInstance);
 
             }
@@ -70,8 +69,8 @@ public class ReplaceAction extends Action
                         }
                     }
                 }
-
                 EntityToCreate.getEntities().add(addedEntityInstance);
+
             }
 
         }

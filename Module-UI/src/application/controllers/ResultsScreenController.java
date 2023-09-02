@@ -1,4 +1,5 @@
 package application.controllers;
 
-public class ResultsScreenController {
+public class ResultsScreenController
+{
 }

@@ -8,7 +8,7 @@ import pEntity.Entity;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class World implements IWorld
+public class World
 {
 
     private int terminationTicks;
