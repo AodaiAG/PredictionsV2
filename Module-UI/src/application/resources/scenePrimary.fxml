@@ -10,12 +10,12 @@
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PREDICTIONS" BorderPane.alignment="CENTER" />
    </top>
    <right>
-      <Button mnemonicParsing="false" onAction="#switchToFirstScene" text="show simulation details" BorderPane.alignment="CENTER" />
+      <Button mnemonicParsing="false" onAction="#switchToDetailsScene" text="show simulation details" BorderPane.alignment="CENTER" />
    </right>
    <left>
       <Button mnemonicParsing="false" text="load simulation" BorderPane.alignment="CENTER" />
    </left>
    <bottom>
-      <Button mnemonicParsing="false" onAction="#switchToThirdScene" text="Simulation Result" BorderPane.alignment="CENTER" />
+      <Button mnemonicParsing="false" onAction="#switchToResultsScene" text="Simulation Result" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

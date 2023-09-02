@@ -14,7 +14,8 @@ public class Program extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception
+    {
         UserInterfaceManager uiManager = UserInterfaceManager.INSTANCE;
         uiManager.setStage(primaryStage);
         uiManager.initApplication();

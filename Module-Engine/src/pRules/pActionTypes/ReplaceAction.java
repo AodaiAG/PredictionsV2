@@ -47,6 +47,9 @@ public class ReplaceAction extends Action
             {
                 addedEntityInstance =EntityToCreate.getEntities().get(0).clone();
                 // genereate random values
+
+
+
                 EntityToCreate.getEntities().add(addedEntityInstance);
 
             }

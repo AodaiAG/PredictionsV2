@@ -1,4 +1,6 @@
 package application.controllers;
 
-public class DetailsScreenController {
+public class DetailsScreenController
+{
+
 }
