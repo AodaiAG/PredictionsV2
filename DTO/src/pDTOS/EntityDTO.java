@@ -1,14 +1,38 @@
 package pDTOS;
 
+import javafx.scene.control.TreeItem;
+
 import java.util.List;
 
-public class EntityDTO {
+public class EntityDTO
+{
     private String name;
     private int numberOfInstances;
     private List<EntityInstancesDTO> instancesDTOS;
     private List<PropertyDTO> properties;
 
-    public EntityDTO(String name, int numOfInstances, List<PropertyDTO> propDTO, List<EntityInstancesDTO> ldto) {
+    public TreeItem<String> generateTreeView()
+    {
+        TreeItem<String> rootNode = new TreeItem<>(name);
+        // Add the number of instances as a child node
+        TreeItem<String> instancesNode = new TreeItem<>("Number of Instances: " + numberOfInstances);
+        rootNode.getChildren().add(instancesNode);
+
+        // Add the properties as child nodes
+        TreeItem<String> propertiesNode = new TreeItem<>("Properties");
+        for (PropertyDTO property : properties)
+        {
+            propertiesNode.getChildren().add(property.generateTreeView());
+        }
+        rootNode.getChildren().add(propertiesNode);
+
+        return rootNode;
+    }
+
+
+
+public EntityDTO(String name, int numOfInstances, List<PropertyDTO> propDTO, List<EntityInstancesDTO> ldto)
+{
         this.name = name;
         this.numberOfInstances = numOfInstances;
         this.properties = propDTO;

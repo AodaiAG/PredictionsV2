@@ -1,6 +1,9 @@
 package pDTOS;
 
-public class PropertyDTO {
+import javafx.scene.control.TreeItem;
+
+public class PropertyDTO
+{
     private final String NameOfProperty;
 
     private final boolean randomInitialize;
@@ -15,6 +18,7 @@ public class PropertyDTO {
 
     private String dataString;
 
+
     public PropertyDTO(String nameOfProperty, Boolean randomInitialize, String nameOfDataType, String from, String to, String dataString, boolean isRange) {
         this.NameOfProperty = nameOfProperty;
         this.randomInitialize = randomInitialize;
@@ -23,6 +27,19 @@ public class PropertyDTO {
         this.from = from;
         this.to = to;
         this.dataString = dataString;
+    }
+
+    public TreeItem<String> generateTreeView()
+    {
+        TreeItem<String> rootNode = new TreeItem<>("Property Name: " + NameOfProperty);
+        rootNode.getChildren().add(new TreeItem<>("Random Initialize: " + randomInitialize));
+        rootNode.getChildren().add(new TreeItem<>("Data Type: " + nameOfDataType));
+        rootNode.getChildren().add(new TreeItem<>("Is Range: " + isRange));
+        rootNode.getChildren().add(new TreeItem<>("From: " + from));
+        rootNode.getChildren().add(new TreeItem<>("To: " + to));
+        rootNode.getChildren().add(new TreeItem<>("Data String: " + dataString));
+
+        return rootNode;
     }
 
     public String getNameOfDataType() {

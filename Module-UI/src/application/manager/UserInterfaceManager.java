@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 import pSystem.Engine;
 import pSystem.IEngine;
@@ -173,6 +174,11 @@ public enum UserInterfaceManager
         }
         stage.setScene(newExecutionScene);
         stage.show();
+    }
+
+    public TreeView<String> generateWorldDetails()
+    {
+        return engine.convertWorldToDTO().generateTreeView();
     }
 
     public void switchToResultsScene() {

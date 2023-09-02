@@ -8,7 +8,7 @@ public class KillActionDTO extends ActionDTO
     private String entityToKill;
 
 
-    public TreeView<String> generateTreeView() {
+    public TreeItem<String> generateTreeView() {
         TreeItem<String> rootItem = new TreeItem<>("Kill Action");
         TreeItem<String> mainEntity = new TreeItem<>("Main Entity: " + this.getMainEntityNameActionWorksOn());
         TreeItem<String> secondaryEntity = new TreeItem<>("Secondary Entity: " + this.getSecondaryEntityNameActionWorksOn());
@@ -18,7 +18,7 @@ public class KillActionDTO extends ActionDTO
         rootItem.getChildren().addAll(entityToKillItem,mainEntity,secondaryEntity);
 
         TreeView<String> treeView = new TreeView<>(rootItem);
-        return treeView;
+        return rootItem;
     }
     public String getEntityToKill() {
         return entityToKill;

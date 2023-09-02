@@ -9,7 +9,7 @@ public class IncreaseActionDTO extends ActionDTO
 
     private String expressionStr;
 
-    public TreeView<String> generateTreeView() {
+    public TreeItem<String> generateTreeView() {
         TreeItem<String> rootItem = new TreeItem<>("Increase Action");
         TreeItem<String> mainEntity = new TreeItem<>("Main Entity: " + this.getMainEntityNameActionWorksOn());
         TreeItem<String> secondaryEntity = new TreeItem<>("Secondary Entity: " + this.getSecondaryEntityNameActionWorksOn());
@@ -20,7 +20,7 @@ public class IncreaseActionDTO extends ActionDTO
         rootItem.getChildren().addAll(propertyNameItem, expressionStrItem,mainEntity,secondaryEntity);
 
         TreeView<String> treeView = new TreeView<>(rootItem);
-        return treeView;
+        return rootItem;
     }
     public String getPropertyName() {
         return propertyName;

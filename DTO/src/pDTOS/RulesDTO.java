@@ -1,5 +1,7 @@
 package pDTOS;
 
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import pDTOS.ActionsDTO.ActionDTO;
 
 import java.util.List;
@@ -18,6 +20,31 @@ public class RulesDTO
         this.probability = probability;
         this.numberOfActions = numberOfActions;
         this.Actions = Actionslist;
+    }
+
+
+    public TreeItem<String> generateTreeView()
+    {
+        TreeItem<String> rootNode = new TreeItem<>("Rule: " + nameOfRule);
+        TreeView<String> treeView = new TreeView<>(rootNode);
+
+        rootNode.getChildren().add(new TreeItem<>("Name of Rule: " + nameOfRule));
+        rootNode.getChildren().add(new TreeItem<>("Ticks: " + ticks));
+        rootNode.getChildren().add(new TreeItem<>("Probability: " + probability));
+        rootNode.getChildren().add(new TreeItem<>("Number of Actions: " + numberOfActions));
+
+        TreeItem<String> actionsNode = new TreeItem<>("Actions");
+        rootNode.getChildren().add(actionsNode);
+
+        for (ActionDTO action : Actions)
+        {
+
+            actionsNode.getChildren().add(action.generateTreeView());
+
+        }
+
+        treeView.setShowRoot(false);
+        return rootNode;
     }
 
     public List<ActionDTO> getActions()

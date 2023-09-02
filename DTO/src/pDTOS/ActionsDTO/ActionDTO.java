@@ -1,5 +1,6 @@
 package pDTOS.ActionsDTO;
 
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
 public abstract class ActionDTO
@@ -12,7 +13,7 @@ public abstract class ActionDTO
         return nameOfAction;
     }
 
-    public abstract TreeView generateTreeView();
+    public abstract TreeItem<String> generateTreeView();
 
     public void setNameOfAction(String nameOfAction) {
         this.nameOfAction = nameOfAction;

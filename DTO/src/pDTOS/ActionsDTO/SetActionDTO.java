@@ -10,7 +10,7 @@ public class SetActionDTO extends ActionDTO
     private String arg1;
 
 
-    public TreeView<String> generateTreeView()
+    public TreeItem<String> generateTreeView()
     {
         TreeItem<String> rootItem = new TreeItem<>("Set Action");
         TreeItem<String> mainEntity = new TreeItem<>("Main Entity: " + this.getMainEntityNameActionWorksOn());
@@ -20,8 +20,9 @@ public class SetActionDTO extends ActionDTO
         TreeItem<String> arg1Item = new TreeItem<>("Argument 1: " + arg1);
         rootItem.getChildren().addAll(entityNameItem, propertyNameItem, arg1Item,mainEntity,secondaryEntity);
         TreeView<String> treeView = new TreeView<>(rootItem);
-        return treeView;
+        return rootItem;
     }
+
     public String getEntityName() {
         return entityName;
     }

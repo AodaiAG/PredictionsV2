@@ -10,7 +10,7 @@ public class ReplaceActionDTO extends ActionDTO
     private String mode;
 
 
-    public TreeView<String> generateTreeView() {
+    public TreeItem<String> generateTreeView() {
         TreeItem<String> rootItem = new TreeItem<>("Replace Action");
         TreeItem<String> mainEntity = new TreeItem<>("Main Entity: " + this.getMainEntityNameActionWorksOn());
         TreeItem<String> secondaryEntity = new TreeItem<>("Secondary Entity: " + this.getSecondaryEntityNameActionWorksOn());
@@ -22,7 +22,7 @@ public class ReplaceActionDTO extends ActionDTO
         rootItem.getChildren().addAll(entityToKillItem, entityToCreateItem, modeItem,mainEntity,secondaryEntity);
 
         TreeView<String> treeView = new TreeView<>(rootItem);
-        return treeView;
+        return rootItem;
     }
 
     public String getEntityToKill() {

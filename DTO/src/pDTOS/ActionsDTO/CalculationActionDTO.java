@@ -11,7 +11,7 @@ public class CalculationActionDTO extends ActionDTO
     private String arg2;
 
     @Override
-    public TreeView<String> generateTreeView()
+    public TreeItem<String> generateTreeView()
     {
 
         TreeItem<String> rootItem = new TreeItem<>("Calculation Action");
@@ -24,7 +24,7 @@ public class CalculationActionDTO extends ActionDTO
         rootItem.getChildren().addAll(calTypeItem, arg1Item, arg2Item,mainEntity,secondaryEntity);
 
         TreeView<String> treeView = new TreeView<>(rootItem);
-        return treeView;
+        return rootItem;
     }
 
     public String getCalType() {

@@ -3,8 +3,6 @@ package pDTOS.ActionsDTO;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
-import java.util.List;
-
 public class ProximityActionDTO extends ActionDTO
 {
     String sourceEntity;
@@ -12,7 +10,8 @@ public class ProximityActionDTO extends ActionDTO
     String of;
     private int numberOfActions;
 
-    public TreeView<String> generateTreeView() {
+    public TreeItem<String> generateTreeView()
+    {
         TreeItem<String> rootItem = new TreeItem<>("Proximity Action");
 
         TreeItem<String> sourceEntityItem = new TreeItem<>("Source Entity: " + sourceEntity);
@@ -21,9 +20,8 @@ public class ProximityActionDTO extends ActionDTO
         TreeItem<String> numberOfActionsItem = new TreeItem<>("Number of Actions: " + numberOfActions);
 
         rootItem.getChildren().addAll(sourceEntityItem, targetEntityItem, ofItem, numberOfActionsItem);
-
         TreeView<String> treeView = new TreeView<>(rootItem);
-        return treeView;
+        return rootItem;
     }
     public String getSourceEntity() {
         return sourceEntity;

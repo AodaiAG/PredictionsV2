@@ -9,7 +9,8 @@ public class ConditionActionDTO extends ActionDTO
    private int numberOfActionsInElse;
    private String singularity;
 
-    public TreeView<String> generateTreeView() {
+    public TreeItem<String> generateTreeView()
+    {
         TreeItem<String> rootItem = new TreeItem<>("Condition Action");
         TreeItem<String> mainEntity = new TreeItem<>("Main Entity: " + this.getMainEntityNameActionWorksOn());
         TreeItem<String> secondaryEntity = new TreeItem<>("Secondary Entity: " + this.getSecondaryEntityNameActionWorksOn());
@@ -20,7 +21,7 @@ public class ConditionActionDTO extends ActionDTO
         rootItem.getChildren().addAll(thenItem, elseItem, singularityItem,mainEntity,secondaryEntity);
 
         TreeView<String> treeView = new TreeView<>(rootItem);
-        return treeView;
+        return rootItem;
     }
     public int getNumberOfActionsInThen() {
         return numberOfActionsInThen;

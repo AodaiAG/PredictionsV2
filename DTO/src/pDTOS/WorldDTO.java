@@ -1,8 +1,11 @@
 package pDTOS;
 
 import java.util.List;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 
-public class WorldDTO {
+public class WorldDTO
+{
     private List<EntityDTO> entityDTOSet;
 
     private List<RulesDTO> rulesDTOSet;
@@ -16,6 +19,39 @@ public class WorldDTO {
         this.rulesDTOSet = rulesDTOSet;
         this.terminationDTO = terminationDTO;
         this.environmentDTOS = env;
+    }
+
+    public TreeView<String> generateTreeView()
+    {
+        TreeItem<String> rootNode = new TreeItem<>("World");
+
+        // Add EntityDTOs as child nodes
+        TreeItem<String> entityNode = new TreeItem<>("Entities");
+        for (EntityDTO entityDTO : entityDTOSet) {
+            entityNode.getChildren().add(entityDTO.generateTreeView());
+        }
+        rootNode.getChildren().add(entityNode);
+
+        // Add RulesDTOs as child nodes
+        TreeItem<String> rulesNode = new TreeItem<>("Rules");
+        for (RulesDTO rulesDTO : rulesDTOSet)
+        {
+            rulesNode.getChildren().add(rulesDTO.generateTreeView());
+        }
+        rootNode.getChildren().add(rulesNode);
+
+        // Add TerminationDTO as a child node
+        rootNode.getChildren().add(terminationDTO.generateTreeView());
+
+        // Add EnvironmentDTOs as child nodes
+        TreeItem<String> environmentNode = new TreeItem<>("Environment");
+        for (EnvironmentDTO environmentDTO : environmentDTOS) {
+            environmentNode.getChildren().add(environmentDTO.generateTreeView());
+        }
+        rootNode.getChildren().add(environmentNode);
+
+        TreeView<String> treeView = new TreeView<>(rootNode);
+        return treeView;
     }
 
     public void setEnvironmentDTOS(List<EnvironmentDTO> environmentDTOS) {
