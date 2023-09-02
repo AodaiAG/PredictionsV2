@@ -3,6 +3,9 @@ package pRules.pActionTypes;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import pDTOS.ActionsDTO.ActionDTO;
+import pDTOS.ActionsDTO.KillActionDTO;
+import pDTOS.ActionsDTO.ProximityActionDTO;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
 import pRules.Rule;
@@ -19,6 +22,19 @@ public class ProximityAction extends Action
     String of;
     List<Action> actionList=new ArrayList<>();
 
+    public ActionDTO convertToDTO()
+    {
+        ProximityActionDTO proximityActionDTO=new ProximityActionDTO();
+        proximityActionDTO.setNameOfAction("proximity");
+        proximityActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().nameOfSecondEntity);
+
+        proximityActionDTO.setSourceEntity(sourceEntity);
+        proximityActionDTO.setTargetEntity(targetEntity);
+        proximityActionDTO.setOf(of);
+        proximityActionDTO.setNumberOfActions(this.actionList.size());
+        return proximityActionDTO;
+    }
+
 
     public void setFunctions(AuxiliaryMethods functions)
     {
@@ -31,6 +47,8 @@ public class ProximityAction extends Action
 
         EntityInstancesCircularGrid grid =this.functions.getWorld().getGrid();
         //boolean iScircual=checkCircual(args,grid);
+        this.functions.getWorld().getEntities();
+
 
 
 

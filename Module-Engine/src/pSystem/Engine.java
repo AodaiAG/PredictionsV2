@@ -1,6 +1,7 @@
 package pSystem;
 
 import pDTOS.*;
+import pDTOS.ActionsDTO.ActionDTO;
 import pEntity.*;
 import pEntity.Entity;
 import pEnvironment.EnvironmentInstance;
@@ -181,13 +182,17 @@ public class Engine implements IEngine
         throw new Exception("Entity not found");
     }
 
-    public RulesDTO convertRuleToDTO(Rule rule) {
-        List<String> actionNames = new ArrayList<>();
+    public RulesDTO convertRuleToDTO(Rule rule)
+    {
+
         int numberOfActions = rule.getActions().size();
-        for (Action action : rule.getActions()) {
-            actionNames.add(action.getNameOfAction());
+        List<ActionDTO> actionDTOList=new ArrayList<>();
+        for (Action action : rule.getActions())
+        {
+            actionDTOList.add(action.convertToDTO());
         }
-        return new RulesDTO(rule.getNameOfRule(), rule.getActivation().getTicks(), rule.getActivation().getProbability(), numberOfActions, actionNames);
+
+        return new RulesDTO(rule.getNameOfRule(), rule.getActivation().getTicks(), rule.getActivation().getProbability(), numberOfActions, actionDTOList);
     }
 
     public EntityDTO convertEntityToDTO(Entity entity) {

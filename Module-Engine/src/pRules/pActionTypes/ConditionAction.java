@@ -3,6 +3,8 @@ package pRules.pActionTypes;
 import java.util.ArrayList;
 import java.util.List;
 
+import pDTOS.ActionsDTO.ActionDTO;
+import pDTOS.ActionsDTO.ConditionActionDTO;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
 
@@ -17,6 +19,20 @@ public class ConditionAction extends Action
     private List<Action> actionsToDoIfTrue;
 
     private List<Action> actionsToDoIfFalse;
+
+    @Override
+    public ActionDTO convertToDTO()
+    {
+        ConditionActionDTO conditionActionDTO=new ConditionActionDTO();
+        conditionActionDTO.setNameOfAction("condition");
+        conditionActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().nameOfSecondEntity);
+        conditionActionDTO.setMainEntityNameActionWorksOn(entityName);
+        conditionActionDTO.setNumberOfActionsInThen(actionsToDoIfTrue.size());
+        conditionActionDTO.setNumberOfActionsInElse(actionsToDoIfFalse.size());
+
+
+        return conditionActionDTO;
+    }
 
     public ConditionAction getCondition() {
         return condition;

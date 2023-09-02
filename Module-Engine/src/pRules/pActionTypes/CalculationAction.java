@@ -1,6 +1,8 @@
 package pRules.pActionTypes;
 
 import org.w3c.dom.Node;
+import pDTOS.ActionsDTO.ActionDTO;
+import pDTOS.ActionsDTO.CalculationActionDTO;
 import pEntity.Property;
 import pEntity.EntityInstance;
 import pExpression.Expression;
@@ -35,6 +37,20 @@ public class CalculationAction extends Action
         typeOfCondition = "calculation";
     }
 
+    @Override
+    public ActionDTO convertToDTO()
+    {
+
+        CalculationActionDTO calculationActionDTO=new CalculationActionDTO();
+        calculationActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().nameOfSecondEntity);
+        calculationActionDTO.setNameOfAction("calculation");
+        calculationActionDTO.setMainEntityNameActionWorksOn(entityName);
+        calculationActionDTO.setCalType(calType);
+        calculationActionDTO.setArg1(expression1);
+        calculationActionDTO.setArg2(expression2);
+        return calculationActionDTO;
+
+    }
 
     public void setEntityName(String entityName) {
         this.entityName = entityName;

@@ -1,12 +1,16 @@
 package pRules.pActionTypes;
 
+import pDTOS.ActionsDTO.ActionDTO;
+import pDTOS.ActionsDTO.DecreaseActionDTO;
+import pDTOS.ActionsDTO.KillActionDTO;
 import pEntity.Entity;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
 
 import pEntity.Property;
 
-public class KillAction extends Action {
+public class KillAction extends Action
+{
     private String entityName;
 
     private String entityToKill;
@@ -32,6 +36,17 @@ public class KillAction extends Action {
 
     public void setEntityToKill(String entityToKill) {
         this.entityToKill = entityToKill;
+    }
+
+    @Override
+    public ActionDTO convertToDTO()
+    {
+        KillActionDTO killActionDTO=new KillActionDTO();
+        killActionDTO.setNameOfAction("kill");
+        killActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().nameOfSecondEntity);
+        killActionDTO.setMainEntityNameActionWorksOn(entityName);
+        killActionDTO.setEntityToKill(entityToKill);
+        return killActionDTO;
     }
 
     @Override

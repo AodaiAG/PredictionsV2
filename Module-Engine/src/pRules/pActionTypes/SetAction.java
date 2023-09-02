@@ -1,6 +1,9 @@
 package pRules.pActionTypes;
 
 import org.w3c.dom.Node;
+import pDTOS.ActionsDTO.ActionDTO;
+import pDTOS.ActionsDTO.ReplaceActionDTO;
+import pDTOS.ActionsDTO.SetActionDTO;
 import pEntity.Property;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
@@ -16,6 +19,19 @@ public class SetAction extends Action
         entityName = "";
         propertyName = "";
         expression = "";
+    }
+
+    public ActionDTO convertToDTO()
+    {
+
+        SetActionDTO setActionDTO=new SetActionDTO();
+        setActionDTO.setMainEntityNameActionWorksOn(entityName);
+        setActionDTO.setNameOfAction("set");
+        setActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().nameOfSecondEntity);
+        setActionDTO.setArg1(expression);
+        setActionDTO.setPropertyName(propertyName);
+
+        return setActionDTO;
     }
 
     @Override

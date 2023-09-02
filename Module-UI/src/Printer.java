@@ -23,14 +23,13 @@ public class Printer {
         System.out.println("Is Random Initialized: " + (propertyDTO.isRandomInitialize() ? "true" : "false"));
     }
 
-    public void printRule(RulesDTO ruleDTO) {
+    public void printRule(RulesDTO ruleDTO)
+    {
         System.out.println("Rule Name: " + ruleDTO.getNameOfRule());
         System.out.println("Ticks: " + ruleDTO.getTicks());
         System.out.println("Probability: " + ruleDTO.getProbability());
         System.out.println("Number Of Actions: " + ruleDTO.getNumberOfActions());
-        for (String nameOfAction : ruleDTO.getNamesOfActions()) {
-            System.out.println("Name Of Action: " + nameOfAction);
-        }
+
     }
 
     public void printTermination(TerminationDTO terminationDTO) {

@@ -1,10 +1,13 @@
 package pRules.pActionTypes;
 
+import pDTOS.ActionsDTO.ActionDTO;
+import pDTOS.ActionsDTO.DecreaseActionDTO;
 import pEntity.Property;
 import pEntity.EntityInstance;
 import pExpression.*;
 
-public class DecreaseAction extends Action {
+public class DecreaseAction extends Action
+{
     private String entityName;
 
     private String propertyName;
@@ -15,6 +18,18 @@ public class DecreaseAction extends Action {
         propertyName = "";
         entityName = "";
         expressionStr = "";
+    }
+
+    @Override
+    public ActionDTO convertToDTO()
+    {
+        DecreaseActionDTO decreaseActionDTO=new DecreaseActionDTO();
+        decreaseActionDTO.setNameOfAction("decrease");
+        decreaseActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().nameOfSecondEntity);
+        decreaseActionDTO.setMainEntityNameActionWorksOn(entityName);
+        decreaseActionDTO.setExpressionStr(expressionStr);
+        decreaseActionDTO.setPropertyName(propertyName);
+        return decreaseActionDTO;
     }
 
     @Override

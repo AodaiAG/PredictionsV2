@@ -301,7 +301,8 @@ public class Rule
 
     public void isActivated(List<Entity> entities, int ticks, double generatedProbability)
     {
-        if (ticks % activation.getTicks() == 0 && generatedProbability < activation.getProbability()) {
+        if (ticks % activation.getTicks() == 0 && generatedProbability < activation.getProbability())
+        {
             for (Action action : this.actions)
             {
                 String currentEntityName = action.getNameOfEntity();

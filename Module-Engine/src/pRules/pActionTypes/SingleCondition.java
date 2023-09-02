@@ -4,7 +4,8 @@ import pEntity.Property;
 import pEntity.EntityInstance;
 import pExpression.Expression;
 
-public class SingleCondition extends ConditionAction {
+public class SingleCondition extends ConditionAction
+{
     private String nameofEntity;
     private String nameofProperty;
     private String operator;

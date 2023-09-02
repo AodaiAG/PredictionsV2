@@ -1,6 +1,7 @@
 package pRules.pActionTypes;
 
 import org.w3c.dom.Node;
+import pDTOS.ActionsDTO.ActionDTO;
 import pEntity.Entity;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
@@ -12,6 +13,7 @@ public abstract class Action
 
     protected AuxiliaryMethods functions;
     protected PRDsecondaryEntity prDsecondaryEntity;
+    public abstract ActionDTO convertToDTO();
 
     public PRDsecondaryEntity getPrDsecondaryEntity()
     {

@@ -1,5 +1,8 @@
 package pRules.pActionTypes;
 
+import pDTOS.ActionsDTO.ActionDTO;
+import pDTOS.ActionsDTO.DecreaseActionDTO;
+import pDTOS.ActionsDTO.IncreaseActionDTO;
 import pEntity.Property;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
@@ -17,6 +20,17 @@ public class IncreaseAction extends Action {
         entityName = "";
     }
 
+    @Override
+    public ActionDTO convertToDTO()
+    {
+        IncreaseActionDTO increaseActionDTO=new IncreaseActionDTO();
+        increaseActionDTO.setNameOfAction("increase");
+        increaseActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().nameOfSecondEntity);
+        increaseActionDTO.setMainEntityNameActionWorksOn(entityName);
+        increaseActionDTO.setExpressionStr(expression);
+        increaseActionDTO.setPropertyName(propertyName);
+        return increaseActionDTO;
+    }
     @Override
     public void setFunctions(AuxiliaryMethods functions) {
         super.functions = functions;

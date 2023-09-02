@@ -1,6 +1,9 @@
 package pRules.pActionTypes;
 
 import org.w3c.dom.Node;
+import pDTOS.ActionsDTO.ActionDTO;
+import pDTOS.ActionsDTO.ProximityActionDTO;
+import pDTOS.ActionsDTO.ReplaceActionDTO;
 import pEntity.Entity;
 import pEntity.EntityInstance;
 import pEntity.Property;
@@ -13,6 +16,19 @@ public class ReplaceAction extends Action
  private String entityToKill;
  private String entityToCreate;
  private String mode;
+
+    public ActionDTO convertToDTO()
+    {
+
+        ReplaceActionDTO replaceActionDTO=new ReplaceActionDTO();
+        replaceActionDTO.setMainEntityNameActionWorksOn(entityToCreate);
+        replaceActionDTO.setNameOfAction("replace");
+        replaceActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().nameOfSecondEntity);
+        replaceActionDTO.setMode(mode);
+        replaceActionDTO.setEntityToCreate(entityToCreate);
+
+        return replaceActionDTO;
+    }
 
 
 

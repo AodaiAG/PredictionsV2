@@ -1,5 +1,7 @@
 package pDTOS;
 
+import pDTOS.ActionsDTO.ActionDTO;
+
 import java.util.List;
 
 public class RulesDTO
@@ -8,14 +10,23 @@ public class RulesDTO
     private int ticks;
     private double probability;
     private int numberOfActions;
-    private List<String> namesOfActions;
+    private List<ActionDTO> Actions;
 
-    public RulesDTO(String nameOfRule, int ticks, double probability, int numberOfActions, List<String> namesOfActions) {
+    public RulesDTO(String nameOfRule, int ticks, double probability, int numberOfActions, List<ActionDTO> Actionslist) {
         this.nameOfRule = nameOfRule;
         this.ticks = ticks;
         this.probability = probability;
         this.numberOfActions = numberOfActions;
-        this.namesOfActions = namesOfActions;
+        this.Actions = Actionslist;
+    }
+
+    public List<ActionDTO> getActions()
+    {
+        return Actions;
+    }
+
+    public void setActions(List<ActionDTO> actions) {
+        Actions = actions;
     }
 
     public String getNameOfRule() {
@@ -50,11 +61,6 @@ public class RulesDTO
         this.numberOfActions = numberOfActions;
     }
 
-    public List<String> getNamesOfActions() {
-        return namesOfActions;
-    }
 
-    public void setNamesOfActions(List<String> namesOfActions) {
-        this.namesOfActions = namesOfActions;
-    }
+
 }
