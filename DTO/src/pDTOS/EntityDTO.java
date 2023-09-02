@@ -15,8 +15,6 @@ public class EntityDTO
     {
         TreeItem<String> rootNode = new TreeItem<>(name);
         // Add the number of instances as a child node
-        TreeItem<String> instancesNode = new TreeItem<>("Number of Instances: " + numberOfInstances);
-        rootNode.getChildren().add(instancesNode);
 
         // Add the properties as child nodes
         TreeItem<String> propertiesNode = new TreeItem<>("Properties");

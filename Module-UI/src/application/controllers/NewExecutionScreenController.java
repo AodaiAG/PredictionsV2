@@ -26,6 +26,14 @@ public class NewExecutionScreenController
         uiManager.switchToResultsScene();
     }
 
+    @FXML
+    public void switchToDetails(ActionEvent event)
+    {
+        uiManager.switchToDetailsScene();
+    }
+
+
+
 
 
 }
