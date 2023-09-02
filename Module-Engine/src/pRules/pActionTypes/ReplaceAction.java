@@ -23,11 +23,14 @@ public class ReplaceAction extends Action
     @Override
     public void ActivateAction(EntityInstance ...args) throws Exception
     {
-        EntityInstance e=args[0];
+        EntityInstance entityToKill=args[0];
+        EntityInstance entityToCreate=args[1];
         Entity EntitytoKill=null;
         Entity EntityToCreate = null;
         EntityInstance addedEntityInstance=new EntityInstance();
-        e.setTobeKilled(true);
+
+        entityToKill.setTobeKilled(true);
+
        for(Entity entity: this.functions.getWorld().getEntities())
        {
            if(entity.getNameOfEntity().equals(entityToKill))
@@ -45,9 +48,9 @@ public class ReplaceAction extends Action
         {
             case"scratch":
             {
-                addedEntityInstance =EntityToCreate.getEntities().get(0).clone();
-                // genereate random values
+                addedEntityInstance =entityToKill.clone();
 
+                // genereate random values
 
 
                 EntityToCreate.getEntities().add(addedEntityInstance);
@@ -56,16 +59,14 @@ public class ReplaceAction extends Action
 
             case "derived":
             {
-                addedEntityInstance=EntityToCreate.getEntities().get(0).clone();
-                for(Property propertykilled:e.getPropertiesOfTheEntity())
+                addedEntityInstance=entityToCreate;
+                for(Property propertykilled:entityToKill.getPropertiesOfTheEntity())
                 {
                     for(Property propertyadded:addedEntityInstance.getPropertiesOfTheEntity())
                     {
                         if(propertykilled.getNameOfProperty().equals(propertyadded.getNameOfProperty()) && propertykilled.getTypeString().equals(propertyadded.getTypeString()) )
                         {
-
-                            propertyadded=propertykilled;
-
+                            propertyadded=propertykilled.clone();
                         }
                     }
                 }

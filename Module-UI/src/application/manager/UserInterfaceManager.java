@@ -1,6 +1,7 @@
 package application.manager;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -157,7 +158,7 @@ public enum UserInterfaceManager
         stage.show();
     }
 
-
+@FXML
     public void switchToNewExecutionScene(){
         if(newExecutionScene == null) {
             try {

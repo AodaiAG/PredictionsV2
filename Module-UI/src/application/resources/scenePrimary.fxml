@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PrimaryScreenController">
    <top>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PREDICTIONS" BorderPane.alignment="CENTER" />
@@ -13,7 +12,7 @@
       <Button mnemonicParsing="false" onAction="#switchToDetailsScene" text="show simulation details" BorderPane.alignment="CENTER" />
    </right>
    <left>
-      <Button mnemonicParsing="false" text="load simulation" BorderPane.alignment="CENTER" />
+      <Button fx:id="switchToNewExecutionScene" mnemonicParsing="false" onAction="#switchToNewExecutionScene" text="load simulation" BorderPane.alignment="CENTER" />
    </left>
    <bottom>
       <Button mnemonicParsing="false" onAction="#switchToResultsScene" text="Simulation Result" BorderPane.alignment="CENTER" />

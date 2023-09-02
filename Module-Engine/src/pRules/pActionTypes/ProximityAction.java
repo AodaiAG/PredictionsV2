@@ -6,6 +6,7 @@ import org.w3c.dom.NodeList;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
 import pRules.Rule;
+import pSystem.EntityInstancesCircularGrid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,13 @@ public class ProximityAction extends Action
     @Override
     public void ActivateAction(EntityInstance... args) throws Exception
     {
+
+        EntityInstancesCircularGrid grid =this.functions.getWorld().getGrid();
+        //boolean iScircual=checkCircual(args,grid);
+
+
+
+
 
 
 
