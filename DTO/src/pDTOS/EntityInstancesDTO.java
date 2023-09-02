@@ -1,5 +1,7 @@
 package pDTOS;
 
+import javafx.scene.control.TreeView;
+
 import java.util.List;
 
 public class EntityInstancesDTO

@@ -2,7 +2,8 @@ package pDTOS;
 
 import java.util.List;
 
-public class RulesDTO {
+public class RulesDTO
+{
     private String nameOfRule;
     private int ticks;
     private double probability;
