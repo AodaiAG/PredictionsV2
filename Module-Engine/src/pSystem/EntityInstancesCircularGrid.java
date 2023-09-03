@@ -9,12 +9,21 @@ import java.util.Random;
 
 public class EntityInstancesCircularGrid
 {
-    private  int numRows;
-    private  int numCols;
+    private int numRows;
+
+    public int getNumRows() {
+        return numRows;
+    }
+
+    public int getNumCols() {
+        return numCols;
+    }
+
+    private int numCols;
+
     private EntityInstance[][] grid;
 
-
-    public void initEntityInstancesCircularGrid(int numRows, int numCols )
+    public void initEntityInstancesCircularGrid(int numRows, int numCols)
     {
         this.numRows = numRows;
         this.numCols = numCols;

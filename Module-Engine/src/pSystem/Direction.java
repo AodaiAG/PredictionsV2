@@ -7,37 +7,25 @@ public enum Direction
     UP {
         @Override
         Coordinate getNextCoordinate(Coordinate cor, int gridRows, int gridCols) {
-            Coordinate coordinate = new Coordinate();
-            coordinate.setCol(cor.getCol());
-            coordinate.setRow((cor.getRow()-1) % gridRows);
-            return coordinate;
+            return new Coordinate((cor.getRow()-1) % gridRows, cor.getCol());
         }
     },
     DOWN {
         @Override
         Coordinate getNextCoordinate(Coordinate cor, int gridRows, int gridCols) {
-            Coordinate coordinate = new Coordinate();
-            coordinate.setCol(cor.getCol());
-            coordinate.setRow((cor.getRow() + 1) % gridRows);
-            return coordinate;
+            return new Coordinate((cor.getRow() + 1) % gridRows, cor.getCol());
         }
     },
     LEFT{
         @Override
         Coordinate getNextCoordinate(Coordinate cor, int gridRows, int gridCols) {
-            Coordinate coordinate = new Coordinate();
-            coordinate.setRow(cor.getRow());
-            coordinate.setCol((cor.getCol()-1) % gridCols);
-            return coordinate;
+            return new Coordinate(cor.getRow(), (cor.getCol()-1) % gridCols);
         }
     },
     RIGHT{
         @Override
         Coordinate getNextCoordinate(Coordinate cor, int gridRows, int gridCols) {
-            Coordinate coordinate = new Coordinate();
-            coordinate.setRow(cor.getRow());
-            coordinate.setCol((cor.getCol()+1) % gridCols);
-            return coordinate;
+            return new Coordinate(cor.getRow(), (cor.getCol()+1) % gridCols);
         }
     };
 

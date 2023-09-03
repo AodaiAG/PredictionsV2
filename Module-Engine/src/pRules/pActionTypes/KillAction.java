@@ -43,7 +43,7 @@ public class KillAction extends Action
     {
         KillActionDTO killActionDTO=new KillActionDTO();
         killActionDTO.setNameOfAction("kill");
-        killActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().nameOfSecondEntity);
+        killActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
         killActionDTO.setMainEntityNameActionWorksOn(entityName);
         killActionDTO.setEntityToKill(entityToKill);
         return killActionDTO;

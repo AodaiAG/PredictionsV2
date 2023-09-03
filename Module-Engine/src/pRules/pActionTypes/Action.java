@@ -1,6 +1,5 @@
 package pRules.pActionTypes;
 
-import org.w3c.dom.Node;
 import pDTOS.ActionsDTO.ActionDTO;
 import pEntity.Entity;
 import pEntity.EntityInstance;
@@ -10,17 +9,18 @@ import java.util.List;
 
 public abstract class Action
 {
-
     protected AuxiliaryMethods functions;
-    protected PRDsecondaryEntity prDsecondaryEntity;
+
+    protected PRDSecondaryEntity prDsecondaryEntity;
+
     public abstract ActionDTO convertToDTO();
 
-    public PRDsecondaryEntity getPrDsecondaryEntity()
+    public PRDSecondaryEntity getPrDsecondaryEntity()
     {
         return prDsecondaryEntity;
     }
 
-    public void setPrDsecondaryEntity(PRDsecondaryEntity prDsecondaryEntity)
+    public void setPrDsecondaryEntity(PRDSecondaryEntity prDsecondaryEntity)
     {
         this.prDsecondaryEntity = prDsecondaryEntity;
     }

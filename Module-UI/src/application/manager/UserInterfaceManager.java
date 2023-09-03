@@ -39,6 +39,7 @@ public enum UserInterfaceManager
     public void setPrimaryScene(Scene primaryScene) {
         this.primaryScene = primaryScene;
     }
+
     public void initApplication()
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/scenePrimary.fxml"));
@@ -53,6 +54,7 @@ public enum UserInterfaceManager
             System.out.println("failed to load scenePrimary.fxml");
         }
     }
+
     public void loadXmlFile(ActionEvent event)
     {
         FileChooser fileChooser = new FileChooser();
@@ -106,6 +108,7 @@ public enum UserInterfaceManager
             }
         }
     }
+
     public Stage getStage()
     {
         return stage;
@@ -139,8 +142,6 @@ public enum UserInterfaceManager
     public void setResultsScene(Scene resultsScene) {
         this.resultsScene = resultsScene;
     }
-
-
 
     public void switchToDetailsScene()
     {

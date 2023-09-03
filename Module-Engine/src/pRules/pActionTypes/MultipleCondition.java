@@ -83,7 +83,7 @@ public class MultipleCondition extends ConditionAction
             if (thenNodesF != null) {
                 NodeList thenNodes = thenNodesF.getElementsByTagName("PRD-action");
                 for (int p = 0; p < thenNodes.getLength(); p++) {
-                    res.getActionsToDoIfTrue().add(p, justToCallFunction.CreateAction(thenNodes.item(p)));
+                    res.getActionsToDoIfTrue().add(p, justToCallFunction.createAction(thenNodes.item(p)));
                 }
             }
 
@@ -92,7 +92,7 @@ public class MultipleCondition extends ConditionAction
                 NodeList elseNodes = elseNodesF.getElementsByTagName("PRD-action");
 
                 for (int p = 0; p < elseNodes.getLength(); p++) {
-                    res.getActionsToDoIfFalse().add(p, justToCallFunction.CreateAction(elseNodes.item(p)));
+                    res.getActionsToDoIfFalse().add(p, justToCallFunction.createAction(elseNodes.item(p)));
                 }
             }
             return res;

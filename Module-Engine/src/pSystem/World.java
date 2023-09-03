@@ -10,11 +10,9 @@ import java.util.*;
 
 public class World
 {
-
     private int terminationTicks;
 
     private int terminationSeconds;
-
 
     private boolean terminationByUser=false;
 
@@ -28,20 +26,19 @@ public class World
 
     private List<Rule> rules;
 
-
-
     public boolean isTerminationByUser() {
         return terminationByUser;
     }
 
-    public void setTerminationByUser(boolean terminationByUser) {
-        this.terminationByUser = terminationByUser;
-    }
    private EntityInstancesCircularGrid grid=new EntityInstancesCircularGrid();
 
     public EntityInstancesCircularGrid getGrid()
     {
         return grid;
+    }
+
+    public void setTerminationByUser(boolean terminationByUser) {
+        this.terminationByUser = terminationByUser;
     }
 
     public Map<String, EnvironmentInstance> getName2Env() {

@@ -211,8 +211,6 @@ public class Engine implements IEngine
             EntityInstancesDTO entityInstancesDTO = new EntityInstancesDTO(instancePropertyDTOs, entityInstance.getNameOfEntity());
             entityInstancesDTOS.add(entityInstancesDTO);
         }
-
-
         return new EntityDTO(entity.getNameOfEntity(), entity.getNumberOfInstances(), propertyDTOs, entityInstancesDTOS);
     }
 
@@ -331,8 +329,7 @@ public class Engine implements IEngine
                 for (int m = 0; m < actionsListOfaRule.getLength(); m++) {
                     if (actionsListOfaRule.item(m).getNodeType() == Node.ELEMENT_NODE)
                     {
-                        Action action = justToCallFunction.CreateAction(actionsListOfaRule.item(m));
-
+                        Action action = justToCallFunction.createAction(actionsListOfaRule.item(m));
                         newRule.getActions().add(action);
                     }
                 }

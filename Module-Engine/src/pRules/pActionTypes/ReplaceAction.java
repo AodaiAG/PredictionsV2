@@ -9,21 +9,18 @@ import pEntity.EntityInstance;
 import pEntity.Property;
 import pExpression.AuxiliaryMethods;
 
-public class ReplaceAction extends Action
+public class ReplaceAction extends Action {
 
-{
+    private String entityToKill;
+    private String entityToCreate;
+    private String mode;
 
- private String entityToKill;
- private String entityToCreate;
- private String mode;
+    public ActionDTO convertToDTO() {
 
-    public ActionDTO convertToDTO()
-    {
-
-        ReplaceActionDTO replaceActionDTO=new ReplaceActionDTO();
+        ReplaceActionDTO replaceActionDTO = new ReplaceActionDTO();
         replaceActionDTO.setMainEntityNameActionWorksOn(entityToCreate);
         replaceActionDTO.setNameOfAction("replace");
-        replaceActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().nameOfSecondEntity);
+        replaceActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
         replaceActionDTO.setMode(mode);
         replaceActionDTO.setEntityToCreate(entityToCreate);
 
@@ -31,40 +28,33 @@ public class ReplaceAction extends Action
     }
 
 
-
     public void setFunctions(AuxiliaryMethods functions) {
         super.functions = functions;
     }
 
     @Override
-    public void ActivateAction(EntityInstance ...args) throws Exception
-    {
-        EntityInstance entityToKill=args[0];
-        EntityInstance entityToCreate=args[1];
-        Entity EntitytoKill=null;
+    public void ActivateAction(EntityInstance... args) throws Exception {
+        EntityInstance entityToKill = args[0];
+        EntityInstance entityToCreate = args[1];
+        Entity EntitytoKill = null;
         Entity EntityToCreate = null;
-        EntityInstance addedEntityInstance=new EntityInstance();
+        EntityInstance addedEntityInstance = new EntityInstance();
 
         entityToKill.setTobeKilled(true);
 
-       for(Entity entity: this.functions.getWorld().getEntities())
-       {
-           if(entity.getNameOfEntity().equals(entityToKill))
-           {
-               EntitytoKill=entity;
-           }
-           if(entity.getNameOfEntity().equals(entityToCreate))
-           {
-               EntityToCreate=entity;
-           }
-       }
+        for (Entity entity : this.functions.getWorld().getEntities()) {
+            if (entity.getNameOfEntity().equals(entityToKill)) {
+                EntitytoKill = entity;
+            }
+            if (entity.getNameOfEntity().equals(entityToCreate)) {
+                EntityToCreate = entity;
+            }
+        }
 
 
-        switch (mode)
-        {
-            case"scratch":
-            {
-                addedEntityInstance =entityToKill.clone();
+        switch (mode) {
+            case "scratch": {
+                addedEntityInstance = entityToKill.clone();
 
                 // genereate random values
 
@@ -72,16 +62,12 @@ public class ReplaceAction extends Action
 
             }
 
-            case "derived":
-            {
-                addedEntityInstance=entityToCreate;
-                for(Property propertykilled:entityToKill.getPropertiesOfTheEntity())
-                {
-                    for(Property propertyadded:addedEntityInstance.getPropertiesOfTheEntity())
-                    {
-                        if(propertykilled.getNameOfProperty().equals(propertyadded.getNameOfProperty()) && propertykilled.getTypeString().equals(propertyadded.getTypeString()) )
-                        {
-                            propertyadded=propertykilled.clone();
+            case "derived": {
+                addedEntityInstance = entityToCreate;
+                for (Property propertykilled : entityToKill.getPropertiesOfTheEntity()) {
+                    for (Property propertyadded : addedEntityInstance.getPropertiesOfTheEntity()) {
+                        if (propertykilled.getNameOfProperty().equals(propertyadded.getNameOfProperty()) && propertykilled.getTypeString().equals(propertyadded.getTypeString())) {
+                            propertyadded = propertykilled.clone();
                         }
                     }
                 }
@@ -93,18 +79,16 @@ public class ReplaceAction extends Action
 
     }
 
-   public void initFromXML(Node ActionNode)
-    {
+    public void initFromXML(Node ActionNode) {
 
-        this.entityToKill=ActionNode.getAttributes().getNamedItem("kill").getTextContent();
-        this.entityToCreate=ActionNode.getAttributes().getNamedItem("create").getTextContent();
-        this.mode=ActionNode.getAttributes().getNamedItem("mode").getTextContent();
+        this.entityToKill = ActionNode.getAttributes().getNamedItem("kill").getTextContent();
+        this.entityToCreate = ActionNode.getAttributes().getNamedItem("create").getTextContent();
+        this.mode = ActionNode.getAttributes().getNamedItem("mode").getTextContent();
 
 
     }
 
-    public String getEntityToKill()
-    {
+    public String getEntityToKill() {
         return entityToKill;
     }
 
@@ -129,14 +113,12 @@ public class ReplaceAction extends Action
     }
 
     @Override
-    public String getNameOfAction()
-    {
+    public String getNameOfAction() {
         return null;
     }
 
     @Override
-    public String getNameOfEntity()
-    {
+    public String getNameOfEntity() {
 
         return null;
     }

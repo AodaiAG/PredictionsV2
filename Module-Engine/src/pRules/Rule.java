@@ -70,45 +70,31 @@ public class Rule
         actions = new ArrayList<>();
     }
 
-    public Action CreateAction(Node ActionNode) throws Exception
+    public Action createAction(Node ActionNode) throws Exception
     {
         try
         {
             World world = functions.getWorld();
             ActionExceptionHandler actionExceptionHandler = new ActionExceptionHandler();
 
-
             String whichEntityActionWork = "";
             Node whichEntityActionWorkNode = ActionNode.getAttributes().getNamedItem("entity");
-            if(whichEntityActionWorkNode!=null)
+            if(whichEntityActionWorkNode != null)
             {
                  whichEntityActionWork = ActionNode.getAttributes().getNamedItem("entity").getTextContent();
                 actionExceptionHandler.checkIfEntityExists(world.getEntities(), whichEntityActionWork);
-
             }
-
-
-
 
             String typeOfAction = ActionNode.getAttributes().getNamedItem("type").getTextContent();
             actionExceptionHandler.checkIfActionTypeValid(typeOfAction);
-            PRDsecondaryEntity prDsecondaryEntity=new PRDsecondaryEntity();
+            PRDSecondaryEntity prDsecondaryEntity = new PRDSecondaryEntity();
             prDsecondaryEntity.setFunctions(this.functions);
-            int timesparsed=prDsecondaryEntity.initFromXML(ActionNode);
-
-
-
-
-
-
-
-
+            int timesparsed = prDsecondaryEntity.initFromXML(ActionNode);
 
             switch (typeOfAction)
             {
                 case "condition":
                 {
-
                     ConditionAction conditionA = new ConditionAction();
                     conditionA.setPrDsecondaryEntity(prDsecondaryEntity);
                     conditionA.setFunctions(this.functions);
@@ -154,7 +140,7 @@ public class Rule
                     if (thenNodesF != null) {
                         NodeList thenNodes = thenNodesF.getElementsByTagName("PRD-action");
                         for (int p = 0; p < thenNodes.getLength(); p++) {
-                            conditionA.getActionsToDoIfTrue().add(p, CreateAction(thenNodes.item(p)));
+                            conditionA.getActionsToDoIfTrue().add(p, createAction(thenNodes.item(p)));
                         }
                     }
 
@@ -163,7 +149,7 @@ public class Rule
                         NodeList elseNodes = elseNodesF.getElementsByTagName("PRD-action");
 
                         for (int p = 0; p < elseNodes.getLength(); p++) {
-                            conditionA.getActionsToDoIfFalse().add(p, CreateAction(elseNodes.item(p)));
+                            conditionA.getActionsToDoIfFalse().add(p, createAction(elseNodes.item(p)));
 
                         }
                     }
@@ -266,20 +252,15 @@ public class Rule
                     action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.initFromXML(ActionNode);
                     return action;
-
-
                 }
 
                 case "proximity":
                 {
-
                     ProximityAction action=new ProximityAction();
                     action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
                     action.initFromXML(ActionNode);
                     return action;
-
-
                 }
 
             }
@@ -317,12 +298,24 @@ public class Rule
 
                 if (!currentEntity.getEntities().isEmpty())
                 {
-                    for (EntityInstance eI : currentEntity.getEntities())
+                    for (EntityInstance primaryInstance : currentEntity.getEntities())
                     {
                         try {
-                            if (eI != null)
+                            if (primaryInstance != null)
                             {
-                                action.ActivateAction(eI);
+                                if(action.getPrDsecondaryEntity() != null)
+                                {
+                                    Entity secondaryEntity = action.findEntityAccordingName(entities, action.getPrDsecondaryEntity().getNameOfSecondEntity());
+                                    action.getPrDsecondaryEntity().calcInstancesToFetch(action, secondaryEntity);
+                                    List<EntityInstance> secondaryEntityInstances = action.getPrDsecondaryEntity().getListOfInstancesToFetch();
+                                    for (EntityInstance secondaryInstance : secondaryEntityInstances)
+                                    {
+                                        action.ActivateAction(primaryInstance, secondaryInstance);
+                                    }
+                                }
+                                else {
+                                    action.ActivateAction(primaryInstance);
+                                }
                             }
                         } catch (Exception e)
                         {

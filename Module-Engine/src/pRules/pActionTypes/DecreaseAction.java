@@ -25,7 +25,7 @@ public class DecreaseAction extends Action
     {
         DecreaseActionDTO decreaseActionDTO=new DecreaseActionDTO();
         decreaseActionDTO.setNameOfAction("decrease");
-        decreaseActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().nameOfSecondEntity);
+        decreaseActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
         decreaseActionDTO.setMainEntityNameActionWorksOn(entityName);
         decreaseActionDTO.setExpressionStr(expressionStr);
         decreaseActionDTO.setPropertyName(propertyName);
