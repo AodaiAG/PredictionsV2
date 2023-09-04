@@ -30,8 +30,10 @@ public class ProximityAction extends Action
     {
         ProximityActionDTO proximityActionDTO=new ProximityActionDTO();
         proximityActionDTO.setNameOfAction("proximity");
-        proximityActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
+        if (this.prDsecondaryEntity != null) {
+            proximityActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
 
+        }
         proximityActionDTO.setSourceEntity(sourceEntity);
         proximityActionDTO.setTargetEntity(targetEntity);
         proximityActionDTO.setOf(of);

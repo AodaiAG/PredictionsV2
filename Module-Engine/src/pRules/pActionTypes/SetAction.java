@@ -27,7 +27,10 @@ public class SetAction extends Action
         SetActionDTO setActionDTO=new SetActionDTO();
         setActionDTO.setMainEntityNameActionWorksOn(entityName);
         setActionDTO.setNameOfAction("set");
-        setActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
+        if (this.prDsecondaryEntity != null) {
+            setActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
+
+        }
         setActionDTO.setArg1(expression);
         setActionDTO.setPropertyName(propertyName);
 

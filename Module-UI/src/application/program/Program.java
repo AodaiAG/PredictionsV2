@@ -7,12 +7,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import application.manager.UserInterfaceManager;
 
-public class Program extends Application {
+public class Program extends Application
+{
     public static void main(String[] args)
 
     {
         launch(args);
-        System.out.println("hello world");
     }
 
     @Override

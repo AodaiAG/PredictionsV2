@@ -41,11 +41,13 @@ public class PRDSecondaryEntity {
         this.listOfInstancesToFetch = listOfInstancesToFetch;
     }
 
-    public int initFromXML(Node ActionNode) {
+    public int initFromXML(Node ActionNode)
+    {
         int times;
         try {
             NodeList secondaryEntityNodes = ((Element) (ActionNode)).getElementsByTagName("PRD-secondary-entity");
-            for (int i = 0; i < secondaryEntityNodes.getLength(); i++) {
+            for (int i = 0; i < secondaryEntityNodes.getLength(); i++)
+            {
                 times = secondaryEntityNodes.getLength();
                 Element secondaryEntityElement = (Element) secondaryEntityNodes.item(i);
 
@@ -80,7 +82,8 @@ public class PRDSecondaryEntity {
                     return times;
                 }
 
-                if (singularityType.equals("multiple")) {
+                if (singularityType.equals("multiple"))
+                {
                     MultipleCondition toCallFunc = new MultipleCondition();
                     toCallFunc.setFunctions(this.functions);
                     condition = toCallFunc.createMultipleCondition(conditionElement);

@@ -90,6 +90,11 @@ public class Rule
             PRDSecondaryEntity prDsecondaryEntity = new PRDSecondaryEntity();
             prDsecondaryEntity.setFunctions(this.functions);
             int timesparsed = prDsecondaryEntity.initFromXML(ActionNode);
+            if(timesparsed==0)
+            {
+                prDsecondaryEntity=null;
+            }
+
 
             switch (typeOfAction)
             {

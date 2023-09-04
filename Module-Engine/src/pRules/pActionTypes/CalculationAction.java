@@ -41,7 +41,10 @@ public class CalculationAction extends Action
     public ActionDTO convertToDTO()
     {
         CalculationActionDTO calculationActionDTO=new CalculationActionDTO();
-        calculationActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
+        if (this.prDsecondaryEntity != null) {
+            calculationActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
+
+        }
         calculationActionDTO.setNameOfAction("calculation");
         calculationActionDTO.setMainEntityNameActionWorksOn(entityName);
         calculationActionDTO.setCalType(calType);

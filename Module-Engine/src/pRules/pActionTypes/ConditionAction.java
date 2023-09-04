@@ -25,7 +25,10 @@ public class ConditionAction extends Action
     {
         ConditionActionDTO conditionActionDTO=new ConditionActionDTO();
         conditionActionDTO.setNameOfAction("condition");
-        conditionActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
+        if (this.prDsecondaryEntity != null) {
+            conditionActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
+
+        }
         conditionActionDTO.setMainEntityNameActionWorksOn(entityName);
         conditionActionDTO.setNumberOfActionsInThen(actionsToDoIfTrue.size());
         conditionActionDTO.setNumberOfActionsInElse(actionsToDoIfFalse.size());

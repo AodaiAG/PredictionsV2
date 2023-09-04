@@ -25,7 +25,10 @@ public class IncreaseAction extends Action {
     {
         IncreaseActionDTO increaseActionDTO=new IncreaseActionDTO();
         increaseActionDTO.setNameOfAction("increase");
-        increaseActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
+        if (this.prDsecondaryEntity != null) {
+            increaseActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
+
+        }
         increaseActionDTO.setMainEntityNameActionWorksOn(entityName);
         increaseActionDTO.setExpressionStr(expression);
         increaseActionDTO.setPropertyName(propertyName);
