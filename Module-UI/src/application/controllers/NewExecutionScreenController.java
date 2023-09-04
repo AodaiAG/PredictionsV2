@@ -2,6 +2,7 @@ package application.controllers;
 import application.manager.UserInterfaceManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.AnchorPane;
 
 import java.awt.*;
 
@@ -12,14 +13,11 @@ public class NewExecutionScreenController
 
 
 
+
     public NewExecutionScreenController() {
         uiManager = UserInterfaceManager.INSTANCE;
     }
-    @FXML
-    public void loadXmlFile(ActionEvent event)
-    {
-        uiManager.loadXmlFile(event);
-    }
+
 
     @FXML
     void switchToThirdScene(ActionEvent event) {

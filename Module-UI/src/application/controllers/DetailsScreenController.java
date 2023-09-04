@@ -2,6 +2,7 @@ package application.controllers;
 
 import application.manager.UserInterfaceManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
 public class DetailsScreenController
@@ -9,7 +10,8 @@ public class DetailsScreenController
 
     private UserInterfaceManager uiManager;
 
-    public DetailsScreenController() {
+    public DetailsScreenController()
+    {
         uiManager = UserInterfaceManager.INSTANCE;
     }
     @FXML
@@ -22,7 +24,7 @@ public class DetailsScreenController
 
         // Generate the TreeView
         TreeView<String> generatedTreeView = uiManager.generateWorldDetails();
-
+        generatedTreeView.getRoot().setValue(uiManager.getSimulationName());
         // Set the generated TreeView to the one defined in your FXML
         worldTreeView.setRoot(generatedTreeView.getRoot());
     }

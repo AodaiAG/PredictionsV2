@@ -12,7 +12,7 @@
       <Button mnemonicParsing="false" onAction="#switchToThirdScene" text="switch to scene three" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
-      <Button fx:id="loadXmlFile" mnemonicParsing="false" onAction="#loadXmlFile" prefHeight="53.0" prefWidth="118.0" text="load xml" BorderPane.alignment="CENTER" />
+      <Button fx:id="loadXmlFile" mnemonicParsing="false" prefHeight="53.0" prefWidth="118.0" text="load xml" BorderPane.alignment="CENTER" />
    </center>
    <left>
       <Button mnemonicParsing="false" onAction="#switchToDetails" prefHeight="50.0" prefWidth="134.0" text="Show Details" BorderPane.alignment="CENTER" />

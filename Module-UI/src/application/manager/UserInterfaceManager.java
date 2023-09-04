@@ -5,9 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import pSystem.Engine;
 import pSystem.IEngine;
@@ -31,6 +33,9 @@ public enum UserInterfaceManager
     private Scene resultsScene;
     private Scene primaryScene;
     private IEngine  engine=new Engine();
+    String simulationName;
+
+
 
     public Scene getPrimaryScene() {
         return primaryScene;
@@ -49,13 +54,19 @@ public enum UserInterfaceManager
             primaryScene = new Scene(root);
             stage.setScene(primaryScene);
             stage.setTitle("Main Application");
+
             stage.show();
         } catch (IOException e) {
             System.out.println("failed to load scenePrimary.fxml");
         }
     }
 
-    public void loadXmlFile(ActionEvent event)
+public String getSimulationName()
+{
+    return simulationName;
+}
+@FXML
+    public void loadXmlFile(ActionEvent event,TextField filePathLabel)
     {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open XML File");
@@ -71,15 +82,20 @@ public enum UserInterfaceManager
             dialog.setTitle("Enter Simulation Name");
             dialog.setHeaderText("Please enter the name of the simulation:");
             dialog.setContentText("Name:");
+            String directoryPath = selectedFile.getParent();
+            filePathLabel.setText(directoryPath);
 
             Optional<String> result = dialog.showAndWait();
 
             if (result.isPresent())
             {
                 String simulationName = result.get();
+                this.simulationName=simulationName;
+
 
                 // Load and process the XML file with the simulation name
-                try {
+                try
+                {
                     engine.ParseXmlAndLoadWorld(selectedFile);
 
                     // Notify the user of successful loading
@@ -116,6 +132,7 @@ public enum UserInterfaceManager
         if(detailsScene == null) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/application/resources/detailsScene.fxml"));
+
                 detailsScene = new Scene(root);
             }
             catch (IOException e)

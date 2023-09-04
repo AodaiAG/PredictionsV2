@@ -13,6 +13,7 @@ public class Program extends Application
 
     {
         launch(args);
+        System.out.println("hello world");
     }
 
     @Override
