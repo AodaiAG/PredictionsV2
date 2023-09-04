@@ -25,10 +25,8 @@ public class RulesDTO
 
     public TreeItem<String> generateTreeView()
     {
-        TreeItem<String> rootNode = new TreeItem<>("Rule: " + nameOfRule);
-        TreeView<String> treeView = new TreeView<>(rootNode);
+        TreeItem<String> rootNode = new TreeItem<>(nameOfRule);
 
-        rootNode.getChildren().add(new TreeItem<>("Name of Rule: " + nameOfRule));
         rootNode.getChildren().add(new TreeItem<>("Ticks: " + ticks));
         rootNode.getChildren().add(new TreeItem<>("Probability: " + probability));
         rootNode.getChildren().add(new TreeItem<>("Number of Actions: " + numberOfActions));
@@ -43,7 +41,7 @@ public class RulesDTO
 
         }
 
-        treeView.setShowRoot(false);
+
         return rootNode;
     }
 

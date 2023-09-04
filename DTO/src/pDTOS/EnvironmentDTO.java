@@ -11,15 +11,8 @@ public class EnvironmentDTO
     }
     public TreeItem<String> generateTreeView()
     {
-        TreeItem<String> rootNode = new TreeItem<>(enProperty.getNameOfProperty());
 
-        // Add the property details as a child node
-        TreeItem<String> propertyNode = new TreeItem<>();
-        propertyNode.getChildren().add(enProperty.generateTreeView());
-
-        rootNode.getChildren().add(propertyNode);
-
-        return rootNode;
+        return enProperty.generateTreeView();
     }
 
     public PropertyDTO getEnProperty() {

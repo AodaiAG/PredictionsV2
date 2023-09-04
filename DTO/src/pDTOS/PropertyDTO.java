@@ -31,10 +31,9 @@ public class PropertyDTO
 
     public TreeItem<String> generateTreeView()
     {
-        TreeItem<String> rootNode = new TreeItem<>("Property Name: " + NameOfProperty);
+        TreeItem<String> rootNode = new TreeItem<>( NameOfProperty);
         rootNode.getChildren().add(new TreeItem<>("Random Initialize: " + randomInitialize));
         rootNode.getChildren().add(new TreeItem<>("Data Type: " + nameOfDataType));
-        rootNode.getChildren().add(new TreeItem<>("Is Range: " + isRange));
         rootNode.getChildren().add(new TreeItem<>("From: " + from));
         rootNode.getChildren().add(new TreeItem<>("To: " + to));
         rootNode.getChildren().add(new TreeItem<>("Data String: " + dataString));

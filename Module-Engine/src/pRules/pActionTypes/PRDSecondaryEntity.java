@@ -102,7 +102,8 @@ public class PRDSecondaryEntity {
         this.functions = functions;
     }
 
-    public void calcInstancesToFetch(Action action, Entity secondaryEntity) {
+    public void calcInstancesToFetch(Action action, Entity secondaryEntity)
+    {
         listOfInstancesToFetch = null;
         List<EntityInstance> filteredEntities = new ArrayList<>();
         if (condition != null) {

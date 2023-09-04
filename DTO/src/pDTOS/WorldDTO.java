@@ -38,7 +38,9 @@ public class WorldDTO
         {
             rulesNode.getChildren().add(rulesDTO.generateTreeView());
         }
+
         rootNode.getChildren().add(rulesNode);
+
 
         // Add TerminationDTO as a child node
         rootNode.getChildren().add(terminationDTO.generateTreeView());
