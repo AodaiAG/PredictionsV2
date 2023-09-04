@@ -78,6 +78,14 @@ public class DecreaseAction extends Action
     public void ActivateAction(EntityInstance... args) throws Exception
     {
         EntityInstance e=args[0];
+        for(EntityInstance eI:args)
+        {
+            if(eI.getNameOfEntity().equals(this.entityName))
+            {
+                e=eI;
+                break;
+            }
+        }
         Expression expression = new Expression(super.getFunctions(), e);
         String strVal = expression.evaluateExpression(expressionStr);
 

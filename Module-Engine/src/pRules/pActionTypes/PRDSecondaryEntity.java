@@ -105,11 +105,12 @@ public class PRDSecondaryEntity {
         this.functions = functions;
     }
 
-    public void calcInstancesToFetch(Action action, Entity secondaryEntity)
+    public void calcInstancesToFetch(Entity secondaryEntity)
     {
         listOfInstancesToFetch = null;
         List<EntityInstance> filteredEntities = new ArrayList<>();
-        if (condition != null) {
+        if (condition != null)
+        {
             for (EntityInstance eI : secondaryEntity.getEntities())
             {
                 try
@@ -119,11 +120,13 @@ public class PRDSecondaryEntity {
                     {
                         filteredEntities.add(eI);
                     }
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     throw new RuntimeException(e);
                 }
             }
-        } else {
+        } else
+        {
             filteredEntities = secondaryEntity.getEntities();
         }
 

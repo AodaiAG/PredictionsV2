@@ -67,9 +67,9 @@ public class SingleCondition extends ConditionAction
         Property wanted = new Property();
         Expression exp = new Expression(getFunctions(), e);
         String svalue = exp.evaluateExpression(value);
-
+        String PropertyAfter=exp.evaluateExpression(nameofProperty);
         for (Property p : e.getPropertiesOfTheEntity()) {
-            if (p.getNameOfProperty().equals(nameofProperty)) {
+            if (p.getNameOfProperty().equals(PropertyAfter)) {
                 wanted = p;
                 break;
             }

@@ -73,10 +73,20 @@ public class IncreaseAction extends Action {
     public void ActivateAction(EntityInstance ...args) throws Exception
     {
         EntityInstance e=args[0];
+        for(EntityInstance eI:args)
+        {
+            if(eI.getNameOfEntity().equals(this.entityName))
+            {
+                e=eI;
+                break;
+            }
+        }
+
         Expression exp = new Expression(getFunctions(), e);
         String sValue = exp.evaluateExpression(expression);
 
-        for (Property property : e.getPropertiesOfTheEntity()) {
+        for (Property property : e.getPropertiesOfTheEntity())
+        {
             if (property.getNameOfProperty().equals(propertyName)) {
                 try {
                     property.getData().increase(sValue);

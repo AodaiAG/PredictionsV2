@@ -27,7 +27,8 @@ public class WorldDTO
 
         // Add EntityDTOs as child nodes
         TreeItem<String> entityNode = new TreeItem<>("Entities");
-        for (EntityDTO entityDTO : entityDTOSet) {
+        for (EntityDTO entityDTO : entityDTOSet)
+        {
             entityNode.getChildren().add(entityDTO.generateTreeView());
         }
         rootNode.getChildren().add(entityNode);

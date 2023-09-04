@@ -296,7 +296,8 @@ public class Rule
                 try
                 {
                     currentEntity = action.findEntityAccordingName(entities, currentEntityName);
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     System.out.println(e.getMessage());
                     continue;
                 }
@@ -311,7 +312,7 @@ public class Rule
                                 if(action.getPrDsecondaryEntity() != null)
                                 {
                                     Entity secondaryEntity = action.findEntityAccordingName(entities, action.getPrDsecondaryEntity().getNameOfSecondEntity());
-                                    action.getPrDsecondaryEntity().calcInstancesToFetch(action, secondaryEntity);
+                                    action.getPrDsecondaryEntity().calcInstancesToFetch(secondaryEntity);
                                     List<EntityInstance> secondaryEntityInstances = action.getPrDsecondaryEntity().getListOfInstancesToFetch();
                                     for (EntityInstance secondaryInstance : secondaryEntityInstances)
                                     {

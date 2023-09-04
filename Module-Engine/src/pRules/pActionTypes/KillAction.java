@@ -55,6 +55,14 @@ public class KillAction extends Action
     public void ActivateAction(EntityInstance... args) throws Exception
     {
         EntityInstance e=args[0];
+        for(EntityInstance eI:args)
+        {
+            if(eI.getNameOfEntity().equals(this.entityName))
+            {
+                e=eI;
+                break;
+            }
+        }
         e.setTobeKilled(true);
 
         for (Entity entity : functions.getWorld().getEntities()) {

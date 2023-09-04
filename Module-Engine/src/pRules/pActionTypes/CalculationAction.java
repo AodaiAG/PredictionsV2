@@ -107,6 +107,14 @@ public class CalculationAction extends Action
     public void ActivateAction(EntityInstance...  args) throws Exception
     {
         EntityInstance entityInstance=args[0];
+        for(EntityInstance eI:args)
+        {
+            if(eI.getNameOfEntity().equals(this.entityName))
+            {
+                entityInstance=eI;
+                break;
+            }
+        }
         Expression expression = new Expression(getFunctions(), entityInstance);
 
         String arg1 = expression.evaluateExpression(expression1);

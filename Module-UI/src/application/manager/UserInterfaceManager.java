@@ -109,39 +109,7 @@ public enum UserInterfaceManager
         }
     }
 
-    public Stage getStage()
-    {
-        return stage;
-    }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public Scene getDetailsScene() {
-        return detailsScene;
-    }
-
-    public void setDetailsScene(Scene detailsScene) {
-        this.detailsScene = detailsScene;
-    }
-
-    public Scene getNewExecutionScene() {
-        return newExecutionScene;
-    }
-
-    public void setNewExecutionScene(Scene newExecutionScene)
-    {
-        this.newExecutionScene = newExecutionScene;
-    }
-
-    public Scene getResultsScene() {
-        return resultsScene;
-    }
-
-    public void setResultsScene(Scene resultsScene) {
-        this.resultsScene = resultsScene;
-    }
 
     public void switchToDetailsScene()
     {
@@ -194,5 +162,39 @@ public enum UserInterfaceManager
         }
         stage.setScene(resultsScene);
         stage.show();
+    }
+
+    public Stage getStage()
+    {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public Scene getDetailsScene() {
+        return detailsScene;
+    }
+
+    public void setDetailsScene(Scene detailsScene) {
+        this.detailsScene = detailsScene;
+    }
+
+    public Scene getNewExecutionScene() {
+        return newExecutionScene;
+    }
+
+    public void setNewExecutionScene(Scene newExecutionScene)
+    {
+        this.newExecutionScene = newExecutionScene;
+    }
+
+    public Scene getResultsScene() {
+        return resultsScene;
+    }
+
+    public void setResultsScene(Scene resultsScene) {
+        this.resultsScene = resultsScene;
     }
 }
