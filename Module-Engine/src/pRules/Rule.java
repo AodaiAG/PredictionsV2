@@ -318,7 +318,8 @@ public class Rule
                                         action.ActivateAction(primaryInstance, secondaryInstance);
                                     }
                                 }
-                                else {
+                                else
+                                {
                                     action.ActivateAction(primaryInstance);
                                 }
                             }

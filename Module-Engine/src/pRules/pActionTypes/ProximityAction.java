@@ -60,8 +60,10 @@ public class ProximityAction extends Action
         }
     }
 
-    public boolean isInCycleAtDepth(EntityInstance entityInstance1, EntityInstance entityInstance2, EntityInstancesCircularGrid grid, int depth) {
-        if (depth < 1) {
+    public boolean isInCycleAtDepth(EntityInstance entityInstance1, EntityInstance entityInstance2, EntityInstancesCircularGrid grid, int depth)
+    {
+        if (depth < 1)
+        {
             throw new IllegalArgumentException("Depth must be greater than or equal to 1.");
         }
 
@@ -69,7 +71,8 @@ public class ProximityAction extends Action
         Set<EntityInstance> neighborsAtPreviousDepth = new HashSet<>();
         neighborsAtPreviousDepth.add(entityInstance1);
 
-        for (int d = 1; d <= depth; d++) {
+        for (int d = 1; d <= depth; d++)
+        {
             Set<EntityInstance> currentDepthNeighbors = new HashSet<>();
 
             for (EntityInstance neighborEntity : neighborsAtPreviousDepth) {

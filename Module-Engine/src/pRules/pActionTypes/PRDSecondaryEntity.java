@@ -110,10 +110,13 @@ public class PRDSecondaryEntity {
         listOfInstancesToFetch = null;
         List<EntityInstance> filteredEntities = new ArrayList<>();
         if (condition != null) {
-            for (EntityInstance eI : secondaryEntity.getEntities()) {
-                try {
+            for (EntityInstance eI : secondaryEntity.getEntities())
+            {
+                try
+                {
                     condition.ActivateAction(eI);
-                    if (condition.getConditionResult()) {
+                    if (condition.getConditionResult())
+                    {
                         filteredEntities.add(eI);
                     }
                 } catch (Exception e) {
@@ -128,8 +131,10 @@ public class PRDSecondaryEntity {
         int numericCount = 0;
         if (isNumber) {
             numericCount = Integer.parseInt(count);
-        } else {
-            if (count.equals("ALL")) {
+        } else
+        {
+            if (count.equals("ALL"))
+            {
                 numericCount = filteredEntities.size();
             }
         }
