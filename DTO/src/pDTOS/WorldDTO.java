@@ -3,6 +3,7 @@ package pDTOS;
 import java.util.List;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.VBox;
 
 public class WorldDTO
 {
@@ -42,7 +43,6 @@ public class WorldDTO
 
         rootNode.getChildren().add(rulesNode);
 
-
         // Add TerminationDTO as a child node
         rootNode.getChildren().add(terminationDTO.generateTreeView());
 
@@ -57,6 +57,10 @@ public class WorldDTO
         return treeView;
     }
 
+//    public VBox generateVBox()
+//    {
+//
+//    }
     public void setEnvironmentDTOS(List<EnvironmentDTO> environmentDTOS) {
         this.environmentDTOS = environmentDTOS;
     }

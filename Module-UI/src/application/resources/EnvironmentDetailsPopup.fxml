@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <Label fx:id="environmentNameLabel" text="Name: " />
+    <Label fx:id="rangeLabel" text="Range: " />
+    <Label fx:id="dataTypeLabel" text="Data Type: " />
+    <TextField fx:id="dataTextField" promptText="Enter Data" />
+</VBox>

@@ -317,6 +317,10 @@ public class Rule
                                     for (EntityInstance secondaryInstance : secondaryEntityInstances)
                                     {
                                         action.ActivateAction(primaryInstance, secondaryInstance);
+                                        if(action.getNameOfAction() == "proximity")
+                                        {
+                                            break;
+                                        }
                                     }
                                 }
                                 else

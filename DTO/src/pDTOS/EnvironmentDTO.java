@@ -9,9 +9,9 @@ public class EnvironmentDTO
     public EnvironmentDTO(PropertyDTO enProperty) {
         this.enProperty = enProperty;
     }
+
     public TreeItem<String> generateTreeView()
     {
-
         return enProperty.generateTreeView();
     }
 

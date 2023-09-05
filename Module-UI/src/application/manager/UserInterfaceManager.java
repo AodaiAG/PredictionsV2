@@ -11,6 +11,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import pDTOS.EnvironmentDTO;
+import pDTOS.WorldDTO;
 import pSystem.Engine;
 import pSystem.IEngine;
 import javafx.event.ActionEvent;
@@ -21,21 +23,21 @@ import pSystem.Engine;
 import java.io.File;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
-public enum UserInterfaceManager
-{
+public enum UserInterfaceManager {
     INSTANCE;
 
+    String simulationName;
     private Stage stage;
     private Scene detailsScene;
     private Scene newExecutionScene;
     private Scene resultsScene;
     private Scene primaryScene;
-    private IEngine  engine=new Engine();
-    String simulationName;
+    private IEngine engine = new Engine();
 
-
+    private WorldDTO worldDTO;
 
     public Scene getPrimaryScene() {
         return primaryScene;
@@ -45,8 +47,7 @@ public enum UserInterfaceManager
         this.primaryScene = primaryScene;
     }
 
-    public void initApplication()
-    {
+    public void initApplication() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/scenePrimary.fxml"));
         Parent root = null;
         try {
@@ -54,20 +55,18 @@ public enum UserInterfaceManager
             primaryScene = new Scene(root);
             stage.setScene(primaryScene);
             stage.setTitle("Main Application");
-
             stage.show();
         } catch (IOException e) {
             System.out.println("failed to load scenePrimary.fxml");
         }
     }
 
-public String getSimulationName()
-{
-    return simulationName;
-}
-@FXML
-    public void loadXmlFile(ActionEvent event,TextField filePathLabel)
-    {
+    public String getSimulationName() {
+        return simulationName;
+    }
+
+    @FXML
+    public void loadXmlFile(ActionEvent event, TextField filePathLabel) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open XML File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
@@ -75,8 +74,7 @@ public String getSimulationName()
         // Show open file dialog
         File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if (selectedFile != null)
-        {
+        if (selectedFile != null) {
             // Prompt the user to enter the name of the simulation
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Enter Simulation Name");
@@ -87,15 +85,13 @@ public String getSimulationName()
 
             Optional<String> result = dialog.showAndWait();
 
-            if (result.isPresent())
-            {
+            if (result.isPresent()) {
                 String simulationName = result.get();
-                this.simulationName=simulationName;
+                this.simulationName = simulationName;
 
 
                 // Load and process the XML file with the simulation name
-                try
-                {
+                try {
                     engine.ParseXmlAndLoadWorld(selectedFile);
 
                     // Notify the user of successful loading
@@ -106,8 +102,7 @@ public String getSimulationName()
                     alert.showAndWait();
 
                     // Optionally, switch to a different scene or update UI components here
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     // Handle any exceptions that may occur during XML parsing
                     e.printStackTrace();
 
@@ -126,54 +121,49 @@ public String getSimulationName()
     }
 
 
+//    public void switchToDetailsScene() {
+//        if (detailsScene == null) {
+//            try {
+//                Parent root = FXMLLoader.load(getClass().getResource("/application/resources/detailsScene.fxml"));
+//                detailsScene = new Scene(root);
+//            } catch (IOException e) {
+//                System.out.println("failed to load detailsScene.fxml");
+//            }
+//
+//        }
+//        stage.setScene(detailsScene);
+//        stage.show();
+//    }
 
-    public void switchToDetailsScene()
-    {
-        if(detailsScene == null) {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/application/resources/detailsScene.fxml"));
+  //  @FXML
+//    public void switchToNewExecutionScene() {
+//        if (newExecutionScene == null) {
+//            try {
+//                Parent root = FXMLLoader.load(getClass().getResource("/application/resources/newExecutionScene.fxml"));
+//                newExecutionScene = new Scene(root);
+//            } catch (IOException e) {
+//                System.out.println("failed to load newExecutionScene.fxml");
+//            }
+//        }
+//        stage.setScene(newExecutionScene);
+//        stage.show();
+//    }
 
-                detailsScene = new Scene(root);
-            }
-            catch (IOException e)
-            {
-                System.out.println("failed to load detailsScene.fxml");
-            }
-
-        }
-        stage.setScene(detailsScene);
-        stage.show();
+    public TreeView<String> generateWorldDetails() {
+        return engine.getWorldBeforeChanging().generateTreeView();
     }
 
-@FXML
-    public void switchToNewExecutionScene(){
-        if(newExecutionScene == null) {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/application/resources/newExecutionScene.fxml"));
-                newExecutionScene = new Scene(root);
-            }
-            catch (IOException e)
-            {
-                System.out.println("failed to load newExecutionScene.fxml");
-            }
-
-        }
-        stage.setScene(newExecutionScene);
-        stage.show();
-    }
-
-    public TreeView<String> generateWorldDetails()
+    public List<EnvironmentDTO> getEnvironmentsDTO()
     {
-        return engine.convertWorldToDTO().generateTreeView();
+        return engine.getWorldBeforeChanging().getEnvironmentDTOS();
     }
 
     public void switchToResultsScene() {
-        if(resultsScene == null) {
+        if (resultsScene == null) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/application/resources/resultsScene.fxml"));
                 resultsScene = new Scene(root);
-            }catch(IOException e)
-            {
+            } catch (IOException e) {
                 System.out.println("failed to resultsScene.fxml");
             }
         }
@@ -181,8 +171,7 @@ public String getSimulationName()
         stage.show();
     }
 
-    public Stage getStage()
-    {
+    public Stage getStage() {
         return stage;
     }
 
@@ -202,8 +191,7 @@ public String getSimulationName()
         return newExecutionScene;
     }
 
-    public void setNewExecutionScene(Scene newExecutionScene)
-    {
+    public void setNewExecutionScene(Scene newExecutionScene) {
         this.newExecutionScene = newExecutionScene;
     }
 
