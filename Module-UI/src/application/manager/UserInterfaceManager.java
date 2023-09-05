@@ -150,7 +150,7 @@ public enum UserInterfaceManager {
 //    }
 
     public TreeView<String> generateWorldDetails() {
-        return engine.getWorldBeforeChanging().generateTreeView();
+        return engine.convertWorldToDTO().generateTreeView();
     }
 
     public List<EnvironmentDTO> getEnvironmentsDTO()
