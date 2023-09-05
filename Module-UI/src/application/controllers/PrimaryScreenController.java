@@ -45,8 +45,9 @@ public class PrimaryScreenController
     }
 
     @FXML
-    void buttonSwitchToNewExecutionScene(ActionEvent event) {
-        System.out.println("now");
+    void buttonSwitchToNewExecutionScene(ActionEvent event)
+    {
+
         try
         {
             Node newEx = FXMLLoader.load(getClass().getResource("/application/resources/newExecutionScene.fxml"));

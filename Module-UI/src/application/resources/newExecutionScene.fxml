@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<?import javafx.scene.layout.VBox?>
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.NewExecutionScreenController">
-   <top>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Execution" BorderPane.alignment="CENTER" />
-   </top>
-
-   <!-- Use a ListView for buttons -->
-   <center>
-      <ListView fx:id="environmentVariableListView" prefHeight="200.0" prefWidth="300.0" />
-   </center>
-
-   <!-- Include the popup window content -->
-   <fx:include source="EnvironmentDetailsPopup.fxml" />
-</BorderPane>
+<SplitPane fx:id="splitPane" dividerPositions="0.6154791154791155" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="816.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.NewExecutionScreenController">
+   <items>
+      <AnchorPane fx:id="listPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="497.0">
+         <children>
+            <ListView fx:id="environmentVariableListView" layoutX="5.0" layoutY="8.0" prefHeight="518.0" prefWidth="497.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="detailsPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="309.0">
+         <!-- Details elements go here -->
+      </AnchorPane>
+   </items>
+</SplitPane>

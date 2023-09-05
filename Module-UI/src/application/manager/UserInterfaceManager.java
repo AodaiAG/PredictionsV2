@@ -202,4 +202,17 @@ public enum UserInterfaceManager {
     public void setResultsScene(Scene resultsScene) {
         this.resultsScene = resultsScene;
     }
+
+    public void setDataToEnvironmentVar(EnvironmentDTO selectedEnvironment, String enteredData) throws Exception {
+        try
+        {
+            this.engine.setDataToEnvironmentVar(selectedEnvironment,enteredData);
+
+        }
+        catch (Exception e)
+        {
+
+            throw e;
+        }
+    }
 }
