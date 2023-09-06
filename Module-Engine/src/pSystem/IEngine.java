@@ -1,7 +1,9 @@
 package pSystem;
 
+import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
 import pDTOS.WorldDTO;
+import pEntity.Entity;
 
 import java.io.File;
 import java.util.List;
@@ -13,6 +15,8 @@ public interface IEngine
     public void ParseXmlAndLoadWorld(File file) throws Exception;
 
     public WorldDTO convertWorldToDTO();
+    public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO);
+
 
     public WorldDTO getWorldBeforeChanging();
 

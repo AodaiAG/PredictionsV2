@@ -31,12 +31,9 @@ public class EntityInstance
 
 
     @Override
-    public EntityInstance clone() {
-        try {
-            super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
+    public EntityInstance clone()
+    {
+
         EntityInstance res = new EntityInstance();
         res.setNameOfEntity(this.NameOfEntity);
         res.setTobeKilled(isTobeKilled);

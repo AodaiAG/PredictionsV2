@@ -23,7 +23,6 @@ public class DetailsScreenController
         // Generate the TreeView
         TreeView<String> generatedTreeView = uiManager.generateWorldDetails();
         generatedTreeView.getRoot().setValue(uiManager.getSimulationName());
-        // Set the generated TreeView to the one defined in your FXML
         worldTreeView.setRoot(generatedTreeView.getRoot());
     }
 }

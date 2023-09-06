@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
 import pDTOS.PropertyDTO;
 
@@ -31,13 +32,12 @@ public class NewExecutionScreenController
 {
 
     public VBox environmentDetailsVBox;
+    @FXML
+    public ListView<String> entitesList;
     private UserInterfaceManager uiManager;
-
     @FXML
     private ListView<String> environmentVariableListView;
     private List<EnvironmentDTO> environmentDTOList;
-    @FXML
-    private AnchorPane anch;
     @FXML
     private AnchorPane detailsPane;
     @FXML
@@ -46,14 +46,38 @@ public class NewExecutionScreenController
     private SplitPane splitPane;
 
     @FXML
-    private TextField dataTextField;
+    private TextField dataTextField,populationText;
 
     private EnvironmentDTO selectedEnvironmentDTO;
+    private EntityDTO SelectedentityDTO;
 
 
 
     public void initialize()
     {
+
+        ObservableList<String> entitiesList = FXCollections.observableArrayList();
+        List<EntityDTO> entities=uiManager.getEntityDto();
+
+        for (EntityDTO entityDTO : entities)
+        {
+            String envName = entityDTO.getName();
+            entitiesList.add(envName);
+        }
+//
+        entitesList.setItems(entitiesList);
+
+        // Handle selection change in the list view
+        entitesList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+                {
+                    if (newValue != null)
+                    {
+                         SelectedentityDTO=entities.get(entitesList.getSelectionModel().getSelectedIndex());
+                    } else
+                    {
+                        // Disable the populationText field when no entity is selected
+                    }
+                });
 
         dataTextField=new TextField();
         List<EnvironmentDTO> enDTO = uiManager.getEnvironmentsDTO();
@@ -64,6 +88,7 @@ public class NewExecutionScreenController
             String envName = environmentDTO.getEnProperty().getNameOfProperty();
             detailsList.add(envName);
         }
+//
 
         // Set the detailsList as the items in the ListView
         environmentVariableListView.setItems(detailsList);
@@ -80,7 +105,29 @@ public class NewExecutionScreenController
             }
         });
     }
+    @FXML
+    private void handleAddButtonClick()
+    {
+        String popString=populationText.getText();
+        try
+        {
+            int popn=Integer.parseInt(popString);
+            uiManager.generatePopulation(SelectedentityDTO,popn);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Population added successfully!");
+            alert.showAndWait();
 
+        }
+        catch (Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Population should be numeric!");
+            alert.showAndWait();
+        }
+
+
+
+    }
     public void updateDetailsPane(EnvironmentDTO selectedEnvironment)
     {
         // Clear any existing content in the detailsPane

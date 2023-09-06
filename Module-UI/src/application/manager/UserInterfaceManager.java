@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
 import pDTOS.WorldDTO;
 import pSystem.Engine;
@@ -214,5 +215,17 @@ public enum UserInterfaceManager {
 
             throw e;
         }
+    }
+
+    public List<EntityDTO> getEntityDto()
+    {
+        return this.engine.convertWorldToDTO().getEntityDTOSet();
+    }
+
+    public void generatePopulation(EntityDTO selectedentityDTO, int populationNumber)
+    {
+
+        engine.createEntityPopulation(populationNumber,selectedentityDTO);
+
     }
 }

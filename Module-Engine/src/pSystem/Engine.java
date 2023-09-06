@@ -1,5 +1,6 @@
 package pSystem;
 
+import javafx.scene.control.TextField;
 import pDTOS.*;
 import pDTOS.ActionsDTO.ActionDTO;
 import pEntity.*;
@@ -435,8 +436,18 @@ public class Engine implements IEngine
         }
     }
 
-    void createEntityPopulation(int popNumber,Entity entity)
+
+    public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO)
     {
+        Entity entity=null;
+        for(Entity en:this.world.getEntities())
+        {
+            if(en.getNameOfEntity().equals(selectedentityDTO.getName()))
+            {
+                entity=en;
+                break;
+            }
+        }
 
         List<EntityInstance> entityInstances = new ArrayList<>();
         Set<Property> propOfEntity = entity.getPropertiesOfTheEntity();
