@@ -21,7 +21,7 @@
                         <ListView fx:id="environmentVariableListView" layoutX="114.0" prefHeight="303.0" prefWidth="469.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
-                <AnchorPane fx:id="detailsPane" minHeight="0.0" minWidth="0.0" prefHeight="253.0" prefWidth="469.0" />
+                <AnchorPane fx:id="detailsPane" />
               </items>
             </SplitPane>
             <Text layoutX="167.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Environment variables" wrappingWidth="190.00001573562622">

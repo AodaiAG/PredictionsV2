@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -148,10 +149,12 @@ public class NewExecutionScreenController
         });
         // Define the layout of elements within detailsPane
         VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
         vbox.getChildren().addAll(nameLabel,type,range,datavalue, dataTextField, modifyButton);
 
         // Add the layout to detailsPane
         detailsPane.getChildren().add(vbox);
+
 
         // Set the SplitPane divider position to control the width of list and details
         SplitPane.setResizableWithParent(listPane, Boolean.FALSE);
