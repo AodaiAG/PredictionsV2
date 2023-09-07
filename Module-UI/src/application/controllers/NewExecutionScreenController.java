@@ -91,7 +91,11 @@ public class NewExecutionScreenController
                 {
                     // Get the selected EnvironmentDTO
                     EnvironmentDTO selectedEnvironment = enDTO.get(environmentVariableListView.getSelectionModel().getSelectedIndex());
+                    selectedEnvironment=uiManager.updateEnvironment(selectedEnvironment);
+                    System.out.println(selectedEnvironment.getEnProperty().getDataString());
                     updateDetailsPane(selectedEnvironment);
+
+                    environmentVariableListView.refresh();
 
 
                 }
@@ -107,7 +111,6 @@ public class NewExecutionScreenController
 
 
     }
-
 
 
     @FXML
@@ -180,7 +183,6 @@ public class NewExecutionScreenController
             selectedEnvironment=uiManager.updateEnvironment(selectedEnvironment);
             alert.showAndWait();
             updateDetailsPane(selectedEnvironment);
-
 
 
         }
