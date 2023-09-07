@@ -6,20 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
 import pDTOS.WorldDTO;
 import pSystem.Engine;
 import pSystem.IEngine;
-import javafx.event.ActionEvent;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import pSystem.Engine;
 
 import java.io.File;
 
@@ -150,7 +143,8 @@ public enum UserInterfaceManager {
 //        stage.show();
 //    }
 
-    public TreeView<String> generateWorldDetails() {
+    public TreeView<String> generateWorldDetails()
+    {
         return engine.convertWorldToDTO().generateTreeView();
     }
 
@@ -232,5 +226,19 @@ public enum UserInterfaceManager {
     public Boolean iSThereASimulation()
     {
         return !engine.isWordNull();
+    }
+
+    public EnvironmentDTO updateEnvironment(EnvironmentDTO modifiedEnvironment)
+    {
+       for(EnvironmentDTO environmentDTO:engine.convertWorldToDTO().getEnvironmentDTOS())
+       {
+           if (environmentDTO.getEnProperty().getNameOfProperty().equals(modifiedEnvironment.getEnProperty().getNameOfProperty()))
+            {
+               return environmentDTO;
+
+           }
+       }
+
+       return modifiedEnvironment;
     }
 }

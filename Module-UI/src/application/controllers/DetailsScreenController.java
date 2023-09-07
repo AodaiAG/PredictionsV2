@@ -31,7 +31,7 @@ public class DetailsScreenController
        else
        {
            Alert alert = new Alert(Alert.AlertType.ERROR);
-           alert.setHeaderText("Please,load A file first!");
+           alert.setHeaderText("Please,load a file first!");
            alert.showAndWait();
        }
     }

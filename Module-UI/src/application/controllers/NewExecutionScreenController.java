@@ -4,30 +4,16 @@ import application.manager.UserInterfaceManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
-import pDTOS.PropertyDTO;
 
-import java.awt.*;
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 
 public class NewExecutionScreenController
 {
@@ -58,6 +44,7 @@ public class NewExecutionScreenController
 
     public void initialize()
     {
+        System.out.println("mm");
         if(uiManager.iSThereASimulation())
         {
             ObservableList<String> entitiesList = FXCollections.observableArrayList();
@@ -68,15 +55,13 @@ public class NewExecutionScreenController
                 String envName = entityDTO.getName();
                 entitiesList.add(envName);
             }
-//
-            entitesList.setItems(entitiesList);
 
+            entitesList.setItems(entitiesList);
             // Handle selection change in the list view
             entitesList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
             {
                 if (newValue != null)
                 {
-
                     SelectedentityDTO=entities.get(entitesList.getSelectionModel().getSelectedIndex());
                 } else
                 {
@@ -107,18 +92,24 @@ public class NewExecutionScreenController
                     // Get the selected EnvironmentDTO
                     EnvironmentDTO selectedEnvironment = enDTO.get(environmentVariableListView.getSelectionModel().getSelectedIndex());
                     updateDetailsPane(selectedEnvironment);
+
+
                 }
             });
+
         }
         else
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Please,load A file first!");
+            alert.setHeaderText("Please,load a file first!");
             alert.showAndWait();
         }
 
 
     }
+
+
+
     @FXML
     private void handleAddButtonClick()
     {
@@ -130,6 +121,7 @@ public class NewExecutionScreenController
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Population added successfully!");
             alert.showAndWait();
+
 
         }
         catch (Exception e)
@@ -146,20 +138,23 @@ public class NewExecutionScreenController
     {
         // Clear any existing content in the detailsPane
         detailsPane.getChildren().clear();
-
+        Button modifyButton = new Button("Modify data");
+        System.out.println("update-pane");
         // Create and add UI elements to detailsPane based on selectedEnvironment
         Label nameLabel = new Label("Name: " + selectedEnvironment.getEnProperty().getNameOfProperty());
         Label type = new Label("Type: " + selectedEnvironment.getEnProperty().getNameOfDataType());
         Label range = new Label("Range: " + selectedEnvironment.getEnProperty().getFrom()+" - "+selectedEnvironment.getEnProperty().getTo());
         Label datavalue = new Label("Data value: " + selectedEnvironment.getEnProperty().getDataString());
         // Add other labels for range, data, etc.
-
-        Button modifyButton = new Button("Modify data");
         modifyButton.setOnAction(event ->
         {
             // Handle the "Modify" button click here
             handleModifyButtonClick(selectedEnvironment);
+
+
+
         });
+
         // Define the layout of elements within detailsPane
         vbox.getChildren().clear();
         vbox.getChildren().addAll(nameLabel,type,range,datavalue, dataTextField, modifyButton);
@@ -176,14 +171,17 @@ public class NewExecutionScreenController
 
     private void handleModifyButtonClick(EnvironmentDTO selectedEnvironment)
     {
-        System.out.println("haha");
         try
         {
             String dataEnterd=dataTextField.getText();
             uiManager.setDataToEnvironmentVar(selectedEnvironment,dataEnterd);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Modification completed successfully!");
+            selectedEnvironment=uiManager.updateEnvironment(selectedEnvironment);
             alert.showAndWait();
+            updateDetailsPane(selectedEnvironment);
+
+
 
         }
         catch (Exception e)
@@ -194,18 +192,19 @@ public class NewExecutionScreenController
             alert.showAndWait();
         }
 
-
     }
 
 
-    // Modify the EnvironmentDTO's data
 
 
-    public NewExecutionScreenController() {
+
+    public NewExecutionScreenController()
+    {
         this.uiManager = UserInterfaceManager.INSTANCE;
     }
 
-    public List<EnvironmentDTO> getEnvironmentDTOList() {
+    public List<EnvironmentDTO> getEnvironmentDTOList()
+    {
         return environmentDTOList;
     }
 
