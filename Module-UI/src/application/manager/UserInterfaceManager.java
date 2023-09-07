@@ -228,4 +228,9 @@ public enum UserInterfaceManager {
         engine.createEntityPopulation(populationNumber,selectedentityDTO);
 
     }
+
+    public Boolean iSThereASimulation()
+    {
+        return !engine.isWordNull();
+    }
 }

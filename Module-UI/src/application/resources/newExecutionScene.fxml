@@ -7,6 +7,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -21,7 +22,10 @@
                         <ListView fx:id="environmentVariableListView" layoutX="114.0" prefHeight="303.0" prefWidth="469.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
-                <AnchorPane fx:id="detailsPane" />
+                <AnchorPane fx:id="detailsPane">
+                     <children>
+                        <VBox fx:id="vbox" alignment="TOP_CENTER" layoutX="75.0" prefHeight="141.0" prefWidth="306.0" />
+                     </children></AnchorPane>
               </items>
             </SplitPane>
             <Text layoutX="167.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Environment variables" wrappingWidth="190.00001573562622">
@@ -33,7 +37,7 @@
       </AnchorPane>
       <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="309.0">
          <children>
-            <Button layoutX="220.0" layoutY="462.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="93.0" text="Start" />
+            <Button layoutX="221.0" layoutY="451.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="93.0" text="Start" />
             <Text layoutX="125.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Entites" wrappingWidth="190.00001573562622">
                <font>
                   <Font size="19.0" />
@@ -43,7 +47,7 @@
             <Label layoutY="357.0" prefHeight="31.0" prefWidth="137.0" text="Population number" />
             <TextField fx:id="populationText" layoutX="130.0" layoutY="357.0" prefHeight="31.0" prefWidth="137.0" />
             <Button layoutX="282.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleAddButtonClick" prefHeight="31.0" prefWidth="50.0" text="add" />
-            <ListView fx:id="entitesList" layoutY="27.0" prefHeight="325.0" prefWidth="335.0" />
+            <ListView fx:id="entitesList" layoutY="27.0" prefHeight="312.0" prefWidth="335.0" />
          </children></AnchorPane>
    </items>
 </SplitPane>

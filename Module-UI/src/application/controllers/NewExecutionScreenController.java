@@ -45,6 +45,8 @@ public class NewExecutionScreenController
     private AnchorPane listPane;
     @FXML
     private SplitPane splitPane;
+    @FXML
+    private VBox vbox;
 
     @FXML
     private TextField dataTextField,populationText;
@@ -56,55 +58,66 @@ public class NewExecutionScreenController
 
     public void initialize()
     {
-
-        ObservableList<String> entitiesList = FXCollections.observableArrayList();
-        List<EntityDTO> entities=uiManager.getEntityDto();
-
-        for (EntityDTO entityDTO : entities)
+        if(uiManager.iSThereASimulation())
         {
-            String envName = entityDTO.getName();
-            entitiesList.add(envName);
-        }
-//
-        entitesList.setItems(entitiesList);
+            ObservableList<String> entitiesList = FXCollections.observableArrayList();
+            List<EntityDTO> entities=uiManager.getEntityDto();
 
-        // Handle selection change in the list view
-        entitesList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-                {
-                    if (newValue != null)
-                    {
-                         SelectedentityDTO=entities.get(entitesList.getSelectionModel().getSelectedIndex());
-                    } else
-                    {
-                        // Disable the populationText field when no entity is selected
-                    }
-                });
-
-        dataTextField=new TextField();
-        List<EnvironmentDTO> enDTO = uiManager.getEnvironmentsDTO();
-        ObservableList<String> detailsList = FXCollections.observableArrayList();
-
-        for (EnvironmentDTO environmentDTO : enDTO)
-        {
-            String envName = environmentDTO.getEnProperty().getNameOfProperty();
-            detailsList.add(envName);
-        }
-//
-
-        // Set the detailsList as the items in the ListView
-        environmentVariableListView.setItems(detailsList);
-
-
-        // Listen for selection changes in the ListView
-        environmentVariableListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-        {
-            if (newValue != null)
+            for (EntityDTO entityDTO : entities)
             {
-                // Get the selected EnvironmentDTO
-                EnvironmentDTO selectedEnvironment = enDTO.get(environmentVariableListView.getSelectionModel().getSelectedIndex());
-                updateDetailsPane(selectedEnvironment);
+                String envName = entityDTO.getName();
+                entitiesList.add(envName);
             }
-        });
+//
+            entitesList.setItems(entitiesList);
+
+            // Handle selection change in the list view
+            entitesList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+            {
+                if (newValue != null)
+                {
+
+                    SelectedentityDTO=entities.get(entitesList.getSelectionModel().getSelectedIndex());
+                } else
+                {
+
+                }
+            });
+
+            dataTextField=new TextField();
+            List<EnvironmentDTO> enDTO = uiManager.getEnvironmentsDTO();
+            ObservableList<String> detailsList = FXCollections.observableArrayList();
+
+            for (EnvironmentDTO environmentDTO : enDTO)
+            {
+                String envName = environmentDTO.getEnProperty().getNameOfProperty();
+                detailsList.add(envName);
+            }
+//
+
+            // Set the detailsList as the items in the ListView
+            environmentVariableListView.setItems(detailsList);
+
+
+            // Listen for selection changes in the ListView
+            environmentVariableListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+            {
+                if (newValue != null)
+                {
+                    // Get the selected EnvironmentDTO
+                    EnvironmentDTO selectedEnvironment = enDTO.get(environmentVariableListView.getSelectionModel().getSelectedIndex());
+                    updateDetailsPane(selectedEnvironment);
+                }
+            });
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Please,load A file first!");
+            alert.showAndWait();
+        }
+
+
     }
     @FXML
     private void handleAddButtonClick()
@@ -148,8 +161,7 @@ public class NewExecutionScreenController
             handleModifyButtonClick(selectedEnvironment);
         });
         // Define the layout of elements within detailsPane
-        VBox vbox = new VBox();
-        vbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().clear();
         vbox.getChildren().addAll(nameLabel,type,range,datavalue, dataTextField, modifyButton);
 
         // Add the layout to detailsPane

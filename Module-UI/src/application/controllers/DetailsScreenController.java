@@ -2,6 +2,7 @@ package application.controllers;
 
 import application.manager.UserInterfaceManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
@@ -19,10 +20,19 @@ public class DetailsScreenController
 
     public void initialize()
     {
-        // Load the WorldDTO here (replace with your code)
-        // Generate the TreeView
-        TreeView<String> generatedTreeView = uiManager.generateWorldDetails();
-        generatedTreeView.getRoot().setValue(uiManager.getSimulationName());
-        worldTreeView.setRoot(generatedTreeView.getRoot());
+       if(uiManager.iSThereASimulation())
+       {
+           // Load the WorldDTO here (replace with your code)
+           // Generate the TreeView
+           TreeView<String> generatedTreeView = uiManager.generateWorldDetails();
+           generatedTreeView.getRoot().setValue(uiManager.getSimulationName());
+           worldTreeView.setRoot(generatedTreeView.getRoot());
+       }
+       else
+       {
+           Alert alert = new Alert(Alert.AlertType.ERROR);
+           alert.setHeaderText("Please,load A file first!");
+           alert.showAndWait();
+       }
     }
 }

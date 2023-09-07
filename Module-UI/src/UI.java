@@ -109,10 +109,13 @@ public class UI {
         newPr.printTermination(worldDTO.getTerminationDTO());
     }
 
-    public void checkAndRunSimulation(IEngine engine) {
+    public void checkAndRunSimulation(IEngine engine)
+    {
         if (engine.isWordNull()) {
             System.out.println("There is no current simulation in the system");
-        } else {
+        } else
+        {
+
             runSimulation(engine.convertWorldToDTO());
         }
     }
