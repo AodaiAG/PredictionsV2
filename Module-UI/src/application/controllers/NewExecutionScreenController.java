@@ -94,10 +94,7 @@ public class NewExecutionScreenController
                     selectedEnvironment=uiManager.updateEnvironment(selectedEnvironment);
                     System.out.println(selectedEnvironment.getEnProperty().getDataString());
                     updateDetailsPane(selectedEnvironment);
-
                     environmentVariableListView.refresh();
-
-
                 }
             });
 
