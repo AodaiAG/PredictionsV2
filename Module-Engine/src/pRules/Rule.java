@@ -306,7 +306,8 @@ public class Rule
                 {
                     for (EntityInstance primaryInstance : currentEntity.getEntities())
                     {
-                        try {
+                        try
+                        {
                             if (primaryInstance != null)
                             {
                                 if(action.getPrDsecondaryEntity() != null)
