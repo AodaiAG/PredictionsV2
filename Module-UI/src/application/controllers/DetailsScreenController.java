@@ -26,6 +26,7 @@ public class DetailsScreenController
            // Generate the TreeView
            TreeView<String> generatedTreeView = uiManager.generateWorldDetails();
            generatedTreeView.getRoot().setValue(uiManager.getSimulationName());
+           generatedTreeView.setShowRoot(false);
            worldTreeView.setRoot(generatedTreeView.getRoot());
        }
        else

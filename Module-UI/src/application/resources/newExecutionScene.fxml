@@ -6,36 +6,41 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane fx:id="splitPane" dividerPositions="0.5835380835380836" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="816.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.NewExecutionScreenController">
+<SplitPane fx:id="splitPane" dividerPositions="0.5835380835380836" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="844.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.NewExecutionScreenController">
    <items>
-      <AnchorPane fx:id="listPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="471.0">
+      <AnchorPane fx:id="listPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="471.0" style="-fx-background-color: #ffffff;">
          <children>
-            <SplitPane dividerPositions="0.6278625954198473" layoutY="25.0" orientation="VERTICAL" prefHeight="491.0" prefWidth="471.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+            <SplitPane dividerPositions="0.6441717791411042" layoutY="25.0" orientation="VERTICAL" prefHeight="491.0" prefWidth="471.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>
-                        <ListView fx:id="environmentVariableListView" layoutX="114.0" prefHeight="303.0" prefWidth="469.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ListView fx:id="environmentVariableListView" layoutX="114.0" prefHeight="303.0" prefWidth="469.0" style="-fx-border-color: #221736; -fx-background-size: 25; -fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <effect>
+                              <Glow />
+                           </effect></ListView>
                      </children>
                   </AnchorPane>
-                <AnchorPane fx:id="detailsPane">
+                <AnchorPane fx:id="detailsPane" prefHeight="172.0" prefWidth="485.0" style="-fx-background-color: #ffffff;">
                      <children>
-                        <VBox fx:id="vbox" alignment="TOP_CENTER" layoutX="75.0" prefHeight="141.0" prefWidth="306.0" />
+                        <VBox fx:id="vbox" alignment="TOP_CENTER" layoutX="75.0" prefHeight="141.0" prefWidth="306.0" style="-fx-background-color: #ffffff;" />
                      </children></AnchorPane>
               </items>
             </SplitPane>
-            <Text layoutX="167.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Environment variables" wrappingWidth="190.00001573562622">
+            <Text layoutX="140.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Environment variables" wrappingWidth="190.00001573562622">
                <font>
                   <Font size="19.0" />
                </font>
             </Text>
          </children>
       </AnchorPane>
-      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="309.0">
+      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="309.0" style="-fx-background-color: #ffffff;">
          <children>
             <Button layoutX="221.0" layoutY="451.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="93.0" text="Start" />
             <Text layoutX="125.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Entites" wrappingWidth="190.00001573562622">
@@ -46,8 +51,11 @@
             <Separator layoutX="-2.0" layoutY="448.0" prefHeight="3.0" prefWidth="335.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="448.0" />
             <Label layoutY="357.0" prefHeight="31.0" prefWidth="137.0" text="Population number" />
             <TextField fx:id="populationText" layoutX="130.0" layoutY="357.0" prefHeight="31.0" prefWidth="137.0" />
-            <Button layoutX="282.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleAddButtonClick" prefHeight="31.0" prefWidth="50.0" text="add" />
-            <ListView fx:id="entitesList" layoutY="27.0" prefHeight="312.0" prefWidth="335.0" />
+            <Button layoutX="282.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleAddButtonClick" prefHeight="31.0" prefWidth="50.0" text="Add" />
+            <ListView fx:id="entitesList" layoutY="27.0" prefHeight="312.0" prefWidth="347.0" style="-fx-border-color: #221736; -fx-background-color: fff;">
+               <effect>
+                  <DropShadow color="#dac8c8" />
+               </effect></ListView>
          </children></AnchorPane>
    </items>
 </SplitPane>

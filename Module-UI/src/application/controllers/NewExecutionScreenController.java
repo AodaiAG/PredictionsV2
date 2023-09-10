@@ -121,8 +121,6 @@ public class NewExecutionScreenController
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Population added successfully!");
             alert.showAndWait();
-
-
         }
         catch (Exception e)
         {

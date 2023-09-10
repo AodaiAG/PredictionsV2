@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
 import pDTOS.WorldDTO;
@@ -20,9 +21,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public enum UserInterfaceManager {
+public enum UserInterfaceManager
+{
     INSTANCE;
-
     String simulationName;
     private Stage stage;
     private Scene detailsScene;
@@ -33,7 +34,8 @@ public enum UserInterfaceManager {
 
     private WorldDTO worldDTO;
 
-    public Scene getPrimaryScene() {
+    public Scene getPrimaryScene()
+    {
         return primaryScene;
     }
 
@@ -41,16 +43,19 @@ public enum UserInterfaceManager {
         this.primaryScene = primaryScene;
     }
 
-    public void initApplication() {
+    public void initApplication()
+    {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/scenePrimary.fxml"));
         Parent root = null;
         try {
             root = loader.load();
             primaryScene = new Scene(root);
             stage.setScene(primaryScene);
-            stage.setTitle("Main Application");
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle("Predictions");
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             System.out.println("failed to load scenePrimary.fxml");
         }
     }
@@ -60,7 +65,7 @@ public enum UserInterfaceManager {
     }
 
     @FXML
-    public void loadXmlFile(ActionEvent event, TextField filePathLabel) {
+    public void loadXmlFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open XML File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
@@ -75,7 +80,7 @@ public enum UserInterfaceManager {
             dialog.setHeaderText("Please enter the name of the simulation:");
             dialog.setContentText("Name:");
             String directoryPath = selectedFile.getParent();
-            filePathLabel.setText(directoryPath);
+
 
             Optional<String> result = dialog.showAndWait();
 
@@ -107,7 +112,8 @@ public enum UserInterfaceManager {
                     alert.setContentText("Reason: " + e.getMessage());
                     alert.showAndWait();
                 }
-            } else {
+            } else
+            {
                 // User canceled the input dialog
                 // Handle this case as needed
             }
@@ -240,5 +246,10 @@ public enum UserInterfaceManager {
        }
 
        return modifiedEnvironment;
+    }
+
+    public void getSimulations()
+    {
+        engine.getSimulations();
     }
 }
