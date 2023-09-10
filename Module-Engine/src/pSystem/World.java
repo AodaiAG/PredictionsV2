@@ -8,13 +8,13 @@ import pEntity.Entity;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class World
+public class World implements Cloneable
 {
     private int terminationTicks;
 
     private int terminationSeconds;
 
-    private boolean terminationByUser=false;
+    private boolean terminationByUser;
 
     private int ticksCounter;
 
@@ -26,11 +26,56 @@ public class World
 
     private List<Rule> rules;
 
+   private EntityInstancesCircularGrid grid;
+
+    public World() {
+        name2Env = new HashMap<>();
+        rules = new ArrayList<>();
+        entities = new ArrayList<Entity>();
+        grid = new EntityInstancesCircularGrid();
+    }
+
+    // Implement clone method to create a deep copy of the World
+    @Override
+    public World clone() {
+        try {
+            World clonedWorld = (World) super.clone();
+
+            // Clone primitive fields
+            clonedWorld.terminationTicks = this.terminationTicks;
+            clonedWorld.terminationSeconds = this.terminationSeconds;
+            clonedWorld.terminationByUser = this.terminationByUser;
+            clonedWorld.ticksCounter = this.ticksCounter;
+            clonedWorld.secondMeasurement = this.secondMeasurement;
+
+            // Clone the entities list
+            List<Entity> clonedEntities = new ArrayList<>();
+            for (Entity entity : this.entities) {
+                Entity clonedEntity = (Entity) entity.clone(); // Make sure Entity class also implements Cloneable
+                clonedEntities.add(clonedEntity);
+            }
+            clonedWorld.entities = clonedEntities;
+
+            // Clone the rules list
+            List<Rule> clonedRules = new ArrayList<>(this.rules);
+            clonedWorld.rules = clonedRules;
+
+            // Clone the name2Env map (deep copy of EnvironmentInstances not shown here)
+            Map<String, EnvironmentInstance> clonedName2Env = new HashMap<>(this.name2Env);
+            clonedWorld.name2Env = clonedName2Env;
+
+            // Clone the EntityInstancesCircularGrid (if it's cloneable)
+            clonedWorld.grid = (EntityInstancesCircularGrid) this.grid.clone(); // Make sure EntityInstancesCircularGrid class implements Cloneable
+
+            return clonedWorld;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(e);
+        }
+    }
+
     public boolean isTerminationByUser() {
         return terminationByUser;
     }
-
-   private EntityInstancesCircularGrid grid=new EntityInstancesCircularGrid();
 
     public EntityInstancesCircularGrid getGrid()
     {
@@ -80,12 +125,6 @@ public class World
     public void setRules(List<Rule> rules) {
 
         this.rules = rules;
-    }
-
-    public World() {
-        name2Env = new HashMap<>();
-        rules = new ArrayList<>();
-        entities = new ArrayList<Entity>();
     }
 
     public String random(String arg) {

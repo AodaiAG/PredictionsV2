@@ -35,7 +35,7 @@
             <TextField fx:id="filePathLabel" disable="true" layoutX="133.0" layoutY="61.0" prefHeight="31.0" prefWidth="517.0" />
             <Button layoutX="77.0" layoutY="117.0" mnemonicParsing="false" onAction="#buttonSwitchToDetailsScene" prefHeight="49.0" prefWidth="142.0" text="Details" />
             <Button layoutX="338.0" layoutY="117.0" mnemonicParsing="false" onAction="#buttonSwitchToNewExecutionScene" prefHeight="49.0" prefWidth="142.0" text="New Execution" />
-            <Button layoutX="613.0" layoutY="117.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="142.0" text="Results" />
+            <Button layoutX="613.0" layoutY="117.0" mnemonicParsing="false" onAction="#buttonSwitchToResultsScene" prefHeight="49.0" prefWidth="142.0" text="Results" />
          </children>
       </AnchorPane>
    </top>

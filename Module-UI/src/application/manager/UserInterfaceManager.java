@@ -13,12 +13,17 @@ import pDTOS.WorldDTO;
 import pSystem.Engine;
 import pSystem.IEngine;
 import javafx.stage.FileChooser;
+import pSystem.Simulation;
+import pSystem.World;
+import sun.security.acl.WorldGroupImpl;
 
 import java.io.File;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public enum UserInterfaceManager {
     INSTANCE;
@@ -29,8 +34,7 @@ public enum UserInterfaceManager {
     private Scene newExecutionScene;
     private Scene resultsScene;
     private Scene primaryScene;
-    private IEngine engine = new Engine();
-
+    private final IEngine engine = new Engine();
     private WorldDTO worldDTO;
 
     public Scene getPrimaryScene() {
@@ -145,7 +149,8 @@ public enum UserInterfaceManager {
 
     public TreeView<String> generateWorldDetails()
     {
-        return engine.convertWorldToDTO().generateTreeView();
+        World world = engine.getWorld();
+        return engine.convertWorldToDTO(world).generateTreeView();
     }
 
     public List<EnvironmentDTO> getEnvironmentsDTO()
@@ -202,7 +207,6 @@ public enum UserInterfaceManager {
         try
         {
             this.engine.setDataToEnvironmentVar(selectedEnvironment,enteredData);
-
         }
         catch (Exception e)
         {
@@ -213,32 +217,40 @@ public enum UserInterfaceManager {
 
     public List<EntityDTO> getEntityDto()
     {
-        return this.engine.convertWorldToDTO().getEntityDTOSet();
+        World world = engine.getWorld();
+        return this.engine.convertWorldToDTO(world).getEntityDTOSet();
     }
 
     public void generatePopulation(EntityDTO selectedentityDTO, int populationNumber)
     {
-
         engine.createEntityPopulation(populationNumber,selectedentityDTO);
-
     }
 
-    public Boolean iSThereASimulation()
+    public Boolean isThereASimulation()
     {
         return !engine.isWordNull();
     }
 
     public EnvironmentDTO updateEnvironment(EnvironmentDTO modifiedEnvironment)
     {
-       for(EnvironmentDTO environmentDTO:engine.convertWorldToDTO().getEnvironmentDTOS())
+        World world = engine.getWorld();
+        WorldDTO worldDTO = engine.convertWorldToDTO(world);
+       for(EnvironmentDTO environmentDTO : worldDTO.getEnvironmentDTOS())
        {
            if (environmentDTO.getEnProperty().getNameOfProperty().equals(modifiedEnvironment.getEnProperty().getNameOfProperty()))
             {
                return environmentDTO;
-
            }
        }
 
        return modifiedEnvironment;
+    }
+
+    public Map<UUID, Simulation> getSimulations() {
+        return engine.getSimulations();
+    }
+
+    public void runSimulation() {
+        engine.startSimulation();
     }
 }

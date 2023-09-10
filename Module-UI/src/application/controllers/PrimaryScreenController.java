@@ -26,6 +26,7 @@ public class PrimaryScreenController
     {
         uiManager.loadXmlFile(event,filePathLabel);
     }
+
     public PrimaryScreenController()
     {
         uiManager = UserInterfaceManager.INSTANCE;
@@ -47,7 +48,6 @@ public class PrimaryScreenController
     @FXML
     void buttonSwitchToNewExecutionScene(ActionEvent event)
     {
-
         try
         {
             Node newEx = FXMLLoader.load(getClass().getResource("/application/resources/newExecutionScene.fxml"));
@@ -59,7 +59,14 @@ public class PrimaryScreenController
     }
 
     @FXML
-    public void switchToResultsScene(ActionEvent event) {
-        uiManager.switchToResultsScene();
+    public void buttonSwitchToResultsScene(ActionEvent event) {
+        try
+        {
+            Node newEx = FXMLLoader.load(getClass().getResource("/application/resources/resultsScene.fxml"));
+            mainBoard.setCenter(newEx);
+        } catch (IOException e)
+        {
+            System.out.println("failed to load resultsScene here.fxml");
+        }
     }
 }
