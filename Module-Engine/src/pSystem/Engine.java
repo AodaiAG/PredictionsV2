@@ -158,7 +158,7 @@ public class Engine implements IEngine
             for (Entity entity : entityList)
             {
                 String entityName = entity.getNameOfEntity(); // Get the name of the entity
-                List<Integer> populationHistory = entityPopulationHistory.getOrDefault(entity, new ArrayList<>());
+                List<Integer> populationHistory = entityPopulationHistory.getOrDefault(entity.getNameOfEntity(), new ArrayList<>());
                 populationHistory.add(entity.getEntities().size());
                 entityPopulationHistory.put(entityName, populationHistory);
             }
