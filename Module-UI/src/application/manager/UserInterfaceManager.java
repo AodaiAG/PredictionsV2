@@ -7,35 +7,37 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
 import pDTOS.WorldDTO;
 import pSystem.Engine;
 import pSystem.IEngine;
 import javafx.stage.FileChooser;
+import pSystem.Simulation;
+import pSystem.World;
+import sun.security.acl.WorldGroupImpl;
 
 import java.io.File;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
-public enum UserInterfaceManager
-{
+public enum UserInterfaceManager {
     INSTANCE;
+
     String simulationName;
     private Stage stage;
     private Scene detailsScene;
     private Scene newExecutionScene;
     private Scene resultsScene;
     private Scene primaryScene;
-    private IEngine engine = new Engine();
-
+    private final IEngine engine = new Engine();
     private WorldDTO worldDTO;
 
-    public Scene getPrimaryScene()
-    {
+    public Scene getPrimaryScene() {
         return primaryScene;
     }
 
@@ -43,19 +45,16 @@ public enum UserInterfaceManager
         this.primaryScene = primaryScene;
     }
 
-    public void initApplication()
-    {
+    public void initApplication() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/scenePrimary.fxml"));
         Parent root = null;
         try {
             root = loader.load();
             primaryScene = new Scene(root);
             stage.setScene(primaryScene);
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.setTitle("Predictions");
+            stage.setTitle("Main Application");
             stage.show();
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             System.out.println("failed to load scenePrimary.fxml");
         }
     }
@@ -65,7 +64,7 @@ public enum UserInterfaceManager
     }
 
     @FXML
-    public void loadXmlFile(ActionEvent event) {
+    public void loadXmlFile(ActionEvent event, TextField filePathLabel) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open XML File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
@@ -80,7 +79,7 @@ public enum UserInterfaceManager
             dialog.setHeaderText("Please enter the name of the simulation:");
             dialog.setContentText("Name:");
             String directoryPath = selectedFile.getParent();
-
+            filePathLabel.setText(directoryPath);
 
             Optional<String> result = dialog.showAndWait();
 
@@ -112,8 +111,7 @@ public enum UserInterfaceManager
                     alert.setContentText("Reason: " + e.getMessage());
                     alert.showAndWait();
                 }
-            } else
-            {
+            } else {
                 // User canceled the input dialog
                 // Handle this case as needed
             }
@@ -151,7 +149,8 @@ public enum UserInterfaceManager
 
     public TreeView<String> generateWorldDetails()
     {
-        return engine.convertWorldToDTO().generateTreeView();
+        World world = engine.getWorld();
+        return engine.convertWorldToDTO(world).generateTreeView();
     }
 
     public List<EnvironmentDTO> getEnvironmentsDTO()
@@ -208,7 +207,6 @@ public enum UserInterfaceManager
         try
         {
             this.engine.setDataToEnvironmentVar(selectedEnvironment,enteredData);
-
         }
         catch (Exception e)
         {
@@ -219,37 +217,40 @@ public enum UserInterfaceManager
 
     public List<EntityDTO> getEntityDto()
     {
-        return this.engine.convertWorldToDTO().getEntityDTOSet();
+        World world = engine.getWorld();
+        return this.engine.convertWorldToDTO(world).getEntityDTOSet();
     }
 
     public void generatePopulation(EntityDTO selectedentityDTO, int populationNumber)
     {
-
         engine.createEntityPopulation(populationNumber,selectedentityDTO);
-
     }
 
-    public Boolean iSThereASimulation()
+    public Boolean isThereASimulation()
     {
         return !engine.isWordNull();
     }
 
     public EnvironmentDTO updateEnvironment(EnvironmentDTO modifiedEnvironment)
     {
-       for(EnvironmentDTO environmentDTO:engine.convertWorldToDTO().getEnvironmentDTOS())
+        World world = engine.getWorld();
+        WorldDTO worldDTO = engine.convertWorldToDTO(world);
+       for(EnvironmentDTO environmentDTO : worldDTO.getEnvironmentDTOS())
        {
            if (environmentDTO.getEnProperty().getNameOfProperty().equals(modifiedEnvironment.getEnProperty().getNameOfProperty()))
             {
                return environmentDTO;
-
            }
        }
 
        return modifiedEnvironment;
     }
 
-    public void getSimulations()
-    {
-        engine.getSimulations();
+    public Map<UUID, Simulation> getSimulations() {
+        return engine.getSimulations();
+    }
+
+    public void runSimulation() {
+        engine.startSimulation();
     }
 }

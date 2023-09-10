@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class EntityInstancesCircularGrid
+public class EntityInstancesCircularGrid implements Cloneable
 {
     private int numRows;
 
@@ -28,6 +28,24 @@ public class EntityInstancesCircularGrid
         this.numRows = numRows;
         this.numCols = numCols;
         this.grid = new EntityInstance[numRows][numCols];
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        EntityInstancesCircularGrid clonedGrid = (EntityInstancesCircularGrid) super.clone();
+
+        // Clone the grid
+        clonedGrid.grid = new EntityInstance[this.numRows][this.numCols];
+        for (int row = 0; row < this.numRows; row++) {
+            for (int col = 0; col < this.numCols; col++) {
+                if (this.grid[row][col] != null) {
+                    // Clone the EntityInstance objects within the grid
+                    clonedGrid.grid[row][col] = (EntityInstance) this.grid[row][col].clone();
+                }
+            }
+        }
+
+        return clonedGrid;
     }
 
     boolean isCellEmpty(Coordinate c)

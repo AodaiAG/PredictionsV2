@@ -14,9 +14,9 @@ public interface IEngine
 {
     public void ParseXmlAndLoadWorld(File file) throws Exception;
 
-    public WorldDTO convertWorldToDTO();
-    public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO);
+    public WorldDTO convertWorldToDTO(World world);
 
+    public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO);
 
     public WorldDTO getWorldBeforeChanging();
 
@@ -33,4 +33,5 @@ public interface IEngine
     public void endOfSimulationHandlerPropertyHistogram(UUID simulationID, String chosenEntityName, String chosenPropertyName);
 
     public List<Map.Entry<UUID, String>> getSortedSimulationsByDate();
+    public World getWorld();
 }

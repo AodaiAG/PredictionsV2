@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Entity
+public class Entity implements Cloneable
 {
     private String nameOfEntity;
     private int numberOfInstances;
@@ -21,8 +21,26 @@ public class Entity
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public Object clone() throws CloneNotSupportedException {
+        Entity clonedEntity = (Entity) super.clone();
+
+        // Create a new list for cloned entity instances
+        List<EntityInstance> clonedEntityInstances = new ArrayList<>();
+        for (EntityInstance entityInstance : this.entityInstances) {
+            EntityInstance clonedInstance = (EntityInstance) entityInstance.clone(); // Assuming EntityInstance is Cloneable
+            clonedEntityInstances.add(clonedInstance);
+        }
+        clonedEntity.entityInstances = clonedEntityInstances;
+
+        // Clone propertiesOfTheEntity set using your Property class's clone method (assuming Property is Cloneable)
+        Set<Property> clonedProperties = new HashSet<>();
+        for (Property property : this.propertiesOfTheEntity) {
+            Property clonedProperty = (Property) property.clone(); // Use your Property class's clone method
+            clonedProperties.add(clonedProperty);
+        }
+        clonedEntity.propertiesOfTheEntity = clonedProperties;
+
+        return clonedEntity;
     }
 
     public int getNumberOfInstances() {

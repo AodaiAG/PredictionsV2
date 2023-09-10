@@ -15,6 +15,7 @@ public class Simulation
     private WorldDTO wordBeforeSimulation;
     private final Map<String, Map<String, Integer>> propertyValueCounts = new HashMap<>(); //<entityName <property, instancesAmount>>
     Date runningDate;
+    public boolean isCurrentlyRunning;
 
     public String getReasonForTermination() {
         return reasonForTermination;

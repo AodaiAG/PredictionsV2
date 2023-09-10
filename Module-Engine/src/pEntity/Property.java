@@ -3,6 +3,7 @@ package pEntity;
 public class Property
 {
     private String NameOfProperty;
+
     private String lastUnchangedTicks;
 
     private boolean isRandomInitialize;

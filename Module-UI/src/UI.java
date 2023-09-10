@@ -115,8 +115,7 @@ public class UI {
             System.out.println("There is no current simulation in the system");
         } else
         {
-
-            runSimulation(engine.convertWorldToDTO());
+          //  runSimulation(engine.convertWorldToDTO());
         }
     }
 

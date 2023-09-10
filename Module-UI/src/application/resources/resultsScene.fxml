@@ -1,11 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ResultsScreenController">
    <top>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="RESULTS" BorderPane.alignment="CENTER" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Results" BorderPane.alignment="CENTER" />
    </top>
+   <left>
+      <ListView fx:id="simulationListView" prefHeight="344.0" prefWidth="269.0" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <AnchorPane fx:id="changesAP" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="numOfEntitiesLabel" layoutX="21.0" layoutY="133.0" text="Number Of Entities:" visible="false" />
+            <TableView fx:id="entitiesTB" layoutX="14.0" layoutY="166.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <columns>
+                  <TableColumn fx:id="entityNameCol" prefWidth="75.0" text="Entity Name" />
+                  <TableColumn fx:id="quantityCol" prefWidth="75.0" text="Quantity" />
+               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+            <TextArea fx:id="progressDetsilsText" layoutX="14.0" layoutY="109.0" prefHeight="200.0" prefWidth="200.0" promptText="progressDetsilsText" text="ticks: &#10;runtime: &#10;" visible="false" />
+            <AnchorPane fx:id="radioButtonsShowResultsAP" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <RadioButton fx:id="progressDetailsRB" mnemonicParsing="false" text="Progress Details">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="shorResults" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton fx:id="entInfoRB" layoutY="29.0" mnemonicParsing="false" onAction="#showEntitiesInfo" text="Entity Information" toggleGroup="$shorResults" />
+                  <RadioButton fx:id="analysisRB" layoutY="61.0" mnemonicParsing="false" text="Analysis" toggleGroup="$shorResults" />
+               </children>
+            </AnchorPane>
+            <Text fx:id="initText" layoutX="62.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a simulation to view details" textAlignment="CENTER" visible="false" />
+         </children>
+      </AnchorPane>
+   </center>
 </BorderPane>

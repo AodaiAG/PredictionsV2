@@ -3,6 +3,7 @@ package application.controllers;
 import application.manager.UserInterfaceManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -45,10 +46,10 @@ public class NewExecutionScreenController
     public void initialize()
     {
         System.out.println("mm");
-        if(uiManager.iSThereASimulation())
+        if(uiManager.isThereASimulation())
         {
             ObservableList<String> entitiesList = FXCollections.observableArrayList();
-            List<EntityDTO> entities=uiManager.getEntityDto();
+            List<EntityDTO> entities = uiManager.getEntityDto();
 
             for (EntityDTO entityDTO : entities)
             {
@@ -62,7 +63,7 @@ public class NewExecutionScreenController
             {
                 if (newValue != null)
                 {
-                    SelectedentityDTO=entities.get(entitesList.getSelectionModel().getSelectedIndex());
+                    SelectedentityDTO = entities.get(entitesList.getSelectionModel().getSelectedIndex());
                 } else
                 {
 
@@ -83,7 +84,6 @@ public class NewExecutionScreenController
             // Set the detailsList as the items in the ListView
             environmentVariableListView.setItems(detailsList);
 
-
             // Listen for selection changes in the ListView
             environmentVariableListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
             {
@@ -94,7 +94,9 @@ public class NewExecutionScreenController
                     selectedEnvironment=uiManager.updateEnvironment(selectedEnvironment);
                     System.out.println(selectedEnvironment.getEnProperty().getDataString());
                     updateDetailsPane(selectedEnvironment);
+
                     environmentVariableListView.refresh();
+
                 }
             });
 
@@ -105,19 +107,17 @@ public class NewExecutionScreenController
             alert.setHeaderText("Please,load a file first!");
             alert.showAndWait();
         }
-
-
     }
 
 
     @FXML
     private void handleAddButtonClick()
     {
-        String popString=populationText.getText();
+        String popString = populationText.getText();
         try
         {
-            int popn=Integer.parseInt(popString);
-            uiManager.generatePopulation(SelectedentityDTO,popn);
+            int popn = Integer.parseInt(popString);
+            uiManager.generatePopulation(SelectedentityDTO, popn);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Population added successfully!");
             alert.showAndWait();
@@ -148,9 +148,6 @@ public class NewExecutionScreenController
         {
             // Handle the "Modify" button click here
             handleModifyButtonClick(selectedEnvironment);
-
-
-
         });
 
         // Define the layout of elements within detailsPane
@@ -178,9 +175,8 @@ public class NewExecutionScreenController
             selectedEnvironment=uiManager.updateEnvironment(selectedEnvironment);
             alert.showAndWait();
             updateDetailsPane(selectedEnvironment);
-
-
         }
+
         catch (Exception e)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -188,12 +184,7 @@ public class NewExecutionScreenController
             alert.setHeaderText("An error occurred reasons: "+e.getMessage());
             alert.showAndWait();
         }
-
     }
-
-
-
-
 
     public NewExecutionScreenController()
     {
@@ -205,7 +196,10 @@ public class NewExecutionScreenController
         return environmentDTOList;
     }
 
-
+    @FXML
+    void startSimulation(ActionEvent event) {
+        uiManager.runSimulation();
+    }
 
 
 }

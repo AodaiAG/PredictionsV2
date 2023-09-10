@@ -3,7 +3,6 @@ package application.controllers;
 import application.manager.UserInterfaceManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
 public class DetailsScreenController
@@ -20,7 +19,7 @@ public class DetailsScreenController
 
     public void initialize()
     {
-       if(uiManager.iSThereASimulation())
+       if(uiManager.isThereASimulation())
        {
            // Load the WorldDTO here (replace with your code)
            // Generate the TreeView
