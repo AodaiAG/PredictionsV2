@@ -12,7 +12,6 @@ public class Program extends Application
     public static void main(String[] args)
     {
         launch(args);
-        System.out.println("hello world");
     }
 
     @Override

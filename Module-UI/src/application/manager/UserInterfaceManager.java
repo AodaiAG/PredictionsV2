@@ -25,7 +25,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public enum UserInterfaceManager {
+public enum UserInterfaceManager
+{
     INSTANCE;
 
     String simulationName;
@@ -64,7 +65,8 @@ public enum UserInterfaceManager {
     }
 
     @FXML
-    public void loadXmlFile(ActionEvent event, TextField filePathLabel) {
+    public void loadXmlFile(ActionEvent event)
+    {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open XML File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
@@ -79,7 +81,7 @@ public enum UserInterfaceManager {
             dialog.setHeaderText("Please enter the name of the simulation:");
             dialog.setContentText("Name:");
             String directoryPath = selectedFile.getParent();
-            filePathLabel.setText(directoryPath);
+
 
             Optional<String> result = dialog.showAndWait();
 
@@ -250,7 +252,8 @@ public enum UserInterfaceManager {
         return engine.getSimulations();
     }
 
-    public void runSimulation() {
+    public void runSimulation()
+    {
         engine.startSimulation();
     }
 }

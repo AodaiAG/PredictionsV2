@@ -5,9 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TreeView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,119 +24,62 @@ import javafx.scene.text.TextAlignment;
 import pDTOS.EntityDTO;
 import pSystem.Simulation;
 
-public class ResultsScreenController {
+public class ResultsScreenController
+{
 
     @FXML
     private ListView<UUID> simulationListView;
-
     @FXML
-    private AnchorPane changesAP;
-
-    @FXML
-    private AnchorPane radioButtonsShowResultsAP;
-
-    @FXML
-    private RadioButton progressDetailsRB;
-
-    @FXML
-    private RadioButton entInfoRB;
-
-    @FXML
-    private RadioButton analysisRB;
-
-    @FXML
-    private TextArea progressDetsilsText;
-
-    @FXML
-    private Text initText;
-
-    @FXML
-    private TableView<EntityDTO> entitiesTB;
-
-    @FXML
-    private TableColumn<EntityDTO, String> entityNameCol;
-
-    @FXML
-    private TableColumn<EntityDTO, Integer> quantityCol;
-
-    @FXML
-    private Label numOfEntitiesLabel;
+    private TabPane tabPane;
 
     private Simulation selectedSimulation;
 
     private UserInterfaceManager uiManager;
+    public void initialize()
+    {
 
-    private ToggleGroup toggleGroup; // Add this field
-
-    public ResultsScreenController() {
-        uiManager = UserInterfaceManager.INSTANCE;
-    }
-
-    public void initialize() {
-        initText.setVisible(true);
+        int counter=0;
         List<UUID> uuidList = new ArrayList<>(uiManager.getSimulations().keySet());
-        simulationListView.getItems().addAll(uuidList);
+        for(UUID uuid:uuidList)
+        {
+            selectedSimulation = uiManager.getSimulations().get(uuid);
+            addSimulationTab(selectedSimulation,counter);
+            counter++;
+        }
 
-        simulationListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            // newValue contains the selected UUID
-            if (newValue != null) {
-                System.out.println("Selected UUID: " + newValue);
-                selectedSimulation = uiManager.getSimulations().get(newValue);
-                initText.setVisible(false);
-                radioButtonsShowResultsAP.setVisible(true);
-                // Perform actions or update your UI based on the selected simulation
-                // ...
-            }
-        });
+
     }
 
-    @FXML
-    void showEntitiesInfo(ActionEvent event) {
-        List<EntityDTO> entityDTOList = selectedSimulation.getWordBeforeSimulation().getEntityDTOSet();
 
-        ObservableList<EntityDTO> observableEntityDTOList = FXCollections.observableArrayList(entityDTOList);
+    public void addSimulationTab(Simulation simulation,int index)
+    {
+        try
+        {
+            // Load the SimulationDetails.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
+            AnchorPane simulationDetails = loader.load();
+            // Set the controller for the simulation details
+            SimulationDetailsController detailsController = loader.getController();
+            detailsController.initialize(simulation); // Pass the simulation data to the controller
 
-        // Set the ObservableList as the data source for the TableView
-        entitiesTB.setItems(observableEntityDTOList);
+            // Create a new tab and set its content
+            Tab tab = new Tab("Simulation " + index);
+            tab.setContent(simulationDetails);
 
-        // Create a custom cell factory for the entityNameCol column
-        entityNameCol.setCellFactory(param -> new TableCell<EntityDTO, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
+            // Add the tab to the tabPane
+            tabPane.getTabs().add(tab);
 
-                if (empty) {
-                    setText(null);
-                } else {
-                    EntityDTO entityDTO = getTableView().getItems().get(getIndex());
-                    setText(entityDTO.getName());
-                }
-            }
-        });
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
-        // Create a custom cell factory for the quantityCol column
-        quantityCol.setCellFactory(param -> new TableCell<EntityDTO, Integer>() {
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
 
-                if (empty) {
-                    setText(null);
-                } else {
-                    EntityDTO entityDTO = getTableView().getItems().get(getIndex());
-                    setText(String.valueOf(entityDTO.getNumberOfInstances()));
-                }
-            }
-        });
+    }
 
-        entitiesTB.setVisible(true);
-
-        // Assuming you have a method to get the number of entities in your selectedSimulation
-        int numberOfEntities = selectedSimulation.getWordBeforeSimulation().getEntityDTOSet().size(); // Replace with your actual method
-
-        // Set the text of the numOfEntitiesLabel
-        numOfEntitiesLabel.setText("Number Of Entities: " + numberOfEntities);
-        numOfEntitiesLabel.setVisible(true);
+    public ResultsScreenController()
+    {
+        uiManager = UserInterfaceManager.INSTANCE;
     }
 
 }

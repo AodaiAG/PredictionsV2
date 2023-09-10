@@ -100,7 +100,8 @@ public class UI {
             newPr.printEntity(entityDTO);
         }
         System.out.println("\n** RULES **");
-        for (RulesDTO ruleDTO : worldDTO.getRulesDTOSet()) {
+        for (RulesDTO ruleDTO : worldDTO.getRulesDTOSet())
+        {
             System.out.println();
             System.out.println("#Rule Number " + index + ":");
             newPr.printRule(ruleDTO);
@@ -208,7 +209,8 @@ public class UI {
         return pName2pCount;
     }
 
-    void printSimulationAccordingToHistogram(Simulation simulation) {
+    void printSimulationAccordingToHistogram(Simulation simulation)
+    {
         System.out.println("Entities in the simulation:" + '\n');
         WorldDTO wordAfterSimulation = simulation.getWordAfterSimulation();
         List<EntityDTO> entities = wordAfterSimulation.getEntityDTOSet();

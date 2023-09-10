@@ -30,6 +30,7 @@ public class Engine implements IEngine
     public World world;
     private WorldDTO worldBeforeChanging = null;
     private int numbOfThreads;
+    Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
 
     public List<Map.Entry<UUID, String>> getSortedSimulationsByDate()
     {
@@ -54,7 +55,8 @@ public class Engine implements IEngine
         for (Rule r : world.getRules()) {
             rulesDTOSet.add(convertRuleToDTO(r));
         }
-        for (EnvironmentInstance env : world.getName2Env().values()) {
+        for (EnvironmentInstance env : world.getName2Env().values())
+        {
             PropertyDTO pDto = convertPropertyToDTO(env.getEnvironmentProperty());
             EnvironmentDTO dto = new EnvironmentDTO(pDto);
             envSet.add(dto);
@@ -83,12 +85,14 @@ public class Engine implements IEngine
     {
         try
         {
+
             World clonedWorld = world.clone();
             WorldDTO oldWorldDTO = convertWorldToDTO(clonedWorld);
             UUID simulationId = UUID.randomUUID();
             String reasonForTermination = runSimulation(clonedWorld);
             WorldDTO worldAfter = convertWorldToDTO(clonedWorld);
-            Simulation simulation = new Simulation(oldWorldDTO, worldAfter);
+            Simulation simulation = new Simulation(oldWorldDTO, worldAfter,simulationId);
+            simulation.setEntityPopulationHistory(this.entityPopulationHistory);
             Date currentDate = new Date(); // Replace this with the actual date you want to use
             simulation.setRunningDate(currentDate);
             simulation.setReasonForTermination(reasonForTermination);
@@ -115,6 +119,7 @@ public class Engine implements IEngine
 
     public String runSimulation(World clonedWorld)
     {
+
         double generatedProbability;
         generatedProbability = r.nextDouble();
         int ticksCounter = 0;
@@ -134,18 +139,37 @@ public class Engine implements IEngine
         int ticksAmount = clonedWorld.getTerminationTicks();
         long delay = (long) clonedWorld.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
         timer.schedule(task, delay);
+        // Graph //
 
-        while (ticksCounter < ticksAmount && programRunning)
+        entityPopulationHistory.clear();
+
+        while (ticksCounter < ticksAmount )
         {
             for (Rule rule : clonedWorld.getRules())
             {
                 rule.isActivated(clonedWorld.getEntities(), ticksCounter, generatedProbability);
                 generatedProbability = r.nextDouble();
             }
+
+
+            List<Entity> entityList = world.getEntities();
+
+            // Iterate over each entity and save the population in its history list
+            for (Entity entity : entityList)
+            {
+                String entityName = entity.getNameOfEntity(); // Get the name of the entity
+                List<Integer> populationHistory = entityPopulationHistory.getOrDefault(entity, new ArrayList<>());
+                populationHistory.add(entity.getEntities().size());
+                entityPopulationHistory.put(entityName, populationHistory);
+            }
+
             ticksCounter++;
+
         }
+
         timer.cancel(); // Cancel the timer when simulation is done
-        if(ticksCounter == ticksAmount) {
+        if(ticksCounter == ticksAmount)
+        {
          return "ticks";
         }
         return "seconds";
@@ -226,9 +250,17 @@ public class Engine implements IEngine
             Document doc = builder.parse(file);
             doc.getDocumentElement().normalize();
 
-            this.numbOfThreads=Integer.parseInt(doc.getElementsByTagName("PRD-thread-count").item(0).getTextContent());
+            if(doc.getElementsByTagName("PRD-thread-count").item(0)!=null)
+            {
+                this.numbOfThreads=Integer.parseInt(doc.getElementsByTagName("PRD-thread-count").item(0).getTextContent());
 
-            setGridCoordinate(doc.getElementsByTagName("PRD-grid"));
+            }
+
+            if(doc.getElementsByTagName("PRD-grid").getLength()>0)
+            {
+                setGridCoordinate(doc.getElementsByTagName("PRD-grid"));
+            }
+
 
             NodeList worldList = doc.getElementsByTagName("PRD-world");
 

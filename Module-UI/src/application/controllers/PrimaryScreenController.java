@@ -145,8 +145,18 @@ public class PrimaryScreenController
 
 
     @FXML
-    public void switchToResultsScene(ActionEvent event) {
-        uiManager.switchToResultsScene();
+    public void switchToResultsScene(ActionEvent event)
+    {
+        try
+        {
+            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
+            pnlsMessage.setText("Results");
+            Node details = FXMLLoader.load(getClass().getResource("/application/resources/resultsScene.fxml"));
+            mainBoard.setCenter(details);
+        } catch (IOException e)
+        {
+            System.out.println("failed to load results.fxml");
+        }
     }
 
     public void handleClose(javafx.scene.input.MouseEvent mouseEvent)

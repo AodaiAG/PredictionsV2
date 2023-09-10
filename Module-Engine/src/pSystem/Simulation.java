@@ -13,15 +13,29 @@ public class Simulation
     private static boolean programRunning;
     private WorldDTO wordAfterSimulation;
     private WorldDTO wordBeforeSimulation;
+    private UUID simulationId;
+    Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
+
+
     private final Map<String, Map<String, Integer>> propertyValueCounts = new HashMap<>(); //<entityName <property, instancesAmount>>
     Date runningDate;
     public boolean isCurrentlyRunning;
+
+    public Map<String, List<Integer>> getEntityPopulationHistory()
+    {
+        return entityPopulationHistory;
+    }
+
+    public void setEntityPopulationHistory(Map<String, List<Integer>> entityPopulationHistory) {
+        this.entityPopulationHistory = entityPopulationHistory;
+    }
 
     public String getReasonForTermination() {
         return reasonForTermination;
     }
 
-    public void setReasonForTermination(String reasonForTermination) {
+    public void setReasonForTermination(String reasonForTermination)
+    {
         this.reasonForTermination = reasonForTermination;
     }
 
@@ -37,10 +51,17 @@ public class Simulation
 
     private final Map<String, Integer> initialQuantities = new HashMap<>();
 
-    public Simulation(WorldDTO worldBefore, WorldDTO worldAfter) {
+    public Simulation(WorldDTO worldBefore, WorldDTO worldAfter, UUID simulationId)
+    {
         this.wordAfterSimulation = worldAfter;
         wordBeforeSimulation = worldBefore;
         programRunning = true;
+        this.simulationId=simulationId;
+    }
+
+    public String getSimulationId()
+    {
+        return simulationId.toString();
     }
 
     public Map<String, Map<String, Integer>> getPropertyValueCounts() {
@@ -51,6 +72,29 @@ public class Simulation
         return initialQuantities;
     }
 
+    public int getNumberOfEntityInstancesBefore(EntityDTO entityDTO)
+    {
+        for(EntityDTO entityDTO1:this.wordBeforeSimulation.getEntityDTOSet())
+        {
+            if(entityDTO1.getName().equals(entityDTO.getName()))
+            {
+                return entityDTO1.getInstancesDTOS().size();
+            }
+        }
+        return 0;
+    }
+    public int getNumberOfEntityInstancesAfter(EntityDTO entityDTO)
+    {
+
+        for(EntityDTO entityDTO1:this.wordAfterSimulation.getEntityDTOSet())
+        {
+            if(entityDTO1.getName().equals(entityDTO.getName()))
+            {
+                return entityDTO1.getInstancesDTOS().size();
+            }
+        }
+        return 0;
+    }
 
     public WorldDTO getWordAfterSimulation() {
         return wordAfterSimulation;

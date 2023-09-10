@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchorProgram" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="765.0" prefWidth="1116.0" style="-fx-background-color: ffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PrimaryScreenController">
+<AnchorPane fx:id="mainAnchorProgram" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="869.0" prefWidth="1229.0" style="-fx-background-color: ffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PrimaryScreenController">
    <children>
       <VBox fx:id="Leftvbox" layoutX="-1.0" prefHeight="638.0" prefWidth="240.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -49,70 +49,74 @@
             </Button>
          </children>
       </VBox>
-      <FontAwesomeIconView fx:id="exiticon" glyphName="CLOSE" layoutX="1078.0" layoutY="24.0" onMouseClicked="#handleClose" size="30" />
-      <Pane fx:id="pnlStatus" layoutX="239.0" layoutY="43.0" prefHeight="124.0" prefWidth="667.0" style="-fx-background-color: #3F2B63;" AnchorPane.leftAnchor="239.0" AnchorPane.rightAnchor="-4.0">
+      <FontAwesomeIconView fx:id="exiticon" glyphName="CLOSE" layoutX="1177.0" layoutY="34.0" onMouseClicked="#handleClose" size="30" />
+      <AnchorPane layoutX="239.0" layoutY="43.0" prefWidth="987.0">
          <children>
-            <Label fx:id="pnlsMessage" layoutX="43.0" layoutY="38.0" text="Home" textFill="WHITE">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
+            <Pane fx:id="pnlStatus" prefHeight="124.0" prefWidth="987.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="pnlsMessage" layoutX="43.0" layoutY="38.0" text="Home" textFill="WHITE">
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="buttonsPane" layoutY="124.0" prefHeight="100.0" prefWidth="987.0" style="-fx-background-color: #ffffff;">
+               <children>
+                  <Button fx:id="btnLoad" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="32.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadXmlButton" prefHeight="31.0" prefWidth="190.0" stylesheets="@full.css" text="Load File" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView fill="#dddddd" glyphName="FILE" size="20" wrappingWidth="39.0" />
+                     </graphic>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <TextField fx:id="filePathLabel" layoutX="247.0" layoutY="10.0" prefHeight="31.0" prefWidth="507.0" />
+                  <Button fx:id="details" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="31.0" layoutY="63.0" mnemonicParsing="false" onAction="#buttonSwitchToDetailsScene" prefHeight="31.0" prefWidth="196.0" stylesheets="@full.css" text="Details" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView fill="#dddddd" glyphName="INFO" size="20" wrappingWidth="39.0" />
+                     </graphic>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="newExecution" alignment="BASELINE_LEFT" graphicTextGap="0.0" layoutX="297.0" layoutY="63.0" mnemonicParsing="false" onAction="#buttonSwitchToNewExecutionScene" prefHeight="31.0" prefWidth="210.0" stylesheets="@full.css" text="New Execution" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView fill="#dddddd" glyphName="FLASH" size="20" wrappingWidth="39.0" />
+                     </graphic>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="results" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="574.0" layoutY="61.0" mnemonicParsing="false" onAction="#switchToResultsScene" prefHeight="31.0" prefWidth="227.0" stylesheets="@full.css" text="Results" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView fill="#dddddd" glyphName="SQUARE" size="20" wrappingWidth="39.0" />
+                     </graphic>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Separator layoutX="15.0" layoutY="224.0" prefHeight="2.0" prefWidth="874.0" style="-fx-background-color: BLACK;" />
          </children>
-      </Pane>
-      <BorderPane fx:id="mainBoard" layoutX="239.0" layoutY="266.0" prefHeight="502.0" prefWidth="874.0" style="-fx-background-color: #ffffff;" />
-      <Pane fx:id="buttonsPane" layoutX="239.0" layoutY="167.0" prefHeight="106.0" prefWidth="874.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="492.0" AnchorPane.leftAnchor="239.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="167.0">
-         <children>
-            <Button fx:id="btnLoad" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="32.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadXmlButton" prefHeight="31.0" prefWidth="190.0" stylesheets="@full.css" text="Load File" textFill="WHITE">
-               <graphic>
-                  <FontAwesomeIconView fill="#dddddd" glyphName="FILE" size="20" wrappingWidth="39.0" />
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-            <TextField fx:id="filePathLabel" layoutX="247.0" layoutY="10.0" prefHeight="31.0" prefWidth="507.0" />
-            <Button fx:id="details" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="31.0" layoutY="63.0" mnemonicParsing="false" onAction="#buttonSwitchToDetailsScene" prefHeight="31.0" prefWidth="196.0" stylesheets="@full.css" text="Details" textFill="WHITE">
-               <graphic>
-                  <FontAwesomeIconView fill="#dddddd" glyphName="INFO" size="20" wrappingWidth="39.0" />
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-            <Button fx:id="newExecution" alignment="BASELINE_LEFT" graphicTextGap="0.0" layoutX="297.0" layoutY="63.0" mnemonicParsing="false" onAction="#buttonSwitchToNewExecutionScene" prefHeight="31.0" prefWidth="210.0" stylesheets="@full.css" text="New Execution" textFill="WHITE">
-               <graphic>
-                  <FontAwesomeIconView fill="#dddddd" glyphName="FLASH" size="20" wrappingWidth="39.0" />
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-            <Button fx:id="results" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="574.0" layoutY="61.0" mnemonicParsing="false" onAction="#switchToResultsScene" prefHeight="31.0" prefWidth="227.0" stylesheets="@full.css" text="Results" textFill="WHITE">
-               <graphic>
-                  <FontAwesomeIconView fill="#dddddd" glyphName="SQUARE" size="20" wrappingWidth="39.0" />
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-            <Separator layoutX="2.0" layoutY="101.0" prefHeight="2.0" prefWidth="874.0" style="-fx-background-color: BLACK;" />
-         </children>
-      </Pane>
-      <Button fx:id="btnTheme" layoutX="776.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnThemeHandle" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #3F2B63;" />
-      <Label layoutX="716.0" layoutY="13.0" text="Theme" />
-      <Button fx:id="btnBrown" layoutX="834.0" layoutY="8.0" mnemonicParsing="false" onAction="#themeBrown" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #7c4848;" textFill="#7c4848" />
-      <Button fx:id="btnBrown1" layoutX="892.0" layoutY="8.0" mnemonicParsing="false" onAction="#themeBrown" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: BLACK;" textFill="WHITE" />
+      </AnchorPane>
+      <BorderPane fx:id="mainBoard" layoutX="242.0" layoutY="269.0" prefHeight="600.0" prefWidth="987.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="269.0" />
+      <Button fx:id="btnTheme" layoutX="928.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnThemeHandle" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #3F2B63;" />
+      <Label layoutX="868.0" layoutY="13.0" text="Theme" />
+      <Button fx:id="btnBrown" layoutX="986.0" layoutY="8.0" mnemonicParsing="false" onAction="#themeBrown" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #7c4848;" textFill="#7c4848" />
+      <Button fx:id="btnBrown1" layoutX="1044.0" layoutY="8.0" mnemonicParsing="false" onAction="#themeBrown" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: BLACK;" textFill="WHITE" />
    </children>
 </AnchorPane>
