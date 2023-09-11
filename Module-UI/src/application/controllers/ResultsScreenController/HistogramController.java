@@ -183,6 +183,12 @@ public class HistogramController
 
 
                 }
+                else
+                {
+                    averageLabel.setDisable(true);
+                    averageText.clear();
+                    averageText.setDisable(true);
+                }
 
             }
             else
