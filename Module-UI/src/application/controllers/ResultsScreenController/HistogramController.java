@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import pDTOS.EntityDTO;
 import pDTOS.EntityInstancesDTO;
@@ -35,6 +32,11 @@ public class HistogramController
     javafx.scene.control. TableColumn <Map.Entry<String, Integer>,String> countColumn;
     private VBox histogramContent;
     private Simulation simulation;
+    @FXML
+    private Label averageLabel;
+
+    @FXML
+    private TextField averageText;
 
 
 
@@ -42,6 +44,7 @@ public class HistogramController
     public void initialize(Simulation simulation)
     {
         this.simulation=simulation;
+
         // Populate entityComboBox with entity names
         // You can retrieve this data from your simulation or wherever it's stored
         for(EntityDTO entityDTO:simulation.getWordAfterSimulation().getEntityDTOSet())
@@ -74,6 +77,9 @@ public class HistogramController
         propertyComboBox.setOnAction(event ->
         {
             showHistogramContent(event);
+
+
+
 
         });
 
@@ -133,11 +139,11 @@ public class HistogramController
                     protected void updateItem(String item, boolean empty)
                     {
                         super.updateItem(item, empty);
-
                         if (empty)
                         {
                             setText(null);
-                        } else
+                        }
+                        else
                         {
                             Map.Entry<String, Integer> entry = getTableView().getItems().get(getIndex());
                             setText(entry.getValue().toString());
@@ -146,9 +152,40 @@ public class HistogramController
                 });
 
 
-                // Add histogram data to the TableView
+                if(selectedPropertyDTO.getNameOfDataType().equals("Float")||selectedPropertyDTO.getNameOfDataType().equals("Decimal"))
+                {
+                    float sumData = 0;
+                    int sumCount = 0;
 
-            } else
+                    for (Map.Entry<String, Integer> entry : value2count.entrySet())
+                    {
+                        String dataString = entry.getKey();
+                        int count = entry.getValue();
+
+                        // Convert dataString to float (assuming dataString represents a valid float)
+                        float data = Float.parseFloat(dataString);
+
+                        sumData += data;
+                        sumCount += count;
+                    }
+                    float average=0;
+                // average
+                    if(sumCount!=0)
+                    {
+                         average = sumData / sumCount;
+
+                    }
+                    averageLabel.setDisable(false);
+                    averageText.setDisable(false);
+                    averageText.setText(Float.toString(average));
+
+
+
+
+                }
+
+            }
+            else
             {
                 // Handle the case where selectedPropertyDTO is null
             }
