@@ -1,22 +1,15 @@
-package application.controllers;
+package application.controllers.ResultsScreenController;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import pDTOS.EntityDTO;
-import pDTOS.EntityInstancesDTO;
-import pDTOS.PropertyDTO;
-import pDTOS.WorldDTO;
-import pEntity.Entity;
 import pSystem.Simulation;
 
 import java.util.*;

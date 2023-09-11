@@ -1,4 +1,4 @@
-package application.controllers;
+package application.controllers.ResultsScreenController;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
