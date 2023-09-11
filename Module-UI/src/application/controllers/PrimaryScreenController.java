@@ -33,6 +33,8 @@ public class PrimaryScreenController
     private FontAwesomeIconView exiticon;
     @FXML
     private AnchorPane mainAnchorProgram;
+    @FXML
+    private AnchorPane mainAnchorpane;
 
     @FXML
     private Pane pnlStatus;
@@ -61,7 +63,7 @@ public class PrimaryScreenController
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
             pnlsMessage.setText("Details");
             Node details = FXMLLoader.load(getClass().getResource("/application/resources/detailsScene.fxml"));
-            mainBoard.setCenter(details);
+            mainAnchorpane.getChildren().setAll(details);
         } catch (IOException e)
         {
             System.out.println("failed to load detailsScene.fxml");
@@ -78,7 +80,7 @@ public class PrimaryScreenController
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
             pnlsMessage.setText("New Execution");
             Node newEx = FXMLLoader.load(getClass().getResource("/application/resources/newExecutionScene.fxml"));
-            mainBoard.setCenter(newEx);
+            mainAnchorpane.getChildren().setAll(newEx);
         } catch (IOException e)
         {
             System.out.println("failed to load newExecutionScene here.fxml");
@@ -100,7 +102,7 @@ public class PrimaryScreenController
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
             pnlsMessage.setText("Settings");
             Node newEx = FXMLLoader.load(getClass().getResource("/application/resources/settings.fxml"));
-            mainBoard.setCenter(newEx);
+            mainAnchorpane.getChildren().setAll(newEx);
             buttonsPane.setVisible(false);
         } catch (IOException e)
         {
@@ -151,8 +153,8 @@ public class PrimaryScreenController
         {
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
             pnlsMessage.setText("Results");
-            Node details = FXMLLoader.load(getClass().getResource("/application/resources/resultsScene.fxml"));
-            mainBoard.setCenter(details);
+            Node results = FXMLLoader.load(getClass().getResource("/application/resources/resultsScene.fxml"));
+            mainAnchorpane.getChildren().setAll(results);
         } catch (IOException e)
         {
             System.out.println("failed to load results.fxml");

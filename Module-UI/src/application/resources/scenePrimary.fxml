@@ -7,12 +7,11 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchorProgram" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="869.0" prefWidth="1229.0" style="-fx-background-color: ffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PrimaryScreenController">
+<AnchorPane fx:id="mainAnchorProgram" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="887.0" prefWidth="1245.0" style="-fx-background-color: ffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PrimaryScreenController">
    <children>
       <VBox fx:id="Leftvbox" layoutX="-1.0" prefHeight="638.0" prefWidth="240.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -61,7 +60,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="buttonsPane" layoutY="124.0" prefHeight="100.0" prefWidth="987.0" style="-fx-background-color: #ffffff;">
+            <Pane fx:id="buttonsPane" layoutY="124.0" prefHeight="100.0" prefWidth="1002.0" style="-fx-background-color: #ffffff;">
                <children>
                   <Button fx:id="btnLoad" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="32.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadXmlButton" prefHeight="31.0" prefWidth="190.0" stylesheets="@full.css" text="Load File" textFill="WHITE">
                      <graphic>
@@ -110,13 +109,13 @@
                   </Button>
                </children>
             </Pane>
-            <Separator layoutX="15.0" layoutY="224.0" prefHeight="2.0" prefWidth="874.0" style="-fx-background-color: BLACK;" />
+            <Separator layoutX="-2.0" layoutY="223.0" prefHeight="3.0" prefWidth="1008.0" style="-fx-background-color: BLACK;" />
          </children>
       </AnchorPane>
-      <BorderPane fx:id="mainBoard" layoutX="242.0" layoutY="269.0" prefHeight="600.0" prefWidth="987.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="269.0" />
       <Button fx:id="btnTheme" layoutX="928.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnThemeHandle" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #3F2B63;" />
       <Label layoutX="868.0" layoutY="13.0" text="Theme" />
       <Button fx:id="btnBrown" layoutX="986.0" layoutY="8.0" mnemonicParsing="false" onAction="#themeBrown" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #7c4848;" textFill="#7c4848" />
       <Button fx:id="btnBrown1" layoutX="1044.0" layoutY="8.0" mnemonicParsing="false" onAction="#themeBrown" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: BLACK;" textFill="WHITE" />
+      <AnchorPane fx:id="mainAnchorpane" layoutX="242.0" layoutY="273.0" prefHeight="596.0" prefWidth="987.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="273.0" />
    </children>
 </AnchorPane>
