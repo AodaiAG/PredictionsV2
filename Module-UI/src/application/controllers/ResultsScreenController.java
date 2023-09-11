@@ -53,8 +53,7 @@ public class ResultsScreenController
 
     public void addSimulationTab(Simulation simulation,int index)
     {
-        try
-        {
+        try {
             // Load the SimulationDetails.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
             AnchorPane simulationDetails = loader.load();
@@ -69,8 +68,7 @@ public class ResultsScreenController
             // Add the tab to the tabPane
             tabPane.getTabs().add(tab);
 
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

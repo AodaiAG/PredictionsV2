@@ -17,7 +17,8 @@ public class UI {
 
     private boolean shouldExit = false;
 
-    public void programFlow() {
+    public void programFlow()
+    {
         userChoiceHandler();
     }
 
@@ -116,11 +117,13 @@ public class UI {
             System.out.println("There is no current simulation in the system");
         } else
         {
-          //  runSimulation(engine.convertWorldToDTO());
+           runSimulation(engine.convertWorldToDTO(engine.getWorld()));
+
         }
     }
 
-    public void runSimulation(WorldDTO worldDTO) {
+    public void runSimulation(WorldDTO worldDTO)
+    {
         Printer pr = new Printer();
         environmentInitByUser(worldDTO.getEnvironmentDTOS(), pr);
         printEnvironmentVariable(worldDTO.getEnvironmentDTOS(), pr);
@@ -177,7 +180,8 @@ public class UI {
         }
     }
 
-    Map<String, Integer> setHistogramToOneProperty(PropertyDTO property, List<EntityInstancesDTO> instancesDTOS) {
+    Map<String, Integer> setHistogramToOneProperty(PropertyDTO property, List<EntityInstancesDTO> instancesDTOS)
+    {
         // value // count
         Map<String, Integer> value2count = new HashMap<>();
         String propertyName = property.getNameOfProperty();
@@ -198,7 +202,8 @@ public class UI {
         return value2count;
     }
 
-    Map<String, Map<String, Integer>> setHistogramToAllPropertyInEntity(EntityDTO entity) {
+    Map<String, Map<String, Integer>> setHistogramToAllPropertyInEntity(EntityDTO entity)
+    {
 
         Map<String, Map<String, Integer>> pName2pCount = new HashMap<>();
 
@@ -225,7 +230,8 @@ public class UI {
         Map<String, Map<String, Integer>> map = setHistogramToAllPropertyInEntity(wantedEntity);
 
         System.out.println("Properties of Entity:" + wantedEntity.getName() + '\n');
-        for (int i = 0; i < wantedEntity.getProperties().size(); i++) {
+        for (int i = 0; i < wantedEntity.getProperties().size(); i++)
+        {
             System.out.println((i + 1) + "- " + wantedEntity.getProperties().get(i).getNameOfProperty() + '\n');
         }
 
@@ -235,7 +241,8 @@ public class UI {
 
         Map<String, Integer> value2count = map.get(wantedProperty.getNameOfProperty());
 
-        for (Map.Entry<String, Integer> entry : value2count.entrySet()) {
+        for (Map.Entry<String, Integer> entry : value2count.entrySet())
+        {
             System.out.println("Value-Count: \"" + entry.getKey() + "\" --> " + entry.getValue());
         }
     }

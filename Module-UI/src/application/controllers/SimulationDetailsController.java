@@ -3,6 +3,7 @@ package application.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -10,14 +11,15 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import pDTOS.EntityDTO;
+import pDTOS.EntityInstancesDTO;
+import pDTOS.PropertyDTO;
+import pDTOS.WorldDTO;
 import pEntity.Entity;
 import pSystem.Simulation;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class SimulationDetailsController
 {
@@ -26,7 +28,8 @@ public class SimulationDetailsController
     private Simulation simulation;
     @FXML
     TextField simulationIdText;
-
+    @FXML
+    AnchorPane vewRootPane;
     @FXML
     private RadioButton populationInfoRadioButton,histogramRadioButton;
     @FXML
@@ -53,7 +56,7 @@ public class SimulationDetailsController
         this.simulation=Simulation;
 
         populateLineChart();// graph init
-
+        populationInfoTable.setVisible(false);
         simulationIdText.setText(simulation.getSimulationId());
         populationInfoRadioButton.setToggleGroup(toggleGroup);
         histogramRadioButton.setToggleGroup(toggleGroup);
@@ -63,9 +66,13 @@ public class SimulationDetailsController
         {
             if (newValue == populationInfoRadioButton)
             {
+                vewRootPane.getChildren().clear();
                 showPopulationInfo();
+                populationInfoTable.setVisible(true);
+                vewRootPane.getChildren().add(populationInfoTable);
             } else if (newValue == histogramRadioButton)
             {
+
                 showHistogramContent();
             } else
             {
@@ -180,15 +187,31 @@ public class SimulationDetailsController
             }
         });
 
-
+        populationInfoTable.setVisible(true);
     }
 
 
     private void showHistogramContent()
     {
-        // Set the histogram content as the content of the rightAnchorPane
-        rightAnchorPane.getChildren().clear();
-        //rightAnchorPane.getChildren().add(histogramContent);
+             try
+             {
+                 populationInfoTable.setVisible(false);
+                 // Load the SimulationDetails.fxml
+                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/histogramUI.fxml"));
+                 AnchorPane histogram = loader.load();
+                 // Set the controller for the simulation details
+                 HistogramController histogramController = loader.getController();
+                 histogramController.initialize(simulation); // Pass the simulation data to the controller
+                 vewRootPane.getChildren().setAll(histogram);
+             }
+
+             catch (Exception e)
+             {
+
+             }
+
     }
+
+
 
 }
