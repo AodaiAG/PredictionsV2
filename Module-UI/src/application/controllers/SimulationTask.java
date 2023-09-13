@@ -16,7 +16,7 @@ public class SimulationTask  extends Task<Void>
     UserInterfaceManager uiManger;
     IEngine engine;
     Tab simulationTab;
-
+//
     @Override
     protected Void call() throws Exception
     {
