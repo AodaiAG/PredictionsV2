@@ -23,7 +23,7 @@ public interface IEngine
     public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception;
 
     public UUID startSimulation();
-
+    public World cloneWorld();
     Boolean isWordNull();
 
     public Map<UUID, Simulation> getSimulations();
@@ -34,4 +34,6 @@ public interface IEngine
 
     public List<Map.Entry<UUID, String>> getSortedSimulationsByDate();
     public World getWorld();
+
+    int getNumThreads();
 }

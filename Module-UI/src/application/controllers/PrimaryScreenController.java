@@ -20,7 +20,7 @@ public class PrimaryScreenController
 {
     private UserInterfaceManager uiManager;
     @FXML
-    private TextField filePathLabel;
+    public TextField filePathLabel;
     @FXML
     BorderPane mainBoard;
     @FXML
@@ -48,6 +48,8 @@ public class PrimaryScreenController
     public void loadXmlButton(ActionEvent event)
     {
         uiManager.loadXmlFile(event);
+        filePathLabel.setText(uiManager.directoryPath);
+        filePathLabel.setDisable(true);
     }
     public PrimaryScreenController()
     {
@@ -64,7 +66,8 @@ public class PrimaryScreenController
             pnlsMessage.setText("Details");
             Node details = FXMLLoader.load(getClass().getResource("/application/resources/detailsScene.fxml"));
             mainAnchorpane.getChildren().setAll(details);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             System.out.println("failed to load detailsScene.fxml");
         }

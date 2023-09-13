@@ -16,7 +16,9 @@ import pSystem.Simulation;
 
 public class ResultsScreenController
 {
-//ss
+
+    int tabCounter=0;
+
     @FXML
     private ListView<UUID> simulationListView;
     @FXML
@@ -25,49 +27,61 @@ public class ResultsScreenController
     private Simulation selectedSimulation;
 
     private UserInterfaceManager uiManager;
+    @FXML
+    private AnchorPane mainAnchor;
     public void initialize()
     {
-
-        int counter=0;
-        List<UUID> uuidList = new ArrayList<>(uiManager.getSimulations().keySet());
-        for(UUID uuid:uuidList)
-        {
-            selectedSimulation = uiManager.getSimulations().get(uuid);
-            addSimulationTab(selectedSimulation,counter);
-            counter++;
-        }
-
-
+        mainAnchor.getChildren().add(uiManager.getTabPane());
     }
 
-
-    public void addSimulationTab(Simulation simulation,int index)
+    public Tab createAndAddNewTab(TabPane tabPane)
     {
-        try {
+        Tab tab = new Tab("Simulation " + tabCounter);
+        tabPane.getTabs().add(tab);
+        tabCounter++;
+        return tab;
+    }
+
+    public void setSimulationDetailsTab(Tab tab,Simulation simulation)
+    {
+        try
+        {
             // Load the SimulationDetails.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
             AnchorPane simulationDetails = loader.load();
             // Set the controller for the simulation details
             SimulationDetailsController detailsController = loader.getController();
             detailsController.initialize(simulation); // Pass the simulation data to the controller
-
-            // Create a new tab and set its content
-            Tab tab = new Tab("Simulation " + index);
             tab.setContent(simulationDetails);
 
-            // Add the tab to the tabPane
-            tabPane.getTabs().add(tab);
-
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
 
-
     }
 
-    public ResultsScreenController()
+    public static ResultsScreenController getInstance()
+    {
+        return Holder.INSTANCE;
+    }
+
+    // Rest of your code...
+
+    // Private static inner class to hold the instance
+    private static class Holder
+    {
+        private static final ResultsScreenController INSTANCE = new ResultsScreenController();
+    }
+
+
+
+
+public ResultsScreenController()
     {
         uiManager = UserInterfaceManager.INSTANCE;
+
     }
 
 }

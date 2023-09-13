@@ -151,7 +151,6 @@ public class HistogramController
                     }
                 });
 
-
                 if(selectedPropertyDTO.getNameOfDataType().equals("Float")||selectedPropertyDTO.getNameOfDataType().equals("Decimal"))
                 {
                     float sumData = 0;
@@ -161,11 +160,8 @@ public class HistogramController
                     {
                         String dataString = entry.getKey();
                         int count = entry.getValue();
-
-                        // Convert dataString to float (assuming dataString represents a valid float)
                         float data = Float.parseFloat(dataString);
-
-                        sumData += data;
+                        sumData =(count*data)+sumData;
                         sumCount += count;
                     }
                     float average=0;
@@ -178,9 +174,6 @@ public class HistogramController
                     averageLabel.setDisable(false);
                     averageText.setDisable(false);
                     averageText.setText(Float.toString(average));
-
-
-
 
                 }
                 else

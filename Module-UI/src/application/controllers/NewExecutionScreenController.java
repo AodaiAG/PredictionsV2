@@ -15,6 +15,7 @@ import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 public class NewExecutionScreenController
 {
@@ -45,7 +46,6 @@ public class NewExecutionScreenController
 
     public void initialize()
     {
-        System.out.println("mm");
         if(uiManager.isThereASimulation())
         {
             ObservableList<String> entitiesList = FXCollections.observableArrayList();
@@ -168,6 +168,7 @@ public class NewExecutionScreenController
     {
         try
         {
+
             String dataEnterd=dataTextField.getText();
             uiManager.setDataToEnvironmentVar(selectedEnvironment,dataEnterd);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -175,6 +176,7 @@ public class NewExecutionScreenController
             selectedEnvironment=uiManager.updateEnvironment(selectedEnvironment);
             alert.showAndWait();
             updateDetailsPane(selectedEnvironment);
+
         }
 
         catch (Exception e)
@@ -197,9 +199,13 @@ public class NewExecutionScreenController
     }
 
     @FXML
-    void startSimulation(ActionEvent event) {
-        uiManager.runSimulation();
+    void startSimulation(ActionEvent event)
+    {
+
+
+              uiManager.runSimulation();
     }
+
 
 
 }

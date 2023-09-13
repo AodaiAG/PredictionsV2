@@ -1,5 +1,8 @@
 package application.manager;
 
+import application.controllers.NewExecutionScreenController;
+import application.controllers.ResultsScreenController.ResultsScreenController;
+import application.controllers.SimulationTask;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,29 +27,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public enum UserInterfaceManager
 {
     INSTANCE;
-
-    String simulationName;
+    public String directoryPath;
+    String simulationName="Simulation";
+    private int tabCounter=0;
     private Stage stage;
-    private Scene detailsScene;
-    private Scene newExecutionScene;
-    private Scene resultsScene;
+    private NewExecutionScreenController newExecutionController;
+    private ResultsScreenController resultsController;
+    private TabPane tabPane=new TabPane();
+
     private Scene primaryScene;
+    private ExecutorService threadPool;
     private final IEngine engine = new Engine();
-    private WorldDTO worldDTO;
 
-    public Scene getPrimaryScene() {
-        return primaryScene;
-    }
 
-    public void setPrimaryScene(Scene primaryScene) {
-        this.primaryScene = primaryScene;
-    }
 
-    public void initApplication() {
+    public void initApplication()
+    {
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/scenePrimary.fxml"));
         Parent root = null;
         try {
@@ -74,35 +77,27 @@ public enum UserInterfaceManager
         // Show open file dialog
         File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if (selectedFile != null) {
+        if (selectedFile != null)
+        {
             // Prompt the user to enter the name of the simulation
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Enter Simulation Name");
-            dialog.setHeaderText("Please enter the name of the simulation:");
-            dialog.setContentText("Name:");
-            String directoryPath = selectedFile.getParent();
 
-
-            Optional<String> result = dialog.showAndWait();
-
-            if (result.isPresent()) {
-                String simulationName = result.get();
-                this.simulationName = simulationName;
-
-
+             directoryPath = selectedFile.getParent();
                 // Load and process the XML file with the simulation name
-                try {
+                try
+                {
                     engine.ParseXmlAndLoadWorld(selectedFile);
 
                     // Notify the user of successful loading
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("File Loaded Successfully");
                     alert.setHeaderText("The XML file was loaded successfully.");
-                    alert.setContentText("Simulation Name: " + simulationName);
                     alert.showAndWait();
+                   int numThreads = engine.getNumThreads();
+                    threadPool = Executors.newFixedThreadPool(numThreads);
 
                     // Optionally, switch to a different scene or update UI components here
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     // Handle any exceptions that may occur during XML parsing
                     e.printStackTrace();
 
@@ -113,41 +108,23 @@ public enum UserInterfaceManager
                     alert.setContentText("Reason: " + e.getMessage());
                     alert.showAndWait();
                 }
-            } else {
-                // User canceled the input dialog
-                // Handle this case as needed
             }
+
+
+    }
+
+    public ExecutorService getThreadPool()
+    {
+        return threadPool;
+    }
+
+    public void shutdownThreadPool()
+    {
+        if (threadPool != null) {
+            threadPool.shutdown();
         }
     }
 
-
-//    public void switchToDetailsScene() {
-//        if (detailsScene == null) {
-//            try {
-//                Parent root = FXMLLoader.load(getClass().getResource("/application/resources/detailsScene.fxml"));
-//                detailsScene = new Scene(root);
-//            } catch (IOException e) {
-//                System.out.println("failed to load detailsScene.fxml");
-//            }
-//
-//        }
-//        stage.setScene(detailsScene);
-//        stage.show();
-//    }
-
-  //  @FXML
-//    public void switchToNewExecutionScene() {
-//        if (newExecutionScene == null) {
-//            try {
-//                Parent root = FXMLLoader.load(getClass().getResource("/application/resources/newExecutionScene.fxml"));
-//                newExecutionScene = new Scene(root);
-//            } catch (IOException e) {
-//                System.out.println("failed to load newExecutionScene.fxml");
-//            }
-//        }
-//        stage.setScene(newExecutionScene);
-//        stage.show();
-//    }
 
     public TreeView<String> generateWorldDetails()
     {
@@ -160,18 +137,7 @@ public enum UserInterfaceManager
         return engine.getWorldBeforeChanging().getEnvironmentDTOS();
     }
 
-    public void switchToResultsScene() {
-        if (resultsScene == null) {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/application/resources/resultsScene.fxml"));
-                resultsScene = new Scene(root);
-            } catch (IOException e) {
-                System.out.println("failed to resultsScene.fxml");
-            }
-        }
-        stage.setScene(resultsScene);
-        stage.show();
-    }
+
 
     public Stage getStage() {
         return stage;
@@ -179,30 +145,6 @@ public enum UserInterfaceManager
 
     public void setStage(Stage stage) {
         this.stage = stage;
-    }
-
-    public Scene getDetailsScene() {
-        return detailsScene;
-    }
-
-    public void setDetailsScene(Scene detailsScene) {
-        this.detailsScene = detailsScene;
-    }
-
-    public Scene getNewExecutionScene() {
-        return newExecutionScene;
-    }
-
-    public void setNewExecutionScene(Scene newExecutionScene) {
-        this.newExecutionScene = newExecutionScene;
-    }
-
-    public Scene getResultsScene() {
-        return resultsScene;
-    }
-
-    public void setResultsScene(Scene resultsScene) {
-        this.resultsScene = resultsScene;
     }
 
     public void setDataToEnvironmentVar(EnvironmentDTO selectedEnvironment, String enteredData) throws Exception {
@@ -215,6 +157,11 @@ public enum UserInterfaceManager
 
             throw e;
         }
+    }
+
+    public void setResultsController(ResultsScreenController resultsController)
+    {
+        this.resultsController = resultsController;
     }
 
     public List<EntityDTO> getEntityDto()
@@ -248,12 +195,34 @@ public enum UserInterfaceManager
        return modifiedEnvironment;
     }
 
-    public Map<UUID, Simulation> getSimulations() {
+    public Map<UUID, Simulation> getSimulations()
+    {
         return engine.getSimulations();
     }
 
     public void runSimulation()
     {
-        engine.startSimulation();
+
+        Tab tab=resultsController.createAndAddNewTab(this.tabPane);
+        SimulationTask simulationTask = new SimulationTask(engine,tab,this);
+        threadPool.submit(simulationTask);
+    }
+
+    public void updateSimulationResultsTab(Tab tab,Simulation simulation)
+    {
+        resultsController.setSimulationDetailsTab(tab,simulation);
+    }
+
+    public TabPane getTabPane()
+    {
+        return this.tabPane;
+    }
+
+    public Tab createAndAddNewTab(TabPane tabPane)
+    {
+
+        Tab tab = new Tab("Simulation " + tabCounter);
+        tabPane.getTabs().add(tab);
+        return tab;
     }
 }

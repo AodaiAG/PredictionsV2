@@ -1,5 +1,6 @@
 package application.program;
 
+import application.controllers.ResultsScreenController.ResultsScreenController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +18,10 @@ public class Program extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
+        ResultsScreenController resultsScreenController=ResultsScreenController.getInstance();
+
         UserInterfaceManager uiManager = UserInterfaceManager.INSTANCE;
+        uiManager.setResultsController(resultsScreenController);
         uiManager.setStage(primaryStage);
         uiManager.initApplication();
     }

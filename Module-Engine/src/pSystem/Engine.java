@@ -29,8 +29,10 @@ public class Engine implements IEngine
     public Random r = new Random();
     public World world;
     private WorldDTO worldBeforeChanging = null;
-    private int numbOfThreads;
+    private int numbOfThreads=2;
     Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
+    public volatile boolean simulationPaused = false;
+    public volatile boolean simulationRunning = true;
 
     public List<Map.Entry<UUID, String>> getSortedSimulationsByDate()
     {
@@ -40,6 +42,11 @@ public class Engine implements IEngine
                 .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), dateFormat.format(entry.getValue().getRunningDate())))
                 .sorted(Comparator.comparing(Map.Entry::getValue))
                 .collect(Collectors.toList());
+    }
+
+    public int getNumThreads()
+    {
+        return numbOfThreads;
     }
 
     @Override
@@ -107,7 +114,8 @@ public class Engine implements IEngine
     }
 
     @Override
-    public Boolean isWordNull() {
+    public Boolean isWordNull()
+    {
         //change!!
         return world == null;
     }
@@ -116,15 +124,18 @@ public class Engine implements IEngine
     public Map<UUID, Simulation> getSimulations() {
         return this.simulations;
     }
-
+        @Override
+        public World cloneWorld()
+        {
+            return this.world.clone();
+        }
     public String runSimulation(World clonedWorld)
     {
-
         double generatedProbability;
         generatedProbability = r.nextDouble();
         int ticksCounter = 0;
         Timer timer = new Timer();
-
+        System.out.println(Thread.currentThread());
         TimerTask task = new TimerTask()
         {
             @Override
@@ -143,14 +154,13 @@ public class Engine implements IEngine
 
         entityPopulationHistory.clear();
 
-        while (ticksCounter < ticksAmount )
+        while (ticksCounter < ticksAmount &&simulationRunning)
         {
             for (Rule rule : clonedWorld.getRules())
             {
                 rule.isActivated(clonedWorld.getEntities(), ticksCounter, generatedProbability);
                 generatedProbability = r.nextDouble();
             }
-
 
             List<Entity> entityList = world.getEntities();
 
@@ -163,9 +173,11 @@ public class Engine implements IEngine
                 entityPopulationHistory.put(entityName, populationHistory);
             }
 
+
             ticksCounter++;
 
         }
+
 
         timer.cancel(); // Cancel the timer when simulation is done
         if(ticksCounter == ticksAmount)
@@ -175,6 +187,14 @@ public class Engine implements IEngine
         return "seconds";
     }
 
+    public void stopSimulation()
+    {
+        simulationRunning = false;
+    }
+    public void pauseSimulation()
+    {
+        simulationPaused = true;
+    }
     @Override
     public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID) {
         Simulation simulation = simulations.get(simulationID);
