@@ -2,6 +2,7 @@ package application.manager;
 
 import application.controllers.NewExecutionScreenController;
 import application.controllers.ResultsScreenController.ResultsScreenController;
+import application.controllers.ResultsScreenController.SimulationDetailsTabController;
 import application.controllers.SimulationTask;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
@@ -52,7 +54,8 @@ public enum UserInterfaceManager
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/scenePrimary.fxml"));
         Parent root = null;
-        try {
+        try
+        {
             root = loader.load();
             primaryScene = new Scene(root);
             stage.setScene(primaryScene);
@@ -203,14 +206,26 @@ public enum UserInterfaceManager
     public void runSimulation()
     {
 
-        Tab tab=resultsController.createAndAddNewTab(this.tabPane);
-        SimulationTask simulationTask = new SimulationTask(engine,tab,this);
-        threadPool.submit(simulationTask);
+       try
+       {
+           FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
+           AnchorPane simulationDetails = loader.load();
+           SimulationDetailsTabController simulationDetailsTabController=loader.getController();
+           Tab tab=resultsController.createAndAddNewTab(this.tabPane);
+           tab.setContent(simulationDetails);
+           SimulationTask simulationTask = new SimulationTask(engine,tab,this,simulationDetailsTabController);
+           threadPool.submit(simulationTask);
+       }
+       catch (Exception e)
+       {
+
+       }
     }
+
 
     public void updateSimulationResultsTab(Tab tab,Simulation simulation)
     {
-        resultsController.setSimulationDetailsTab(tab,simulation);
+
     }
 
     public TabPane getTabPane()

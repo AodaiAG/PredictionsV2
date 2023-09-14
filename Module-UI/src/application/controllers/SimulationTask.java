@@ -1,5 +1,7 @@
 package application.controllers;
 
+import application.controllers.ResultsScreenController.ResultsScreenController;
+import application.controllers.ResultsScreenController.SimulationDetailsTabController;
 import application.manager.UserInterfaceManager;
 
 import javafx.application.Platform;
@@ -16,6 +18,7 @@ public class SimulationTask  extends Task<Void>
     UserInterfaceManager uiManger;
     IEngine engine;
     Tab simulationTab;
+    SimulationDetailsTabController simulationDetailsTabController;
 //
     @Override
     protected Void call() throws Exception
@@ -33,15 +36,16 @@ public class SimulationTask  extends Task<Void>
         Simulation simulation =engine.getSimulations().get(simulationId);
         Platform.runLater(() ->
         {
-            uiManger.updateSimulationResultsTab(simulationTab,simulation);
+            this.simulationDetailsTabController.setSimulationResultsPane(simulation);
         });
         return null;
     }
-    public SimulationTask(IEngine engine, Tab tab, UserInterfaceManager uiManger)
+    public SimulationTask(IEngine engine, Tab tab, UserInterfaceManager uiManger,SimulationDetailsTabController ct)
     {
         this.engine = engine;
         simulationTab=tab;
         this.uiManger=uiManger;
+        this.simulationDetailsTabController=ct;
 
     }
 }

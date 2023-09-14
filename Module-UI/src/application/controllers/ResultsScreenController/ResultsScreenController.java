@@ -6,8 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import javafx.scene.control.*;
@@ -40,27 +38,9 @@ public class ResultsScreenController
         tabPane.getTabs().add(tab);
         tabCounter++;
         return tab;
-    }
-
-    public void setSimulationDetailsTab(Tab tab,Simulation simulation)
-    {
-        try
-        {
-            // Load the SimulationDetails.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
-            AnchorPane simulationDetails = loader.load();
-            // Set the controller for the simulation details
-            SimulationDetailsController detailsController = loader.getController();
-            detailsController.initialize(simulation); // Pass the simulation data to the controller
-            tab.setContent(simulationDetails);
-
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
 
     }
+
 
     public static ResultsScreenController getInstance()
     {

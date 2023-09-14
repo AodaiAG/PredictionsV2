@@ -14,15 +14,15 @@ import pSystem.Simulation;
 
 import java.util.*;
 
-public class SimulationDetailsController
+public class SimulationDetailsTabController
 {
-    @FXML
-    private AnchorPane rightAnchorPane;
     private Simulation simulation;
+    @FXML
+    private AnchorPane resultsAnchor,detailsMainAnchor;
     @FXML
     TextField simulationIdText;
     @FXML
-    AnchorPane vewRootPane;
+    AnchorPane hisoPopPane;
     @FXML
     private RadioButton populationInfoRadioButton,histogramRadioButton;
     @FXML
@@ -41,13 +41,16 @@ public class SimulationDetailsController
 
 
 
-
-
     private ToggleGroup toggleGroup = new ToggleGroup();
-    public void initialize(Simulation Simulation)
+    public void initialize()
     {
-        this.simulation=Simulation;
 
+
+    }
+    public void setSimulationResultsPane(Simulation Simulation)
+    {
+        resultsAnchor.setDisable(false);
+        this.simulation=Simulation;
         populateLineChart();// graph init
         populationInfoTable.setVisible(false);
         simulationIdText.setText(simulation.getSimulationId());
@@ -59,10 +62,10 @@ public class SimulationDetailsController
         {
             if (newValue == populationInfoRadioButton)
             {
-                vewRootPane.getChildren().clear();
+                hisoPopPane.getChildren().clear();
                 showPopulationInfo();
                 populationInfoTable.setVisible(true);
-                vewRootPane.getChildren().add(populationInfoTable);
+                hisoPopPane.getChildren().add(populationInfoTable);
             } else if (newValue == histogramRadioButton)
             {
 
@@ -70,11 +73,12 @@ public class SimulationDetailsController
             } else
             {
                 // Handle deselection or other actions
-                rightAnchorPane.getChildren().clear();
+                resultsAnchor.getChildren().clear();
             }
         });
 
     }
+
     private void populateLineChart()
     {
         // Clear existing data from the chart
@@ -195,7 +199,7 @@ public class SimulationDetailsController
                  // Set the controller for the simulation details
                  HistogramController histogramController = loader.getController();
                  histogramController.initialize(simulation); // Pass the simulation data to the controller
-                 vewRootPane.getChildren().setAll(histogram);
+                 hisoPopPane.getChildren().setAll(histogram);
              }
 
              catch (Exception e)
