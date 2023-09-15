@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="728.0" style="-fx-background-color: ffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="82.0" layoutY="56.0" text="Predictions" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Text fill="#793434" layoutX="141.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coming Soon !" wrappingWidth="449.6708984375">
+         <font>
+            <Font size="64.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
