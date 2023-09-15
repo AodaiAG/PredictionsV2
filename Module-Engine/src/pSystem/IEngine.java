@@ -3,7 +3,6 @@ package pSystem;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
 import pDTOS.WorldDTO;
-import pEntity.Entity;
 
 import java.io.File;
 import java.util.List;
@@ -23,6 +22,9 @@ public interface IEngine
     public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception;
 
     public UUID startSimulation();
+    public void stopSimulation();
+    public void pauseSimulation();
+    public void resumeSimulation();
     public World cloneWorld();
     Boolean isWordNull();
 

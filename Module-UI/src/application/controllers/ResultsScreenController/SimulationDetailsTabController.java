@@ -1,5 +1,6 @@
 package application.controllers.ResultsScreenController;
 
+import application.controllers.SimulationTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,13 +13,15 @@ import javafx.scene.layout.AnchorPane;
 import pDTOS.EntityDTO;
 import pSystem.Simulation;
 
+import java.awt.event.ActionEvent;
 import java.util.*;
 
 public class SimulationDetailsTabController
 {
+    SimulationTask simulationTask;
     private Simulation simulation;
     @FXML
-    private AnchorPane resultsAnchor,detailsMainAnchor;
+    private AnchorPane resultsAnchor,detailsMainAnchor,progressPane;
     @FXML
     TextField simulationIdText;
     @FXML
@@ -37,9 +40,12 @@ public class SimulationDetailsTabController
     private NumberAxis xAxis;
     @FXML
     private NumberAxis yAxis;
+    @FXML
+    TextField countetext;
+    @FXML
+    private Button stopBtn,pauseBtn,resumeBtn;
+
     private NumberAxis customYAxis = new NumberAxis(); // Create a custom NumberAxis
-
-
 
     private ToggleGroup toggleGroup = new ToggleGroup();
     public void initialize()
@@ -47,6 +53,17 @@ public class SimulationDetailsTabController
 
 
     }
+
+    public SimulationTask getSimulationTask()
+    {
+        return simulationTask;
+    }
+
+    public void setSimulationTask(SimulationTask simulationTask)
+    {
+        this.simulationTask = simulationTask;
+    }
+
     public void setSimulationResultsPane(Simulation Simulation)
     {
         resultsAnchor.setDisable(false);
@@ -209,6 +226,26 @@ public class SimulationDetailsTabController
 
     }
 
+    @FXML
+    void pauseSimulation(ActionEvent event)
+    {
+        simulationTask.pauseSimulation();
+    }
 
+    @FXML
+    void resumeSimulation(ActionEvent event)
+    {
 
+        simulationTask.resumeSimulation();
+    }
+
+    @FXML
+    void stopSimulation(ActionEvent event)
+    {
+        simulationTask.stopSimulation(event);
+    }
+    public void updateCounter(int counter)
+    {
+        countetext.setText(Integer.toString(counter));
+    }
 }

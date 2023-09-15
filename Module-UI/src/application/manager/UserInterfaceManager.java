@@ -214,6 +214,7 @@ public enum UserInterfaceManager
            Tab tab=resultsController.createAndAddNewTab(this.tabPane);
            tab.setContent(simulationDetails);
            SimulationTask simulationTask = new SimulationTask(engine,tab,this,simulationDetailsTabController);
+           simulationDetailsTabController.setSimulationTask(simulationTask);
            threadPool.submit(simulationTask);
        }
        catch (Exception e)

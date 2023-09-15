@@ -31,8 +31,10 @@ public class Engine implements IEngine
     private WorldDTO worldBeforeChanging = null;
     private int numbOfThreads=2;
     Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
-    public volatile boolean simulationPaused = false;
-    public volatile boolean simulationRunning = true;
+    private volatile boolean simulationRunning = true; // Add this flag
+    private volatile boolean pauseSimulation = false;
+    private volatile Integer currTicksAmount=0;
+
 
     public List<Map.Entry<UUID, String>> getSortedSimulationsByDate()
     {
@@ -42,6 +44,15 @@ public class Engine implements IEngine
                 .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), dateFormat.format(entry.getValue().getRunningDate())))
                 .sorted(Comparator.comparing(Map.Entry::getValue))
                 .collect(Collectors.toList());
+    }
+
+    public Integer getCurrTicksAmount()
+    {
+        return currTicksAmount;
+    }
+
+    public void setCurrTicksAmount(Integer currTicksAmount) {
+        this.currTicksAmount = currTicksAmount;
     }
 
     public int getNumThreads()
@@ -92,7 +103,6 @@ public class Engine implements IEngine
     {
         try
         {
-
             World clonedWorld = world.clone();
             WorldDTO oldWorldDTO = convertWorldToDTO(clonedWorld);
             UUID simulationId = UUID.randomUUID();
@@ -154,7 +164,7 @@ public class Engine implements IEngine
 
         entityPopulationHistory.clear();
 
-        while (ticksCounter < ticksAmount &&simulationRunning)
+        while ((ticksCounter < ticksAmount) &&simulationRunning)
         {
             for (Rule rule : clonedWorld.getRules())
             {
@@ -172,9 +182,20 @@ public class Engine implements IEngine
                 populationHistory.add(entity.getEntities().size());
                 entityPopulationHistory.put(entityName, populationHistory);
             }
-
+            // if the user choses to pause
+            while (pauseSimulation)
+            {
+                try
+                {
+                    Thread.sleep(100); // Sleep for a short time while paused
+                } catch (InterruptedException e)
+                {
+                    // Handle interruption if needed
+                }
+            }
 
             ticksCounter++;
+            currTicksAmount=ticksCounter;
 
         }
 
@@ -193,8 +214,14 @@ public class Engine implements IEngine
     }
     public void pauseSimulation()
     {
-        simulationPaused = true;
+        pauseSimulation = true;
     }
+
+    public void resumeSimulation()
+    {
+        pauseSimulation = false;
+    }
+
     @Override
     public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID) {
         Simulation simulation = simulations.get(simulationID);
