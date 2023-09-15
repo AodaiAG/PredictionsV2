@@ -19,7 +19,6 @@ public class Program extends Application
     public void start(Stage primaryStage) throws Exception
     {
         ResultsScreenController resultsScreenController=ResultsScreenController.getInstance();
-
         UserInterfaceManager uiManager = UserInterfaceManager.INSTANCE;
         uiManager.setResultsController(resultsScreenController);
         uiManager.setStage(primaryStage);
