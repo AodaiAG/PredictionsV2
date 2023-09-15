@@ -246,7 +246,6 @@ public class SimulationDetailsTabController
     public void pauseSimulation(javafx.event.ActionEvent actionEvent)
     {
         simulationTask.pauseSimulation();
-
     }
 
     public void resumeSimulation(javafx.event.ActionEvent actionEvent)
