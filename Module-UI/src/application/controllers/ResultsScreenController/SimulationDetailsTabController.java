@@ -232,12 +232,7 @@ public class SimulationDetailsTabController
 
 
 
-    @FXML
-    void stopSimulation(ActionEvent event)
-    {
 
-        simulationTask.stopSimulation();
-    }
     public void updateCounter(int counter)
     {
         countetext.setText(Integer.toString(counter));
@@ -245,17 +240,27 @@ public class SimulationDetailsTabController
 
     public void pauseSimulation(javafx.event.ActionEvent actionEvent)
     {
+        resumeBtn.setDisable(false);
+        stopBtn.setDisable(false);
+        pauseBtn.setDisable(true);
         simulationTask.pauseSimulation();
     }
 
     public void resumeSimulation(javafx.event.ActionEvent actionEvent)
     {
         simulationTask.resumeSimulation();
+        resumeBtn.setDisable(false);
+        stopBtn.setDisable(false);
+        pauseBtn.setDisable(false);
+
 
     }
 
     public void stopSimulation(javafx.event.ActionEvent actionEvent)
     {
+        resumeBtn.setDisable(true);
+        stopBtn.setDisable(true);
+        pauseBtn.setDisable(true);
         simulationTask.stopSimulation();
     }
 
