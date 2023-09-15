@@ -44,6 +44,8 @@ public class SimulationDetailsTabController
     TextField countetext;
     @FXML
     private Button stopBtn,pauseBtn,resumeBtn;
+    @FXML
+    private Label updateLabel;
 
     private NumberAxis customYAxis = new NumberAxis(); // Create a custom NumberAxis
 
@@ -226,26 +228,40 @@ public class SimulationDetailsTabController
 
     }
 
-    @FXML
-    void pauseSimulation(ActionEvent event)
-    {
-        simulationTask.pauseSimulation();
-    }
 
-    @FXML
-    void resumeSimulation(ActionEvent event)
-    {
 
-        simulationTask.resumeSimulation();
-    }
+
 
     @FXML
     void stopSimulation(ActionEvent event)
     {
-        simulationTask.stopSimulation(event);
+
+        simulationTask.stopSimulation();
     }
     public void updateCounter(int counter)
     {
         countetext.setText(Integer.toString(counter));
+    }
+
+    public void pauseSimulation(javafx.event.ActionEvent actionEvent)
+    {
+        simulationTask.pauseSimulation();
+
+    }
+
+    public void resumeSimulation(javafx.event.ActionEvent actionEvent)
+    {
+        simulationTask.resumeSimulation();
+
+    }
+
+    public void stopSimulation(javafx.event.ActionEvent actionEvent)
+    {
+        simulationTask.stopSimulation();
+    }
+
+    public void bindComponentsToTask()
+    {
+        updateLabel.textProperty().bind(simulationTask.messageProperty());
     }
 }

@@ -20,14 +20,12 @@ import pSystem.IEngine;
 import javafx.stage.FileChooser;
 import pSystem.Simulation;
 import pSystem.World;
-import sun.security.acl.WorldGroupImpl;
 
 import java.io.File;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -213,8 +211,9 @@ public enum UserInterfaceManager
            SimulationDetailsTabController simulationDetailsTabController=loader.getController();
            Tab tab=resultsController.createAndAddNewTab(this.tabPane);
            tab.setContent(simulationDetails);
-           SimulationTask simulationTask = new SimulationTask(engine,tab,this,simulationDetailsTabController);
+           SimulationTask simulationTask = new SimulationTask(engine, this,simulationDetailsTabController);
            simulationDetailsTabController.setSimulationTask(simulationTask);
+           simulationTask.bindComponentsToTask();
            threadPool.submit(simulationTask);
        }
        catch (Exception e)

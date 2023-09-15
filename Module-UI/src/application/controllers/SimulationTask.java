@@ -11,21 +11,24 @@ import pSystem.Simulation;
 
 import java.awt.event.ActionEvent;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class SimulationTask  extends Task<Void>
 {
     UserInterfaceManager uiManger;
     IEngine engine;
-    Tab simulationTab;
     SimulationDetailsTabController simulationDetailsTabController;
+   public SimulationConditions simulationConditions=new SimulationConditions();
 
-    int counter=0;
 //
     @Override
     protected Void call() throws Exception
     {
         // this is the function that start the simulation logic
-        UUID simulationId = engine.startSimulation();
+        Consumer<String> consumer= this::updateMessage;
+
+        UUID simulationId = engine.startSimulation(simulationConditions,consumer);
+
 
         // when the simulation ends
         try
@@ -43,10 +46,9 @@ public class SimulationTask  extends Task<Void>
         });
         return null;
     }
-    public SimulationTask(IEngine engine, Tab tab, UserInterfaceManager uiManger,SimulationDetailsTabController ct)
+    public SimulationTask(IEngine engine, UserInterfaceManager uiManger, SimulationDetailsTabController ct)
     {
         this.engine = engine;
-        simulationTab=tab;
         this.uiManger=uiManger;
         this.simulationDetailsTabController=ct;
 
@@ -55,21 +57,26 @@ public class SimulationTask  extends Task<Void>
 
     public void pauseSimulation()
     {
-        engine.pauseSimulation();
+        simulationConditions.setPauseSimulation(true);
+        System.out.println("setting pause to true");
 
+    }
+
+    public void bindComponentsToTask()
+    {
+        simulationDetailsTabController.bindComponentsToTask();
     }
 
     public void resumeSimulation()
     {
-        engine.resumeSimulation();
+        simulationConditions.setPauseSimulation(false);
 
     }
 
 
-    public void stopSimulation(ActionEvent event)
+    public void stopSimulation( )
     {
-        engine.stopSimulation();
-
+        simulationConditions.setSimulationRunning(false);
     }
 
 }

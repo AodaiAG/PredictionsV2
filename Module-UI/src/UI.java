@@ -124,14 +124,14 @@ public class UI {
 
     public void runSimulation(WorldDTO worldDTO)
     {
-        Printer pr = new Printer();
-        environmentInitByUser(worldDTO.getEnvironmentDTOS(), pr);
-        printEnvironmentVariable(worldDTO.getEnvironmentDTOS(), pr);
-        UUID currSimulationID = engine.startSimulation();
-        Simulation lastSimulation = engine.getSimulations().get(currSimulationID);
-        System.out.println("the simulation ended by " + lastSimulation.getReasonForTermination());
-        System.out.println("Simulation Id: " + currSimulationID);
-        printSimulationDetails(lastSimulation);
+//        Printer pr = new Printer();
+//        environmentInitByUser(worldDTO.getEnvironmentDTOS(), pr);
+//        printEnvironmentVariable(worldDTO.getEnvironmentDTOS(), pr);
+//        UUID currSimulationID = engine.startSimulation(true, false);
+//        Simulation lastSimulation = engine.getSimulations().get(currSimulationID);
+//        System.out.println("the simulation ended by " + lastSimulation.getReasonForTermination());
+//        System.out.println("Simulation Id: " + currSimulationID);
+//        printSimulationDetails(lastSimulation);
 
     }
 

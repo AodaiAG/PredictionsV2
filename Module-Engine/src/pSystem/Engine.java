@@ -1,5 +1,6 @@
 package pSystem;
 
+import application.controllers.SimulationConditions;
 import pDTOS.*;
 import pDTOS.ActionsDTO.ActionDTO;
 import pEntity.*;
@@ -16,6 +17,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import pExceptionHandler.PropertyExceptionHandler;
@@ -31,8 +33,6 @@ public class Engine implements IEngine
     private WorldDTO worldBeforeChanging = null;
     private int numbOfThreads=2;
     Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
-    private volatile boolean simulationRunning = true; // Add this flag
-    private volatile boolean pauseSimulation = false;
     private volatile Integer currTicksAmount=0;
 
 
@@ -99,14 +99,14 @@ public class Engine implements IEngine
 
     //command #3
     @Override
-    public UUID startSimulation()
+    public UUID startSimulation(SimulationConditions simulationConditions, Consumer<String> consumer)
     {
         try
         {
             World clonedWorld = world.clone();
             WorldDTO oldWorldDTO = convertWorldToDTO(clonedWorld);
             UUID simulationId = UUID.randomUUID();
-            String reasonForTermination = runSimulation(clonedWorld);
+            String reasonForTermination = runSimulation(clonedWorld,simulationConditions,consumer);
             WorldDTO worldAfter = convertWorldToDTO(clonedWorld);
             Simulation simulation = new Simulation(oldWorldDTO, worldAfter,simulationId);
             simulation.setEntityPopulationHistory(this.entityPopulationHistory);
@@ -139,7 +139,7 @@ public class Engine implements IEngine
         {
             return this.world.clone();
         }
-    public String runSimulation(World clonedWorld)
+    public String runSimulation(World clonedWorld, SimulationConditions simulationConditions, Consumer<String> consumer)
     {
         double generatedProbability;
         generatedProbability = r.nextDouble();
@@ -164,7 +164,9 @@ public class Engine implements IEngine
 
         entityPopulationHistory.clear();
 
-        while ((ticksCounter < ticksAmount) &&simulationRunning)
+
+
+        while ((ticksCounter < ticksAmount) &&simulationConditions.getSimulationRunning())
         {
             for (Rule rule : clonedWorld.getRules())
             {
@@ -182,12 +184,20 @@ public class Engine implements IEngine
                 populationHistory.add(entity.getEntities().size());
                 entityPopulationHistory.put(entityName, populationHistory);
             }
+            try {
+                Thread.sleep(75);
+            } catch (InterruptedException e)
+            {
+                throw new RuntimeException(e);
+            }
             // if the user choses to pause
-            while (pauseSimulation)
+            System.out.println(simulationConditions.getPauseSimulation() + " Pause value in engine");
+            while (simulationConditions.getPauseSimulation())
             {
                 try
                 {
                     Thread.sleep(100); // Sleep for a short time while paused
+
                 } catch (InterruptedException e)
                 {
                     // Handle interruption if needed
@@ -196,6 +206,7 @@ public class Engine implements IEngine
 
             ticksCounter++;
             currTicksAmount=ticksCounter;
+            consumer.accept("Ticks : " + ticksCounter + '\n'+ "Running Time : "+timer);
 
         }
 
@@ -208,19 +219,19 @@ public class Engine implements IEngine
         return "seconds";
     }
 
-    public void stopSimulation()
-    {
-        simulationRunning = false;
-    }
-    public void pauseSimulation()
-    {
-        pauseSimulation = true;
-    }
+//    public void stopSimulation()
+//    {
+//        simulationRunning = false;
+//    }
+//    public void pauseSimulation()
+//    {
+//        pauseSimulation = true;
+//    }
 
-    public void resumeSimulation()
-    {
-        pauseSimulation = false;
-    }
+//    public void resumeSimulation()
+//    {
+//        pauseSimulation = false;
+//    }
 
     @Override
     public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID) {

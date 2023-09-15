@@ -1,5 +1,6 @@
 package pSystem;
 
+import application.controllers.SimulationConditions;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
 import pDTOS.WorldDTO;
@@ -8,6 +9,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public interface IEngine
 {
@@ -21,10 +23,10 @@ public interface IEngine
 
     public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception;
 
-    public UUID startSimulation();
-    public void stopSimulation();
-    public void pauseSimulation();
-    public void resumeSimulation();
+    public UUID startSimulation(SimulationConditions simulationConditions, Consumer<String> consumer);
+//    public void stopSimulation();
+//    public void pauseSimulation();
+//    public void resumeSimulation();
     public World cloneWorld();
     Boolean isWordNull();
 
