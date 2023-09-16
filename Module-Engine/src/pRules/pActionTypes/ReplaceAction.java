@@ -36,7 +36,7 @@ public class ReplaceAction extends Action {
     }
 
     @Override
-    public void ActivateAction(EntityInstance... args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance... args) throws Exception
     {
         EntityInstance entityToKill = args[0];
         EntityInstance entityToCreate = args[1];

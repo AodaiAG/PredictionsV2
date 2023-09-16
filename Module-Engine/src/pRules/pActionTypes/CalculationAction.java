@@ -1,6 +1,5 @@
 package pRules.pActionTypes;
 
-import org.w3c.dom.Node;
 import pDTOS.ActionsDTO.ActionDTO;
 import pDTOS.ActionsDTO.CalculationActionDTO;
 import pEntity.Property;
@@ -104,9 +103,9 @@ public class CalculationAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance...  args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance...  args) throws Exception
     {
-        EntityInstance entityInstance=args[0];
+        EntityInstance entityInstance = args[0];
         for(EntityInstance eI:args)
         {
             if(eI.getNameOfEntity().equals(this.entityName))
@@ -125,7 +124,10 @@ public class CalculationAction extends Action
                 switch (calType) {
                     case "divide": {
                         try {
-                            property.getData().divide(arg1, arg2);
+                            if(property.getData().divide(arg1, arg2))
+                            {
+                                property.updateProperty(currTick);
+                            }
                         } catch (Exception ex) {
 
                         }
@@ -134,7 +136,9 @@ public class CalculationAction extends Action
 
                     case "multiply": {
                         try {
-                            property.getData().multiply(arg1, arg2);
+                            if (property.getData().multiply(arg1, arg2)) {
+                                property.updateProperty(currTick);
+                            }
 
                         } catch (Exception ex) {
 
@@ -145,6 +149,4 @@ public class CalculationAction extends Action
             }
         }
     }
-
-
 }

@@ -31,7 +31,7 @@ public abstract class Action
 
     abstract public void setFunctions(AuxiliaryMethods functions);
 
-    abstract public void ActivateAction(EntityInstance... args) throws Exception;
+    abstract public void ActivateAction(int currTick, EntityInstance... args) throws Exception;
 
     abstract public String getNameOfAction();
 

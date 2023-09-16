@@ -75,7 +75,7 @@ public class DecreaseAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance... args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance... args) throws Exception
     {
         EntityInstance e=args[0];
         for(EntityInstance eI:args)
@@ -92,7 +92,10 @@ public class DecreaseAction extends Action
         for (Property property : e.getPropertiesOfTheEntity()) {
             if (property.getNameOfProperty().equals(propertyName)) {
                 try {
-                    property.getData().decrease(strVal);
+                    if(property.getData().decrease(strVal))
+                    {
+                        property.updateProperty(currTick);
+                    }
                     break;
                 } catch (Exception ex) {
 

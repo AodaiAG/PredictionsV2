@@ -70,7 +70,7 @@ public class IncreaseAction extends Action {
     }
 
     @Override
-    public void ActivateAction(EntityInstance ...args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance ...args) throws Exception
     {
         EntityInstance e=args[0];
         for(EntityInstance eI:args)
@@ -89,7 +89,10 @@ public class IncreaseAction extends Action {
         {
             if (property.getNameOfProperty().equals(propertyName)) {
                 try {
-                    property.getData().increase(sValue);
+                    if(property.getData().increase(sValue))
+                    {
+                        property.updateProperty(currTick);
+                    }
                     break;
                 } catch (Exception ex) {
 

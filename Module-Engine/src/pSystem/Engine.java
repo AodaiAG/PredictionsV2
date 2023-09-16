@@ -32,7 +32,6 @@ public class Engine implements IEngine
     public World world;
     private WorldDTO worldBeforeChanging = null;
     private AuxiliaryMethods f;
-
     private int numbOfThreads = 1;
     Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
     private volatile Integer currTicksAmount = 0;
@@ -148,7 +147,7 @@ public class Engine implements IEngine
     {
         double generatedProbability;
         generatedProbability = r.nextDouble();
-        int ticksCounter = 0;
+        clonedWorld.ticksCounter = 0;
         Timer timer = new Timer();
         System.out.println(Thread.currentThread());
         TimerTask task = new TimerTask()
@@ -175,8 +174,7 @@ public class Engine implements IEngine
             //check if ticks
             for (Rule rule : clonedWorld.getRules())
             {
-                rule.isActivated(clonedWorld.getEntities(), ticksCounter, generatedProbability);
-                System.out.println("im about to get in main loop");
+                rule.isActivated(clonedWorld.ticksCounter, clonedWorld.getEntities(), clonedWorld.ticksCounter, generatedProbability);
                 generatedProbability = r.nextDouble();
             }
 
@@ -213,15 +211,15 @@ public class Engine implements IEngine
             long currentTime = System.nanoTime();
             double runningTimeInSeconds = (currentTime - startTime) / 1_000_000_000.0;
 
-            ticksCounter++;
-            ticksAsTermination = (ticksAmount > 0 && ticksCounter < ticksAmount) || (ticksAmount == 0);
-            currTicksAmount = ticksCounter;
+            clonedWorld.ticksCounter++;
+            ticksAsTermination = (ticksAmount > 0 && clonedWorld.ticksCounter < ticksAmount) || (ticksAmount == 0);
+            currTicksAmount = clonedWorld.ticksCounter;
 
-            consumer.accept("Ticks: " + ticksCounter + '\n' + "Running Time: " + runningTimeInSeconds + " seconds");
+            consumer.accept("Ticks: " + clonedWorld.ticksCounter + '\n' + "Running Time: " + runningTimeInSeconds + " seconds");
         }
 
         timer.cancel(); // Cancel the timer when simulation is done
-        if(ticksCounter == ticksAmount)
+        if(clonedWorld.ticksCounter == ticksAmount)
         {
          return "ticks";
         }
@@ -339,7 +337,6 @@ public class Engine implements IEngine
         {
             throw e;
         }
-
     }
 
     void initTerminationTerms(Document doc)

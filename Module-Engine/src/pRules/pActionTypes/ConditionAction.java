@@ -88,29 +88,29 @@ public class ConditionAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance... args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance... args) throws Exception
     {
         EntityInstance e = args[0];
         for(EntityInstance eI:args)
         {
             if(eI.getNameOfEntity().equals(this.entityName))
             {
-                e=eI;
+                e = eI;
                 break;
             }
         }
-        condition.ActivateAction(e);
+        condition.ActivateAction(currTick, e);
         conditionResult = condition.getConditionResult();
         if (conditionResult) {
             if (!actionsToDoIfTrue.isEmpty()) {
                 for (Action a : actionsToDoIfTrue) {
-                    a.ActivateAction(e);
+                    a.ActivateAction(currTick, e);
                 }
             }
         } else {
             if (!actionsToDoIfFalse.isEmpty()) {
                 for (Action a : actionsToDoIfFalse) {
-                    a.ActivateAction(e);
+                    a.ActivateAction(currTick, e);
                 }
             }
         }

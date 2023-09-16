@@ -267,7 +267,7 @@ public class Rule {
         throw new Exception("entity name: " + entityWorksOn + " not found!");
     }
 
-    public void isActivated(List<Entity> entities, int ticks, double generatedProbability) {
+    public void isActivated(int ticksCounter, List<Entity> entities, int ticks, double generatedProbability) {
         if (ticks % activation.getTicks() == 0 && generatedProbability < activation.getProbability()) {
             for (Action action : this.actions) {
                 String currentEntityName = action.getNameOfEntity();
@@ -286,13 +286,13 @@ public class Rule {
                             if (primaryInstance != null) {
                                 if (action.getPrDsecondaryEntity() != null) {
                                     Entity secondaryEntity = action.findEntityAccordingName(entities, action.getPrDsecondaryEntity().getNameOfSecondEntity());
-                                    action.getPrDsecondaryEntity().calcInstancesToFetch(secondaryEntity);
+                                    action.getPrDsecondaryEntity().calcInstancesToFetch(ticksCounter, secondaryEntity);
                                     List<EntityInstance> secondaryEntityInstances = action.getPrDsecondaryEntity().getListOfInstancesToFetch();
                                     for (EntityInstance secondaryInstance : secondaryEntityInstances) {
-                                        action.ActivateAction(primaryInstance, secondaryInstance);
+                                        action.ActivateAction(ticksCounter, primaryInstance, secondaryInstance);
                                     }
                                 } else {
-                                    action.ActivateAction(primaryInstance);
+                                    action.ActivateAction(ticksCounter, primaryInstance);
                                 }
                             }
                         } catch (Exception e) {

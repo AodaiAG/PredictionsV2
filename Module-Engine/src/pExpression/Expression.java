@@ -28,6 +28,7 @@ public class Expression
     private String generateRandom(String arg) {
         return auxiliaryMethods.random(arg);
     }
+
     private String percent(String exp1,String exp2)
     {
         try
@@ -44,9 +45,11 @@ public class Expression
     {
         return auxiliaryMethods.evaluate(arg);
     }
+
     private String ticks(String arg)
     {
-       return auxiliaryMethods.ticks(arg);
+        int valToReturn = auxiliaryMethods.ticks(arg);
+        return  Integer.toString(valToReturn);
     }
 
     private String getEnvironmentValue(String arg) {

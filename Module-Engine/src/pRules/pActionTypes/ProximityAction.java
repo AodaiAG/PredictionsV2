@@ -48,14 +48,14 @@ public class ProximityAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance ... args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance ... args) throws Exception
     {
         EntityInstancesCircularGrid grid = this.functions.getWorld().getGrid();
         if(isInCycleAtDepth(args[0], args[1], grid, Integer.parseInt(of)))
         {
             for (Action action: actionList)
             {
-                action.ActivateAction(args[0], args[1]);
+                action.ActivateAction(currTick, args[0], args[1]);
             }
         }
     }

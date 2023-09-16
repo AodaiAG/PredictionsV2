@@ -73,7 +73,7 @@ public class SetAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance ...args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance ...args) throws Exception
     {
         EntityInstance e=args[0];
         for(EntityInstance eI:args)

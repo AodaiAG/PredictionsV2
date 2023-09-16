@@ -32,8 +32,8 @@ public class AuxiliaryMethods
         return en.getEnvironmentProperty().getData().getDataString();
     }
 
-    public String percent(String arg1,String arg2) throws Exception {
-
+    public String percent(String arg1,String arg2) throws Exception
+    {
         try
         {
             Integer a1 = Integer.parseInt(arg1);
@@ -44,17 +44,17 @@ public class AuxiliaryMethods
             }
             Integer res = (a2/a1);
 
-            return ( res.toString() );
-
+            return (res.toString());
         }
         catch(IllegalFormatException e)
         {
-
             throw e;
         }
     }
-    public String ticks(String arg)
+
+    public int ticks(String arg)
     {
+        int lastUnchanged = 0;
         int startIndex = arg.indexOf(".");
         String entityName = arg.substring(0, startIndex);
         String PropertyName = arg.substring(startIndex, arg.length());
@@ -64,12 +64,13 @@ public class AuxiliaryMethods
                 for (Property property : entity.getPropertiesOfTheEntity()) {
                     if (property.getNameOfProperty().equals(PropertyName))
                     {
-                        property.getLastUnchangedTicks();
+                        lastUnchanged = property.getLastUnchangedTicks();
+
                     }
                 }
             }
         }
-        return "0";
+        return world.ticksCounter - lastUnchanged;
     }
 
     public String evaluate(String arg)

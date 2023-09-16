@@ -62,18 +62,20 @@ public class SingleCondition extends ConditionAction
     }
 
     @Override
-    public void ActivateAction(EntityInstance ...args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance ...args) throws Exception
     {
         EntityInstance e=args[0];
         Property wanted = new Property();
         Expression exp = new Expression(getFunctions(), e);
         String svalue = exp.evaluateExpression(value);
-        String propertyAfter = exp.evaluateExpression(nameofProperty);
+        String PropertyAfter = exp.evaluateExpression(nameofProperty);
+        for (Property p : e.getPropertiesOfTheEntity()) {
+            if (p.getNameOfProperty().equals(PropertyAfter)) {
+                wanted = p;
+                break;
+            }
+        }
         try {
-            Data eD = new Data();
-            eD.setDataType(DataType.valueOf("FLOAT"));
-            wanted.setData(eD);
-            eD.setDataString(propertyAfter);
             this.conditionResult = wanted.getData().compareTo(svalue, operator);
 
         } catch (Exception ex) {
