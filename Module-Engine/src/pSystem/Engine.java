@@ -209,7 +209,7 @@ public class Engine implements IEngine
             consumer.accept("Ticks : " + ticksCounter + '\n'+ "Running Time : "+timer);
 
         }
-
+//
 
         timer.cancel(); // Cancel the timer when simulation is done
         if(ticksCounter == ticksAmount)
