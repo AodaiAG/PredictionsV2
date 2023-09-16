@@ -90,7 +90,7 @@ public class ConditionAction extends Action
     @Override
     public void ActivateAction(EntityInstance... args) throws Exception
     {
-        EntityInstance e=args[0];
+        EntityInstance e = args[0];
         for(EntityInstance eI:args)
         {
             if(eI.getNameOfEntity().equals(this.entityName))

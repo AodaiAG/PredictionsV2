@@ -54,6 +54,7 @@ public class KillAction extends Action
     @Override
     public void ActivateAction(EntityInstance... args) throws Exception
     {
+        System.out.println("im am in kill action");
         EntityInstance e=args[0];
         for(EntityInstance eI:args)
         {

@@ -146,11 +146,11 @@ public class ProximityAction extends Action
 
     @Override
     public String getNameOfAction() {
-        return null;
+        return "proximity";
     }
 
     @Override
     public String getNameOfEntity() {
-        return null;
+        return sourceEntity;
     }
 }

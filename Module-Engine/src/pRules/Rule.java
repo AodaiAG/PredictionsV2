@@ -14,8 +14,7 @@ import java.util.List;
 import pEntity.EntityInstance;
 import pSystem.World;
 
-public class Rule
-{
+public class Rule {
     private String nameOfRule;
 
     private String whenActivated;
@@ -25,6 +24,10 @@ public class Rule
     private List<Action> actions;
 
     private AuxiliaryMethods functions;
+
+    public Rule() {
+        actions = new ArrayList<>();
+    }
 
     public AuxiliaryMethods getFunctions() {
         return functions;
@@ -66,22 +69,15 @@ public class Rule
         this.actions = actions;
     }
 
-    public Rule() {
-        actions = new ArrayList<>();
-    }
-
-    public Action createAction(Node ActionNode) throws Exception
-    {
-        try
-        {
+    public Action createAction(Node ActionNode) throws Exception {
+        try {
             World world = functions.getWorld();
             ActionExceptionHandler actionExceptionHandler = new ActionExceptionHandler();
 
             String whichEntityActionWork = "";
             Node whichEntityActionWorkNode = ActionNode.getAttributes().getNamedItem("entity");
-            if(whichEntityActionWorkNode != null)
-            {
-                 whichEntityActionWork = ActionNode.getAttributes().getNamedItem("entity").getTextContent();
+            if (whichEntityActionWorkNode != null) {
+                whichEntityActionWork = ActionNode.getAttributes().getNamedItem("entity").getTextContent();
                 actionExceptionHandler.checkIfEntityExists(world.getEntities(), whichEntityActionWork);
             }
 
@@ -90,28 +86,24 @@ public class Rule
             PRDSecondaryEntity prDsecondaryEntity = new PRDSecondaryEntity();
             prDsecondaryEntity.setFunctions(this.functions);
             int timesparsed = prDsecondaryEntity.initFromXML(ActionNode);
-            if(timesparsed==0)
-            {
-                prDsecondaryEntity=null;
+            if (timesparsed == 0) {
+                prDsecondaryEntity = null;
             }
 
 
-            switch (typeOfAction)
-            {
-                case "condition":
-                {
+            switch (typeOfAction) {
+                case "condition": {
                     ConditionAction conditionA = new ConditionAction();
                     conditionA.setPrDsecondaryEntity(prDsecondaryEntity);
                     conditionA.setFunctions(this.functions);
                     conditionA.setEntityName(whichEntityActionWork);
 
                     Node c = ((Element) ActionNode).getElementsByTagName("PRD-condition").item(timesparsed);
-                    String typeOfCondition = ((Element)c).getAttribute("singularity");
+                    String typeOfCondition = ((Element) c).getAttribute("singularity");
 
                     actionExceptionHandler.conditionCheckSingularity(typeOfCondition);
 
-                    if (typeOfCondition.equals("single"))
-                    {
+                    if (typeOfCondition.equals("single")) {
                         SingleCondition single = new SingleCondition();
 
                         single.setFunctions(this.functions);
@@ -133,8 +125,7 @@ public class Rule
 
                         conditionA.setCondition(single);
                     }
-                    if (typeOfCondition.equals("multiple"))
-                    {
+                    if (typeOfCondition.equals("multiple")) {
 
                         MultipleCondition toCallFunc = new MultipleCondition();
                         toCallFunc.setFunctions(this.functions);
@@ -161,8 +152,7 @@ public class Rule
                     return conditionA;
                 }
 
-                case "increase":
-                {
+                case "increase": {
                     IncreaseAction action = new IncreaseAction();
                     action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
@@ -178,8 +168,7 @@ public class Rule
                     return action;
                 }
 
-                case "decrease":
-                {
+                case "decrease": {
                     DecreaseAction action = new DecreaseAction();
                     action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
@@ -194,8 +183,7 @@ public class Rule
                     return action;
                 }
 
-                case "calculation":
-                {
+                case "calculation": {
 
                     CalculationAction action = new CalculationAction();
                     action.setPrDsecondaryEntity(prDsecondaryEntity);
@@ -225,8 +213,7 @@ public class Rule
                     break;
                 }
 
-                case "set":
-                {
+                case "set": {
                     SetAction action = new SetAction();
                     action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
@@ -239,8 +226,7 @@ public class Rule
                     return action;
                 }
 
-                case "kill":
-                {
+                case "kill": {
                     KillAction action = new KillAction();
                     action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
@@ -249,19 +235,16 @@ public class Rule
                     return action;
                 }
 
-                case "replace":
-                {
-
-                    ReplaceAction action=new ReplaceAction();
+                case "replace": {
+                    ReplaceAction action = new ReplaceAction();
                     action.setFunctions(this.functions);
                     action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.initFromXML(ActionNode);
                     return action;
                 }
 
-                case "proximity":
-                {
-                    ProximityAction action=new ProximityAction();
+                case "proximity": {
+                    ProximityAction action = new ProximityAction();
                     action.setPrDsecondaryEntity(prDsecondaryEntity);
                     action.setFunctions(this.functions);
                     action.initFromXML(ActionNode);
@@ -269,8 +252,7 @@ public class Rule
                 }
 
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             throw e;
         }
         throw new RuntimeException("emptyList");
@@ -285,52 +267,35 @@ public class Rule
         throw new Exception("entity name: " + entityWorksOn + " not found!");
     }
 
-    public void isActivated(List<Entity> entities, int ticks, double generatedProbability)
-    {
-        if (ticks % activation.getTicks() == 0 && generatedProbability < activation.getProbability())
-        {
-            for (Action action : this.actions)
-            {
+    public void isActivated(List<Entity> entities, int ticks, double generatedProbability) {
+        if (ticks % activation.getTicks() == 0 && generatedProbability < activation.getProbability()) {
+            for (Action action : this.actions) {
                 String currentEntityName = action.getNameOfEntity();
+                System.out.println(currentEntityName);
                 Entity currentEntity;
-                try
-                {
+                try {
                     currentEntity = action.findEntityAccordingName(entities, currentEntityName);
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
                     continue;
                 }
 
-                if (!currentEntity.getEntities().isEmpty())
-                {
-                    for (EntityInstance primaryInstance : currentEntity.getEntities())
-                    {
-                        try
-                        {
-                            if (primaryInstance != null)
-                            {
-                                if(action.getPrDsecondaryEntity() != null)
-                                {
+                if (!currentEntity.getEntities().isEmpty()) {
+                    for (EntityInstance primaryInstance : currentEntity.getEntities()) {
+                        try {
+                            if (primaryInstance != null) {
+                                if (action.getPrDsecondaryEntity() != null) {
                                     Entity secondaryEntity = action.findEntityAccordingName(entities, action.getPrDsecondaryEntity().getNameOfSecondEntity());
                                     action.getPrDsecondaryEntity().calcInstancesToFetch(secondaryEntity);
                                     List<EntityInstance> secondaryEntityInstances = action.getPrDsecondaryEntity().getListOfInstancesToFetch();
-                                    for (EntityInstance secondaryInstance : secondaryEntityInstances)
-                                    {
+                                    for (EntityInstance secondaryInstance : secondaryEntityInstances) {
                                         action.ActivateAction(primaryInstance, secondaryInstance);
-                                        if(action.getNameOfAction() == "proximity")
-                                        {
-                                            break;
-                                        }
                                     }
-                                }
-                                else
-                                {
+                                } else {
                                     action.ActivateAction(primaryInstance);
                                 }
                             }
-                        } catch (Exception e)
-                        {
+                        } catch (Exception e) {
 
                         }
                     }

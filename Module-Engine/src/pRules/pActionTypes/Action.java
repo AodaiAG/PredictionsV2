@@ -37,7 +37,6 @@ public abstract class Action
 
     public abstract String getNameOfEntity();
 
-
     public Entity findEntityAccordingName(List<Entity> entities, String currentEntityName) throws Exception {
         for (Entity entity : entities) {
             if (entity.getNameOfEntity().equals(currentEntityName)) {

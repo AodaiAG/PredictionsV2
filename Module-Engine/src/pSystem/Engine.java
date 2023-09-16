@@ -31,9 +31,11 @@ public class Engine implements IEngine
     public Random r = new Random();
     public World world;
     private WorldDTO worldBeforeChanging = null;
-    private int numbOfThreads=2;
+    private AuxiliaryMethods f;
+
+    private int numbOfThreads = 1;
     Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
-    private volatile Integer currTicksAmount=0;
+    private volatile Integer currTicksAmount = 0;
 
 
     public List<Map.Entry<UUID, String>> getSortedSimulationsByDate()
@@ -104,9 +106,11 @@ public class Engine implements IEngine
         try
         {
             World clonedWorld = world.clone();
+            f.setWorld(clonedWorld);
             WorldDTO oldWorldDTO = convertWorldToDTO(clonedWorld);
             UUID simulationId = UUID.randomUUID();
-            String reasonForTermination = runSimulation(clonedWorld,simulationConditions,consumer);
+            System.out.println("im about running simulation");
+            String reasonForTermination = runSimulation(clonedWorld, simulationConditions,consumer);
             WorldDTO worldAfter = convertWorldToDTO(clonedWorld);
             Simulation simulation = new Simulation(oldWorldDTO, worldAfter,simulationId);
             simulation.setEntityPopulationHistory(this.entityPopulationHistory);
@@ -126,7 +130,6 @@ public class Engine implements IEngine
     @Override
     public Boolean isWordNull()
     {
-        //change!!
         return world == null;
     }
 
@@ -134,11 +137,13 @@ public class Engine implements IEngine
     public Map<UUID, Simulation> getSimulations() {
         return this.simulations;
     }
-        @Override
-        public World cloneWorld()
-        {
-            return this.world.clone();
-        }
+
+    @Override
+    public World cloneWorld()
+    {
+        return this.world.clone();
+    }
+
     public String runSimulation(World clonedWorld, SimulationConditions simulationConditions, Consumer<String> consumer)
     {
         double generatedProbability;
@@ -156,21 +161,22 @@ public class Engine implements IEngine
                 timer.cancel();
             }
         };
-
+        long startTime = System.nanoTime(); // Record the start time
         int ticksAmount = clonedWorld.getTerminationTicks();
         long delay = (long) clonedWorld.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
         timer.schedule(task, delay);
         // Graph //
 
         entityPopulationHistory.clear();
+        boolean ticksAsTermination = true;
 
-
-
-        while ((ticksCounter < ticksAmount) &&simulationConditions.getSimulationRunning())
+        while (ticksAsTermination && simulationConditions.getSimulationRunning())
         {
+            //check if ticks
             for (Rule rule : clonedWorld.getRules())
             {
                 rule.isActivated(clonedWorld.getEntities(), ticksCounter, generatedProbability);
+                System.out.println("im about to get in main loop");
                 generatedProbability = r.nextDouble();
             }
 
@@ -185,7 +191,7 @@ public class Engine implements IEngine
                 entityPopulationHistory.put(entityName, populationHistory);
             }
             try {
-                Thread.sleep(75);
+                Thread.sleep(20);
             } catch (InterruptedException e)
             {
                 throw new RuntimeException(e);
@@ -204,12 +210,15 @@ public class Engine implements IEngine
                 }
             }
 
+            long currentTime = System.nanoTime();
+            double runningTimeInSeconds = (currentTime - startTime) / 1_000_000_000.0;
+
             ticksCounter++;
-            currTicksAmount=ticksCounter;
-            consumer.accept("Ticks : " + ticksCounter + '\n'+ "Running Time : "+timer);
+            ticksAsTermination = (ticksAmount > 0 && ticksCounter < ticksAmount) || (ticksAmount == 0);
+            currTicksAmount = ticksCounter;
 
+            consumer.accept("Ticks: " + ticksCounter + '\n' + "Running Time: " + runningTimeInSeconds + " seconds");
         }
-
 
         timer.cancel(); // Cancel the timer when simulation is done
         if(ticksCounter == ticksAmount)
@@ -218,20 +227,6 @@ public class Engine implements IEngine
         }
         return "seconds";
     }
-
-//    public void stopSimulation()
-//    {
-//        simulationRunning = false;
-//    }
-//    public void pauseSimulation()
-//    {
-//        pauseSimulation = true;
-//    }
-
-//    public void resumeSimulation()
-//    {
-//        pauseSimulation = false;
-//    }
 
     @Override
     public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID) {
@@ -265,7 +260,6 @@ public class Engine implements IEngine
 
     public RulesDTO convertRuleToDTO(Rule rule)
     {
-
         int numberOfActions = rule.getActions().size();
         List<ActionDTO> actionDTOList=new ArrayList<>();
         for (Action action : rule.getActions())
@@ -304,6 +298,7 @@ public class Engine implements IEngine
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             this.world = new World();
+            f = new AuxiliaryMethods(world);
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(file);
             doc.getDocumentElement().normalize();
@@ -337,7 +332,7 @@ public class Engine implements IEngine
             initTerminationTerms(doc);
 
             this.worldBeforeChanging = convertWorldToDTO(world);
-            currentXMLFilePath =file;
+            currentXMLFilePath = file;
             simulations.clear();
 
         } catch (Exception e)
@@ -353,7 +348,6 @@ public class Engine implements IEngine
         {
             String ticks = doc.getElementsByTagName("PRD-by-ticks").item(0).getAttributes().getNamedItem("count").getTextContent();
             this.world.setTerminationTicks(Integer.parseInt(ticks));
-
         }
         if (doc.getElementsByTagName("PRD-by-second").item(0) != null)
         {
@@ -382,7 +376,6 @@ public class Engine implements IEngine
         String nameOfRule = "";
         try {
             RuleExceptionHandler ruleExceptionHandler = new RuleExceptionHandler();
-            AuxiliaryMethods f = new AuxiliaryMethods(world);
             Rule justToCallFunction = new Rule();
             justToCallFunction.setFunctions(f);
             for (int i = 0; i < list.getLength(); i++)
@@ -539,6 +532,7 @@ public class Engine implements IEngine
         Set<Property> propOfEntity = entity.getPropertiesOfTheEntity();
         EntityInstance e1 = new EntityInstance();
         e1.setPropertiesOfTheEntity(propOfEntity);
+        e1.setNameOfEntity(entity.getNameOfEntity());
 
         for (int m = 0; m < popNumber; m++)
         {

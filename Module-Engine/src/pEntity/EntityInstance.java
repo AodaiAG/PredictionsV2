@@ -1,7 +1,5 @@
 package pEntity;
 
-import pSystem.EntityInstancesCircularGrid;
-
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +8,7 @@ public class EntityInstance
 {
     private String NameOfEntity;
     private Set<Property> propertiesOfTheEntity;
-    private Boolean isTobeKilled = false;
+    private Boolean isToBeKilled = false;
     private Coordinate coordinate;
 
     public Coordinate getCoordinate() {
@@ -22,11 +20,11 @@ public class EntityInstance
     }
 
     public Boolean getTobeKilled() {
-        return isTobeKilled;
+        return isToBeKilled;
     }
 
     public void setTobeKilled(Boolean tobeKilled) {
-        isTobeKilled = tobeKilled;
+        isToBeKilled = tobeKilled;
     }
 
 
@@ -35,7 +33,7 @@ public class EntityInstance
     {
         EntityInstance res = new EntityInstance();
         res.setNameOfEntity(this.NameOfEntity);
-        res.setTobeKilled(isTobeKilled);
+        res.setTobeKilled(isToBeKilled);
         Set<Property> pSetRes = new HashSet<>();
         for (Property p : this.propertiesOfTheEntity) {
             pSetRes.add(p.clone());
