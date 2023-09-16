@@ -17,7 +17,7 @@
 <AnchorPane fx:id="detailsMainAnchor" prefHeight="683.0" prefWidth="1147.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ResultsScreenController.SimulationDetailsTabController">
     <SplitPane dividerPositions="0.5" prefHeight="527.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <!-- Left side with options -->
-        <AnchorPane prefWidth="200.0" style="-fx-background-color: #E0E0E0;">
+        <AnchorPane fx:id="progressAnchor" prefWidth="200.0" style="-fx-background-color: #E0E0E0;">
          <children>
             <Label layoutX="20.0" layoutY="75.0" prefHeight="43.0" prefWidth="141.0" text="Simulation status" />
             <Button fx:id="stopBtn" layoutX="149.0" layoutY="75.0" mnemonicParsing="false" onAction="#stopSimulation" prefHeight="44.0" prefWidth="98.0" text="stop" textFill="RED">

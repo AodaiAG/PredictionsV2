@@ -46,6 +46,8 @@ public class SimulationDetailsTabController
     private Button stopBtn,pauseBtn,resumeBtn;
     @FXML
     private Label updateLabel;
+    @FXML
+    private AnchorPane progressAnchor;
 
     private NumberAxis customYAxis = new NumberAxis(); // Create a custom NumberAxis
 
@@ -230,12 +232,20 @@ public class SimulationDetailsTabController
 
 
 
-
+public void disableProgressNode()
+{
+    progressAnchor.setDisable(true);
+}
+public void enableProgressNode()
+{
+    progressAnchor.setDisable(false);
+}
 
 
     public void updateCounter(int counter)
     {
         countetext.setText(Integer.toString(counter));
+
     }
 
     public void pauseSimulation(javafx.event.ActionEvent actionEvent)

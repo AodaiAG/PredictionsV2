@@ -27,9 +27,11 @@ public class SimulationTask  extends Task<Void>
         // this is the function that start the simulation logic
         Consumer<String> consumer= this::updateMessage;
 
+        simulationDetailsTabController.enableProgressNode();
         UUID simulationId = engine.startSimulation(simulationConditions,consumer);
 
-
+   // ending simulation
+        simulationDetailsTabController.disableProgressNode();
         Simulation simulation =engine.getSimulations().get(simulationId);
         Platform.runLater(() ->
         {
