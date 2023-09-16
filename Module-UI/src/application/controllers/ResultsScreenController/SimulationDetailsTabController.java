@@ -238,6 +238,7 @@ public void disableProgressNode()
 }
 public void enableProgressNode()
 {
+    resumeBtn.setDisable(true);
     progressAnchor.setDisable(false);
 }
 
@@ -259,7 +260,7 @@ public void enableProgressNode()
     public void resumeSimulation(javafx.event.ActionEvent actionEvent)
     {
         simulationTask.resumeSimulation();
-        resumeBtn.setDisable(false);
+        resumeBtn.setDisable(true);
         stopBtn.setDisable(false);
         pauseBtn.setDisable(false);
 
