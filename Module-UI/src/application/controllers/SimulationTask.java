@@ -30,15 +30,6 @@ public class SimulationTask  extends Task<Void>
         UUID simulationId = engine.startSimulation(simulationConditions,consumer);
 
 
-        // when the simulation ends
-        try
-        {
-            Thread.sleep(4000);
-
-        } catch (InterruptedException e)
-        {
-            throw new RuntimeException(e);
-        }
         Simulation simulation =engine.getSimulations().get(simulationId);
         Platform.runLater(() ->
         {

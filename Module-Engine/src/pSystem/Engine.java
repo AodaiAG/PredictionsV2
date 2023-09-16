@@ -141,6 +141,7 @@ public class Engine implements IEngine
         }
     public String runSimulation(World clonedWorld, SimulationConditions simulationConditions, Consumer<String> consumer)
     {
+        long startTime = System.nanoTime(); // Record the start time
         double generatedProbability;
         generatedProbability = r.nextDouble();
         int ticksCounter = 0;
@@ -184,8 +185,9 @@ public class Engine implements IEngine
                 populationHistory.add(entity.getEntities().size());
                 entityPopulationHistory.put(entityName, populationHistory);
             }
-            try {
-                Thread.sleep(75);
+            try
+            {
+                Thread.sleep(20);
             } catch (InterruptedException e)
             {
                 throw new RuntimeException(e);
@@ -203,11 +205,12 @@ public class Engine implements IEngine
                     // Handle interruption if needed
                 }
             }
+            long currentTime = System.nanoTime();
+            double runningTimeInSeconds = (currentTime - startTime) / 1_000_000_000.0; // Convert to seconds
 
             ticksCounter++;
             currTicksAmount=ticksCounter;
-            consumer.accept("Ticks : " + ticksCounter + '\n'+ "Running Time : "+timer);
-
+            consumer.accept("Ticks: " + ticksCounter + '\n' + "Running Time: " + runningTimeInSeconds + " seconds");
         }
 //
 
