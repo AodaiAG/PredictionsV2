@@ -167,7 +167,7 @@ public class Engine implements IEngine
 
 
 
-        while ((ticksCounter < ticksAmount) &&simulationConditions.getSimulationRunning())
+        while ((ticksCounter < ticksAmount) && simulationConditions.getSimulationRunning())
         {
             for (Rule rule : clonedWorld.getRules())
             {
@@ -542,6 +542,7 @@ public class Engine implements IEngine
         Set<Property> propOfEntity = entity.getPropertiesOfTheEntity();
         EntityInstance e1 = new EntityInstance();
         e1.setPropertiesOfTheEntity(propOfEntity);
+
 
         for (int m = 0; m < popNumber; m++)
         {
