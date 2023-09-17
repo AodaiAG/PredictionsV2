@@ -291,7 +291,8 @@ public class Rule {
                                     for (EntityInstance secondaryInstance : secondaryEntityInstances) {
                                         action.ActivateAction(ticksCounter, primaryInstance, secondaryInstance);
                                     }
-                                } else {
+                                } else
+                                    {
                                     action.ActivateAction(ticksCounter, primaryInstance);
                                 }
                             }

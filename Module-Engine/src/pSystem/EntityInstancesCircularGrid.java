@@ -103,4 +103,31 @@ public class EntityInstancesCircularGrid implements Cloneable
         int col = coordinate.getCol();
         return row >= 0 && row < this.numRows && col >= 0 && col < this.numCols;
     }
+
+    public List<Coordinate> getEmptyCoordinates() {
+    List<Coordinate> emptyCoordinates = new ArrayList<>();
+
+    for (int x = 0; x < numRows; x++) {
+        for (int y = 0; y < numCols; y++) {
+            if (grid[x][y] == null) {
+                emptyCoordinates.add(new Coordinate(x, y));
+            }
+        }
+    }
+
+    return emptyCoordinates;
+}
+
+    public Coordinate getRandomEmptyCoordinate() {
+        List<Coordinate> emptyCoordinates = getEmptyCoordinates();
+
+        if (!emptyCoordinates.isEmpty()) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(emptyCoordinates.size());
+            return emptyCoordinates.get(randomIndex);
+        } else {
+            // Handle the case when there are no empty cells available
+            throw new IllegalStateException("No empty cells available in the grid.");
+        }
+    }
 }

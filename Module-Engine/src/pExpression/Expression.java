@@ -18,7 +18,7 @@ public class Expression
         this.entityInstance = entityInstance;
         this.auxiliaryMethods = f;
         FUNCTIONS.put("random", args -> generateRandom(args[0]));
-        FUNCTIONS.put("environment", args -> getEnvironmentValue(args[0]));
+        FUNCTIONS.put("environment", args -> environment(args[0]));
         FUNCTIONS.put("percent", args -> percent(args[0],args[1]));
         FUNCTIONS.put("evaluate", args -> evaluate(args[0]));
         FUNCTIONS.put("ticks", args -> ticks(args[0]));
@@ -29,11 +29,18 @@ public class Expression
         return auxiliaryMethods.random(arg);
     }
 
-    private String percent(String exp1,String exp2)
+    private String percent(String exp1, String exp2)
     {
         try
         {
-            return auxiliaryMethods.percent(this.evaluateExpression(exp1),this.evaluateExpression(exp2));
+            String valAndDataType1 = this.evaluateExpression(exp1);
+            String valAndDataType2 = this.evaluateExpression(exp2);
+
+            int indexOfPeriod1 = valAndDataType1.indexOf(".");
+            int indexOfPeriod2 = valAndDataType2.indexOf(".");
+
+            String returnedFromPercent = auxiliaryMethods.percent(valAndDataType1.substring(indexOfPeriod1 + 1), valAndDataType2.substring(indexOfPeriod2 + 1));
+            return "INTEGER." + returnedFromPercent;
 
         } catch (Exception e)
         {
@@ -43,17 +50,19 @@ public class Expression
     }
     private String evaluate(String arg)
     {
-        return auxiliaryMethods.evaluate(arg);
+        String valToReturn = auxiliaryMethods.evaluate(arg);
+        return auxiliaryMethods.getReturnedValueTypeFromEvaluate().toString() + "." + valToReturn;
     }
 
     private String ticks(String arg)
     {
         int valToReturn = auxiliaryMethods.ticks(arg);
-        return  Integer.toString(valToReturn);
+        return  "DECIMAL." + Integer.toString(valToReturn);
     }
 
-    private String getEnvironmentValue(String arg) {
-        return auxiliaryMethods.environment(arg);
+    private String environment(String arg) {
+        String valToReturn = auxiliaryMethods.environment(arg);
+        return auxiliaryMethods.getReturnedValueTypeFromEnvironment().toString() + "."  + valToReturn;
     }
 
     public String evaluateExpression(String expression)
@@ -87,22 +96,22 @@ public class Expression
             {
                 if (p.getNameOfProperty().equals(expression))
                 {
-                    return p.getData().getDataString();
+                    return p.getData().getDataType() + "." + p.getData().getDataString();
                 }
             }
             try
             {
                 // Try to convert to number
                 Double.parseDouble(firstWord);
-                return firstWord;
+                return "FLOAT." + firstWord;
             } catch (NumberFormatException e)
             {
                 // Try to parse as boolean
                 if (firstWord.equalsIgnoreCase("true") || firstWord.equalsIgnoreCase("false")) {
-                    return firstWord;
+                    return "BOOLEAN." + firstWord;
                 }
                 // Just treat as a string
-                return expression;
+                return "STRING." + expression;
             }
         }
     }

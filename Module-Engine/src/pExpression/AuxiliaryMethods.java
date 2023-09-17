@@ -1,5 +1,7 @@
 package pExpression;
 
+import pEntity.Data;
+import pEntity.DataType;
 import pEntity.Entity;
 import pEntity.Property;
 import pEnvironment.EnvironmentInstance;
@@ -12,6 +14,14 @@ import pSystem.World;
 public class AuxiliaryMethods
 {
     private World world;
+    private DataType returnedValueTypeFromEvaluate;
+
+    private DataType returnedValueTypeFromEnvironment;
+
+    public DataType getReturnedValueTypeFromEvaluate() {
+        return returnedValueTypeFromEvaluate;
+    }
+
 
     public AuxiliaryMethods(World world) {
         this.world = world;
@@ -21,6 +31,12 @@ public class AuxiliaryMethods
         return world;
     }
 
+
+    public DataType getReturnedValueTypeFromEnvironment() {
+        return returnedValueTypeFromEnvironment;
+    }
+
+
     public void setWorld(World world) {
         this.world = world;
     }
@@ -29,6 +45,7 @@ public class AuxiliaryMethods
     {
         Map<String, EnvironmentInstance> name2Env = world.getName2Env();
         EnvironmentInstance en = name2Env.get(nameOfEnv);
+        returnedValueTypeFromEnvironment = en.getEnvironmentProperty().getData().getDataType();
         return en.getEnvironmentProperty().getData().getDataString();
     }
 
@@ -36,15 +53,11 @@ public class AuxiliaryMethods
     {
         try
         {
-            Integer a1 = Integer.parseInt(arg1);
-            Integer a2 = Integer.parseInt(arg2);
-            if (a2 == 0)
-            {
-                throw new Exception("You can't divide by 0 !");
-            }
-            Integer res = (a2/a1);
+            int a1 = Integer.parseInt(arg1);
+            int a2 = Integer.parseInt(arg2);
+            int res = (a2/100) * a1;
 
-            return (res.toString());
+            return (String.valueOf(res));
         }
         catch(IllegalFormatException e)
         {
@@ -78,28 +91,22 @@ public class AuxiliaryMethods
         int startIndex = arg.indexOf(".");
         String entityName = arg.substring(0, startIndex);
         String PropertyName = arg.substring(startIndex, arg.length());
-        for(Entity entity:world.getEntities())
-        {
-            if(entity.getNameOfEntity().equals(entityName))
-            {
-                for(Property property:entity.getPropertiesOfTheEntity())
-                {
-                    if(property.getNameOfProperty().equals(PropertyName))
-                    {
+        for(Entity entity:world.getEntities()) {
+            if (entity.getNameOfEntity().equals(entityName)) {
+                for (Property property : entity.getPropertiesOfTheEntity()) {
+                    if (property.getNameOfProperty().equals(PropertyName)) {
+                        returnedValueTypeFromEvaluate = property.getData().getDataType();
                         return property.getData().getDataString();
                     }
                 }
             }
-
-            // throw exception ( not found )
         }
 
-
+            // throw exception ( not found )
         throw new RuntimeException("entity");
     }
 
-    public String random(String arg)
-    {
+    public String random(String arg) {
         try {
             int maxRange = Integer.parseInt(arg);
             if (maxRange < 0) {

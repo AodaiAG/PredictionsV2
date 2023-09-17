@@ -1,8 +1,6 @@
 package pRules.pActionTypes;
 
-import org.w3c.dom.Node;
 import pDTOS.ActionsDTO.ActionDTO;
-import pDTOS.ActionsDTO.ReplaceActionDTO;
 import pDTOS.ActionsDTO.SetActionDTO;
 import pEntity.Property;
 import pEntity.EntityInstance;
@@ -85,8 +83,9 @@ public class SetAction extends Action
             }
         }
         Expression exp = new Expression(getFunctions(), e);
-
-        String sValue = exp.evaluateExpression(expression);
+        String dataTypeAndValue =  exp.evaluateExpression(expression);
+        int indexOfPeriod = dataTypeAndValue.indexOf(".");
+        String sValue = dataTypeAndValue.substring(indexOfPeriod + 1);
         for (Property t : e.getPropertiesOfTheEntity()) {
             if (t.getNameOfProperty().equals(propertyName)) {
                 try {

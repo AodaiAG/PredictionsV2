@@ -5,6 +5,13 @@ public class Property
     private String NameOfProperty;
 
     private int lastUnchangedTicks;
+    private int sumTicksNoChange = 0;
+
+    public int numOfTimesHasChanged = 0;
+
+    private boolean isRandomInitialize;
+
+    private Data data;
 
     public int getSumTicksNoChange() {
         return sumTicksNoChange;
@@ -23,13 +30,6 @@ public class Property
         sumTicksNoChange += differenceBetweenTicks;
     }
 
-    private int sumTicksNoChange = 0;
-
-    public int numOfTimesHasChanged = 0;
-
-    private boolean isRandomInitialize;
-
-    private Data data;
 
     @Override
     public int hashCode() {

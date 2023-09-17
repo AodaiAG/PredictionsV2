@@ -6,8 +6,10 @@ import org.w3c.dom.NodeList;
 import pDTOS.ActionsDTO.ActionDTO;
 import pDTOS.ActionsDTO.ProximityActionDTO;
 import pEntity.Coordinate;
+import pEntity.Entity;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
+import pExpression.Expression;
 import pRules.Rule;
 import pSystem.EntityInstancesCircularGrid;
 
@@ -18,9 +20,9 @@ import java.util.Set;
 
 public class ProximityAction extends Action
 {
-    String sourceEntity;
+     private String sourceEntityName;
 
-    String targetEntity;
+    private String targetEntityName;
 
     String of;
 
@@ -34,8 +36,8 @@ public class ProximityAction extends Action
             proximityActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
 
         }
-        proximityActionDTO.setSourceEntity(sourceEntity);
-        proximityActionDTO.setTargetEntity(targetEntity);
+        proximityActionDTO.setSourceEntity(sourceEntityName);
+        proximityActionDTO.setTargetEntity(targetEntityName);
         proximityActionDTO.setOf(of);
         proximityActionDTO.setNumberOfActions(this.actionList.size());
         return proximityActionDTO;
@@ -51,11 +53,17 @@ public class ProximityAction extends Action
     public void ActivateAction(int currTick, EntityInstance ... args) throws Exception
     {
         EntityInstancesCircularGrid grid = this.functions.getWorld().getGrid();
-        if(isInCycleAtDepth(args[0], args[1], grid, Integer.parseInt(of)))
+        Entity targetEntity = this.findEntityAccordingName(this.functions.getWorld().getEntities(), targetEntityName);
+        EntityInstance instanceFromTargetEntity = targetEntity.getEntities().get(1);
+        Expression expression = new Expression(getFunctions(), args[0]);
+        String valAndDataType = expression.evaluateExpression(of);
+        int indexOfPeriod = valAndDataType.indexOf(".");
+        String ofVal = valAndDataType.substring(indexOfPeriod);
+        if(isInCycleAtDepth(args[0], instanceFromTargetEntity, grid, Integer.parseInt(ofVal)))
         {
             for (Action action: actionList)
             {
-                action.ActivateAction(currTick, args[0], args[1]);
+                action.ActivateAction(currTick, args[0], instanceFromTargetEntity);
             }
         }
     }
@@ -121,8 +129,8 @@ public class ProximityAction extends Action
            Element actionElement=(Element) ActionNode;
 
            Element betweenElement = (Element)(actionElement).getElementsByTagName("PRD-between").item(0);
-           this.sourceEntity = betweenElement.getAttribute("source-entity");
-           this.targetEntity = betweenElement.getAttribute("target-entity");
+           this.sourceEntityName = betweenElement.getAttribute("source-entity");
+           this.targetEntityName = betweenElement.getAttribute("target-entity");
 
            Element envDepthElement = (Element) actionElement.getElementsByTagName("PRD-env-depth").item(0);
            this.of = envDepthElement.getAttribute("of");
@@ -151,6 +159,6 @@ public class ProximityAction extends Action
 
     @Override
     public String getNameOfEntity() {
-        return sourceEntity;
+        return sourceEntityName;
     }
 }

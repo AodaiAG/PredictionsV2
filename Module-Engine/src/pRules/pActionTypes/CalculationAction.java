@@ -115,9 +115,14 @@ public class CalculationAction extends Action
             }
         }
         Expression expression = new Expression(getFunctions(), entityInstance);
+        String dataTypeAndArgOne = expression.evaluateExpression(expression1);
+        String dataTypeAndArgTwo = expression.evaluateExpression(expression2);
 
-        String arg1 = expression.evaluateExpression(expression1);
-        String arg2 = expression.evaluateExpression(expression2);
+        int indexOfPeriodOne = dataTypeAndArgOne.indexOf(".");
+        int indexOfPeriodTwo = dataTypeAndArgTwo.indexOf(".");
+
+        String arg1 = dataTypeAndArgOne.substring(indexOfPeriodOne + 1);
+        String arg2 = dataTypeAndArgTwo.substring(indexOfPeriodTwo + 1);
 
         for (Property property : entityInstance.getPropertiesOfTheEntity()) {
             if (property.getNameOfProperty().equals(resultProp)) {

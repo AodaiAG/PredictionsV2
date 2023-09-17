@@ -62,7 +62,6 @@ public class SimulationTask extends Task<Void> {
 
     public void resumeSimulation() {
         simulationConditions.setPauseSimulation(false);
-
     }
 
     public void stopSimulation() {

@@ -19,7 +19,6 @@ import java.util.concurrent.ExecutorService;
 
 public class NewExecutionScreenController
 {
-
     public VBox environmentDetailsVBox;
     @FXML
     public ListView<String> entitesList;
@@ -48,6 +47,7 @@ public class NewExecutionScreenController
     {
         if(uiManager.isThereASimulation())
         {
+            populationText.setDisable(true);
             ObservableList<String> entitiesList = FXCollections.observableArrayList();
             List<EntityDTO> entities = uiManager.getEntityDto();
 
@@ -63,6 +63,7 @@ public class NewExecutionScreenController
             {
                 if (newValue != null)
                 {
+                    populationText.setDisable(false);
                     SelectedentityDTO = entities.get(entitesList.getSelectionModel().getSelectedIndex());
                 } else
                 {
@@ -70,7 +71,7 @@ public class NewExecutionScreenController
                 }
             });
 
-            dataTextField=new TextField();
+            dataTextField = new TextField();
             List<EnvironmentDTO> enDTO = uiManager.getEnvironmentsDTO();
             ObservableList<String> detailsList = FXCollections.observableArrayList();
 
@@ -91,12 +92,11 @@ public class NewExecutionScreenController
                 {
                     // Get the selected EnvironmentDTO
                     EnvironmentDTO selectedEnvironment = enDTO.get(environmentVariableListView.getSelectionModel().getSelectedIndex());
-                    selectedEnvironment=uiManager.updateEnvironment(selectedEnvironment);
+                    selectedEnvironment = uiManager.updateEnvironment(selectedEnvironment);
                     System.out.println(selectedEnvironment.getEnProperty().getDataString());
                     updateDetailsPane(selectedEnvironment);
 
                     environmentVariableListView.refresh();
-
                 }
             });
 
@@ -128,9 +128,6 @@ public class NewExecutionScreenController
             alert.setHeaderText("Population should be numeric!");
             alert.showAndWait();
         }
-
-
-
     }
     public void updateDetailsPane(EnvironmentDTO selectedEnvironment)
     {
@@ -168,7 +165,6 @@ public class NewExecutionScreenController
     {
         try
         {
-
             String dataEnterd=dataTextField.getText();
             uiManager.setDataToEnvironmentVar(selectedEnvironment,dataEnterd);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -176,7 +172,6 @@ public class NewExecutionScreenController
             selectedEnvironment=uiManager.updateEnvironment(selectedEnvironment);
             alert.showAndWait();
             updateDetailsPane(selectedEnvironment);
-
         }
 
         catch (Exception e)
@@ -202,10 +197,6 @@ public class NewExecutionScreenController
     void startSimulation(ActionEvent event)
     {
 
-
-              uiManager.runSimulation();
+        uiManager.runSimulation();
     }
-
-
-
 }

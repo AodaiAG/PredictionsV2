@@ -1,5 +1,6 @@
 package pSystem;
 
+import pEntity.Coordinate;
 import pEntity.EntityInstance;
 import pEnvironment.EnvironmentInstance;
 import pRules.Rule;
@@ -157,5 +158,15 @@ public class World implements Cloneable
         String typeOfField;
         typeOfField = resField.getType().getSimpleName();
         return typeOfField;
+    }
+
+    protected void initCoordinates() {
+        for (Entity entity : entities) {
+            for (EntityInstance instance : entity.getEntities()) {
+                Coordinate emptyCoordinate = grid.getRandomEmptyCoordinate();
+                instance.setCoordinate(emptyCoordinate);
+                grid.setEntityInstanceInCell(instance, emptyCoordinate);
+            }
+        }
     }
 }

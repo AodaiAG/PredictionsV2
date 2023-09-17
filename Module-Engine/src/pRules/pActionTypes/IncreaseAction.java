@@ -1,7 +1,6 @@
 package pRules.pActionTypes;
 
 import pDTOS.ActionsDTO.ActionDTO;
-import pDTOS.ActionsDTO.DecreaseActionDTO;
 import pDTOS.ActionsDTO.IncreaseActionDTO;
 import pEntity.Property;
 import pEntity.EntityInstance;
@@ -72,7 +71,7 @@ public class IncreaseAction extends Action {
     @Override
     public void ActivateAction(int currTick, EntityInstance ...args) throws Exception
     {
-        EntityInstance e=args[0];
+        EntityInstance e = args[0];
         for(EntityInstance eI:args)
         {
             if(eI.getNameOfEntity().equals(this.entityName))
@@ -83,7 +82,9 @@ public class IncreaseAction extends Action {
         }
 
         Expression exp = new Expression(getFunctions(), e);
-        String sValue = exp.evaluateExpression(expression);
+        String valAndDataType = exp.evaluateExpression(expression);
+        int indexOfPeriod = valAndDataType.indexOf(".");
+        String sValue = valAndDataType.substring(indexOfPeriod + 1);
 
         for (Property property : e.getPropertiesOfTheEntity())
         {

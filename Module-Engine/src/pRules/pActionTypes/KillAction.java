@@ -1,13 +1,10 @@
 package pRules.pActionTypes;
 
 import pDTOS.ActionsDTO.ActionDTO;
-import pDTOS.ActionsDTO.DecreaseActionDTO;
 import pDTOS.ActionsDTO.KillActionDTO;
 import pEntity.Entity;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
-
-import pEntity.Property;
 
 public class KillAction extends Action
 {

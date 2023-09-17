@@ -76,10 +76,8 @@ public class PrimaryScreenController
     @FXML
     void buttonSwitchToNewExecutionScene(ActionEvent event)
     {
-
         try
         {
-
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
             pnlsMessage.setText("New Execution");
             Node newEx = FXMLLoader.load(getClass().getResource("/application/resources/newExecutionScene.fxml"));
@@ -97,6 +95,7 @@ public class PrimaryScreenController
         pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
         pnlsMessage.setText("Home");
     }
+
     @FXML
     void settingsBttonhandle(ActionEvent event)
     {
@@ -142,12 +141,7 @@ public class PrimaryScreenController
         btnHome.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
         btnSettings.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
         btnLoad.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
-
-
     }
-
-
-
 
     @FXML
     public void switchToResultsScene(ActionEvent event)

@@ -5,6 +5,7 @@ import pDTOS.*;
 import pDTOS.ActionsDTO.ActionDTO;
 import pEntity.*;
 import pEntity.Entity;
+import pEntity.Coordinate;
 import pEnvironment.EnvironmentInstance;
 import pExpression.AuxiliaryMethods;
 import pRules.pActionTypes.*;
@@ -107,8 +108,8 @@ public class Engine implements IEngine
             World clonedWorld = world.clone();
             f.setWorld(clonedWorld);
             WorldDTO oldWorldDTO = convertWorldToDTO(clonedWorld);
+            clonedWorld.initCoordinates();
             UUID simulationId = UUID.randomUUID();
-            System.out.println("im about running simulation");
             String reasonForTermination = runSimulation(clonedWorld, simulationConditions,consumer);
             WorldDTO worldAfter = convertWorldToDTO(clonedWorld);
             Simulation simulation = new Simulation(oldWorldDTO, worldAfter,simulationId);
@@ -516,33 +517,18 @@ public class Engine implements IEngine
     public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO)
     {
         Entity entity = null;
-        for(Entity en : this.world.getEntities())
-        {
-            if(en.getNameOfEntity().equals(selectedentityDTO.getName()))
-            {
-                entity = en;
-                break;
+            try {
+                entity = findEntityAccordingName(this.world.getEntities(), selectedentityDTO.getName());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-        }
 
         List<EntityInstance> entityInstances = new ArrayList<>();
         Set<Property> propOfEntity = entity.getPropertiesOfTheEntity();
-        EntityInstance e1 = new EntityInstance();
-        e1.setPropertiesOfTheEntity(propOfEntity);
-        e1.setNameOfEntity(entity.getNameOfEntity());
 
         for (int m = 0; m < popNumber; m++)
         {
-            EntityInstance added = e1.clone();
-
-            for (Property p : added.getPropertiesOfTheEntity()) {
-                boolean isInitRandom = p.isRandomInitialize();
-                String initVal = p.getData().getDataString();
-                if (isInitRandom) {
-                    p.getData().calculateNewVal(initVal, true);
-                }
-            }
-
+            EntityInstance added = entity.createNewInstance();
             entityInstances.add(added);
         }
 
