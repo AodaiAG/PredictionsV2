@@ -148,9 +148,11 @@ public class World implements Cloneable
 //    }
 
 
-    public static String getTypeOfEntity(EntityInstance e) {
+    public static String getTypeOfEntity(EntityInstance e)
+    {
         Field resField;
-        try {
+        try
+        {
             resField = e.getClass().getField("Type");
         } catch (NoSuchFieldException ex) {
             throw new RuntimeException(ex);
@@ -160,13 +162,24 @@ public class World implements Cloneable
         return typeOfField;
     }
 
-    protected void initCoordinates() {
-        for (Entity entity : entities) {
-            for (EntityInstance instance : entity.getEntities()) {
-                Coordinate emptyCoordinate = grid.getRandomEmptyCoordinate();
-                instance.setCoordinate(emptyCoordinate);
-                grid.setEntityInstanceInCell(instance, emptyCoordinate);
-            }
-        }
+    protected void initCoordinates()
+    {
+       try
+       {
+           for (Entity entity : entities)
+           {
+               for (EntityInstance instance : entity.getEntities())
+               {
+                   Coordinate emptyCoordinate = grid.getRandomEmptyCoordinate();
+                   instance.setCoordinate(emptyCoordinate);
+                   grid.setEntityInstanceInCell(instance, emptyCoordinate);
+               }
+           }
+       }
+
+       catch (Exception e)
+       {
+
+       }
     }
 }
