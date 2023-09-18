@@ -80,6 +80,7 @@ public class EntityInstancesCircularGrid implements Cloneable
             int pick = r.nextInt(availableDirections.size());
             Direction randomDirection = availableDirections.get(pick);
             Coordinate newCoordinate = randomDirection.getNextCoordinate(entityInstance.getCoordinate(), this.numRows, this.numCols);
+            removeInstanceFromCell(entityInstance);
             entityInstance.setCoordinate(newCoordinate);
             setEntityInstanceInCell(entityInstance, newCoordinate);
         }
@@ -117,6 +118,11 @@ public class EntityInstancesCircularGrid implements Cloneable
 
     return emptyCoordinates;
 }
+
+    public void removeInstanceFromCell(EntityInstance entityInstance) {
+        Coordinate c = entityInstance.getCoordinate();
+        grid[c.getRow()][c.getCol()] = null;
+    }
 
     public Coordinate getRandomEmptyCoordinate() {
         List<Coordinate> emptyCoordinates = getEmptyCoordinates();

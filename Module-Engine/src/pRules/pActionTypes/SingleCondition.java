@@ -67,7 +67,7 @@ public class SingleCondition extends ConditionAction
         EntityInstance e=args[0];
         Property wanted = new Property();
         Expression exp = new Expression(getFunctions(), e);
-        String sValue = exp.evaluateExpression(value);
+        String sValue = exp.evaluateExpression(value); //"BOOLEAN.true"
         int indexOfPeriodInValue = sValue.indexOf(".");
         String propertyAfter = exp.evaluateExpression(nameofProperty);
         int indexOfPeriodInPropertyAfter = propertyAfter.indexOf('.');
@@ -75,7 +75,7 @@ public class SingleCondition extends ConditionAction
             Data eD = new Data();
             eD.setDataType(DataType.valueOf(propertyAfter.substring(0, indexOfPeriodInPropertyAfter)));
             wanted.setData(eD);
-            eD.setDataString(propertyAfter.substring(indexOfPeriodInPropertyAfter +1));
+            eD.setDataString(propertyAfter.substring(indexOfPeriodInPropertyAfter + 1));
             this.conditionResult = wanted.getData().compareTo(sValue.substring(indexOfPeriodInValue + 1), operator);
         } catch (Exception ex) {
         }

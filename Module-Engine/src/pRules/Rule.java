@@ -300,9 +300,9 @@ public class Rule {
 
                         }
                     }
-
-                    boolean hasRemoved = currentEntity.getEntities().removeIf(entityInstance -> entityInstance.getTobeKilled());
                 }
+                functions.getWorld().removeKilledInstances(currentEntity);
+                currentEntity.updateNumberOfInstances();
             }
         }
     }

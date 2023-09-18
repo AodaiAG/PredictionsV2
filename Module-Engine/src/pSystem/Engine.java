@@ -172,6 +172,9 @@ public class Engine implements IEngine
 
         while (ticksAsTermination && simulationConditions.getSimulationRunning())
         {
+            //move
+            clonedWorld.moveAllInstances();
+
             //check if ticks
             for (Rule rule : clonedWorld.getRules())
             {
