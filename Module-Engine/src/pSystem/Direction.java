@@ -7,7 +7,7 @@ public enum Direction
     UP {
         @Override
         Coordinate getNextCoordinate(Coordinate cor, int gridRows, int gridCols) {
-            return new Coordinate((cor.getRow()-1) % gridRows, cor.getCol());
+            return new Coordinate((cor.getRow() - 1 + gridRows) % gridRows, cor.getCol());
         }
     },
     DOWN {
@@ -19,13 +19,13 @@ public enum Direction
     LEFT{
         @Override
         Coordinate getNextCoordinate(Coordinate cor, int gridRows, int gridCols) {
-            return new Coordinate(cor.getRow(), (cor.getCol()-1) % gridCols);
+            return new Coordinate(cor.getRow(), (cor.getCol() - 1 + gridCols) % gridCols);
         }
     },
     RIGHT{
         @Override
         Coordinate getNextCoordinate(Coordinate cor, int gridRows, int gridCols) {
-            return new Coordinate(cor.getRow(), (cor.getCol()+1) % gridCols);
+            return new Coordinate(cor.getRow(), (cor.getCol() + 1) % gridCols);
         }
     };
 

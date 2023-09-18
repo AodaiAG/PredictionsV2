@@ -43,6 +43,11 @@ public class Entity implements Cloneable
         return clonedEntity;
     }
 
+    public void updateNumberOfInstances()
+    {
+        numberOfInstances = entityInstances.size();
+    }
+
     public int getNumberOfInstances() {
         return numberOfInstances;
     }
@@ -93,6 +98,5 @@ public class Entity implements Cloneable
             }
         }
         return newEntityInstance;
-
     }
 }

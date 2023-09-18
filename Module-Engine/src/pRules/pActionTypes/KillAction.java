@@ -63,6 +63,7 @@ public class KillAction extends Action
         }
         e.setTobeKilled(true);
 
+
         for (Entity entity : functions.getWorld().getEntities()) {
             if (e.getNameOfEntity().equals(entity.getNameOfEntity())) {
                 int numbOfInstance = entity.getNumberOfInstances() - 1;

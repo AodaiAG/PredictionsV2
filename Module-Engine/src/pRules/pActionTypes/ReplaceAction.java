@@ -39,21 +39,26 @@ public class ReplaceAction extends Action {
     {
         EntityInstance entityInstanceToKill = args[0];
         EntityInstance createdEntityInstance = null;
-        EntityInstance addedEntityInstance = new EntityInstance();
+      //  EntityInstance addedEntityInstance = new EntityInstance();
 
         entityInstanceToKill.setTobeKilled(true);
-
+        functions.getWorld().getGrid().removeInstanceFromCell(entityInstanceToKill);
         Entity entityToKill = findEntityAccordingName(this.functions.getWorld().getEntities(), nameEntityToKill);
         Entity entityToCreate = findEntityAccordingName(this.functions.getWorld().getEntities(), nameEntityToCreate);
 
         switch (mode) {
             case "scratch": {
-                addedEntityInstance = entityToCreate.createNewInstance();
-                entityToCreate.getEntities().add(addedEntityInstance);
+                createdEntityInstance = entityToCreate.createNewInstance();
+                createdEntityInstance.setCoordinate(entityInstanceToKill.getCoordinate());
+                this.functions.getWorld().getGrid().setEntityInstanceInCell(createdEntityInstance, entityInstanceToKill.getCoordinate());
+                entityToCreate.getEntities().add(createdEntityInstance);
             }
 
             case "derived": {
                 createdEntityInstance = entityToCreate.createNewInstance();
+                createdEntityInstance.setCoordinate(entityInstanceToKill.getCoordinate());
+                this.functions.getWorld().getGrid().setEntityInstanceInCell(createdEntityInstance, entityInstanceToKill.getCoordinate());
+
                 for (Property propertyKilled : entityInstanceToKill.getPropertiesOfTheEntity()) {//property at kill
                     for (Property propertyAdded : createdEntityInstance.getPropertiesOfTheEntity()) { //property at create
                         if (propertyKilled.getNameOfProperty().equals(propertyAdded.getNameOfProperty()) && propertyKilled.getTypeString().equals(propertyAdded.getTypeString())) {
@@ -61,10 +66,11 @@ public class ReplaceAction extends Action {
                         }
                     }
                 }
-                entityToCreate.getEntities().add(addedEntityInstance);
+                entityToCreate.getEntities().add(createdEntityInstance);
             }
         }
-
+        entityToKill.updateNumberOfInstances();
+        entityToCreate.updateNumberOfInstances();
     }
 
     public void initFromXML(Node ActionNode) {

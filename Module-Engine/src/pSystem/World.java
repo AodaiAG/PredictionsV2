@@ -141,12 +141,22 @@ public class World implements Cloneable
             throw new IllegalArgumentException("Argument must be a numeric value");
         }
     }
-//
-//    public String environment(String nameOfEnvironmentVariable) {
-//        EnvironmentInstance en = getName2Env().get(nameOfEnvironmentVariable);
-//        return en.getEnvironmentProperty().getData().getDataString();
-//    }
 
+    public void moveAllInstances()
+    {
+        for (Entity entity: entities)
+        {
+            for (EntityInstance entityInstance: entity.getEntities())
+            {
+                grid.generateMove(entityInstance);
+            }
+        }
+    }
+
+    public void removeKilledInstances(Entity entity)
+    {
+        boolean hasRemoved = entity.getEntities().removeIf(EntityInstance::getTobeKilled);
+    }
 
     public static String getTypeOfEntity(EntityInstance e) {
         Field resField;
