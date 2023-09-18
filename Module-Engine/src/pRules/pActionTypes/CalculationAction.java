@@ -1,6 +1,5 @@
 package pRules.pActionTypes;
 
-import org.w3c.dom.Node;
 import pDTOS.ActionsDTO.ActionDTO;
 import pDTOS.ActionsDTO.CalculationActionDTO;
 import pEntity.Property;
@@ -104,9 +103,9 @@ public class CalculationAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance...  args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance...  args) throws Exception
     {
-        EntityInstance entityInstance=args[0];
+        EntityInstance entityInstance = args[0];
         for(EntityInstance eI:args)
         {
             if(eI.getNameOfEntity().equals(this.entityName))
@@ -116,16 +115,24 @@ public class CalculationAction extends Action
             }
         }
         Expression expression = new Expression(getFunctions(), entityInstance);
+        String dataTypeAndArgOne = expression.evaluateExpression(expression1);
+        String dataTypeAndArgTwo = expression.evaluateExpression(expression2);
 
-        String arg1 = expression.evaluateExpression(expression1);
-        String arg2 = expression.evaluateExpression(expression2);
+        int indexOfPeriodOne = dataTypeAndArgOne.indexOf(".");
+        int indexOfPeriodTwo = dataTypeAndArgTwo.indexOf(".");
+
+        String arg1 = dataTypeAndArgOne.substring(indexOfPeriodOne + 1);
+        String arg2 = dataTypeAndArgTwo.substring(indexOfPeriodTwo + 1);
 
         for (Property property : entityInstance.getPropertiesOfTheEntity()) {
             if (property.getNameOfProperty().equals(resultProp)) {
                 switch (calType) {
                     case "divide": {
                         try {
-                            property.getData().divide(arg1, arg2);
+                            if(property.getData().divide(arg1, arg2))
+                            {
+                                property.updateProperty(currTick);
+                            }
                         } catch (Exception ex) {
 
                         }
@@ -134,7 +141,9 @@ public class CalculationAction extends Action
 
                     case "multiply": {
                         try {
-                            property.getData().multiply(arg1, arg2);
+                            if (property.getData().multiply(arg1, arg2)) {
+                                property.updateProperty(currTick);
+                            }
 
                         } catch (Exception ex) {
 
@@ -145,6 +154,4 @@ public class CalculationAction extends Action
             }
         }
     }
-
-
 }

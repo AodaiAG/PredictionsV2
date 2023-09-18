@@ -50,7 +50,6 @@ public enum DataType {
                     return res.toString();
                 } else {
                     throw new Exception("The result of this action is out of the predefined range");
-
                 }
 
             } catch (Exception e) {
@@ -246,7 +245,6 @@ public enum DataType {
                 if (res >= fromValue && res <= toValue) {
                     return res.toString();
                 } else {
-                    //to delete?
                     throw new Exception("The result of this action is out of the predefined range");
                 }
             } catch (Exception e) {
@@ -328,7 +326,6 @@ public enum DataType {
         @Override
         public String divide(String arg1, String arg2, String from, String to) throws Exception {
             throw new Exception("Can't apply this action to type boolean");
-
         }
 
         @Override
@@ -341,7 +338,6 @@ public enum DataType {
             }
         }
 
-
         @Override
         public String decrease(String value, String dataString, String from, String to) throws Exception {
             throw new Exception("Can't apply this action to type boolean");
@@ -352,7 +348,6 @@ public enum DataType {
             throw new Exception("Can't apply this action to type boolean");
 
         }
-
 
         @Override
         public String calculateNewVal(String initValue, Boolean isRandomInitialize, String from, String to) {

@@ -10,7 +10,6 @@ public class SimulationConditions
         return simulationRunning;
     }
 
-
     public synchronized void setSimulationRunning(Boolean simulationRunning)
     {
         this.simulationRunning = simulationRunning;
@@ -24,6 +23,6 @@ public class SimulationConditions
     public synchronized void setPauseSimulation(Boolean pauseSimulation)
     {
         this.pauseSimulation = pauseSimulation;
-
     }
+
 }

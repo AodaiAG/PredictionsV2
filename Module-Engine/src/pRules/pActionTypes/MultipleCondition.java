@@ -133,15 +133,15 @@ public class MultipleCondition extends ConditionAction
     }
 
     @Override
-    public void ActivateAction(EntityInstance ...args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance ...args) throws Exception
     {
-        EntityInstance e=args[0];
+        EntityInstance e = args[0];
         switch (logical) {
             case "and":
             {
                 conditionResult = true;
                 for (ConditionAction c : listOfConditions) {
-                    c.ActivateAction(e);
+                    c.ActivateAction(currTick, e);
                     Boolean result = c.getConditionResult();
                     if (!result) {
                         conditionResult = false;
@@ -155,7 +155,7 @@ public class MultipleCondition extends ConditionAction
             {
                 conditionResult = false;
                 for (ConditionAction c : listOfConditions) {
-                    c.ActivateAction(e);
+                    c.ActivateAction(currTick, e);
                     Boolean result = c.getConditionResult();
                     if (result) {
                         conditionResult = true;

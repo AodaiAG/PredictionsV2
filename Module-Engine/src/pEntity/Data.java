@@ -5,6 +5,7 @@ public class Data
     private DataType dataType;
     private String dataString;
     public String from;
+
     public String to;
     private boolean isRangeExist;
 
@@ -32,43 +33,52 @@ public class Data
         dataString = dataType.calculateNewVal(initVal, isRandomInitialize, from, to);
     }
 
-    public void decrease(String value) throws Exception {
+    public boolean decrease(String value) throws Exception {
         try {
-            dataString = dataType.decrease(value, dataString, from, to);
+            return this.setNewValue(dataType.decrease(value, dataString, from, to));
         } catch (Exception e) {
         }
+        return false;
     }
 
-    public void increase(String value) throws Exception {
+    public boolean increase(String value) throws Exception {
         try {
-            dataString = dataType.increase(value, dataString, from, to);
+            return this.setNewValue(dataType.increase(value, dataString, from, to));
         } catch (Exception e) {
             throw e;
         }
     }
 
-    public void setNewValue(String value) throws Exception {
+    public boolean setNewValue(String value) throws Exception {
         try {
-            dataString = dataType.setNewValue(value, from, to);
+            String dS = dataType.setNewValue(value, from, to);
+            if(dS != dataString)
+            {
+                dataString = dS;
+                return true;
+            }
+            dataString = dS;
+            return false;
         } catch (Exception e) {
             throw e;
         }
     }
 
-    public void multiply(String arg1, String arg2) throws Exception {
+    public boolean multiply(String arg1, String arg2) throws Exception {
         try {
-            dataString = dataType.multiply(arg1, arg2, from, to);
+           return this.setNewValue(dataType.multiply(arg1, arg2, from, to));
         } catch (Exception e) {
             throw e;
         }
     }
 
-    public void divide(String arg1, String arg2) throws Exception {
+    public boolean divide(String arg1, String arg2) throws Exception {
         try {
-            dataString = dataType.divide(arg1, arg2, from, to);
+            return this.setNewValue(dataType.divide(arg1, arg2, from, to));
         } catch (Exception e) {
 
         }
+        return false;
     }
 
     public Boolean compareTo(String comparedTo, String Operator) throws Exception {

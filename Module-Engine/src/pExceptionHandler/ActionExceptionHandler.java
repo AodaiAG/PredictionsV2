@@ -12,7 +12,6 @@ import pSystem.World;
 
 public class ActionExceptionHandler
 {
-
     public void checkProbabilityActivation(String prob) throws Exception {
         try {
             Float res = Float.parseFloat(prob);

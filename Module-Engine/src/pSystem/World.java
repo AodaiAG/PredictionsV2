@@ -1,5 +1,6 @@
 package pSystem;
 
+import pEntity.Coordinate;
 import pEntity.EntityInstance;
 import pEnvironment.EnvironmentInstance;
 import pRules.Rule;
@@ -16,7 +17,7 @@ public class World implements Cloneable
 
     private boolean terminationByUser;
 
-    private int ticksCounter;
+    public int ticksCounter;
 
     private int secondMeasurement;
 
@@ -123,7 +124,6 @@ public class World implements Cloneable
     }
 
     public void setRules(List<Rule> rules) {
-
         this.rules = rules;
     }
 
@@ -141,11 +141,12 @@ public class World implements Cloneable
             throw new IllegalArgumentException("Argument must be a numeric value");
         }
     }
+//
+//    public String environment(String nameOfEnvironmentVariable) {
+//        EnvironmentInstance en = getName2Env().get(nameOfEnvironmentVariable);
+//        return en.getEnvironmentProperty().getData().getDataString();
+//    }
 
-    public String environment(String nameOfEnvironmentVariable) {
-        EnvironmentInstance en = getName2Env().get(nameOfEnvironmentVariable);
-        return en.getEnvironmentProperty().getData().getDataString();
-    }
 
     public static String getTypeOfEntity(EntityInstance e) {
         Field resField;
@@ -157,5 +158,15 @@ public class World implements Cloneable
         String typeOfField;
         typeOfField = resField.getType().getSimpleName();
         return typeOfField;
+    }
+
+    protected void initCoordinates() {
+        for (Entity entity : entities) {
+            for (EntityInstance instance : entity.getEntities()) {
+                Coordinate emptyCoordinate = grid.getRandomEmptyCoordinate();
+                instance.setCoordinate(emptyCoordinate);
+                grid.setEntityInstanceInCell(instance, emptyCoordinate);
+            }
+        }
     }
 }

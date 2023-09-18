@@ -74,4 +74,25 @@ public class Entity implements Cloneable
     public List<EntityInstance> getEntities() {
         return entityInstances;
     }
+
+    public EntityInstance createNewInstance()
+    {
+        EntityInstance newEntityInstance = new EntityInstance();
+        newEntityInstance.setTobeKilled(false);
+        newEntityInstance.setNameOfEntity(nameOfEntity);
+        Set<Property> propOfEntity = new HashSet<>();
+        for (Property p : propertiesOfTheEntity)
+        {
+            propOfEntity.add(p.clone());
+        }
+        newEntityInstance.setPropertiesOfTheEntity(propOfEntity);
+        for (Property p : getPropertiesOfTheEntity()) {
+            String initVal = p.getData().getDataString();
+            if (p.isRandomInitialize()) {
+                p.getData().calculateNewVal(initVal, true);
+            }
+        }
+        return newEntityInstance;
+
+    }
 }

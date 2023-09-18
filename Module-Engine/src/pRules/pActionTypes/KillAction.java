@@ -1,13 +1,10 @@
 package pRules.pActionTypes;
 
 import pDTOS.ActionsDTO.ActionDTO;
-import pDTOS.ActionsDTO.DecreaseActionDTO;
 import pDTOS.ActionsDTO.KillActionDTO;
 import pEntity.Entity;
 import pEntity.EntityInstance;
 import pExpression.AuxiliaryMethods;
-
-import pEntity.Property;
 
 public class KillAction extends Action
 {
@@ -52,8 +49,9 @@ public class KillAction extends Action
     }
 
     @Override
-    public void ActivateAction(EntityInstance... args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance... args) throws Exception
     {
+        System.out.println("im am in kill action");
         EntityInstance e=args[0];
         for(EntityInstance eI:args)
         {

@@ -31,12 +31,11 @@ public abstract class Action
 
     abstract public void setFunctions(AuxiliaryMethods functions);
 
-    abstract public void ActivateAction(EntityInstance... args) throws Exception;
+    abstract public void ActivateAction(int currTick, EntityInstance... args) throws Exception;
 
     abstract public String getNameOfAction();
 
     public abstract String getNameOfEntity();
-
 
     public Entity findEntityAccordingName(List<Entity> entities, String currentEntityName) throws Exception {
         for (Entity entity : entities) {

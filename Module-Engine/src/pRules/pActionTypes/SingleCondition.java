@@ -1,5 +1,7 @@
 package pRules.pActionTypes;
 
+import pEntity.Data;
+import pEntity.DataType;
 import pEntity.Property;
 import pEntity.EntityInstance;
 import pExpression.Expression;
@@ -60,23 +62,21 @@ public class SingleCondition extends ConditionAction
     }
 
     @Override
-    public void ActivateAction(EntityInstance ...args) throws Exception
+    public void ActivateAction(int currTick, EntityInstance ...args) throws Exception
     {
-
         EntityInstance e=args[0];
         Property wanted = new Property();
         Expression exp = new Expression(getFunctions(), e);
-        String svalue = exp.evaluateExpression(value);
-        String PropertyAfter=exp.evaluateExpression(nameofProperty);
-        for (Property p : e.getPropertiesOfTheEntity()) {
-            if (p.getNameOfProperty().equals(PropertyAfter)) {
-                wanted = p;
-                break;
-            }
-        }
+        String sValue = exp.evaluateExpression(value);
+        int indexOfPeriodInValue = sValue.indexOf(".");
+        String propertyAfter = exp.evaluateExpression(nameofProperty);
+        int indexOfPeriodInPropertyAfter = propertyAfter.indexOf('.');
         try {
-            this.conditionResult = wanted.getData().compareTo(svalue, operator);
-
+            Data eD = new Data();
+            eD.setDataType(DataType.valueOf(propertyAfter.substring(0, indexOfPeriodInPropertyAfter)));
+            wanted.setData(eD);
+            eD.setDataString(propertyAfter.substring(indexOfPeriodInPropertyAfter +1));
+            this.conditionResult = wanted.getData().compareTo(sValue.substring(indexOfPeriodInValue + 1), operator);
         } catch (Exception ex) {
         }
     }

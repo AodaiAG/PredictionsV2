@@ -6,6 +6,7 @@ import org.w3c.dom.NodeList;
 import pEntity.EntityInstance;
 import pEntity.Entity;
 import pExpression.AuxiliaryMethods;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -105,7 +106,7 @@ public class PRDSecondaryEntity {
         this.functions = functions;
     }
 
-    public void calcInstancesToFetch(Entity secondaryEntity)
+    public void calcInstancesToFetch(int ticksCounter, Entity secondaryEntity)
     {
         listOfInstancesToFetch = null;
         List<EntityInstance> filteredEntities = new ArrayList<>();
@@ -115,7 +116,7 @@ public class PRDSecondaryEntity {
             {
                 try
                 {
-                    condition.ActivateAction(eI);
+                    condition.ActivateAction(ticksCounter, eI);
                     if (condition.getConditionResult())
                     {
                         filteredEntities.add(eI);
