@@ -17,9 +17,11 @@ public class PropertyDTO
     private final String to;
 
     private String dataString;
+    private int lastUnchangedTicks;
 
 
-    public PropertyDTO(String nameOfProperty, Boolean randomInitialize, String nameOfDataType, String from, String to, String dataString, boolean isRange) {
+    public PropertyDTO(String nameOfProperty, Boolean randomInitialize, String nameOfDataType, String from, String to, String dataString, boolean isRange,int lastUnchangedTicks)
+    {
         this.NameOfProperty = nameOfProperty;
         this.randomInitialize = randomInitialize;
         this.nameOfDataType = nameOfDataType;
@@ -27,6 +29,16 @@ public class PropertyDTO
         this.from = from;
         this.to = to;
         this.dataString = dataString;
+        this.lastUnchangedTicks =lastUnchangedTicks;
+    }
+
+    public int getLastUnchangedTicks()
+    {
+        return lastUnchangedTicks;
+    }
+
+    public void setLastUnchangedTicks(int lastUnchangedTicks) {
+        this.lastUnchangedTicks = lastUnchangedTicks;
     }
 
     public TreeItem<String> generateTreeView()

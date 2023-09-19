@@ -294,7 +294,7 @@ public class Engine implements IEngine
     }
 
     public PropertyDTO convertPropertyToDTO(Property property) {
-        return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getData().from, property.getData().to, property.getData().getDataString(), property.getData().isRangeExist());
+        return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getData().from, property.getData().to, property.getData().getDataString(), property.getData().isRangeExist(),property.getLastUnchangedTicks());
     }
 
     public void ParseXmlAndLoadWorld(File file) throws Exception

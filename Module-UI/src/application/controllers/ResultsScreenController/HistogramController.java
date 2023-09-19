@@ -113,6 +113,7 @@ public class HistogramController
             if (selectedPropertyDTO != null)
             {
                 Map<String, Integer> value2count = setHistogramToOneProperty(selectedPropertyDTO, selectedEntityDTO.getInstancesDTOS());
+                int consis=setConsistencyToOneProperty(selectedPropertyDTO,selectedEntityDTO.getInstancesDTOS());
                 ObservableList<Map.Entry<String, Integer>> observableEntityDTOList = FXCollections.observableArrayList(value2count.entrySet());
                 this.histogramTableView.setItems(observableEntityDTOList);
                 valueColumn.setCellFactory(param -> new TableCell<Map.Entry<String, Integer>, String>()
@@ -156,6 +157,8 @@ public class HistogramController
                     float sumData = 0;
                     int sumCount = 0;
 
+
+
                     for (Map.Entry<String, Integer> entry : value2count.entrySet())
                     {
                         String dataString = entry.getKey();
@@ -163,13 +166,17 @@ public class HistogramController
                         float data = Float.parseFloat(dataString);
                         sumData =(count*data)+sumData;
                         sumCount += count;
+
+
                     }
                     float average=0;
                 // average
                     if(sumCount!=0)
                     {
                          average = sumData / sumCount;
+
                     }
+
                     averageLabel.setDisable(false);
                     averageText.setDisable(false);
                     averageText.setText(Float.toString(average));
@@ -182,10 +189,18 @@ public class HistogramController
                     averageText.setDisable(true);
                 }
 
+                consText1.clear();
+                consText1.setDisable(false);
+                this.consText1.setText(Integer.toString(consis));
+
             }
             else
             {
-                // Handle the case where selectedPropertyDTO is null
+                consText1.clear();
+                consText1.setDisable(true);
+                averageText.clear();
+                averageText.setDisable(true);
+
             }
         } else {
             // Handle the case where selectedEntityDTO is null
@@ -196,13 +211,43 @@ public class HistogramController
 
 
 
+    int setConsistencyToOneProperty(PropertyDTO property, List<EntityInstancesDTO> instancesDTOS)
+    {
+        // value // count
+
+        String propertyName = property.getNameOfProperty();
+        int consistency=0;
+        int consistencySum=0;
+        int count=0;
+
+        for (EntityInstancesDTO entityInstancesDTO : instancesDTOS)
+        {
+            for (PropertyDTO propertyDTO : entityInstancesDTO.getProperties())
+            {
+                if (propertyName.equals(propertyDTO.getNameOfProperty()))
+                {
+                    consistencySum=consistencySum+propertyDTO.getLastUnchangedTicks();
+                    count++;
+                }
+            }
+        }
+
+        if(count!=0)
+        {
+            consistency = consistencySum / count;
+
+        }
+        return consistency;
+
+    }
     Map<String, Integer> setHistogramToOneProperty(PropertyDTO property, List<EntityInstancesDTO> instancesDTOS)
     {
         // value // count
         Map<String, Integer> value2count = new HashMap<>();
         String propertyName = property.getNameOfProperty();
 
-        for (EntityInstancesDTO entityInstancesDTO : instancesDTOS) {
+        for (EntityInstancesDTO entityInstancesDTO : instancesDTOS)
+        {
             for (PropertyDTO propertyDTO : entityInstancesDTO.getProperties()) {
                 if (propertyName.equals(propertyDTO.getNameOfProperty())) {
                     Integer count = value2count.get(propertyDTO.getDataString());
@@ -218,3 +263,4 @@ public class HistogramController
         return value2count;
     }
 }
+
