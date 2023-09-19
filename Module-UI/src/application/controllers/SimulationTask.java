@@ -27,7 +27,8 @@ public class SimulationTask extends Task<Void> {
 
     //
     @Override
-    protected Void call() throws Exception {
+    protected Void call() throws Exception
+    {
         // this is the function that start the simulation logic
         Consumer<String> consumer = this::updateMessage;
         simulationDetailsTabController.enableProgressNode();

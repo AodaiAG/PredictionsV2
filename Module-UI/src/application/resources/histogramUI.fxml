@@ -24,5 +24,7 @@
       </TableView>
       <Label fx:id="averageLabel" disable="true" layoutX="68.0" layoutY="173.0" prefHeight="31.0" prefWidth="55.0" text="Average" />
       <TextField fx:id="averageText" disable="true" editable="false" layoutX="68.0" layoutY="209.0" prefHeight="31.0" prefWidth="55.0" />
+      <Label layoutX="55.0" layoutY="108.0" prefHeight="31.0" prefWidth="97.0" text="Consistency" />
+      <TextField fx:id="consText1" disable="true" editable="false" layoutX="68.0" layoutY="139.0" prefHeight="31.0" prefWidth="55.0" />
    </children>
 </AnchorPane>

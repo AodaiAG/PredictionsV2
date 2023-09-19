@@ -8,7 +8,8 @@ import pEntity.EntityInstance;
 import pEntity.Property;
 import pExpression.AuxiliaryMethods;
 
-public class ReplaceAction extends Action {
+public class ReplaceAction extends Action
+{
 
     private String nameEntityToKill;
     private String nameEntityToCreate;
@@ -73,7 +74,8 @@ public class ReplaceAction extends Action {
         entityToCreate.updateNumberOfInstances();
     }
 
-    public void initFromXML(Node ActionNode) {
+    public void initFromXML(Node ActionNode)
+    {
 
         this.nameEntityToKill = ActionNode.getAttributes().getNamedItem("kill").getTextContent();
         this.nameEntityToCreate = ActionNode.getAttributes().getNamedItem("create").getTextContent();

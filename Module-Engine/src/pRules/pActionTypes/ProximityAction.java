@@ -108,7 +108,8 @@ public class ProximityAction extends Action
         int[] rowOffsets = {-1, -1, -1, 0, 0, 1, 1, 1};
         int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1};
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++)
+        {
             int newRow = (currentCoordinate.getRow() + rowOffsets[i] + numRows) % numRows;
             int newCol = (currentCoordinate.getCol() + colOffsets[i] + numCols) % numCols;
             Coordinate newCoordinate = new Coordinate(newRow, newCol);

@@ -182,7 +182,7 @@ public class Engine implements IEngine
                 generatedProbability = r.nextDouble();
             }
 
-            List<Entity> entityList = world.getEntities();
+            List<Entity> entityList = clonedWorld.getEntities();
 
             // Iterate over each entity and save the population in its history list
             for (Entity entity : entityList)
@@ -192,7 +192,8 @@ public class Engine implements IEngine
                 populationHistory.add(entity.getEntities().size());
                 entityPopulationHistory.put(entityName, populationHistory);
             }
-            try {
+            try
+            {
                 Thread.sleep(20);
             } catch (InterruptedException e)
             {
@@ -231,7 +232,8 @@ public class Engine implements IEngine
     }
 
     @Override
-    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID) {
+    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID)
+    {
         Simulation simulation = simulations.get(simulationID);
         simulation.initQuantities();
         return simulation.getInitialQuantities(); //map of the old entities

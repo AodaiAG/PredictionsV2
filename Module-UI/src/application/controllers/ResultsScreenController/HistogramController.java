@@ -34,9 +34,8 @@ public class HistogramController
     private Simulation simulation;
     @FXML
     private Label averageLabel;
-
     @FXML
-    private TextField averageText;
+    private TextField averageText,consText1;
 
 
 
@@ -151,6 +150,7 @@ public class HistogramController
                     }
                 });
 
+
                 if(selectedPropertyDTO.getNameOfDataType().equals("Float")||selectedPropertyDTO.getNameOfDataType().equals("Decimal"))
                 {
                     float sumData = 0;
@@ -169,7 +169,6 @@ public class HistogramController
                     if(sumCount!=0)
                     {
                          average = sumData / sumCount;
-
                     }
                     averageLabel.setDisable(false);
                     averageText.setDisable(false);
