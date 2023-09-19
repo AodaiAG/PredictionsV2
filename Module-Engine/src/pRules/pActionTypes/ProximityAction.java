@@ -83,9 +83,12 @@ public class ProximityAction extends Action
         int x = coordinate.getRow();
         int y = coordinate.getCol();
 
-        for (int i = -depth; i <= depth; i++) {
-            for (int j = -depth; j <= depth; j++) {
-                if (i == 0 && j == 0) {
+        for (int i = -depth; i <= depth; i++)
+        {
+            for (int j = -depth; j <= depth; j++)
+            {
+                if (i == 0 && j == 0)
+                {
                     // Skip the current cell (the center)
                     continue;
                 }
