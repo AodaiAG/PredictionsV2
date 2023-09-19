@@ -5,6 +5,7 @@ public class Property
     private String NameOfProperty;
 
     private int lastUnchangedTicks;
+
     private int sumTicksNoChange = 0;
 
     public int numOfTimesHasChanged = 0;
@@ -20,6 +21,7 @@ public class Property
     public int getNumOfTimesHasChanged() {
         return numOfTimesHasChanged;
     }
+
     public void addToNumberOfTimePropHasChanged()
     {
         numOfTimesHasChanged++;

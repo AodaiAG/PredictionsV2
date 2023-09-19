@@ -40,7 +40,6 @@ public class ReplaceAction extends Action
     {
         EntityInstance entityInstanceToKill = args[0];
         EntityInstance createdEntityInstance = null;
-      //  EntityInstance addedEntityInstance = new EntityInstance();
 
         entityInstanceToKill.setTobeKilled(true);
         functions.getWorld().getGrid().removeInstanceFromCell(entityInstanceToKill);
@@ -80,8 +79,6 @@ public class ReplaceAction extends Action
         this.nameEntityToKill = ActionNode.getAttributes().getNamedItem("kill").getTextContent();
         this.nameEntityToCreate = ActionNode.getAttributes().getNamedItem("create").getTextContent();
         this.mode = ActionNode.getAttributes().getNamedItem("mode").getTextContent();
-
-
     }
 
     public String getNameEntityToKill() {
@@ -110,12 +107,12 @@ public class ReplaceAction extends Action
 
     @Override
     public String getNameOfAction() {
-        return null;
+        return "replace";
     }
 
     @Override
     public String getNameOfEntity() {
 
-        return null;
+        return nameEntityToKill;
     }
 }
