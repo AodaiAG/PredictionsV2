@@ -50,77 +50,62 @@ public class ProximityAction extends Action
     }
 
     @Override
-    public void ActivateAction(int currTick, EntityInstance ... args) throws Exception
-    {
+    public void ActivateAction(int currTick, EntityInstance ... args) throws Exception {
+        EntityInstance entityInstanceToActivateActionOn = null;
         EntityInstancesCircularGrid grid = this.functions.getWorld().getGrid();
         Entity targetEntity = this.findEntityAccordingName(this.functions.getWorld().getEntities(), targetEntityName);
-        EntityInstance instanceFromTargetEntity = targetEntity.getEntities().get(1);
         Expression expression = new Expression(getFunctions(), args[0]);
         String valAndDataType = expression.evaluateExpression(of);
         int indexOfPeriod = valAndDataType.indexOf(".");
-        String ofVal = valAndDataType.substring(indexOfPeriod);
-        if(isInCycleAtDepth(args[0], instanceFromTargetEntity, grid, Integer.parseInt(ofVal)))
-        {
-            for (Action action: actionList)
-            {
-                action.ActivateAction(currTick, args[0], instanceFromTargetEntity);
+        String ofVal = valAndDataType.substring(indexOfPeriod + 1);
+        int depth = (int) Float.parseFloat(ofVal);
+        List<EntityInstance> neighbors = getNeighborsAtDepth(grid, args[0].getCoordinate(), depth, targetEntityName);
+        if(!neighbors.isEmpty()) {
+            EntityInstance entityInstanceFromTarget = neighbors.get(0);
+            String primaryInstanceName;
+            for (Action action : actionList) {
+                primaryInstanceName = action.getNameOfEntity();
+                if (primaryInstanceName.equals(args[0].getNameOfEntity())) {
+                    entityInstanceToActivateActionOn = args[0];
+
+                } else if (primaryInstanceName.equals(entityInstanceFromTarget.getNameOfEntity())) {
+
+                    entityInstanceToActivateActionOn = entityInstanceFromTarget;
+                }
+                action.ActivateAction(currTick, entityInstanceToActivateActionOn);
             }
         }
     }
 
-    public boolean isInCycleAtDepth(EntityInstance entityInstance1, EntityInstance entityInstance2, EntityInstancesCircularGrid grid, int depth)
-    {
-        if (depth < 1)
-        {
-            throw new IllegalArgumentException("Depth must be greater than or equal to 1.");
+    public static List<EntityInstance> getNeighborsAtDepth(EntityInstancesCircularGrid grid, Coordinate coordinate, int depth, String targetEntityName) {
+        List<EntityInstance> neighbors = new ArrayList<>();
+
+        int x = coordinate.getRow();
+        int y = coordinate.getCol();
+
+        for (int i = -depth; i <= depth; i++) {
+            for (int j = -depth; j <= depth; j++) {
+                if (i == 0 && j == 0) {
+                    // Skip the current cell (the center)
+                    continue;
+                }
+
+                int neighborX = (x + i) % grid.getNumRows();
+                int neighborY = (y + j) % grid.getNumCols();
+
+                // Ensure the coordinates are non-negative
+                neighborX = (neighborX + grid.getNumRows()) % grid.getNumRows();
+                neighborY = (neighborY + grid.getNumCols()) % grid.getNumCols();
+
+                EntityInstance neighbor = grid.getEntityInstanceByCoordinate(new Coordinate(neighborX, neighborY));
+                if (neighbor != null && neighbor.getNameOfEntity().equals(targetEntityName)) {
+                    neighbors.add(neighbor);
+                }
+            }
         }
 
-        Set<EntityInstance> neighborsAtDepth = new HashSet<>();
-        Set<EntityInstance> neighborsAtPreviousDepth = new HashSet<>();
-        neighborsAtPreviousDepth.add(entityInstance1);
-
-        for (int d = 1; d <= depth; d++)
-        {
-            Set<EntityInstance> currentDepthNeighbors = new HashSet<>();
-
-            for (EntityInstance neighborEntity : neighborsAtPreviousDepth) {
-                List<EntityInstance> immediateNeighbors = getImmediateNeighbors(neighborEntity, grid);
-                currentDepthNeighbors.addAll(immediateNeighbors);
-            }
-
-            neighborsAtPreviousDepth = currentDepthNeighbors;
-
-            if (d == depth && neighborsAtPreviousDepth.contains(entityInstance2)) {
-                return true;
-            }
-        }
-
-        return false;
+        return neighbors;
     }
-
-    public List<EntityInstance> getImmediateNeighbors(EntityInstance primaryEntityInstance, EntityInstancesCircularGrid grid) {
-        List<EntityInstance> neighborEntities = new ArrayList<>();
-        Coordinate currentCoordinate = primaryEntityInstance.getCoordinate();
-        int numRows = grid.getNumRows();
-        int numCols = grid.getNumCols();
-
-        // Define relative offsets for 8 neighbors (including diagonals)
-        int[] rowOffsets = {-1, -1, -1, 0, 0, 1, 1, 1};
-        int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1};
-
-        for (int i = 0; i < 8; i++) {
-            int newRow = (currentCoordinate.getRow() + rowOffsets[i] + numRows) % numRows;
-            int newCol = (currentCoordinate.getCol() + colOffsets[i] + numCols) % numCols;
-            Coordinate newCoordinate = new Coordinate(newRow, newCol);
-            EntityInstance neighborEntity = grid.getEntityInstanceByCoordinate(newCoordinate) ;
-            if (neighborEntity != null) {
-                neighborEntities.add(neighborEntity);
-            }
-        }
-
-        return neighborEntities;
-    }
-
 
     public void initFromXML(Node ActionNode) throws Exception
     {

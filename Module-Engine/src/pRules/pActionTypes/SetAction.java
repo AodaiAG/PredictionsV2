@@ -73,12 +73,13 @@ public class SetAction extends Action
     @Override
     public void ActivateAction(int currTick, EntityInstance ...args) throws Exception
     {
-        EntityInstance e=args[0];
-        for(EntityInstance eI:args)
+        //find according name
+        EntityInstance e = args[0];
+        for(EntityInstance eI : args)
         {
             if(eI.getNameOfEntity().equals(this.entityName))
             {
-                e=eI;
+                e = eI;
                 break;
             }
         }
@@ -89,7 +90,10 @@ public class SetAction extends Action
         for (Property t : e.getPropertiesOfTheEntity()) {
             if (t.getNameOfProperty().equals(propertyName)) {
                 try {
-                    t.getData().setNewValue(sValue);
+                    if(t.getData().setNewValue(sValue))
+                    {
+                        t.updateProperty(currTick);
+                    }
                 } catch (Exception ex) {
 
                 }

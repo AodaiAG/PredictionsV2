@@ -182,7 +182,7 @@ public class Engine implements IEngine
                 generatedProbability = r.nextDouble();
             }
 
-            List<Entity> entityList = world.getEntities();
+            List<Entity> entityList = clonedWorld.getEntities();
 
             // Iterate over each entity and save the population in its history list
             for (Entity entity : entityList)
