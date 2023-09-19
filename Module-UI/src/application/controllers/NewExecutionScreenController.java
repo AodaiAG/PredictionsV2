@@ -197,6 +197,10 @@ public class NewExecutionScreenController
     void startSimulation(ActionEvent event)
     {
 
+
         uiManager.runSimulation();
+        uiManager.switchToResultsScreen(event);
+
+
     }
 }

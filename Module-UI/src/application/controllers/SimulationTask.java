@@ -34,16 +34,6 @@ public class SimulationTask extends Task<Void> {
         simulationDetailsTabController.enableProgressNode();
         UUID simulationId = engine.startSimulation(simulationConditions, consumer);
         simulationDetailsTabController.disableProgressNode();
-
-        // when the simulation ends
-//        try
-//        {
-//            Thread.sleep(4000);
-//
-//        } catch (InterruptedException e)
-//        {
-//            throw new RuntimeException(e);
-//        }
         Simulation simulation = engine.getSimulations().get(simulationId);
         Platform.runLater(() ->
         {

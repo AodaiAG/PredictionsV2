@@ -1,6 +1,7 @@
 package application.manager;
 
 import application.controllers.NewExecutionScreenController;
+import application.controllers.PrimaryScreenController;
 import application.controllers.ResultsScreenController.ResultsScreenController;
 import application.controllers.ResultsScreenController.SimulationDetailsTabController;
 import application.controllers.SimulationTask;
@@ -44,6 +45,7 @@ public enum UserInterfaceManager
     private Scene primaryScene;
     private ExecutorService threadPool;
     private final IEngine engine = new Engine();
+    private PrimaryScreenController primaryScreenController;
 
 
 
@@ -51,10 +53,12 @@ public enum UserInterfaceManager
     {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/scenePrimary.fxml"));
+
         Parent root = null;
         try
         {
             root = loader.load();
+            primaryScreenController=loader.getController();
             primaryScene = new Scene(root);
             stage.setScene(primaryScene);
             stage.setTitle("Main Application");
@@ -64,6 +68,19 @@ public enum UserInterfaceManager
         }
     }
 
+    public PrimaryScreenController getPrimaryScreenController()
+    {
+        return primaryScreenController;
+    }
+
+    public void setPrimaryScreenController(PrimaryScreenController primaryScreenController) {
+        this.primaryScreenController = primaryScreenController;
+    }
+
+    public void switchToResultsScreen(ActionEvent event)
+    {
+        primaryScreenController.switchToResultsScene(event);
+    }
     public String getSimulationName() {
         return simulationName;
     }
