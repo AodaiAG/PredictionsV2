@@ -13,7 +13,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchorProgram" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="887.0" prefWidth="1292.0" style="-fx-background-color: ffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PrimaryScreenController">
+<AnchorPane fx:id="mainAnchorProgram" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="887.0" prefWidth="1389.0" style="-fx-background-color: ffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PrimaryScreenController">
    <children>
       <VBox fx:id="Leftvbox" layoutX="-1.0" prefHeight="638.0" prefWidth="240.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -50,10 +50,10 @@
             </Button>
          </children>
       </VBox>
-      <FontAwesomeIconView fx:id="exiticon" glyphName="CLOSE" layoutX="1177.0" layoutY="34.0" onMouseClicked="#handleClose" size="30" />
-      <AnchorPane layoutX="239.0" layoutY="43.0" prefHeight="233.0" prefWidth="1050.0">
+      <FontAwesomeIconView fx:id="exiticon" glyphName="CLOSE" layoutX="1351.0" layoutY="34.0" onMouseClicked="#handleClose" size="30" />
+      <AnchorPane layoutX="239.0" layoutY="43.0" prefHeight="233.0" prefWidth="1147.0">
          <children>
-            <Pane fx:id="pnlStatus" prefHeight="124.0" prefWidth="987.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Pane fx:id="pnlStatus" prefHeight="124.0" prefWidth="1147.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label fx:id="pnlsMessage" layoutX="43.0" layoutY="38.0" text="Home" textFill="WHITE">
                      <font>
@@ -62,7 +62,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="buttonsPane" layoutY="124.0" prefHeight="100.0" prefWidth="1050.0" style="-fx-background-color: #ffffff;">
+            <Pane fx:id="buttonsPane" layoutY="124.0" prefHeight="100.0" prefWidth="1147.0" style="-fx-background-color: #ffffff;">
                <children>
                   <Button fx:id="btnLoad" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="32.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadXmlButton" prefHeight="31.0" prefWidth="190.0" stylesheets="@full.css" text="Load File" textFill="WHITE">
                      <graphic>
@@ -99,9 +99,6 @@
                      </font>
                   </Button>
                   <Button fx:id="results" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="574.0" layoutY="61.0" mnemonicParsing="false" onAction="#switchToResultsScene" prefHeight="31.0" prefWidth="227.0" stylesheets="@full.css" text="Results" textFill="WHITE">
-                     <graphic>
-                        <FontAwesomeIconView fill="#dddddd" glyphName="SQUARE" size="20" wrappingWidth="39.0" />
-                     </graphic>
                      <padding>
                         <Insets left="50.0" />
                      </padding>
@@ -109,9 +106,9 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Label layoutX="830.0" layoutY="13.0" prefHeight="25.0" prefWidth="156.0" text="Waiting Simulations">
+                  <Label layoutX="830.0" layoutY="13.0" prefHeight="27.0" prefWidth="177.0" text="Waiting Simulations">
                      <font>
-                        <Font name="System Bold Italic" size="16.0" />
+                        <Font name="System Bold Italic" size="18.0" />
                      </font>
                      <textFill>
                         <RadialGradient centerX="0.39204545454545453" centerY="0.5145631067961165" radius="0.5">
@@ -122,9 +119,9 @@
                         </RadialGradient>
                      </textFill>
                   </Label>
-                  <Label layoutX="830.0" layoutY="38.0" prefHeight="25.0" prefWidth="177.0" text="Executing Simulations">
+                  <Label layoutX="830.0" layoutY="38.0" prefHeight="27.0" prefWidth="190.0" text="Executing Simulations">
                      <font>
-                        <Font name="System Bold Italic" size="16.0" />
+                        <Font name="System Bold Italic" size="18.0" />
                      </font>
                      <textFill>
                         <RadialGradient centerX="0.39204545454545453" centerY="0.5145631067961165" radius="0.5">
@@ -135,9 +132,9 @@
                         </RadialGradient>
                      </textFill>
                   </Label>
-                  <Label layoutX="830.0" layoutY="64.0" prefHeight="25.0" prefWidth="177.0" text="Completed Simulations">
+                  <Label layoutX="830.0" layoutY="64.0" prefHeight="27.0" prefWidth="210.0" text="Completed Simulations">
                      <font>
-                        <Font name="System Bold Italic" size="16.0" />
+                        <Font name="System Bold Italic" size="18.0" />
                      </font>
                      <textFill>
                         <RadialGradient centerX="0.39204545454545453" centerY="0.5145631067961165" radius="0.5">
@@ -148,33 +145,33 @@
                         </RadialGradient>
                      </textFill>
                   </Label>
-                  <FontAwesomeIconView fill="#00c365" glyphName="CLOSE" layoutX="808.0" layoutY="80.0" size="12" wrappingWidth="14.571428298950195" />
-                  <FontAwesomeIconView fill="#afd700" glyphName="CLOSE" layoutX="808.0" layoutY="29.0" size="12" wrappingWidth="14.571428298950195" />
-                  <FontAwesomeIconView fill="#e40000" glyphName="CLOSE" layoutX="808.0" layoutY="54.0" size="12" wrappingWidth="14.571428298950195" />
-                  <Label fx:id="waitingLabel" layoutX="1019.0" layoutY="14.0" text="5">
+                  <FontAwesomeIconView fill="#00c365" glyphName="CLOSE" layoutX="808.0" layoutY="80.0" size="16" wrappingWidth="14.571428298950195" />
+                  <FontAwesomeIconView fill="#afd700" glyphName="CLOSE" layoutX="808.0" layoutY="29.0" size="16" wrappingWidth="14.571428298950195" />
+                  <FontAwesomeIconView fill="#e40000" glyphName="CLOSE" layoutX="808.0" layoutY="54.0" size="16" wrappingWidth="14.571428298950195" />
+                  <Label fx:id="waitingLabel" layoutX="1054.0" layoutY="16.0" text="5">
                      <font>
-                        <Font name="System Bold Italic" size="13.0" />
+                        <Font name="System Bold Italic" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="exeLabel" layoutX="1019.0" layoutY="40.0" text="5">
+                  <Label fx:id="exeLabel" layoutX="1054.0" layoutY="42.0" text="5">
                      <font>
-                        <Font name="System Bold Italic" size="13.0" />
+                        <Font name="System Bold Italic" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="compLabel" layoutX="1018.0" layoutY="67.0" text="5">
+                  <Label fx:id="compLabel" layoutX="1054.0" layoutY="72.0" text="5">
                      <font>
-                        <Font name="System Bold Italic" size="13.0" />
+                        <Font name="System Bold Italic" size="18.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
-            <Separator layoutX="-2.0" layoutY="226.0" prefHeight="0.0" prefWidth="1050.0" style="-fx-background-color: BLACK;" />
+            <Separator layoutX="-2.0" layoutY="229.0" prefHeight="0.0" prefWidth="1147.0" style="-fx-background-color: BLACK;" />
          </children>
       </AnchorPane>
-      <Button fx:id="btnTheme" layoutX="928.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnThemeHandle" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #3F2B63;" />
-      <Label layoutX="868.0" layoutY="13.0" text="Theme" />
-      <Button fx:id="btnBrown" layoutX="986.0" layoutY="8.0" mnemonicParsing="false" onAction="#themeBrown" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #7c4848;" textFill="#7c4848" />
-      <Button fx:id="btnBrown1" layoutX="1044.0" layoutY="8.0" mnemonicParsing="false" onAction="#themeBrown" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: BLACK;" textFill="WHITE" />
-      <AnchorPane fx:id="mainAnchorpane" layoutX="242.0" layoutY="273.0" prefHeight="596.0" prefWidth="987.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="273.0" />
+      <Button fx:id="btnTheme" layoutX="1018.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnThemeHandle" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #3F2B63;" />
+      <Label layoutX="933.0" layoutY="13.0" text="Theme" />
+      <Button fx:id="btnBrown" layoutX="1076.0" layoutY="8.0" mnemonicParsing="false" onAction="#themeBrown" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #7c4848;" textFill="#7c4848" />
+      <Button fx:id="btnBrown1" layoutX="1134.0" layoutY="8.0" mnemonicParsing="false" onAction="#themeBrown" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: BLACK;" textFill="WHITE" />
+      <AnchorPane fx:id="mainAnchorpane" layoutX="242.0" layoutY="277.0" prefHeight="610.0" prefWidth="1147.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="277.0" />
    </children>
 </AnchorPane>

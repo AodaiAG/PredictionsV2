@@ -19,7 +19,8 @@ public class SimulationTask extends Task<Void> {
     IEngine engine;
     SimulationDetailsTabController simulationDetailsTabController;
 
-    public SimulationTask(IEngine engine, UserInterfaceManager uiManger, SimulationDetailsTabController ct) {
+    public SimulationTask(IEngine engine, UserInterfaceManager uiManger, SimulationDetailsTabController ct)
+    {
         this.engine = engine;
         this.uiManger = uiManger;
         this.simulationDetailsTabController = ct;
@@ -48,6 +49,7 @@ public class SimulationTask extends Task<Void> {
             uiManger.decrementExecutingSimulations();
             this.simulationDetailsTabController.setSimulationResultsPane(simulation);
         });
+
         return null;
     }
 

@@ -146,6 +146,7 @@ public class Engine implements IEngine
 
     public String runSimulation(World clonedWorld, SimulationConditions simulationConditions, Consumer<String> consumer)
     {
+        entityPopulationHistory=new HashMap<>();
         double generatedProbability;
         generatedProbability = r.nextDouble();
         clonedWorld.ticksCounter = 0;
@@ -293,7 +294,8 @@ public class Engine implements IEngine
         return new EntityDTO(entity.getNameOfEntity(), entity.getNumberOfInstances(), propertyDTOs, entityInstancesDTOS);
     }
 
-    public PropertyDTO convertPropertyToDTO(Property property) {
+    public PropertyDTO convertPropertyToDTO(Property property)
+    {
         return new PropertyDTO(property.getNameOfProperty(), property.isRandomInitialize(), property.getTypeString(), property.getData().from, property.getData().to, property.getData().getDataString(), property.getData().isRangeExist(),property.getLastUnchangedTicks());
     }
 
