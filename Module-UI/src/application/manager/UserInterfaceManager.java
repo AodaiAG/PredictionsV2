@@ -31,6 +31,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
 public enum UserInterfaceManager
 {
     INSTANCE;
@@ -41,11 +42,13 @@ public enum UserInterfaceManager
     private NewExecutionScreenController newExecutionController;
     private ResultsScreenController resultsController;
     private TabPane tabPane=new TabPane();
-
     private Scene primaryScene;
     private ExecutorService threadPool;
     private final IEngine engine = new Engine();
     private PrimaryScreenController primaryScreenController;
+    private int waitingSimulations = 0;
+    private int executingSimulations = 0;
+    private int completedSimulations = 0;
 
 
 
@@ -231,13 +234,55 @@ public enum UserInterfaceManager
            SimulationTask simulationTask = new SimulationTask(engine, this,simulationDetailsTabController);
            simulationDetailsTabController.setSimulationTask(simulationTask);
            simulationTask.bindComponentsToTask();
+           incrementWaitingSimulations();
            threadPool.submit(simulationTask);
+
        }
        catch (Exception e)
        {
 
        }
     }
+
+        public int getWaitingSimulations() {
+            return waitingSimulations;
+        }
+
+        public int getExecutingSimulations() {
+            return executingSimulations;
+        }
+
+        public int getCompletedSimulations() {
+            return completedSimulations;
+        }
+
+        public synchronized void incrementExecutingSimulations()
+        {
+            executingSimulations++;
+            primaryScreenController.executingSimulations.set(executingSimulations);
+        }
+
+
+        public synchronized void incrementWaitingSimulations()
+        {
+            waitingSimulations++;
+            primaryScreenController.waitingSimulations.set(waitingSimulations);
+
+        }
+    public synchronized void decrementWaitingSimulations()
+    {
+        waitingSimulations--;
+        primaryScreenController.waitingSimulations.set(waitingSimulations);
+
+    }
+
+        public synchronized void incrementCompletedSimulations()
+        {
+            completedSimulations++;
+            primaryScreenController.completedSimulations.set(completedSimulations);
+        }
+
+
 
 
     public void updateSimulationResultsTab(Tab tab,Simulation simulation)
@@ -256,5 +301,12 @@ public enum UserInterfaceManager
         Tab tab = new Tab("Simulation " + tabCounter);
         tabPane.getTabs().add(tab);
         return tab;
+    }
+
+    public synchronized void decrementExecutingSimulations()
+    {
+
+        executingSimulations--;
+        primaryScreenController.executingSimulations.set(executingSimulations);
     }
 }

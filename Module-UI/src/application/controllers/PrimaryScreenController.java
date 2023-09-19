@@ -1,6 +1,8 @@
 package application.controllers;
 import application.manager.UserInterfaceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,7 @@ import javafx.scene.paint.Color;
 import javax.xml.soap.Text;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.List;
 
 public class PrimaryScreenController
 {
@@ -43,6 +46,13 @@ public class PrimaryScreenController
     private Label pnlsMessage;
     @FXML
     private VBox Leftvbox;
+    @FXML
+    private Label waitingLabel,exeLabel,compLabel;
+
+    public IntegerProperty waitingSimulations = new SimpleIntegerProperty(0);
+    public IntegerProperty executingSimulations = new SimpleIntegerProperty(0);
+    public IntegerProperty completedSimulations = new SimpleIntegerProperty(0);
+
 
     @FXML
     public void loadXmlButton(ActionEvent event)
@@ -55,7 +65,13 @@ public class PrimaryScreenController
     {
         uiManager = UserInterfaceManager.INSTANCE;
     }
+    public void initialize()
+    {
 
+        waitingLabel.textProperty().bind(waitingSimulations.asString());
+        exeLabel.textProperty().bind(executingSimulations.asString());
+        compLabel.textProperty().bind(completedSimulations.asString());
+    }
 
     @FXML
     public void buttonSwitchToDetailsScene(ActionEvent event)
@@ -72,6 +88,20 @@ public class PrimaryScreenController
             System.out.println("failed to load detailsScene.fxml");
         }
     }
+
+    public IntegerProperty waitingSimulationsProperty() {
+        return waitingSimulations;
+    }
+
+    public IntegerProperty executingSimulationsProperty() {
+        return executingSimulations;
+    }
+
+    public IntegerProperty completedSimulationsProperty()
+    {
+        return completedSimulations;
+    }
+
 
     @FXML
     void buttonSwitchToNewExecutionScene(ActionEvent event)
@@ -162,4 +192,6 @@ public class PrimaryScreenController
     {
         System.exit(0);
     }
+
+
 }

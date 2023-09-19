@@ -65,6 +65,7 @@ public class NewExecutionScreenController
                 {
                     populationText.setDisable(false);
                     SelectedentityDTO = entities.get(entitesList.getSelectionModel().getSelectedIndex());
+                    populationText.clear();
                 } else
                 {
 
@@ -116,6 +117,7 @@ public class NewExecutionScreenController
         String popString = populationText.getText();
         try
         {
+
             int popn = Integer.parseInt(popString);
             uiManager.generatePopulation(SelectedentityDTO, popn);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

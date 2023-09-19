@@ -32,17 +32,27 @@ public class SimulationTask extends Task<Void> {
         // this is the function that start the simulation logic
         Consumer<String> consumer = this::updateMessage;
         simulationDetailsTabController.enableProgressNode();
+        Platform.runLater(() ->
+        {
+            uiManger.decrementWaitingSimulations();
+            uiManger.incrementExecutingSimulations();
+        });
+
         UUID simulationId = engine.startSimulation(simulationConditions, consumer);
+
         simulationDetailsTabController.disableProgressNode();
         Simulation simulation = engine.getSimulations().get(simulationId);
         Platform.runLater(() ->
         {
+            uiManger.incrementCompletedSimulations();
+            uiManger.decrementExecutingSimulations();
             this.simulationDetailsTabController.setSimulationResultsPane(simulation);
         });
         return null;
     }
 
-    public void pauseSimulation() {
+    public void pauseSimulation()
+    {
         simulationConditions.setPauseSimulation(true);
         System.out.println("setting pause to true");
     }
