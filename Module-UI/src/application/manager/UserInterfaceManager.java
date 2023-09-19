@@ -226,16 +226,26 @@ public enum UserInterfaceManager
 
        try
        {
-           FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
-           AnchorPane simulationDetails = loader.load();
-           SimulationDetailsTabController simulationDetailsTabController=loader.getController();
-           Tab tab=resultsController.createAndAddNewTab(this.tabPane);
-           tab.setContent(simulationDetails);
-           SimulationTask simulationTask = new SimulationTask(engine, this,simulationDetailsTabController);
-           simulationDetailsTabController.setSimulationTask(simulationTask);
-           simulationTask.bindComponentsToTask();
-           incrementWaitingSimulations();
-           threadPool.submit(simulationTask);
+           if(engine.isWordNull())
+           {
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setHeaderText("Please Load A File First !");
+               alert.showAndWait();
+           }
+           else
+           {
+               FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
+               AnchorPane simulationDetails = loader.load();
+               SimulationDetailsTabController simulationDetailsTabController=loader.getController();
+               Tab tab=resultsController.createAndAddNewTab(this.tabPane);
+               tab.setContent(simulationDetails);
+               SimulationTask simulationTask = new SimulationTask(engine, this,simulationDetailsTabController);
+               simulationDetailsTabController.setSimulationTask(simulationTask);
+               simulationTask.bindComponentsToTask();
+               incrementWaitingSimulations();
+               threadPool.submit(simulationTask);
+
+           }
 
        }
        catch (Exception e)

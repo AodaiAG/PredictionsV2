@@ -54,7 +54,8 @@ public class WorldDTO
 
         // Add EnvironmentDTOs as child nodes
         TreeItem<String> environmentNode = new TreeItem<>("Environment");
-        for (EnvironmentDTO environmentDTO : environmentDTOS) {
+        for (EnvironmentDTO environmentDTO : environmentDTOS)
+        {
             environmentNode.getChildren().add(environmentDTO.generateTreeView());
         }
         rootNode.getChildren().add(environmentNode);

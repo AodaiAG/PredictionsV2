@@ -1,6 +1,7 @@
 package application.controllers.ResultsScreenController;
 
 import application.manager.UserInterfaceManager;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
@@ -27,10 +28,22 @@ public class ResultsScreenController
     private UserInterfaceManager uiManager;
     @FXML
     private AnchorPane mainAnchor;
-    public void initialize()
-    {
-        mainAnchor.getChildren().add(uiManager.getTabPane());
+    public void initialize() {
+        TabPane tabPane = uiManager.getTabPane();
+
+        // Add the TabPane to the mainAnchor
+        mainAnchor.getChildren().add(tabPane);
+
+        // Get the list of tabs
+        ObservableList<Tab> tabs = tabPane.getTabs();
+
+        // Select the last added tab
+        if (!tabs.isEmpty()) {
+            tabPane.getSelectionModel().select(tabs.size() - 1);
+        }
     }
+
+
 
     public Tab createAndAddNewTab(TabPane tabPane)
     {

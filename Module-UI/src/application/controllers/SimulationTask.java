@@ -13,7 +13,8 @@ import java.awt.event.ActionEvent;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class SimulationTask extends Task<Void> {
+public class SimulationTask extends Task<Void>
+{
     public SimulationConditions simulationConditions = new SimulationConditions();
     UserInterfaceManager uiManger;
     IEngine engine;
