@@ -81,7 +81,7 @@ public class Engine implements IEngine
             EnvironmentDTO dto = new EnvironmentDTO(pDto);
             envSet.add(dto);
         }
-        return new WorldDTO(entityDTOSet, envSet, rulesDTOSet, terminationDTO);
+        return new WorldDTO(entityDTOSet, envSet, rulesDTOSet, terminationDTO,world.getGrid().getNumRows(),world.getGrid().getNumCols());
     }
 
     public WorldDTO getWorldBeforeChanging() {

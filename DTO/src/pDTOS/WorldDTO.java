@@ -14,12 +14,18 @@ public class WorldDTO
     private TerminationDTO terminationDTO;
 
     private List<EnvironmentDTO> environmentDTOS;
+    int gridRows;
+    int gridcols;
 
-    public WorldDTO(List<EntityDTO> entityDTOSet, List<EnvironmentDTO> env, List<RulesDTO> rulesDTOSet, TerminationDTO terminationDTO) {
+    public WorldDTO(List<EntityDTO> entityDTOSet, List<EnvironmentDTO> env, List<RulesDTO> rulesDTOSet, TerminationDTO terminationDTO,int gridRows,int gridCols)
+    {
         this.entityDTOSet = entityDTOSet;
         this.rulesDTOSet = rulesDTOSet;
         this.terminationDTO = terminationDTO;
         this.environmentDTOS = env;
+        this.gridRows=gridRows;
+        this.gridcols=gridCols;
+
     }
 
     public TreeView<String> generateTreeView()
@@ -52,7 +58,9 @@ public class WorldDTO
             environmentNode.getChildren().add(environmentDTO.generateTreeView());
         }
         rootNode.getChildren().add(environmentNode);
-
+        TreeItem<String> grid = new TreeItem<>("Grid");
+        grid.getChildren().add(new TreeItem<>(gridRows+"X"+gridcols));
+        rootNode.getChildren().add(grid);
         TreeView<String> treeView = new TreeView<>(rootNode);
         return treeView;
     }
