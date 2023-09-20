@@ -13,7 +13,8 @@ public class SetAction extends Action
     private String propertyName;
     private String expression;
 
-    public SetAction() {
+    public SetAction()
+    {
         entityName = "";
         propertyName = "";
         expression = "";
@@ -23,7 +24,7 @@ public class SetAction extends Action
     {
 
         SetActionDTO setActionDTO=new SetActionDTO();
-        setActionDTO.setMainEntityNameActionWorksOn(entityName);
+        setActionDTO.setEntityName(entityName);
         setActionDTO.setNameOfAction("set");
         if (this.prDsecondaryEntity != null) {
             setActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
