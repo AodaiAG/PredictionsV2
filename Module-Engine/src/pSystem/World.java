@@ -63,13 +63,15 @@ public class World implements Cloneable
 
             // Clone the name2Env map (deep copy of EnvironmentInstances not shown here)
             Map<String, EnvironmentInstance> clonedName2Env = new HashMap<>(this.name2Env);
+
             clonedWorld.name2Env = clonedName2Env;
 
             // Clone the EntityInstancesCircularGrid (if it's cloneable)
             clonedWorld.grid = (EntityInstancesCircularGrid) this.grid.clone(); // Make sure EntityInstancesCircularGrid class implements Cloneable
 
             return clonedWorld;
-        } catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e)
+        {
             throw new AssertionError(e);
         }
     }

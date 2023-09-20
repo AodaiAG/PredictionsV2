@@ -314,7 +314,6 @@ public enum UserInterfaceManager
 
     public Tab createAndAddNewTab(TabPane tabPane)
     {
-
         Tab tab = new Tab("Simulation " + tabCounter);
         tabPane.getTabs().add(tab);
         return tab;
