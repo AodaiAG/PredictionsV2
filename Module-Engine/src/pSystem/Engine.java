@@ -7,6 +7,7 @@ import pEntity.*;
 import pEntity.Entity;
 import pEntity.Coordinate;
 import pEnvironment.EnvironmentInstance;
+import pExceptionHandler.ExceptionHandler;
 import pExpression.AuxiliaryMethods;
 import pRules.pActionTypes.*;
 import pRules.Rule;
@@ -270,6 +271,7 @@ public class Engine implements IEngine {
 
     public void ParseXmlAndLoadWorld(File file) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        ExceptionHandler exceptionHandler = new ExceptionHandler();
         try {
             this.world = new World();
             f = new AuxiliaryMethods(world);
@@ -279,13 +281,17 @@ public class Engine implements IEngine {
 
             if (doc.getElementsByTagName("PRD-thread-count").item(0) != null) {
                 this.numbOfThreads = Integer.parseInt(doc.getElementsByTagName("PRD-thread-count").item(0).getTextContent());
-
             }
 
             if (doc.getElementsByTagName("PRD-grid").getLength() > 0) {
+                try {
                 setGridCoordinate(doc.getElementsByTagName("PRD-grid"));
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
-
 
             NodeList worldList = doc.getElementsByTagName("PRD-world");
 
@@ -320,7 +326,6 @@ public class Engine implements IEngine {
         if (doc.getElementsByTagName("PRD-by-second").item(0) != null) {
             String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
             this.world.setTerminationSeconds(Integer.parseInt(seconds));
-
         }
 
         if (doc.getElementsByTagName("PRD-by-user").item(0) != null) {
@@ -328,12 +333,24 @@ public class Engine implements IEngine {
         }
     }
 
-    void setGridCoordinate(NodeList list) {
+    void setGridCoordinate(NodeList list) throws Exception {
         int gridRows;
         int gridCols;
-        gridRows = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("rows")).getTextContent());
-        gridCols = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("columns")).getTextContent());
-        this.world.getGrid().initEntityInstancesCircularGrid(gridRows, gridCols);
+        try {
+            gridRows = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("rows")).getTextContent());
+            gridCols = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("columns")).getTextContent());
+            ExceptionHandler exceptionHandler = new ExceptionHandler();
+            exceptionHandler.checkIfInRange(String.valueOf(gridRows), "10", "100");
+            exceptionHandler.checkIfInRange(String.valueOf(gridCols), "10", "100");
+
+            this.world.getGrid().initEntityInstancesCircularGrid(gridRows, gridCols);
+
+        }
+        catch (IllegalArgumentException exception)
+        {
+            throw new Exception("Rows and Columns should be numeric.");
+        }
+
     }
 
     private void initRulesFromFile(NodeList list, World world) throws Exception {
