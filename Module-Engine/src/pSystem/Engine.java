@@ -156,14 +156,16 @@ public class Engine implements IEngine
         return this.originalWorld.clone();
     }
 
-    public String runSimulation(World clonedWorld, SimulationConditions simulationConditions, Consumer<String> consumer) {
+    public String runSimulation(World clonedWorld, SimulationConditions simulationConditions, Consumer<String> consumer)
+    {
         entityPopulationHistory = new HashMap<>();
         double generatedProbability;
         generatedProbability = r.nextDouble();
         clonedWorld.ticksCounter = 0;
         Timer timer = new Timer();
         System.out.println(Thread.currentThread());
-        TimerTask task = new TimerTask() {
+        TimerTask task = new TimerTask()
+        {
             @Override
             public void run() {
                 programRunning = false;
@@ -180,7 +182,8 @@ public class Engine implements IEngine
         entityPopulationHistory.clear();
         boolean ticksAsTermination = true;
 
-        while (ticksAsTermination && simulationConditions.getSimulationRunning()) {
+        while (ticksAsTermination && simulationConditions.getSimulationRunning())
+        {
             //move
             clonedWorld.moveAllInstances();
 
@@ -210,8 +213,14 @@ public class Engine implements IEngine
             {
                 try
                 {
-                    Thread.sleep(100); // Sleep for a short time while paused
-                } catch (InterruptedException e) {
+                    Thread.sleep(100);   // Sleep for a short time while paused
+                 if(!simulationConditions.getSimulationRunning())
+                 {
+                     break;
+                 }
+                }
+                catch (InterruptedException e)
+                {
                     // Handle interruption if needed
                 }
             }
@@ -310,11 +319,10 @@ public class Engine implements IEngine
 
             }
 
-            if (doc.getElementsByTagName("PRD-grid").getLength() > 0) {
+            if (doc.getElementsByTagName("PRD-grid").getLength() > 0)
+            {
                 setGridCoordinate(doc.getElementsByTagName("PRD-grid"));
             }
-
-
             NodeList worldList = doc.getElementsByTagName("PRD-world");
 
             Node worldNode = worldList.item(0);
