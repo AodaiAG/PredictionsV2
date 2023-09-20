@@ -208,7 +208,8 @@ public class Engine implements IEngine
                 {
                     Thread.sleep(100); // Sleep for a short time while paused
 
-                } catch (InterruptedException e)
+                }
+                catch (InterruptedException e)
                 {
                     // Handle interruption if needed
                 }
