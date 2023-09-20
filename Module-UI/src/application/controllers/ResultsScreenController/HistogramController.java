@@ -82,7 +82,8 @@ public class HistogramController {
             }
         }
 
-        if (selectedEntityDTO != null) {
+        if (selectedEntityDTO != null)
+        {
             PropertyDTO selectedPropertyDTO = null;
             for (PropertyDTO propertyDTO : selectedEntityDTO.getProperties()) {
                 if (propertyDTO.getNameOfProperty().equals(selectedProperty)) {

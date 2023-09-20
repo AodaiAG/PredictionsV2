@@ -14,6 +14,7 @@ import pDTOS.EntityDTO;
 import pSystem.Simulation;
 
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 import java.util.*;
@@ -71,7 +72,7 @@ public class SimulationDetailsTabController
 
     @FXML
 
-    private Button stopBtn,pauseBtn,resumeBtn;
+    private Button stopBtn,pauseBtn,resumeBtn,reExecuteBTN;
 
     @FXML
 
@@ -174,6 +175,8 @@ public class SimulationDetailsTabController
     }
 
 
+
+
     private void populateLineChart()
 
     {
@@ -206,37 +209,19 @@ public class SimulationDetailsTabController
         {
 
             String entityName = entry.getKey(); // Get the entity name
-
             List<Integer> populationHistory = entry.getValue();
-
-
             // Store the Y-values (population history) for the entity
-
             entityData.put(entityName, populationHistory);
-
-
             // Create a data series for the entity
-
             XYChart.Series<Integer, Integer> entitySeries = new XYChart.Series<>();
-
             entitySeries.setName(entityName); // Set the entity name as the series name
-
-
             // Populate the data series with data points
-
             for (int ticksCounter = 0; ticksCounter < populationHistory.size(); ticksCounter++)
-
             {
-
                 entitySeries.getData().add(new XYChart.Data<>(ticksCounter, populationHistory.get(ticksCounter)));
-
             }
-
-
             // Add the entity data series to the LineChart
-
             lineChart.getData().add(entitySeries);
-
         }
 
 
@@ -496,4 +481,9 @@ public class SimulationDetailsTabController
 
     }
 
+    public void reExecuteOnAction(javafx.event.ActionEvent event)
+    {
+        this.simulationTask.returnButtonPressed();
+
+    }
 }

@@ -5,11 +5,11 @@ import application.manager.UserInterfaceManager;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Tab;
 import pSystem.IEngine;
 import pSystem.Simulation;
 
-import java.awt.event.ActionEvent;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -18,6 +18,7 @@ public class SimulationTask extends Task<Void>
     public SimulationConditions simulationConditions = new SimulationConditions();
     UserInterfaceManager uiManger;
     IEngine engine;
+    private Simulation simulation;
     SimulationDetailsTabController simulationDetailsTabController;
 
     public SimulationTask(IEngine engine, UserInterfaceManager uiManger, SimulationDetailsTabController ct)
@@ -25,6 +26,11 @@ public class SimulationTask extends Task<Void>
         this.engine = engine;
         this.uiManger = uiManger;
         this.simulationDetailsTabController = ct;
+    }
+
+    public void returnButton()
+    {
+
     }
 
     //
@@ -40,18 +46,23 @@ public class SimulationTask extends Task<Void>
             uiManger.incrementExecutingSimulations();
         });
 
+
         UUID simulationId = engine.startSimulation(simulationConditions, consumer);
 
         simulationDetailsTabController.disableProgressNode();
-        Simulation simulation = engine.getSimulations().get(simulationId);
+        this.simulation = engine.getSimulations().get(simulationId);
         Platform.runLater(() ->
         {
             uiManger.incrementCompletedSimulations();
             uiManger.decrementExecutingSimulations();
             this.simulationDetailsTabController.setSimulationResultsPane(simulation);
         });
-
         return null;
+    }
+    public void returnButtonPressed()
+    {
+       engine.setWorldFromExecution(simulation);
+       uiManger.switchToNewExecutionScreen(new ActionEvent());
     }
 
     public void pauseSimulation()

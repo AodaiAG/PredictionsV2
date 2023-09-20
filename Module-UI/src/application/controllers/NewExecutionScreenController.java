@@ -40,6 +40,8 @@ public class NewExecutionScreenController
 
     private EnvironmentDTO selectedEnvironmentDTO;
     private EntityDTO SelectedentityDTO;
+    @FXML
+    Button clearBtn;
 
 
 
@@ -205,4 +207,12 @@ public class NewExecutionScreenController
 
 
     }
+
+    public void clearOnAction(ActionEvent event)
+    {
+
+        uiManager.clearPressed();
+
+    }
+
 }

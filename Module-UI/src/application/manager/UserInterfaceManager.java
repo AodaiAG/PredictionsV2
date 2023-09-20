@@ -84,6 +84,13 @@ public enum UserInterfaceManager
     {
         primaryScreenController.switchToResultsScene(event);
     }
+    public void switchToNewExecutionScreen(ActionEvent event)
+    {
+        primaryScreenController.buttonSwitchToNewExecutionScene(event);
+
+    }
+
+
     public String getSimulationName() {
         return simulationName;
     }
@@ -149,7 +156,7 @@ public enum UserInterfaceManager
 
     public TreeView<String> generateWorldDetails()
     {
-        World world = engine.getWorld();
+        World world = engine.getOriginalWorld();
         return engine.convertWorldToDTO(world).generateTreeView();
     }
 
@@ -187,7 +194,7 @@ public enum UserInterfaceManager
 
     public List<EntityDTO> getEntityDto()
     {
-        World world = engine.getWorld();
+        World world = engine.getOriginalWorld();
         return this.engine.convertWorldToDTO(world).getEntityDTOSet();
     }
 
@@ -203,7 +210,7 @@ public enum UserInterfaceManager
 
     public EnvironmentDTO updateEnvironment(EnvironmentDTO modifiedEnvironment)
     {
-        World world = engine.getWorld();
+        World world = engine.getOriginalWorld();
         WorldDTO worldDTO = engine.convertWorldToDTO(world);
        for(EnvironmentDTO environmentDTO : worldDTO.getEnvironmentDTOS())
        {
@@ -318,5 +325,10 @@ public enum UserInterfaceManager
 
         executingSimulations--;
         primaryScreenController.executingSimulations.set(executingSimulations);
+    }
+
+    public void clearPressed()
+    {
+        engine.clearButtonPressed();
     }
 }

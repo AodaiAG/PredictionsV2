@@ -104,7 +104,7 @@ public class PrimaryScreenController
 
 
     @FXML
-    void buttonSwitchToNewExecutionScene(ActionEvent event)
+    public void buttonSwitchToNewExecutionScene(ActionEvent event)
     {
         try
         {
