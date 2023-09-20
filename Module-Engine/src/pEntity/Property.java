@@ -14,8 +14,6 @@ public class Property
 
     private Data data;
 
-
-
     public int getSumTicksNoChange() {
         return sumTicksNoChange;
     }
