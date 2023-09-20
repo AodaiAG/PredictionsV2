@@ -5,9 +5,7 @@ import pDTOS.*;
 import pDTOS.ActionsDTO.ActionDTO;
 import pEntity.*;
 import pEntity.Entity;
-import pEntity.Coordinate;
 import pEnvironment.EnvironmentInstance;
-import pExceptionHandler.ExceptionHandler;
 import pExpression.AuxiliaryMethods;
 import pRules.pActionTypes.*;
 import pRules.Rule;
@@ -25,11 +23,13 @@ import java.util.stream.Collectors;
 import pExceptionHandler.PropertyExceptionHandler;
 import pExceptionHandler.RuleExceptionHandler;
 
-public class Engine implements IEngine {
+public class Engine implements IEngine
+{
     private static boolean programRunning = true;
     private final Map<UUID, Simulation> simulations = new HashMap<>();
     public Random r = new Random();
-    public World world;
+    public World originalWorld;
+    public World FileWorld;
     Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
     private File currentXMLFilePath;
     private WorldDTO worldBeforeChanging = null;
@@ -38,16 +38,17 @@ public class Engine implements IEngine {
     private volatile Integer currTicksAmount = 0;
 
 
-    public List<Map.Entry<UUID, String>> getSortedSimulationsByDate() {
+    public List<Map.Entry<UUID, String>> getSortedSimulationsByDate()
+    {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy | HH.mm.ss");
-
         return simulations.entrySet().stream()
                 .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), dateFormat.format(entry.getValue().getRunningDate())))
                 .sorted(Comparator.comparing(Map.Entry::getValue))
                 .collect(Collectors.toList());
     }
 
-    public Integer getCurrTicksAmount() {
+    public Integer getCurrTicksAmount()
+    {
         return currTicksAmount;
     }
 
@@ -58,6 +59,8 @@ public class Engine implements IEngine {
     public int getNumThreads() {
         return numbOfThreads;
     }
+
+
 
     @Override
     public WorldDTO convertWorldToDTO(World world) {
@@ -85,41 +88,71 @@ public class Engine implements IEngine {
 
     @Override
     public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception {
-        EnvironmentInstance environmentInstance = this.world.getName2Env().get(environmentDTO.getEnProperty().getNameOfProperty());
+        EnvironmentInstance environmentInstance = this.originalWorld.getName2Env().get(environmentDTO.getEnProperty().getNameOfProperty());
         try {
             environmentInstance.getEnvironmentProperty().getData().setNewValue(userValue);
             environmentInstance.getEnvironmentProperty().setRandomInitialize(false);
+            environmentInstance.setInitByUser(true);
         } catch (Exception e) {
             throw e;
+        }
+    }
+    public void initEnviromentVariables()
+    {
+        for(EnvironmentInstance environmentInstance:originalWorld.getName2Env().values())
+        {
+            environmentInstance.randomlyInitEnvironmentData();
         }
     }
 
     //command #3
     @Override
-    public UUID startSimulation(SimulationConditions simulationConditions, Consumer<String> consumer) {
-        try {
-            World clonedWorld = world.clone();
+    public UUID startSimulation(SimulationConditions simulationConditions, Consumer<String> consumer)
+    {
+        try
+        {
+            World clonedWorld = originalWorld.clone();
+            World toBeExecutedWorld = originalWorld.clone();
             f.setWorld(clonedWorld);
             WorldDTO oldWorldDTO = convertWorldToDTO(clonedWorld);
             clonedWorld.initCoordinates();
             UUID simulationId = UUID.randomUUID();
+            initEnviromentVariables(); //
             String reasonForTermination = runSimulation(clonedWorld, simulationConditions, consumer);
             WorldDTO worldAfter = convertWorldToDTO(clonedWorld);
             Simulation simulation = new Simulation(oldWorldDTO, worldAfter, simulationId);
+            simulation.setWorldTobeExecuted(toBeExecutedWorld);
             simulation.setEntityPopulationHistory(this.entityPopulationHistory);
             Date currentDate = new Date(); // Replace this with the actual date you want to use
             simulation.setRunningDate(currentDate);
             simulation.setReasonForTermination(reasonForTermination);
             simulations.put(simulationId, simulation);
             return simulationId;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             return null;
         }
     }
+    public void setWorldToFunctions(World world)
+    {
+        this.f.setWorld(world);
+    }
 
     @Override
-    public Boolean isWordNull() {
-        return world == null;
+    public void setWorldFromExecution(Simulation simulation)
+    {
+        this.originalWorld=simulation.getWorldTobeExecuted();
+        setWorldToFunctions(originalWorld);
+
+    }
+
+
+
+    @Override
+    public Boolean isWordNull()
+    {
+        return originalWorld == null;
     }
 
     @Override
@@ -129,17 +162,19 @@ public class Engine implements IEngine {
 
     @Override
     public World cloneWorld() {
-        return this.world.clone();
+        return this.originalWorld.clone();
     }
 
-    public String runSimulation(World clonedWorld, SimulationConditions simulationConditions, Consumer<String> consumer) {
+    public String runSimulation(World clonedWorld, SimulationConditions simulationConditions, Consumer<String> consumer)
+    {
         entityPopulationHistory = new HashMap<>();
         double generatedProbability;
         generatedProbability = r.nextDouble();
         clonedWorld.ticksCounter = 0;
         Timer timer = new Timer();
         System.out.println(Thread.currentThread());
-        TimerTask task = new TimerTask() {
+        TimerTask task = new TimerTask()
+        {
             @Override
             public void run() {
                 programRunning = false;
@@ -156,7 +191,8 @@ public class Engine implements IEngine {
         entityPopulationHistory.clear();
         boolean ticksAsTermination = true;
 
-        while (ticksAsTermination && simulationConditions.getSimulationRunning()) {
+        while (ticksAsTermination && simulationConditions.getSimulationRunning())
+        {
             //move
             clonedWorld.moveAllInstances();
 
@@ -182,11 +218,18 @@ public class Engine implements IEngine {
             }
             // if the user choses to pause
             System.out.println(simulationConditions.getPauseSimulation() + " Pause value in engine");
-            while (simulationConditions.getPauseSimulation()) {
-                try {
-                    Thread.sleep(100); // Sleep for a short time while paused
-
-                } catch (InterruptedException e) {
+            while (simulationConditions.getPauseSimulation())
+            {
+                try
+                {
+                    Thread.sleep(100);   // Sleep for a short time while paused
+                 if(!simulationConditions.getSimulationRunning())
+                 {
+                     break;
+                 }
+                }
+                catch (InterruptedException e)
+                {
                     // Handle interruption if needed
                 }
             }
@@ -202,7 +245,8 @@ public class Engine implements IEngine {
         }
 
         timer.cancel(); // Cancel the timer when simulation is done
-        if (clonedWorld.ticksCounter == ticksAmount) {
+        if (clonedWorld.ticksCounter == ticksAmount)
+        {
             return "ticks";
         }
         return "seconds";
@@ -219,7 +263,7 @@ public class Engine implements IEngine {
     public void endOfSimulationHandlerPropertyHistogram(UUID simulationID, String chosenEntityName, String chosenPropertyName) {
         Simulation simulation = simulations.get(simulationID);
         try {
-            Entity chosenEntity = findEntityAccordingName(this.world.getEntities(), chosenEntityName);
+            Entity chosenEntity = findEntityAccordingName(this.originalWorld.getEntities(), chosenEntityName);
             simulation.initPropertyHistogramAndReturnValueCounts(chosenEntity, chosenPropertyName);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -269,30 +313,25 @@ public class Engine implements IEngine {
         property.getSumTicksNoChange(), property.getNumOfTimesHasChanged());
     }
 
-    public void ParseXmlAndLoadWorld(File file) throws Exception {
+    public void ParseXmlAndLoadWorld(File file) throws Exception
+    {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        ExceptionHandler exceptionHandler = new ExceptionHandler();
         try {
-            this.world = new World();
-            f = new AuxiliaryMethods(world);
+            this.originalWorld = new World();
+            f = new AuxiliaryMethods(originalWorld);
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(file);
             doc.getDocumentElement().normalize();
 
             if (doc.getElementsByTagName("PRD-thread-count").item(0) != null) {
                 this.numbOfThreads = Integer.parseInt(doc.getElementsByTagName("PRD-thread-count").item(0).getTextContent());
+
             }
 
-            if (doc.getElementsByTagName("PRD-grid").getLength() > 0) {
-                try {
+            if (doc.getElementsByTagName("PRD-grid").getLength() > 0)
+            {
                 setGridCoordinate(doc.getElementsByTagName("PRD-grid"));
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
             }
-
             NodeList worldList = doc.getElementsByTagName("PRD-world");
 
             Node worldNode = worldList.item(0);
@@ -305,15 +344,17 @@ public class Engine implements IEngine {
             initEntitiesFromFile(prdEntities);
 
             NodeList prdRules = doc.getElementsByTagName("PRD-rule");
-            initRulesFromFile(prdRules, this.world);
+            initRulesFromFile(prdRules, this.originalWorld);
 
             initTerminationTerms(doc);
 
-            this.worldBeforeChanging = convertWorldToDTO(world);
+            this.worldBeforeChanging = convertWorldToDTO(originalWorld);
             currentXMLFilePath = file;
             simulations.clear();
+            this.FileWorld=originalWorld.clone();
 
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw e;
         }
     }
@@ -321,36 +362,30 @@ public class Engine implements IEngine {
     void initTerminationTerms(Document doc) {
         if (doc.getElementsByTagName("PRD-by-ticks").item(0) != null) {
             String ticks = doc.getElementsByTagName("PRD-by-ticks").item(0).getAttributes().getNamedItem("count").getTextContent();
-            this.world.setTerminationTicks(Integer.parseInt(ticks));
+            this.originalWorld.setTerminationTicks(Integer.parseInt(ticks));
         }
         if (doc.getElementsByTagName("PRD-by-second").item(0) != null) {
             String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
-            this.world.setTerminationSeconds(Integer.parseInt(seconds));
+            this.originalWorld.setTerminationSeconds(Integer.parseInt(seconds));
+
         }
 
         if (doc.getElementsByTagName("PRD-by-user").item(0) != null) {
-            this.world.setTerminationByUser(true);
+            this.originalWorld.setTerminationByUser(true);
         }
     }
+    @Override
+    public void clearButtonPressed()
+    {
+        this.originalWorld=FileWorld.clone();
+    }
 
-    void setGridCoordinate(NodeList list) throws Exception {
+    void setGridCoordinate(NodeList list) {
         int gridRows;
         int gridCols;
-        try {
-            gridRows = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("rows")).getTextContent());
-            gridCols = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("columns")).getTextContent());
-            ExceptionHandler exceptionHandler = new ExceptionHandler();
-            exceptionHandler.checkIfInRange(String.valueOf(gridRows), "10", "100");
-            exceptionHandler.checkIfInRange(String.valueOf(gridCols), "10", "100");
-
-            this.world.getGrid().initEntityInstancesCircularGrid(gridRows, gridCols);
-
-        }
-        catch (IllegalArgumentException exception)
-        {
-            throw new Exception("Rows and Columns should be numeric.");
-        }
-
+        gridRows = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("rows")).getTextContent());
+        gridCols = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("columns")).getTextContent());
+        this.originalWorld.getGrid().initEntityInstancesCircularGrid(gridRows, gridCols);
     }
 
     private void initRulesFromFile(NodeList list, World world) throws Exception {
@@ -394,7 +429,7 @@ public class Engine implements IEngine {
                     }
                 }
 
-                this.world.getRules().add(newRule);
+                this.originalWorld.getRules().add(newRule);
             }
         } catch (Exception e) {
             throw new Exception("Problem occurred while Parsing xml at rule name " + nameOfRule + " reason/s:" + '\n' + e.getMessage());
@@ -417,16 +452,16 @@ public class Engine implements IEngine {
                     from = ((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
                     to = ((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
                     exceptionHandler.Handle(type, prdName, true, from, to, true, "1");
-                    Property eN1 = initProperty(type, prdName, true, from, to, true, "1");
+                    Property eN1 = initProperty(type, prdName, true, from, to, true, "1",true);
                     EnvironmentInstance environmentInstance = new EnvironmentInstance();
                     environmentInstance.setEnvironmentProperty(eN1);
-                    world.getName2Env().put(prdName, environmentInstance);
+                    originalWorld.getName2Env().put(prdName, environmentInstance);
                 } else {
                     exceptionHandler.Handle(type, prdName, false, from, to, true, "1");
-                    Property eN = initProperty(type, prdName, false, from, to, true, "1");
+                    Property eN = initProperty(type, prdName, false, from, to, true, "1",true);
                     EnvironmentInstance environmentInstance = new EnvironmentInstance();
                     environmentInstance.setEnvironmentProperty(eN);
-                    world.getName2Env().put(prdName, environmentInstance);
+                    originalWorld.getName2Env().put(prdName, environmentInstance);
                 }
             } catch (Exception e) {
                 throw e;
@@ -472,11 +507,11 @@ public class Engine implements IEngine {
                     if (isRandom.equals("false")) {
                         initValue = ((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
                         exceptionHandler.Handle(type, prdName, isRange, from, to, false, initValue);
-                        Property property = initProperty(type, prdName, isRange, from, to, false, initValue);
+                        Property property = initProperty(type, prdName, isRange, from, to, false, initValue,false);
                         e1.getPropertiesOfTheEntity().add(property);
                     } else {
                         exceptionHandler.Handle(type, prdName, isRange, from, to, true, initValue);
-                        Property property = initProperty(type, prdName, isRange, from, to, true, initValue);
+                        Property property = initProperty(type, prdName, isRange, from, to, true, initValue,false);
                         Property propAdded;
                         propAdded = property;
                         e1.getPropertiesOfTheEntity().add(propAdded);
@@ -484,7 +519,7 @@ public class Engine implements IEngine {
                 }
                 newEntity.setPropertiesOfTheEntity(e1.getPropertiesOfTheEntity());
 
-                this.world.getEntities().add(newEntity);
+                this.originalWorld.getEntities().add(newEntity);
 
             } catch (Exception e) {
                 throw new Exception("Error at entity name: " + name + " " + e.getMessage());
@@ -495,7 +530,7 @@ public class Engine implements IEngine {
     public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO) {
         Entity entity = null;
         try {
-            entity = findEntityAccordingName(this.world.getEntities(), selectedentityDTO.getName());
+            entity = findEntityAccordingName(this.originalWorld.getEntities(), selectedentityDTO.getName());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -503,7 +538,8 @@ public class Engine implements IEngine {
         List<EntityInstance> entityInstances = new ArrayList<>();
         Set<Property> propOfEntity = entity.getPropertiesOfTheEntity();
 
-        for (int m = 0; m < popNumber; m++) {
+        for (int m = 0; m < popNumber; m++)
+        {
             EntityInstance added = entity.createNewInstance();
             entityInstances.add(added);
         }
@@ -512,7 +548,8 @@ public class Engine implements IEngine {
         entity.setNumberOfInstances(popNumber);
     }
 
-    Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init) {
+    Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init,Boolean isEnvVariable)
+    {
 
         Property res = new Property();
         res.setNameOfProperty(name);
@@ -524,13 +561,16 @@ public class Engine implements IEngine {
             eD.setFrom(from);
             eD.setTo(to);
         }
-        eD.calculateNewVal(init, bool);
+        if(!isEnvVariable)
+        {
+            eD.calculateNewVal(init, bool);
+        }
         res.setData(eD);
         return res;
     }
 
     @Override
-    public World getWorld() {
-        return this.world;
+    public World getOriginalWorld() {
+        return this.originalWorld;
     }
 }

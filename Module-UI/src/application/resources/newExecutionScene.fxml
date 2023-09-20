@@ -56,6 +56,7 @@
                <effect>
                   <DropShadow color="#dac8c8" />
                </effect></ListView>
+            <Button fx:id="clearBtn" layoutX="22.0" layoutY="513.0" mnemonicParsing="false" onAction="#clearOnAction" prefHeight="40.0" prefWidth="93.0" text="Clear" />
          </children></AnchorPane>
    </items>
 </SplitPane>

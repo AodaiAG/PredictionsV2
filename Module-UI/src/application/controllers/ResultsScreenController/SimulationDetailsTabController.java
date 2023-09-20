@@ -1,6 +1,10 @@
 package application.controllers.ResultsScreenController;
 
 import application.controllers.SimulationTask;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +18,7 @@ import pDTOS.EntityDTO;
 import pSystem.Simulation;
 
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 import java.util.*;
@@ -66,32 +71,21 @@ public class SimulationDetailsTabController
     private NumberAxis yAxis;
 
     @FXML
-
     TextField countetext;
-
     @FXML
-
-    private Button stopBtn,pauseBtn,resumeBtn;
-
+    private Button stopBtn,pauseBtn,resumeBtn,reExecuteBTN;
     @FXML
-
-    private Label updateLabel;
-
+    private Label updateLabel,statusLabel;
     @FXML
-
     private AnchorPane progressAnchor;
-
-
     private NumberAxis customYAxis = new NumberAxis(); // Create a custom NumberAxis
-
-
     private ToggleGroup toggleGroup = new ToggleGroup();
+    public StringProperty statusPropertyLabel = new SimpleStringProperty("Running");
 
     public void initialize()
 
     {
-
-
+        statusLabel.textProperty().bind(statusPropertyLabel);
 
     }
 
@@ -102,6 +96,11 @@ public class SimulationDetailsTabController
 
         return simulationTask;
 
+    }
+
+    public synchronized void setStatusLabel(String s)
+    {
+       this.statusPropertyLabel.set(s);
     }
 
 
@@ -174,6 +173,8 @@ public class SimulationDetailsTabController
     }
 
 
+
+
     private void populateLineChart()
 
     {
@@ -206,37 +207,19 @@ public class SimulationDetailsTabController
         {
 
             String entityName = entry.getKey(); // Get the entity name
-
             List<Integer> populationHistory = entry.getValue();
-
-
             // Store the Y-values (population history) for the entity
-
             entityData.put(entityName, populationHistory);
-
-
             // Create a data series for the entity
-
             XYChart.Series<Integer, Integer> entitySeries = new XYChart.Series<>();
-
             entitySeries.setName(entityName); // Set the entity name as the series name
-
-
             // Populate the data series with data points
-
             for (int ticksCounter = 0; ticksCounter < populationHistory.size(); ticksCounter++)
-
             {
-
                 entitySeries.getData().add(new XYChart.Data<>(ticksCounter, populationHistory.get(ticksCounter)));
-
             }
-
-
             // Add the entity data series to the LineChart
-
             lineChart.getData().add(entitySeries);
-
         }
 
 
@@ -496,4 +479,9 @@ public class SimulationDetailsTabController
 
     }
 
+    public void reExecuteOnAction(javafx.event.ActionEvent event)
+    {
+        this.simulationTask.returnButtonPressed();
+
+    }
 }

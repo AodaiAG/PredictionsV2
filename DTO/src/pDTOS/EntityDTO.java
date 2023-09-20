@@ -39,7 +39,7 @@ public EntityDTO(String name, int numOfInstances, List<PropertyDTO> propDTO, Lis
         this.numberOfInstances = numOfInstances;
         this.properties = propDTO;
         instancesDTOS = ldto;
-    }
+}
 
     public List<EntityInstancesDTO> getInstancesDTOS() {
         return instancesDTOS;

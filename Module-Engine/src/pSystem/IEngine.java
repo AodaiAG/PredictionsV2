@@ -29,6 +29,8 @@ public interface IEngine
 //    public void resumeSimulation();
     public World cloneWorld();
     Boolean isWordNull();
+    public void setWorldFromExecution(Simulation simulation);
+    public void clearButtonPressed();
 
     public Map<UUID, Simulation> getSimulations();
 
@@ -37,7 +39,7 @@ public interface IEngine
     public void endOfSimulationHandlerPropertyHistogram(UUID simulationID, String chosenEntityName, String chosenPropertyName);
 
     public List<Map.Entry<UUID, String>> getSortedSimulationsByDate();
-    public World getWorld();
+    public World getOriginalWorld();
 
     int getNumThreads();
 }

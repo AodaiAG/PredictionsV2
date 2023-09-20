@@ -91,9 +91,11 @@ public class Entity implements Cloneable
             propOfEntity.add(p.clone());
         }
         newEntityInstance.setPropertiesOfTheEntity(propOfEntity);
-        for (Property p : getPropertiesOfTheEntity()) {
+        for (Property p : getPropertiesOfTheEntity())
+        {
             String initVal = p.getData().getDataString();
-            if (p.isRandomInitialize()) {
+            if (p.isRandomInitialize())
+            {
                 p.getData().calculateNewVal(initVal, true);
             }
         }

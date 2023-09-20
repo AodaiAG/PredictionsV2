@@ -13,9 +13,17 @@ public class Simulation
     private static boolean programRunning;
     private WorldDTO wordAfterSimulation;
     private WorldDTO wordBeforeSimulation;
+    private World worldTobeExecuted;
     private UUID simulationId;
     Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
 
+    public World getWorldTobeExecuted() {
+        return worldTobeExecuted;
+    }
+
+    public void setWorldTobeExecuted(World worldTobeExecuted) {
+        this.worldTobeExecuted = worldTobeExecuted;
+    }
 
     private final Map<String, Map<String, Integer>> propertyValueCounts = new HashMap<>(); //<entityName <property, instancesAmount>>
     Date runningDate;
