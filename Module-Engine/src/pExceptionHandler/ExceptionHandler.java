@@ -6,9 +6,9 @@ public class ExceptionHandler
     {
         String lowc=type.toLowerCase();
 
-        if (!lowc.equals("decimal")&&!lowc.equals("boolean")&&!lowc.equals("float")&&!lowc.equals("string"))
+        if (!lowc.equals("decimal") && !lowc.equals("boolean") && !lowc.equals( "float" ) && !lowc.equals("string"))
         {
-            throw new Exception("type "+type+" not Supported!");
+            throw new Exception("type "+ type + " not Supported!");
         }
     }
 
@@ -42,8 +42,6 @@ public class ExceptionHandler
             throw new Exception("the value " + value + " you provided is not between " + from + " to " + to + ".");
         }
     }
-
-
 
     public void checkIfValueMatchesType(String value,String type) throws Exception
     {

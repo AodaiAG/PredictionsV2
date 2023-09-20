@@ -19,7 +19,6 @@ public class PropertyExceptionHandler extends ExceptionHandler {
                 {
                     throw new Exception(type + " should have a range");
                 }
-
             }
             if (!isIntRandom) {
                 checkIfValueMatchesType(initValue, type);
