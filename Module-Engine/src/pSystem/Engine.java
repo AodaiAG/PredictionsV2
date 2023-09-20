@@ -92,8 +92,16 @@ public class Engine implements IEngine
         try {
             environmentInstance.getEnvironmentProperty().getData().setNewValue(userValue);
             environmentInstance.getEnvironmentProperty().setRandomInitialize(false);
+            environmentInstance.setInitByUser(true);
         } catch (Exception e) {
             throw e;
+        }
+    }
+    public void initEnviromentVariables()
+    {
+        for(EnvironmentInstance environmentInstance:originalWorld.getName2Env().values())
+        {
+            environmentInstance.randomlyInitEnvironmentData();
         }
     }
 
@@ -109,6 +117,7 @@ public class Engine implements IEngine
             WorldDTO oldWorldDTO = convertWorldToDTO(clonedWorld);
             clonedWorld.initCoordinates();
             UUID simulationId = UUID.randomUUID();
+            initEnviromentVariables(); //
             String reasonForTermination = runSimulation(clonedWorld, simulationConditions, consumer);
             WorldDTO worldAfter = convertWorldToDTO(clonedWorld);
             Simulation simulation = new Simulation(oldWorldDTO, worldAfter, simulationId);
@@ -443,13 +452,13 @@ public class Engine implements IEngine
                     from = ((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("from").getTextContent();
                     to = ((Element) item).getElementsByTagName("PRD-range").item(0).getAttributes().getNamedItem("to").getTextContent();
                     exceptionHandler.Handle(type, prdName, true, from, to, true, "1");
-                    Property eN1 = initProperty(type, prdName, true, from, to, true, "1");
+                    Property eN1 = initProperty(type, prdName, true, from, to, true, "1",true);
                     EnvironmentInstance environmentInstance = new EnvironmentInstance();
                     environmentInstance.setEnvironmentProperty(eN1);
                     originalWorld.getName2Env().put(prdName, environmentInstance);
                 } else {
                     exceptionHandler.Handle(type, prdName, false, from, to, true, "1");
-                    Property eN = initProperty(type, prdName, false, from, to, true, "1");
+                    Property eN = initProperty(type, prdName, false, from, to, true, "1",true);
                     EnvironmentInstance environmentInstance = new EnvironmentInstance();
                     environmentInstance.setEnvironmentProperty(eN);
                     originalWorld.getName2Env().put(prdName, environmentInstance);
@@ -498,11 +507,11 @@ public class Engine implements IEngine
                     if (isRandom.equals("false")) {
                         initValue = ((Element) item2).getElementsByTagName("PRD-value").item(0).getAttributes().getNamedItem("init").getTextContent();
                         exceptionHandler.Handle(type, prdName, isRange, from, to, false, initValue);
-                        Property property = initProperty(type, prdName, isRange, from, to, false, initValue);
+                        Property property = initProperty(type, prdName, isRange, from, to, false, initValue,false);
                         e1.getPropertiesOfTheEntity().add(property);
                     } else {
                         exceptionHandler.Handle(type, prdName, isRange, from, to, true, initValue);
-                        Property property = initProperty(type, prdName, isRange, from, to, true, initValue);
+                        Property property = initProperty(type, prdName, isRange, from, to, true, initValue,false);
                         Property propAdded;
                         propAdded = property;
                         e1.getPropertiesOfTheEntity().add(propAdded);
@@ -529,7 +538,8 @@ public class Engine implements IEngine
         List<EntityInstance> entityInstances = new ArrayList<>();
         Set<Property> propOfEntity = entity.getPropertiesOfTheEntity();
 
-        for (int m = 0; m < popNumber; m++) {
+        for (int m = 0; m < popNumber; m++)
+        {
             EntityInstance added = entity.createNewInstance();
             entityInstances.add(added);
         }
@@ -538,7 +548,8 @@ public class Engine implements IEngine
         entity.setNumberOfInstances(popNumber);
     }
 
-    Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init) {
+    Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init,Boolean isEnvVariable)
+    {
 
         Property res = new Property();
         res.setNameOfProperty(name);
@@ -550,7 +561,10 @@ public class Engine implements IEngine
             eD.setFrom(from);
             eD.setTo(to);
         }
-        eD.calculateNewVal(init, bool);
+        if(!isEnvVariable)
+        {
+            eD.calculateNewVal(init, bool);
+        }
         res.setData(eD);
         return res;
     }
