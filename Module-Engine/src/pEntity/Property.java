@@ -8,13 +8,11 @@ public class Property
 
     private int sumTicksNoChange = 0;
 
-    public int numOfTimesHasChanged = 0;
+    private int numOfTimesHasChanged = 0;
 
     private boolean isRandomInitialize;
 
     private Data data;
-
-
 
     public int getSumTicksNoChange() {
         return sumTicksNoChange;

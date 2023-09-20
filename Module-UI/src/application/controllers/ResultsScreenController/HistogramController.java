@@ -9,45 +9,38 @@ import javafx.scene.layout.VBox;
 import pDTOS.EntityDTO;
 import pDTOS.EntityInstancesDTO;
 import pDTOS.PropertyDTO;
-import pDTOS.WorldDTO;
 import pSystem.Simulation;
 
-import javax.swing.table.TableColumn;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
-public class HistogramController
-{
+public class HistogramController {
+    @FXML
+    TableView histogramTableView;
+    @FXML
+    javafx.scene.control.TableColumn<Map.Entry<String, Integer>, String> valueColumn;
+    @FXML
+    javafx.scene.control.TableColumn<Map.Entry<String, Integer>, String> countColumn;
     @FXML
     private ComboBox<String> entityComboBox;
     @FXML
     private ComboBox<String> propertyComboBox;
-    @FXML
-    TableView histogramTableView;
-    @FXML
-    javafx.scene.control.TableColumn < Map.Entry<String, Integer>, String> valueColumn;
-    @FXML
-    javafx.scene.control. TableColumn <Map.Entry<String, Integer>,String> countColumn;
     private VBox histogramContent;
     private Simulation simulation;
     @FXML
     private Label averageLabel;
     @FXML
-    private TextField averageText,consText1;
-
+    private TextField averageText, consText1;
 
 
     // Initialize the ComboBoxes with entity and property data
-    public void initialize(Simulation simulation)
-    {
-        this.simulation=simulation;
+    public void initialize(Simulation simulation) {
+        this.simulation = simulation;
 
         // Populate entityComboBox with entity names
         // You can retrieve this data from your simulation or wherever it's stored
-        for(EntityDTO entityDTO:simulation.getWordAfterSimulation().getEntityDTOSet())
-        {
+        for (EntityDTO entityDTO : simulation.getWordAfterSimulation().getEntityDTOSet()) {
             entityComboBox.getItems().add(entityDTO.getName());
         }
 
@@ -56,18 +49,15 @@ public class HistogramController
         {
             String selectedEntity = entityComboBox.getValue();
             EntityDTO selectedEntityDTO = null;
-            for(EntityDTO entityDTO:simulation.getWordAfterSimulation().getEntityDTOSet())
-            {
-                if(entityDTO.getName().equals(selectedEntity))
-                {
-                    selectedEntityDTO=entityDTO;
+            for (EntityDTO entityDTO : simulation.getWordAfterSimulation().getEntityDTOSet()) {
+                if (entityDTO.getName().equals(selectedEntity)) {
+                    selectedEntityDTO = entityDTO;
                     break;
                 }
             }
             propertyComboBox.getItems().clear(); // Clear previous items
 
-            for(PropertyDTO propertyDTO:selectedEntityDTO.getProperties())
-            {
+            for (PropertyDTO propertyDTO : selectedEntityDTO.getProperties()) {
                 propertyComboBox.getItems().add(propertyDTO.getNameOfProperty());
             }
 
@@ -76,18 +66,11 @@ public class HistogramController
         propertyComboBox.setOnAction(event ->
         {
             showHistogramContent(event);
-
-
-
-
         });
-
-
     }
 
     @FXML
-    private void showHistogramContent(ActionEvent event)
-    {
+    private void showHistogramContent(ActionEvent event) {
         String selectedEntity = entityComboBox.getValue();
         String selectedProperty = propertyComboBox.getValue();
         histogramTableView.getItems().clear();
@@ -99,52 +82,40 @@ public class HistogramController
             }
         }
 
-        if (selectedEntityDTO != null)
-        {
+        if (selectedEntityDTO != null) {
             PropertyDTO selectedPropertyDTO = null;
-            for (PropertyDTO propertyDTO : selectedEntityDTO.getProperties())
-            {
+            for (PropertyDTO propertyDTO : selectedEntityDTO.getProperties()) {
                 if (propertyDTO.getNameOfProperty().equals(selectedProperty)) {
                     selectedPropertyDTO = propertyDTO;
                     break;
                 }
             }
 
-            if (selectedPropertyDTO != null)
-            {
+            if (selectedPropertyDTO != null) {
                 Map<String, Integer> value2count = setHistogramToOneProperty(selectedPropertyDTO, selectedEntityDTO.getInstancesDTOS());
-                int consis=setConsistencyToOneProperty(selectedPropertyDTO,selectedEntityDTO.getInstancesDTOS());
+                int consis = setConsistencyToOneProperty(selectedPropertyDTO, selectedEntityDTO.getInstancesDTOS(), simulation.getWordAfterSimulation().tickCounter);
                 ObservableList<Map.Entry<String, Integer>> observableEntityDTOList = FXCollections.observableArrayList(value2count.entrySet());
                 this.histogramTableView.setItems(observableEntityDTOList);
-                valueColumn.setCellFactory(param -> new TableCell<Map.Entry<String, Integer>, String>()
-                {
+                valueColumn.setCellFactory(param -> new TableCell<Map.Entry<String, Integer>, String>() {
                     @Override
-                    protected void updateItem(String item, boolean empty)
-                    {
+                    protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
 
-                        if (empty)
-                        {
+                        if (empty) {
                             setText(null);
-                        } else
-                        {
+                        } else {
                             Map.Entry<String, Integer> entry = getTableView().getItems().get(getIndex());
                             setText(entry.getKey().toString());
                         }
                     }
                 });
-                countColumn.setCellFactory(param -> new TableCell<Map.Entry<String, Integer>, String>()
-                {
+                countColumn.setCellFactory(param -> new TableCell<Map.Entry<String, Integer>, String>() {
                     @Override
-                    protected void updateItem(String item, boolean empty)
-                    {
+                    protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (empty)
-                        {
+                        if (empty) {
                             setText(null);
-                        }
-                        else
-                        {
+                        } else {
                             Map.Entry<String, Integer> entry = getTableView().getItems().get(getIndex());
                             setText(entry.getValue().toString());
                         }
@@ -152,38 +123,28 @@ public class HistogramController
                 });
 
 
-                if(selectedPropertyDTO.getNameOfDataType().equals("Float")||selectedPropertyDTO.getNameOfDataType().equals("Decimal"))
-                {
+                if (selectedPropertyDTO.getNameOfDataType().equals("Float") || selectedPropertyDTO.getNameOfDataType().equals("Decimal")) {
                     float sumData = 0;
                     int sumCount = 0;
-
-
-
-                    for (Map.Entry<String, Integer> entry : value2count.entrySet())
-                    {
+                    for (Map.Entry<String, Integer> entry : value2count.entrySet()) {
                         String dataString = entry.getKey();
                         int count = entry.getValue();
                         float data = Float.parseFloat(dataString);
-                        sumData =(count*data)+sumData;
+                        sumData = (count * data) + sumData;
                         sumCount += count;
-
-
                     }
-                    float average=0;
-                // average
-                    if(sumCount!=0)
-                    {
-                         average = sumData / sumCount;
 
+                    float average = 0;
+                    // average
+                    if (sumCount != 0) {
+                        average = sumData / sumCount;
                     }
 
                     averageLabel.setDisable(false);
                     averageText.setDisable(false);
                     averageText.setText(Float.toString(average));
 
-                }
-                else
-                {
+                } else {
                     averageLabel.setDisable(true);
                     averageText.clear();
                     averageText.setDisable(true);
@@ -193,9 +154,7 @@ public class HistogramController
                 consText1.setDisable(false);
                 this.consText1.setText(Integer.toString(consis));
 
-            }
-            else
-            {
+            } else {
                 consText1.clear();
                 consText1.setDisable(true);
                 averageText.clear();
@@ -208,46 +167,49 @@ public class HistogramController
     }
 
 
-
-
-
-    int setConsistencyToOneProperty(PropertyDTO property, List<EntityInstancesDTO> instancesDTOS)
-    {
+    int setConsistencyToOneProperty(PropertyDTO property, List<EntityInstancesDTO> instancesDTOS, int lastTick) {
         // value // count
 
         String propertyName = property.getNameOfProperty();
-        int consistency=0;
-        int consistencySum=0;
-        int count=0;
+        int consistency = 0;
+        int instancesAverageSum = 0;
+        int populationCounter = 0;
 
-        for (EntityInstancesDTO entityInstancesDTO : instancesDTOS)
-        {
-            for (PropertyDTO propertyDTO : entityInstancesDTO.getProperties())
-            {
-                if (propertyName.equals(propertyDTO.getNameOfProperty()))
-                {
-                    consistencySum=consistencySum+propertyDTO.getLastUnchangedTicks();
-                    count++;
+        for (EntityInstancesDTO entityInstancesDTO : instancesDTOS) {
+            for (PropertyDTO propertyDTO : entityInstancesDTO.getProperties()) {
+                if (propertyName.equals(propertyDTO.getNameOfProperty())) {
+                    //last consistency time for property
+                    int lastConsistTime = lastTick - propertyDTO.getLastUnchangedTicks();
+                    int totalSumForSingleInstance = propertyDTO.getSumTicksNoChange() + lastConsistTime;
+                    if(propertyDTO.getNumOfTimesHasChanged() != 0)
+                    {
+                    //calculate average for one instance and add it to the total sum
+                        instancesAverageSum += totalSumForSingleInstance / propertyDTO.getNumOfTimesHasChanged();
+                    }
+                    else {
+                        instancesAverageSum += totalSumForSingleInstance;
+                    }
+                    populationCounter++;
+                    break;
                 }
             }
         }
 
-        if(count!=0)
-        {
-            consistency = consistencySum / count;
+        //calculate the average
+        if (populationCounter != 0) {
+            consistency = instancesAverageSum / populationCounter;
 
         }
         return consistency;
 
     }
-    Map<String, Integer> setHistogramToOneProperty(PropertyDTO property, List<EntityInstancesDTO> instancesDTOS)
-    {
+
+    Map<String, Integer> setHistogramToOneProperty(PropertyDTO property, List<EntityInstancesDTO> instancesDTOS) {
         // value // count
         Map<String, Integer> value2count = new HashMap<>();
         String propertyName = property.getNameOfProperty();
 
-        for (EntityInstancesDTO entityInstancesDTO : instancesDTOS)
-        {
+        for (EntityInstancesDTO entityInstancesDTO : instancesDTOS) {
             for (PropertyDTO propertyDTO : entityInstancesDTO.getProperties()) {
                 if (propertyName.equals(propertyDTO.getNameOfProperty())) {
                     Integer count = value2count.get(propertyDTO.getDataString());
