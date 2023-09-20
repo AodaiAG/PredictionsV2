@@ -41,6 +41,11 @@
                </font>
             </Label>
             <Label fx:id="updateLabel" layoutX="73.0" layoutY="211.0" />
+            <Label fx:id="statusLabel" layoutX="356.0" layoutY="22.0" prefHeight="27.0" prefWidth="119.0" text="Label" textFill="#00907d">
+               <font>
+                  <Font name="Arial Bold Italic" size="18.0" />
+               </font>
+            </Label>
          </children></AnchorPane>
 
         <!-- Right side for displaying content -->

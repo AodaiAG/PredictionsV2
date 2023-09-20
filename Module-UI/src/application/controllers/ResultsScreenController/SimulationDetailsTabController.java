@@ -1,6 +1,10 @@
 package application.controllers.ResultsScreenController;
 
 import application.controllers.SimulationTask;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -67,32 +71,21 @@ public class SimulationDetailsTabController
     private NumberAxis yAxis;
 
     @FXML
-
     TextField countetext;
-
     @FXML
-
     private Button stopBtn,pauseBtn,resumeBtn,reExecuteBTN;
-
     @FXML
-
-    private Label updateLabel;
-
+    private Label updateLabel,statusLabel;
     @FXML
-
     private AnchorPane progressAnchor;
-
-
     private NumberAxis customYAxis = new NumberAxis(); // Create a custom NumberAxis
-
-
     private ToggleGroup toggleGroup = new ToggleGroup();
+    public StringProperty statusPropertyLabel = new SimpleStringProperty("Running");
 
     public void initialize()
 
     {
-
-
+        statusLabel.textProperty().bind(statusPropertyLabel);
 
     }
 
@@ -103,6 +96,11 @@ public class SimulationDetailsTabController
 
         return simulationTask;
 
+    }
+
+    public synchronized void setStatusLabel(String s)
+    {
+       this.statusPropertyLabel.set(s);
     }
 
 

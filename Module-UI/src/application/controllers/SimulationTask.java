@@ -48,11 +48,11 @@ public class SimulationTask extends Task<Void>
 
 
         UUID simulationId = engine.startSimulation(simulationConditions, consumer);
-
         simulationDetailsTabController.disableProgressNode();
         this.simulation = engine.getSimulations().get(simulationId);
         Platform.runLater(() ->
         {
+            simulationDetailsTabController.setStatusLabel("Finished");
             uiManger.incrementCompletedSimulations();
             uiManger.decrementExecutingSimulations();
             this.simulationDetailsTabController.setSimulationResultsPane(simulation);
@@ -67,6 +67,7 @@ public class SimulationTask extends Task<Void>
 
     public void pauseSimulation()
     {
+        simulationDetailsTabController.setStatusLabel("Paused");
         simulationConditions.setPauseSimulation(true);
         System.out.println("setting pause to true");
     }
@@ -75,11 +76,17 @@ public class SimulationTask extends Task<Void>
         simulationDetailsTabController.bindComponentsToTask();
     }
 
-    public void resumeSimulation() {
+    public void resumeSimulation()
+    {
+
         simulationConditions.setPauseSimulation(false);
+        simulationDetailsTabController.setStatusLabel("Running");
+
     }
 
-    public void stopSimulation() {
+    public void stopSimulation()
+    {
         simulationConditions.setSimulationRunning(false);
+
     }
 }
