@@ -22,7 +22,6 @@ public class ReplaceAction extends Action
         replaceActionDTO.setNameOfAction("replace");
         if (this.prDsecondaryEntity != null) {
             replaceActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
-
         }
         replaceActionDTO.setMode(mode);
         replaceActionDTO.setEntityToCreate(nameEntityToCreate);

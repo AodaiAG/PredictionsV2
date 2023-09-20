@@ -2,8 +2,7 @@ package pDTOS;
 
 import javafx.scene.control.TreeItem;
 
-public class PropertyDTO
-{
+public class PropertyDTO {
     private final String NameOfProperty;
 
     private final boolean randomInitialize;
@@ -15,13 +14,12 @@ public class PropertyDTO
     private final String from;
 
     private final String to;
-
+    private final int sumTicksNoChange;
+    private final int numOfTimesHasChanged;
     private String dataString;
     private int lastUnchangedTicks;
 
-
-    public PropertyDTO(String nameOfProperty, Boolean randomInitialize, String nameOfDataType, String from, String to, String dataString, boolean isRange,int lastUnchangedTicks)
-    {
+    public PropertyDTO(String nameOfProperty, Boolean randomInitialize, String nameOfDataType, String from, String to, String dataString, boolean isRange, int lastUnchangedTicks, int sumTicksNoChange, int numOfTimesHasChanged) {
         this.NameOfProperty = nameOfProperty;
         this.randomInitialize = randomInitialize;
         this.nameOfDataType = nameOfDataType;
@@ -29,11 +27,12 @@ public class PropertyDTO
         this.from = from;
         this.to = to;
         this.dataString = dataString;
-        this.lastUnchangedTicks =lastUnchangedTicks;
+        this.lastUnchangedTicks = lastUnchangedTicks;
+        this.sumTicksNoChange = sumTicksNoChange;
+        this.numOfTimesHasChanged = numOfTimesHasChanged;
     }
 
-    public int getLastUnchangedTicks()
-    {
+    public int getLastUnchangedTicks() {
         return lastUnchangedTicks;
     }
 
@@ -41,9 +40,8 @@ public class PropertyDTO
         this.lastUnchangedTicks = lastUnchangedTicks;
     }
 
-    public TreeItem<String> generateTreeView()
-    {
-        TreeItem<String> rootNode = new TreeItem<>( NameOfProperty);
+    public TreeItem<String> generateTreeView() {
+        TreeItem<String> rootNode = new TreeItem<>(NameOfProperty);
         rootNode.getChildren().add(new TreeItem<>("Random Initialize: " + randomInitialize));
         rootNode.getChildren().add(new TreeItem<>("Data Type: " + nameOfDataType));
         rootNode.getChildren().add(new TreeItem<>("From: " + from));
@@ -85,5 +83,13 @@ public class PropertyDTO
 
     public void setDataString(String dataString) {
         this.dataString = dataString;
+    }
+
+    public int getNumOfTimesHasChanged() {
+        return numOfTimesHasChanged;
+    }
+
+    public int getSumTicksNoChange() {
+        return sumTicksNoChange;
     }
 }
