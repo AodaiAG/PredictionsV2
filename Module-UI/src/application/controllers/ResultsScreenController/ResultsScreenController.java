@@ -31,8 +31,13 @@ public class ResultsScreenController
     public void initialize() {
         TabPane tabPane = uiManager.getTabPane();
 
+        AnchorPane.setTopAnchor(tabPane, 0.0);
+        AnchorPane.setBottomAnchor(tabPane, 0.0);
+        AnchorPane.setLeftAnchor(tabPane, 0.0);
+        AnchorPane.setRightAnchor(tabPane, 0.0);
         // Add the TabPane to the mainAnchor
         mainAnchor.getChildren().add(tabPane);
+
 
         // Get the list of tabs
         ObservableList<Tab> tabs = tabPane.getTabs();

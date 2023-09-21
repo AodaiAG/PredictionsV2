@@ -13,8 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.control.ScrollPane;
+
 
 import javax.xml.soap.Text;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
@@ -81,7 +84,13 @@ public class PrimaryScreenController
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
             pnlsMessage.setText("Details");
             Node details = FXMLLoader.load(getClass().getResource("/application/resources/detailsScene.fxml"));
+            AnchorPane.setTopAnchor(details, 0.0);
+            AnchorPane.setBottomAnchor(details, 0.0);
+            AnchorPane.setLeftAnchor(details, 0.0);
+            AnchorPane.setRightAnchor(details, 0.0);
             mainAnchorpane.getChildren().setAll(details);
+
+
         }
         catch (IOException e)
         {
@@ -111,6 +120,10 @@ public class PrimaryScreenController
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
             pnlsMessage.setText("New Execution");
             Node newEx = FXMLLoader.load(getClass().getResource("/application/resources/newExecutionScene.fxml"));
+            AnchorPane.setTopAnchor(newEx, 0.0);
+            AnchorPane.setBottomAnchor(newEx, 0.0);
+            AnchorPane.setLeftAnchor(newEx, 0.0);
+            AnchorPane.setRightAnchor(newEx, 0.0);
             mainAnchorpane.getChildren().setAll(newEx);
         } catch (IOException e)
         {
@@ -181,6 +194,10 @@ public class PrimaryScreenController
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99), CornerRadii.EMPTY, Insets.EMPTY)));
             pnlsMessage.setText("Results");
             Node results = FXMLLoader.load(getClass().getResource("/application/resources/resultsScene.fxml"));
+            AnchorPane.setTopAnchor(results, 0.0);
+            AnchorPane.setBottomAnchor(results, 0.0);
+            AnchorPane.setLeftAnchor(results, 0.0);
+            AnchorPane.setRightAnchor(results, 0.0);
             mainAnchorpane.getChildren().setAll(results);
         } catch (IOException e)
         {
