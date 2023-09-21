@@ -56,7 +56,6 @@ public enum UserInterfaceManager
     {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/scenePrimary.fxml"));
-
         Parent root = null;
         try
         {
@@ -66,7 +65,9 @@ public enum UserInterfaceManager
             stage.setScene(primaryScene);
             stage.setTitle("Main Application");
             stage.show();
-        } catch (IOException e) {
+
+        } catch (IOException e)
+        {
             System.out.println("failed to load scenePrimary.fxml");
         }
     }
