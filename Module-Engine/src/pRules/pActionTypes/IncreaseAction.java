@@ -71,23 +71,18 @@ public class IncreaseAction extends Action {
     @Override
     public void ActivateAction(int currTick, EntityInstance ...args) throws Exception
     {
-        EntityInstance e = args[0];
-        EntityInstance neighbor = null;
-//        for(EntityInstance eI:args)
-//        {
-//            if(eI.getNameOfEntity().equals(this.entityName))
-//            {
-//                e=eI;
-//                break;
-//            }
-//        }
-
-        if(args.length > 1)
+        EntityInstance e = null;
+        for(EntityInstance eI:args)
         {
-            neighbor = args[1];
+            if(eI.getNameOfEntity().equals(this.entityName))
+            {
+                e=eI;
+                break;
+            }
         }
+
         Expression exp = new Expression(getFunctions(), e);
-        String valAndDataType = exp.evaluateExpression(expression, e, neighbor);
+        String valAndDataType = exp.evaluateExpression(expression, args);
         int indexOfPeriod = valAndDataType.indexOf(".");
         String sValue = valAndDataType.substring(indexOfPeriod + 1);
 

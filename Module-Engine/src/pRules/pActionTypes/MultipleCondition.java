@@ -141,7 +141,7 @@ public class MultipleCondition extends ConditionAction
             {
                 conditionResult = true;
                 for (ConditionAction c : listOfConditions) {
-                    c.ActivateAction(currTick, e);
+                    c.ActivateAction(currTick, args);
                     Boolean result = c.getConditionResult();
                     if (!result) {
                         conditionResult = false;
@@ -155,7 +155,7 @@ public class MultipleCondition extends ConditionAction
             {
                 conditionResult = false;
                 for (ConditionAction c : listOfConditions) {
-                    c.ActivateAction(currTick, e);
+                    c.ActivateAction(currTick, args);
                     Boolean result = c.getConditionResult();
                     if (result) {
                         conditionResult = true;

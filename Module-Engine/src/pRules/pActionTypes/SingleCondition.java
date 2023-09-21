@@ -64,12 +64,18 @@ public class SingleCondition extends ConditionAction
     @Override
     public void ActivateAction(int currTick, EntityInstance ...args) throws Exception
     {
-        EntityInstance e=args[0];
+        EntityInstance e = null;
+        if(args[0].getNameOfEntity().equals(this.nameofEntity))
+        {
+             e = args[0];
+        } else if (args.length > 1 && args[1].getNameOfEntity().equals(this.nameofEntity)) {
+            e=args[1];
+        }
         Property wanted = new Property();
         Expression exp = new Expression(getFunctions(), e);
         String sValue = exp.evaluateExpression(value); //"BOOLEAN.true"
         int indexOfPeriodInValue = sValue.indexOf(".");
-        String propertyAfter = exp.evaluateExpression(nameofProperty);
+        String propertyAfter = exp.evaluateExpression(nameofProperty, args);
         int indexOfPeriodInPropertyAfter = propertyAfter.indexOf('.');
         try {
             Data eD = new Data();

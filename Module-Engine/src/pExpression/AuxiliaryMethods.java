@@ -13,15 +13,9 @@ public class AuxiliaryMethods
     private World world;
     private DataType returnedValueTypeFromEvaluate;
 
-    public EntityInstance getEntityInstanceToExtractPropertyFrom() {
-        return entityInstanceToExtractPropertyFrom;
-    }
-
-    public void setEntityInstanceToExtractPropertyFrom(EntityInstance entityInstanceToExtractPropertyFrom) {
-        this.entityInstanceToExtractPropertyFrom = entityInstanceToExtractPropertyFrom;
-    }
-
     private EntityInstance entityInstanceToExtractPropertyFrom = null;
+
+    private EntityInstance entityInstanceToExtractTicksFrom = null;
     private DataType returnedValueTypeFromEnvironment;
 
     public DataType getReturnedValueTypeFromEvaluate() {
@@ -59,9 +53,9 @@ public class AuxiliaryMethods
     {
         try
         {
-            int a1 = Integer.parseInt(arg1);
-            int a2 = Integer.parseInt(arg2);
-            int res = (a2/100) * a1;
+            double a1 = Double.parseDouble(arg1);
+            double a2 = Double.parseDouble(arg2);
+            double res = (a2/100) * a1;
 
             return (String.valueOf(res));
         }
@@ -76,17 +70,12 @@ public class AuxiliaryMethods
         int lastUnchanged = 0;
         int startIndex = arg.indexOf(".");
         String entityName = arg.substring(0, startIndex);
-        String PropertyName = arg.substring(startIndex, arg.length());
-        for(Entity entity:world.getEntities())
-        {
-            if (entity.getNameOfEntity().equals(entityName)) {
-                for (Property property : entity.getPropertiesOfTheEntity()) {
-                    if (property.getNameOfProperty().equals(PropertyName))
-                    {
-                        lastUnchanged = property.getLastUnchangedTicks();
-
-                    }
-                }
+        String PropertyName = arg.substring(startIndex + 1, arg.length());
+        for (Property property : entityInstanceToExtractTicksFrom.getPropertiesOfTheEntity()) {
+            if (property.getNameOfProperty().equals(PropertyName))
+            {
+                lastUnchanged = property.getLastUnchangedTicks();
+                break;
             }
         }
         return world.ticksCounter - lastUnchanged;
@@ -97,17 +86,13 @@ public class AuxiliaryMethods
         int startIndex = arg.indexOf(".");
         String entityName = arg.substring(0, startIndex);
         String PropertyName = arg.substring(startIndex + 1, arg.length());
-        for(Entity entity:world.getEntities()) {
-            if (entity.getNameOfEntity().equals(entityName)) {
-                for (Property property : entity.getPropertiesOfTheEntity()) {
-                    if (property.getNameOfProperty().equals(PropertyName)) {
-                        returnedValueTypeFromEvaluate = property.getData().getDataType();
-                        return property.getData().getDataString();
-                    }
-                }
+        for (Property property : entityInstanceToExtractPropertyFrom.getPropertiesOfTheEntity())
+        {
+            if (property.getNameOfProperty().equals(PropertyName)) {
+                returnedValueTypeFromEvaluate = property.getData().getDataType();
+                return property.getData().getDataString();
             }
         }
-
             // throw exception ( not found )
         throw new RuntimeException("entity");
     }
@@ -125,5 +110,20 @@ public class AuxiliaryMethods
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Argument must be a numeric value");
         }
+    }
+    public EntityInstance getEntityInstanceToExtractPropertyFrom() {
+        return entityInstanceToExtractPropertyFrom;
+    }
+
+    public void setEntityInstanceToExtractPropertyFrom(EntityInstance entityInstanceToExtractPropertyFrom) {
+        this.entityInstanceToExtractPropertyFrom = entityInstanceToExtractPropertyFrom;
+    }
+
+    public EntityInstance getEntityInstanceToExtractTicksFrom() {
+        return entityInstanceToExtractTicksFrom;
+    }
+
+    public void setEntityInstanceToExtractTicksFrom(EntityInstance entityInstanceToExtractTicksFrom) {
+        this.entityInstanceToExtractTicksFrom = entityInstanceToExtractTicksFrom;
     }
 }

@@ -38,12 +38,13 @@ public class KillAction extends Action
     @Override
     public ActionDTO convertToDTO()
     {
-        KillActionDTO killActionDTO=new KillActionDTO();
+        KillActionDTO killActionDTO = new KillActionDTO();
         killActionDTO.setNameOfAction("kill");
-        if (this.prDsecondaryEntity != null) {
+        if (this.prDsecondaryEntity != null)
+        {
             killActionDTO.setSecondaryEntityNameActionWorksOn(getPrDsecondaryEntity().getNameOfSecondEntity());
-
-        }              killActionDTO.setMainEntityNameActionWorksOn(entityName);
+        }
+        killActionDTO.setMainEntityNameActionWorksOn(entityName);
         killActionDTO.setEntityToKill(entityToKill);
         return killActionDTO;
     }
@@ -51,25 +52,16 @@ public class KillAction extends Action
     @Override
     public void ActivateAction(int currTick, EntityInstance... args) throws Exception
     {
-        System.out.println("im am in kill action");
-        EntityInstance e=args[0];
+        EntityInstance e = args[0];
         for(EntityInstance eI:args)
         {
-            if(eI.getNameOfEntity().equals(this.entityName))
+            if(eI.getNameOfEntity().equals(this.entityToKill))
             {
                 e=eI;
                 break;
             }
         }
         e.setTobeKilled(true);
-
-
-        for (Entity entity : functions.getWorld().getEntities()) {
-            if (e.getNameOfEntity().equals(entity.getNameOfEntity())) {
-                int numbOfInstance = entity.getNumberOfInstances() - 1;
-                entity.setNumberOfInstances(numbOfInstance);
-            }
-        }
     }
 
     @Override

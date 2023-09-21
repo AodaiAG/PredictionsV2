@@ -108,7 +108,7 @@ public class PRDSecondaryEntity {
 
     public void calcInstancesToFetch(int ticksCounter, Entity secondaryEntity)
     {
-        listOfInstancesToFetch = null;
+        listOfInstancesToFetch = new ArrayList<>();
         List<EntityInstance> filteredEntities = new ArrayList<>();
         if (condition != null)
         {
@@ -143,7 +143,8 @@ public class PRDSecondaryEntity {
             }
         }
 
-        if (numericCount < filteredEntities.size()) {
+        int filteredEntitiesSize = filteredEntities.size();
+        if (numericCount < filteredEntitiesSize) {
             Random random = new Random();
             while (listOfInstancesToFetch.size() < numericCount) {
                 int randomIndex = random.nextInt(filteredEntities.size());

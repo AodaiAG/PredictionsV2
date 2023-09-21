@@ -28,7 +28,8 @@ public class Expression
     }
 
     private String generateRandom(String arg, EntityInstance a, EntityInstance b) {
-        return auxiliaryMethods.random(arg);
+        String valToReturn = auxiliaryMethods.random(arg);
+        return "DECIMAL." + valToReturn;
     }
 
 
@@ -37,13 +38,13 @@ public class Expression
         try
         {
             String valAndDataType1 = this.evaluateExpression(exp1, a, b);
-            String valAndDataType2 = this.evaluateExpression(exp2);
+            String valAndDataType2 = this.evaluateExpression(exp2, a, b);
 
             int indexOfPeriod1 = valAndDataType1.indexOf(".");
             int indexOfPeriod2 = valAndDataType2.indexOf(".");
 
             String returnedFromPercent = auxiliaryMethods.percent(valAndDataType1.substring(indexOfPeriod1 + 1), valAndDataType2.substring(indexOfPeriod2 + 1));
-            return "INTEGER." + returnedFromPercent;
+            return "FLOAT." + returnedFromPercent;
 
         } catch (Exception e)
         {
@@ -51,13 +52,29 @@ public class Expression
         }
     }
 
-    private String evaluate(String arg, EntityInstance a, EntityInstance b ) {
+    private String evaluate(String arg, EntityInstance a, EntityInstance b ){
+        if(arg.contains(a.getNameOfEntity()))
+        {
+            auxiliaryMethods.setEntityInstanceToExtractPropertyFrom(a);
+        }
+        else if(arg.contains(b.getNameOfEntity()))
+        {
+            auxiliaryMethods.setEntityInstanceToExtractPropertyFrom(b);
+        }
         String valToReturn = auxiliaryMethods.evaluate(arg);
         return auxiliaryMethods.getReturnedValueTypeFromEvaluate().toString() + "." + valToReturn;
     }
 
     private String ticks(String arg, EntityInstance a, EntityInstance b)
     {
+        if(arg.contains(a.getNameOfEntity()))
+        {
+            auxiliaryMethods.setEntityInstanceToExtractTicksFrom(a);
+        }
+        else if(arg.contains(b.getNameOfEntity()))
+        {
+            auxiliaryMethods.setEntityInstanceToExtractTicksFrom(b);
+        }
         int valToReturn = auxiliaryMethods.ticks(arg);
         return  "DECIMAL." + Integer.toString(valToReturn);
     }
