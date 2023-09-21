@@ -62,6 +62,7 @@ public class KillAction extends Action
             }
         }
         e.setTobeKilled(true);
+        functions.getWorld().getGrid().removeInstanceFromCell(e);
     }
 
     @Override

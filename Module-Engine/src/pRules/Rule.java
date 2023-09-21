@@ -301,7 +301,9 @@ public class Rule {
                         }
                     }
                 }
-                functions.getWorld().removeKilledInstances(currentEntity);
+                for (Entity e: functions.getWorld().getEntities()) {
+                    boolean hasRemoved = currentEntity.getEntities().removeIf(EntityInstance::getTobeKilled);
+                }
                 currentEntity.updateNumberOfInstances();
             }
         }
