@@ -229,11 +229,6 @@ public class Engine implements IEngine
                     entityWrapper.addEntity(newEntity);
                 }
             }
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
             // if the user choses to pause
             while (simulationConditions.getPauseSimulation())
             {
