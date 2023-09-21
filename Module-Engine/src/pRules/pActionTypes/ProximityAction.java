@@ -52,6 +52,7 @@ public class ProximityAction extends Action
     @Override
     public void ActivateAction(int currTick, EntityInstance ... args) throws Exception {
         EntityInstance entityInstanceToActivateActionOn = null;
+        EntityInstance entityInstanceNeighbor = null;
         EntityInstancesCircularGrid grid = this.functions.getWorld().getGrid();
         Entity targetEntity = this.findEntityAccordingName(this.functions.getWorld().getEntities(), targetEntityName);
         Expression expression = new Expression(getFunctions(), args[0]);
@@ -60,6 +61,7 @@ public class ProximityAction extends Action
         String ofVal = valAndDataType.substring(indexOfPeriod + 1);
         int depth = (int) Float.parseFloat(ofVal);
         List<EntityInstance> neighbors = getNeighborsAtDepth(grid, args[0].getCoordinate(), depth, targetEntityName);
+
         if(!neighbors.isEmpty()) {
             EntityInstance entityInstanceFromTarget = neighbors.get(0);
             String primaryInstanceName;
@@ -67,12 +69,14 @@ public class ProximityAction extends Action
                 primaryInstanceName = action.getNameOfEntity();
                 if (primaryInstanceName.equals(args[0].getNameOfEntity())) {
                     entityInstanceToActivateActionOn = args[0];
+                    entityInstanceNeighbor = entityInstanceFromTarget;
 
                 } else if (primaryInstanceName.equals(entityInstanceFromTarget.getNameOfEntity())) {
 
                     entityInstanceToActivateActionOn = entityInstanceFromTarget;
+                    entityInstanceNeighbor = args[0];
                 }
-                action.ActivateAction(currTick, entityInstanceToActivateActionOn);
+                action.ActivateAction(currTick, entityInstanceToActivateActionOn, entityInstanceNeighbor);
             }
         }
     }

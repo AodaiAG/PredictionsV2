@@ -87,9 +87,7 @@ public enum UserInterfaceManager
     public void switchToNewExecutionScreen(ActionEvent event)
     {
         primaryScreenController.buttonSwitchToNewExecutionScene(event);
-
     }
-
 
     public String getSimulationName() {
         return simulationName;
@@ -157,8 +155,6 @@ public enum UserInterfaceManager
         return engine.getWorldBeforeChanging().getEnvironmentDTOS();
     }
 
-
-
     public Stage getStage() {
         return stage;
     }
@@ -222,7 +218,6 @@ public enum UserInterfaceManager
 
     public void runSimulation()
     {
-
        try
        {
            if(engine.isWordNull())
@@ -236,14 +231,13 @@ public enum UserInterfaceManager
                FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
                AnchorPane simulationDetails = loader.load();
                SimulationDetailsTabController simulationDetailsTabController=loader.getController();
-               Tab tab=resultsController.createAndAddNewTab(this.tabPane);
+               Tab tab = resultsController.createAndAddNewTab(this.tabPane);
                tab.setContent(simulationDetails);
                SimulationTask simulationTask = new SimulationTask(engine, this,simulationDetailsTabController);
                simulationDetailsTabController.setSimulationTask(simulationTask);
                simulationTask.bindComponentsToTask();
                incrementWaitingSimulations();
                threadPool.submit(simulationTask);
-
            }
 
        }
@@ -313,7 +307,6 @@ public enum UserInterfaceManager
 
     public synchronized void decrementExecutingSimulations()
     {
-
         executingSimulations--;
         primaryScreenController.executingSimulations.set(executingSimulations);
     }

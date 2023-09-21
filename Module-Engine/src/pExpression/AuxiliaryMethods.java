@@ -1,9 +1,6 @@
 package pExpression;
 
-import pEntity.Data;
-import pEntity.DataType;
-import pEntity.Entity;
-import pEntity.Property;
+import pEntity.*;
 import pEnvironment.EnvironmentInstance;
 
 import java.util.IllegalFormatException;
@@ -16,6 +13,15 @@ public class AuxiliaryMethods
     private World world;
     private DataType returnedValueTypeFromEvaluate;
 
+    public EntityInstance getEntityInstanceToExtractPropertyFrom() {
+        return entityInstanceToExtractPropertyFrom;
+    }
+
+    public void setEntityInstanceToExtractPropertyFrom(EntityInstance entityInstanceToExtractPropertyFrom) {
+        this.entityInstanceToExtractPropertyFrom = entityInstanceToExtractPropertyFrom;
+    }
+
+    private EntityInstance entityInstanceToExtractPropertyFrom = null;
     private DataType returnedValueTypeFromEnvironment;
 
     public DataType getReturnedValueTypeFromEvaluate() {
@@ -49,7 +55,7 @@ public class AuxiliaryMethods
         return en.getEnvironmentProperty().getData().getDataString();
     }
 
-    public String percent(String arg1,String arg2) throws Exception
+    public String percent(String arg1, String arg2) throws Exception
     {
         try
         {
@@ -90,7 +96,7 @@ public class AuxiliaryMethods
     {
         int startIndex = arg.indexOf(".");
         String entityName = arg.substring(0, startIndex);
-        String PropertyName = arg.substring(startIndex, arg.length());
+        String PropertyName = arg.substring(startIndex + 1, arg.length());
         for(Entity entity:world.getEntities()) {
             if (entity.getNameOfEntity().equals(entityName)) {
                 for (Property property : entity.getPropertiesOfTheEntity()) {

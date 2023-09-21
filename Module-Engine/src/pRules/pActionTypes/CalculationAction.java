@@ -151,6 +151,7 @@ public class CalculationAction extends Action
                         break;
                     }
                 }
+                break;
             }
         }
     }
