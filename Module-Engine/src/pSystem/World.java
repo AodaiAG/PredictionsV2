@@ -158,13 +158,11 @@ public class World implements Cloneable
 
     public void moveAllInstances()
     {
-        for (Entity entity: entities)
-        {
-            for (EntityInstance entityInstance: entity.getEntities())
-            {
-                grid.generateMove(entityInstance);
+            for (Entity entity : entities) {
+                for (EntityInstance entityInstance : entity.getEntities()) {
+                    grid.generateMove(entityInstance);
+                }
             }
-        }
     }
 
     public void removeKilledInstances(Entity entity)

@@ -234,7 +234,6 @@ public class Engine implements IEngine
                 throw new RuntimeException(e);
             }
             // if the user choses to pause
-            System.out.println(simulationConditions.getPauseSimulation() + " Pause value in engine");
             while (simulationConditions.getPauseSimulation())
             {
                 try
@@ -400,6 +399,7 @@ public class Engine implements IEngine
     void setGridCoordinate(NodeList list) {
         int gridRows;
         int gridCols;
+
         gridRows = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("rows")).getTextContent());
         gridCols = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("columns")).getTextContent());
         this.originalWorld.getGrid().initEntityInstancesCircularGrid(gridRows, gridCols);

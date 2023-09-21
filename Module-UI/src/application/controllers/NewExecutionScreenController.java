@@ -137,7 +137,6 @@ public class NewExecutionScreenController
         // Clear any existing content in the detailsPane
         detailsPane.getChildren().clear();
         Button modifyButton = new Button("Modify data");
-        System.out.println("update-pane");
         // Create and add UI elements to detailsPane based on selectedEnvironment
         Label nameLabel = new Label("Name: " + selectedEnvironment.getEnProperty().getNameOfProperty());
         Label type = new Label("Type: " + selectedEnvironment.getEnProperty().getNameOfDataType());

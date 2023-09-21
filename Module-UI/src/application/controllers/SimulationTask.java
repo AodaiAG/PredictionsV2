@@ -77,7 +77,6 @@ public class SimulationTask extends Task<Void>
     {
         simulationDetailsTabController.setStatusLabel("Paused");
         simulationConditions.setPauseSimulation(true);
-        System.out.println("setting pause to true");
     }
 
     public void bindComponentsToTask() {

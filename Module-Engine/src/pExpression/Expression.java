@@ -76,7 +76,7 @@ public class Expression
             auxiliaryMethods.setEntityInstanceToExtractTicksFrom(b);
         }
         int valToReturn = auxiliaryMethods.ticks(arg);
-        return  "DECIMAL." + Integer.toString(valToReturn);
+        return "DECIMAL." + Integer.toString(valToReturn);
     }
 
     private String environment(String arg, EntityInstance a, EntityInstance b) {
