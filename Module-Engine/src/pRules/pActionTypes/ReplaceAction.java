@@ -6,6 +6,7 @@ import pDTOS.ActionsDTO.ReplaceActionDTO;
 import pEntity.Entity;
 import pEntity.EntityInstance;
 import pEntity.Property;
+import pExceptionHandler.ActionExceptionHandler;
 import pExpression.AuxiliaryMethods;
 
 public class ReplaceAction extends Action
@@ -72,12 +73,25 @@ public class ReplaceAction extends Action
         entityToCreate.updateNumberOfInstances();
     }
 
-    public void initFromXML(Node ActionNode)
-    {
+    public void initFromXML(Node ActionNode) throws Exception {
+        try
+        {
+        ActionExceptionHandler actionExceptionHandler = new ActionExceptionHandler();
+        actionExceptionHandler.checkIfEntityExists(this.functions.getWorld().getEntities(), ActionNode.getAttributes().getNamedItem("kill").getTextContent());
+        actionExceptionHandler.checkIfEntityExists(this.functions.getWorld().getEntities(), ActionNode.getAttributes().getNamedItem("create").getTextContent());
+        String modeCheck = ActionNode.getAttributes().getNamedItem("mode").getTextContent();
+        if(!modeCheck.equals("derived") && !modeCheck.equals("scratch"))
+        {
+            throw new Exception("Mode is not supported");
+        }
 
         this.nameEntityToKill = ActionNode.getAttributes().getNamedItem("kill").getTextContent();
         this.nameEntityToCreate = ActionNode.getAttributes().getNamedItem("create").getTextContent();
         this.mode = ActionNode.getAttributes().getNamedItem("mode").getTextContent();
+    }catch(Exception e)
+        {
+            throw e;
+        }
     }
 
     public String getNameEntityToKill() {

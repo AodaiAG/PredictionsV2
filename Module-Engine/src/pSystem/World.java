@@ -29,6 +29,16 @@ public class World implements Cloneable
 
    private EntityInstancesCircularGrid grid;
 
+    public int getCurrentPopulationAmount() {
+        return currentPopulationAmount;
+    }
+
+    public void setCurrentPopulationAmount(int currentPopulationAmount) {
+        this.currentPopulationAmount = currentPopulationAmount;
+    }
+
+    private int currentPopulationAmount = 0;
+
     public World() {
         name2Env = new HashMap<>();
         rules = new ArrayList<>();

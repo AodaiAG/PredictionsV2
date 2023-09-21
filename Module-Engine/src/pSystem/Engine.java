@@ -8,6 +8,7 @@ import pDTOS.ActionsDTO.ActionDTO;
 import pEntity.*;
 import pEntity.Entity;
 import pEnvironment.EnvironmentInstance;
+import pExceptionHandler.ExceptionHandler;
 import pExpression.AuxiliaryMethods;
 import pRules.pActionTypes.*;
 import pRules.Rule;
@@ -396,13 +397,20 @@ public class Engine implements IEngine
         this.originalWorld=FileWorld.clone();
     }
 
-    void setGridCoordinate(NodeList list) {
+    void setGridCoordinate(NodeList list) throws Exception {
+        ExceptionHandler exceptionHandler = new ExceptionHandler();
         int gridRows;
         int gridCols;
-
-        gridRows = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("rows")).getTextContent());
-        gridCols = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("columns")).getTextContent());
-        this.originalWorld.getGrid().initEntityInstancesCircularGrid(gridRows, gridCols);
+        try{
+            gridRows = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("rows")).getTextContent());
+            gridCols = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("columns")).getTextContent());
+            this.originalWorld.getGrid().initEntityInstancesCircularGrid(gridRows, gridCols);
+            exceptionHandler.checkIfInRange(String.valueOf(gridRows), "10" ,"100");
+            exceptionHandler.checkIfInRange(String.valueOf(gridCols), "10" ,"100");
+    }catch(Exception e)
+        {
+            throw new Exception("Problem while parsing grid, Reasons: " + e.getMessage());
+        }
     }
 
     private void initRulesFromFile(NodeList list, World world) throws Exception {
@@ -544,7 +552,15 @@ public class Engine implements IEngine
         }
     }
 
-    public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO) {
+    public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO) throws Exception {
+        int maxPopulationAmount = this.originalWorld.getGrid().getNumRows() * this.originalWorld.getGrid().getNumCols();
+
+        if(popNumber <= maxPopulationAmount - originalWorld.getCurrentPopulationAmount() ) {
+            originalWorld.setCurrentPopulationAmount(popNumber);
+        }
+        else {
+            throw new Exception("Population limit exceeded. Max population allowed: " + maxPopulationAmount);
+        }
         Entity entity = null;
         try {
             entity = findEntityAccordingName(this.originalWorld.getEntities(), selectedentityDTO.getName());

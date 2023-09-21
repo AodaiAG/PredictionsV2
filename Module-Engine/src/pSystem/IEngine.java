@@ -18,7 +18,7 @@ public interface IEngine
 
     public WorldDTO convertWorldToDTO(World world);
 
-    public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO);
+    public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO) throws Exception;
 
     public WorldDTO getWorldBeforeChanging();
 

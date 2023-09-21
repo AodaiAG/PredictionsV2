@@ -32,36 +32,32 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public enum UserInterfaceManager
-{
+public enum UserInterfaceManager {
     INSTANCE;
+    private final IEngine engine = new Engine();
     public String directoryPath;
-    String simulationName="Simulation";
-    private int tabCounter=0;
+    String simulationName = "Simulation";
+    private int tabCounter = 0;
     private Stage stage;
     private NewExecutionScreenController newExecutionController;
     private ResultsScreenController resultsController;
-    private TabPane tabPane=new TabPane();
+    private TabPane tabPane = new TabPane();
     private Scene primaryScene;
     private ExecutorService threadPool;
-    private final IEngine engine = new Engine();
     private PrimaryScreenController primaryScreenController;
     private int waitingSimulations = 0;
     private int executingSimulations = 0;
     private int completedSimulations = 0;
 
 
-
-    public void initApplication()
-    {
+    public void initApplication() {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/scenePrimary.fxml"));
 
         Parent root = null;
-        try
-        {
+        try {
             root = loader.load();
-            primaryScreenController=loader.getController();
+            primaryScreenController = loader.getController();
             primaryScene = new Scene(root);
             stage.setScene(primaryScene);
             stage.setTitle("Main Application");
@@ -71,8 +67,7 @@ public enum UserInterfaceManager
         }
     }
 
-    public PrimaryScreenController getPrimaryScreenController()
-    {
+    public PrimaryScreenController getPrimaryScreenController() {
         return primaryScreenController;
     }
 
@@ -80,12 +75,11 @@ public enum UserInterfaceManager
         this.primaryScreenController = primaryScreenController;
     }
 
-    public void switchToResultsScreen(ActionEvent event)
-    {
+    public void switchToResultsScreen(ActionEvent event) {
         primaryScreenController.switchToResultsScene(event);
     }
-    public void switchToNewExecutionScreen(ActionEvent event)
-    {
+
+    public void switchToNewExecutionScreen(ActionEvent event) {
         primaryScreenController.buttonSwitchToNewExecutionScene(event);
     }
 
@@ -131,27 +125,23 @@ public enum UserInterfaceManager
         }
     }
 
-    public ExecutorService getThreadPool()
-    {
+    public ExecutorService getThreadPool() {
         return threadPool;
     }
 
-    public void shutdownThreadPool()
-    {
+    public void shutdownThreadPool() {
         if (threadPool != null) {
             threadPool.shutdown();
         }
     }
 
 
-    public TreeView<String> generateWorldDetails()
-    {
+    public TreeView<String> generateWorldDetails() {
         World world = engine.getOriginalWorld();
         return engine.convertWorldToDTO(world).generateTreeView();
     }
 
-    public List<EnvironmentDTO> getEnvironmentsDTO()
-    {
+    public List<EnvironmentDTO> getEnvironmentsDTO() {
         return engine.getWorldBeforeChanging().getEnvironmentDTOS();
     }
 
@@ -164,156 +154,132 @@ public enum UserInterfaceManager
     }
 
     public void setDataToEnvironmentVar(EnvironmentDTO selectedEnvironment, String enteredData) throws Exception {
-        try
-        {
-            this.engine.setDataToEnvironmentVar(selectedEnvironment,enteredData);
-        }
-        catch (Exception e)
-        {
+        try {
+            this.engine.setDataToEnvironmentVar(selectedEnvironment, enteredData);
+        } catch (Exception e) {
 
             throw e;
         }
     }
 
-    public void setResultsController(ResultsScreenController resultsController)
-    {
+    public void setResultsController(ResultsScreenController resultsController) {
         this.resultsController = resultsController;
     }
 
-    public List<EntityDTO> getEntityDto()
-    {
+    public List<EntityDTO> getEntityDto() {
         World world = engine.getOriginalWorld();
         return this.engine.convertWorldToDTO(world).getEntityDTOSet();
     }
 
-    public void generatePopulation(EntityDTO selectedentityDTO, int populationNumber)
-    {
-        engine.createEntityPopulation(populationNumber,selectedentityDTO);
+    public void generatePopulation(EntityDTO selectedentityDTO, int populationNumber) throws Exception {
+        try {
+            engine.createEntityPopulation(populationNumber, selectedentityDTO);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
-    public Boolean isThereASimulation()
-    {
+    public Boolean isThereASimulation() {
         return !engine.isWordNull();
     }
 
-    public EnvironmentDTO updateEnvironment(EnvironmentDTO modifiedEnvironment)
-    {
+    public EnvironmentDTO updateEnvironment(EnvironmentDTO modifiedEnvironment) {
         World world = engine.getOriginalWorld();
         WorldDTO worldDTO = engine.convertWorldToDTO(world);
-       for(EnvironmentDTO environmentDTO : worldDTO.getEnvironmentDTOS())
-       {
-           if (environmentDTO.getEnProperty().getNameOfProperty().equals(modifiedEnvironment.getEnProperty().getNameOfProperty()))
-            {
-               return environmentDTO;
-           }
-       }
+        for (EnvironmentDTO environmentDTO : worldDTO.getEnvironmentDTOS()) {
+            if (environmentDTO.getEnProperty().getNameOfProperty().equals(modifiedEnvironment.getEnProperty().getNameOfProperty())) {
+                return environmentDTO;
+            }
+        }
 
-       return modifiedEnvironment;
+        return modifiedEnvironment;
     }
 
-    public Map<UUID, Simulation> getSimulations()
-    {
+    public Map<UUID, Simulation> getSimulations() {
         return engine.getSimulations();
     }
 
-    public void runSimulation()
-    {
-       try
-       {
-           if(engine.isWordNull())
-           {
-               Alert alert = new Alert(Alert.AlertType.ERROR);
-               alert.setHeaderText("Please Load A File First !");
-               alert.showAndWait();
-           }
-           else
-           {
-               FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
-               AnchorPane simulationDetails = loader.load();
-               SimulationDetailsTabController simulationDetailsTabController=loader.getController();
-               Tab tab = resultsController.createAndAddNewTab(this.tabPane);
-               tab.setContent(simulationDetails);
-               SimulationTask simulationTask = new SimulationTask(engine, this,simulationDetailsTabController);
-               simulationDetailsTabController.setSimulationTask(simulationTask);
-               simulationDetailsTabController.setTEntityWrapper();
-               simulationTask.bindComponentsToTask();
-               incrementWaitingSimulations();
-               threadPool.submit(simulationTask);
-           }
+    public void runSimulation() {
+        try {
+            if (engine.isWordNull()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Please Load A File First !");
+                alert.showAndWait();
+            } else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
+                AnchorPane simulationDetails = loader.load();
+                SimulationDetailsTabController simulationDetailsTabController = loader.getController();
+                Tab tab = resultsController.createAndAddNewTab(this.tabPane);
+                tab.setContent(simulationDetails);
+                SimulationTask simulationTask = new SimulationTask(engine, this, simulationDetailsTabController);
+                simulationDetailsTabController.setSimulationTask(simulationTask);
+                simulationDetailsTabController.setTEntityWrapper();
+                simulationTask.bindComponentsToTask();
+                incrementWaitingSimulations();
+                threadPool.submit(simulationTask);
+            }
 
-       }
-       catch (Exception e)
-       {
+        } catch (Exception e) {
 
-       }
+        }
     }
 
-        public int getWaitingSimulations() {
-            return waitingSimulations;
-        }
+    public int getWaitingSimulations() {
+        return waitingSimulations;
+    }
 
-        public int getExecutingSimulations() {
-            return executingSimulations;
-        }
+    public int getExecutingSimulations() {
+        return executingSimulations;
+    }
 
-        public int getCompletedSimulations() {
-            return completedSimulations;
-        }
+    public int getCompletedSimulations() {
+        return completedSimulations;
+    }
 
-        public synchronized void incrementExecutingSimulations()
-        {
-            executingSimulations++;
-            primaryScreenController.executingSimulations.set(executingSimulations);
-        }
+    public synchronized void incrementExecutingSimulations() {
+        executingSimulations++;
+        primaryScreenController.executingSimulations.set(executingSimulations);
+    }
 
 
-        public synchronized void incrementWaitingSimulations()
-        {
-            waitingSimulations++;
-            primaryScreenController.waitingSimulations.set(waitingSimulations);
+    public synchronized void incrementWaitingSimulations() {
+        waitingSimulations++;
+        primaryScreenController.waitingSimulations.set(waitingSimulations);
 
-        }
-    public synchronized void decrementWaitingSimulations()
-    {
+    }
+
+    public synchronized void decrementWaitingSimulations() {
         waitingSimulations--;
         primaryScreenController.waitingSimulations.set(waitingSimulations);
 
     }
 
-        public synchronized void incrementCompletedSimulations()
-        {
-            completedSimulations++;
-            primaryScreenController.completedSimulations.set(completedSimulations);
-        }
+    public synchronized void incrementCompletedSimulations() {
+        completedSimulations++;
+        primaryScreenController.completedSimulations.set(completedSimulations);
+    }
 
 
-
-
-    public void updateSimulationResultsTab(Tab tab,Simulation simulation)
-    {
+    public void updateSimulationResultsTab(Tab tab, Simulation simulation) {
 
     }
 
-    public TabPane getTabPane()
-    {
+    public TabPane getTabPane() {
         return this.tabPane;
     }
 
-    public Tab createAndAddNewTab(TabPane tabPane)
-    {
+    public Tab createAndAddNewTab(TabPane tabPane) {
         Tab tab = new Tab("Simulation " + tabCounter);
         tabPane.getTabs().add(tab);
         return tab;
     }
 
-    public synchronized void decrementExecutingSimulations()
-    {
+    public synchronized void decrementExecutingSimulations() {
         executingSimulations--;
         primaryScreenController.executingSimulations.set(executingSimulations);
     }
 
-    public void clearPressed()
-    {
+    public void clearPressed() {
         engine.clearButtonPressed();
     }
 }
