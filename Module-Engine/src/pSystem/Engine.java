@@ -1,5 +1,7 @@
 package pSystem;
 
+import application.controllers.EntityWrapper;
+import application.controllers.ObservableEntity;
 import application.controllers.SimulationConditions;
 import pDTOS.*;
 import pDTOS.ActionsDTO.ActionDTO;
@@ -107,7 +109,7 @@ public class Engine implements IEngine
 
     //command #3
     @Override
-    public UUID startSimulation(SimulationConditions simulationConditions, Consumer<String> consumer)
+    public UUID startSimulation(SimulationConditions simulationConditions, Consumer<String> consumer, EntityWrapper entityWrapper)
     {
         try
         {
@@ -118,7 +120,7 @@ public class Engine implements IEngine
             clonedWorld.initCoordinates();
             UUID simulationId = UUID.randomUUID();
             initEnviromentVariables(); //
-            String reasonForTermination = runSimulation(clonedWorld, simulationConditions, consumer);
+            String reasonForTermination = runSimulation(clonedWorld, simulationConditions, consumer,entityWrapper);
             WorldDTO worldAfter = convertWorldToDTO(clonedWorld);
             Simulation simulation = new Simulation(oldWorldDTO, worldAfter, simulationId);
             simulation.setWorldTobeExecuted(toBeExecutedWorld);
@@ -165,7 +167,7 @@ public class Engine implements IEngine
         return this.originalWorld.clone();
     }
 
-    public String runSimulation(World clonedWorld, SimulationConditions simulationConditions, Consumer<String> consumer)
+    public String runSimulation(World clonedWorld, SimulationConditions simulationConditions, Consumer<String> consumer, EntityWrapper entityWrapper)
     {
         entityPopulationHistory = new HashMap<>();
         double generatedProbability;
@@ -205,11 +207,26 @@ public class Engine implements IEngine
             List<Entity> entityList = clonedWorld.getEntities();
 
             // Iterate over each entity and save the population in its history list
-            for (Entity entity : entityList) {
+            for (Entity entity : entityList)
+            {
                 String entityName = entity.getNameOfEntity(); // Get the name of the entity
                 List<Integer> populationHistory = entityPopulationHistory.getOrDefault(entity.getNameOfEntity(), new ArrayList<>());
                 populationHistory.add(entity.getEntities().size());
                 entityPopulationHistory.put(entityName, populationHistory);
+                Optional<ObservableEntity> existingEntity = entityWrapper.getEntityList()
+                        .stream()
+                        .filter(e -> e.getName().equals(entityName))
+                        .findFirst();
+                if (existingEntity.isPresent()) {
+                    // Update the existing entity's population
+                    existingEntity.get().setPopulation(String.valueOf(entity.getEntities().size()));
+                } else {
+                    // Create a new entity and add it to the wrapper
+                    ObservableEntity newEntity = new ObservableEntity();
+                    newEntity.setName(entityName);
+                    newEntity.setPopulation(String.valueOf(entity.getEntities().size()));
+                    entityWrapper.addEntity(newEntity);
+                }
             }
             try {
                 Thread.sleep(20);

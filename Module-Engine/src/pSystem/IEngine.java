@@ -1,5 +1,6 @@
 package pSystem;
 
+import application.controllers.EntityWrapper;
 import application.controllers.SimulationConditions;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
@@ -23,7 +24,7 @@ public interface IEngine
 
     public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception;
 
-    public UUID startSimulation(SimulationConditions simulationConditions, Consumer<String> consumer);
+    public UUID startSimulation(SimulationConditions simulationConditions, Consumer<String> consumer, EntityWrapper entityWrapper);
 //    public void stopSimulation();
 //    public void pauseSimulation();
 //    public void resumeSimulation();

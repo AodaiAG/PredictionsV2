@@ -1,5 +1,7 @@
 package application.controllers.ResultsScreenController;
 
+import application.controllers.EntityWrapper;
+import application.controllers.ObservableEntity;
 import application.controllers.SimulationTask;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,6 +17,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import pDTOS.EntityDTO;
+import pEntity.Entity;
 import pSystem.Simulation;
 
 
@@ -82,10 +85,29 @@ public class SimulationDetailsTabController
     private ToggleGroup toggleGroup = new ToggleGroup();
     public StringProperty statusPropertyLabel = new SimpleStringProperty("Running");
 
+    @FXML
+    TableView<ObservableEntity> populationProgress;
+    @FXML
+    private TableColumn<ObservableEntity, String> entityNameColumnProgress;
+    @FXML
+    private TableColumn<ObservableEntity, String> populationCountColumnProgress;
+    //entityNameColumnProgress
+    EntityWrapper entityWrapper=new EntityWrapper();
+
     public void initialize()
 
     {
+        entityNameColumnProgress.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        populationCountColumnProgress.setCellValueFactory(cellData -> cellData.getValue().populationProperty());
+        populationProgress.setItems(entityWrapper.getEntityList());
         statusLabel.textProperty().bind(statusPropertyLabel);
+
+
+    }
+
+    public void setTEntityWrapper()
+    {
+        simulationTask.setEntityWrapper(entityWrapper);
 
     }
 

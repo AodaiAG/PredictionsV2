@@ -248,6 +248,7 @@ public enum UserInterfaceManager
                tab.setContent(simulationDetails);
                SimulationTask simulationTask = new SimulationTask(engine, this,simulationDetailsTabController);
                simulationDetailsTabController.setSimulationTask(simulationTask);
+               simulationDetailsTabController.setTEntityWrapper();
                simulationTask.bindComponentsToTask();
                incrementWaitingSimulations();
                threadPool.submit(simulationTask);

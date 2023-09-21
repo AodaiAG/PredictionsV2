@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="detailsMainAnchor" prefHeight="561.0" prefWidth="1056.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ResultsScreenController.SimulationDetailsTabController">
-    <SplitPane dividerPositions="0.5" prefHeight="570.0" prefWidth="1147.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <SplitPane dividerPositions="0.5" prefHeight="561.0" prefWidth="1056.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <!-- Left side with options -->
         <AnchorPane fx:id="progressAnchor" prefWidth="200.0" style="-fx-background-color: #E0E0E0;">
          <children>
@@ -40,10 +40,21 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="updateLabel" layoutX="73.0" layoutY="211.0" />
+            <Label fx:id="updateLabel" layoutX="151.0" layoutY="147.0" prefHeight="71.0" prefWidth="307.0" />
             <Label fx:id="statusLabel" layoutX="356.0" layoutY="22.0" prefHeight="27.0" prefWidth="119.0" text="Label" textFill="#00907d">
                <font>
                   <Font name="Arial Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <TableView fx:id="populationProgress" layoutX="174.0" layoutY="260.0" prefHeight="299.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="260.0">
+              <columns>
+                <TableColumn fx:id="entityNameColumnProgress" prefWidth="234.0" text="Entity Name" />
+                <TableColumn fx:id="populationCountColumnProgress" prefWidth="265.0" text="Population" />
+              </columns>
+            </TableView>
+            <Label layoutX="140.0" layoutY="230.0" prefHeight="3.0" prefWidth="195.0" text="Population Progress" textFill="#4089ff">
+               <font>
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
          </children></AnchorPane>
