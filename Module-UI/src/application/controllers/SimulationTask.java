@@ -4,6 +4,7 @@ import application.controllers.ResultsScreenController.SimulationDetailsTabContr
 import application.manager.UserInterfaceManager;
 
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Tab;
@@ -18,8 +19,11 @@ public class SimulationTask extends Task<Void>
     public SimulationConditions simulationConditions = new SimulationConditions();
     UserInterfaceManager uiManger;
     IEngine engine;
+    EntityWrapper entityWrapper;
     private Simulation simulation;
     SimulationDetailsTabController simulationDetailsTabController;
+
+
 
     public SimulationTask(IEngine engine, UserInterfaceManager uiManger, SimulationDetailsTabController ct)
     {
@@ -28,9 +32,13 @@ public class SimulationTask extends Task<Void>
         this.simulationDetailsTabController = ct;
     }
 
-    public void returnButton()
+    public EntityWrapper getEntityWrapper()
     {
+        return entityWrapper;
+    }
 
+    public void setEntityWrapper(EntityWrapper entityWrapper) {
+        this.entityWrapper = entityWrapper;
     }
 
     //
@@ -46,8 +54,7 @@ public class SimulationTask extends Task<Void>
             uiManger.incrementExecutingSimulations();
         });
 
-
-        UUID simulationId = engine.startSimulation(simulationConditions, consumer);
+        UUID simulationId = engine.startSimulation(simulationConditions, consumer,entityWrapper);
         simulationDetailsTabController.disableProgressNode();
         this.simulation = engine.getSimulations().get(simulationId);
         Platform.runLater(() ->
@@ -59,6 +66,7 @@ public class SimulationTask extends Task<Void>
         });
         return null;
     }
+
     public void returnButtonPressed()
     {
        engine.setWorldFromExecution(simulation);
