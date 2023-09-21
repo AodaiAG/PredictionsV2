@@ -131,8 +131,8 @@ public class ProximityAction extends Action
            this.targetEntityName = betweenElement.getAttribute("target-entity");
 
            Element envDepthElement = (Element) actionElement.getElementsByTagName("PRD-env-depth").item(0);
+           actionExceptionHandler.isExpressionValid( envDepthElement.getAttribute("of"), sourceEntityName, this.functions.getWorld(), "proximity");
            this.of = envDepthElement.getAttribute("of");
-           Integer.parseInt(of);
            // adding actions
            NodeList actionListNodes = actionElement.getElementsByTagName("PRD-action");
            for (int p = 0; p < actionListNodes.getLength(); p++)
