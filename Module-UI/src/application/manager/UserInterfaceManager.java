@@ -87,17 +87,14 @@ public enum UserInterfaceManager
     public void switchToNewExecutionScreen(ActionEvent event)
     {
         primaryScreenController.buttonSwitchToNewExecutionScene(event);
-
     }
-
 
     public String getSimulationName() {
         return simulationName;
     }
 
     @FXML
-    public void loadXmlFile(ActionEvent event)
-    {
+    public void loadXmlFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open XML File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
@@ -105,40 +102,33 @@ public enum UserInterfaceManager
         // Show open file dialog
         File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if (selectedFile != null)
-        {
+        if (selectedFile != null) {
             // Prompt the user to enter the name of the simulation
 
-             directoryPath = selectedFile.getParent();
-                // Load and process the XML file with the simulation name
-                try
-                {
-                    engine.ParseXmlAndLoadWorld(selectedFile);
+            directoryPath = selectedFile.getParent();
+            // Load and process the XML file with the simulation name
+            try {
+                engine.ParseXmlAndLoadWorld(selectedFile);
 
-                    // Notify the user of successful loading
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("File Loaded Successfully");
-                    alert.setHeaderText("The XML file was loaded successfully.");
-                    alert.showAndWait();
-                   int numThreads = engine.getNumThreads();
-                    threadPool = Executors.newFixedThreadPool(numThreads);
+                // Notify the user of successful loading
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("File Loaded Successfully");
+                alert.setHeaderText("The XML file was loaded successfully.");
+                alert.showAndWait();
+                int numThreads = engine.getNumThreads();
+                threadPool = Executors.newFixedThreadPool(numThreads);
 
-                    // Optionally, switch to a different scene or update UI components here
-                } catch (Exception e)
-                {
-                    // Handle any exceptions that may occur during XML parsing
-                    e.printStackTrace();
-
-                    // Notify the user of the error
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error Loading File");
-                    alert.setHeaderText("An error occurred while loading the XML file.");
-                    alert.setContentText("Reason: " + e.getMessage());
-                    alert.showAndWait();
-                }
+                // Optionally, switch to a different scene or update UI components here
+            } catch (Exception e) {
+                // Handle any exceptions that may occur during XML parsing
+                // Notify the user of the error
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Loading File");
+                alert.setHeaderText("An error occurred while loading the XML file.");
+                alert.setContentText("Reason: " + e.getMessage());
+                alert.showAndWait();
             }
-
-
+        }
     }
 
     public ExecutorService getThreadPool()
@@ -164,8 +154,6 @@ public enum UserInterfaceManager
     {
         return engine.getWorldBeforeChanging().getEnvironmentDTOS();
     }
-
-
 
     public Stage getStage() {
         return stage;
@@ -230,7 +218,6 @@ public enum UserInterfaceManager
 
     public void runSimulation()
     {
-
        try
        {
            if(engine.isWordNull())
@@ -244,7 +231,7 @@ public enum UserInterfaceManager
                FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
                AnchorPane simulationDetails = loader.load();
                SimulationDetailsTabController simulationDetailsTabController=loader.getController();
-               Tab tab=resultsController.createAndAddNewTab(this.tabPane);
+               Tab tab = resultsController.createAndAddNewTab(this.tabPane);
                tab.setContent(simulationDetails);
                SimulationTask simulationTask = new SimulationTask(engine, this,simulationDetailsTabController);
                simulationDetailsTabController.setSimulationTask(simulationTask);
@@ -252,7 +239,6 @@ public enum UserInterfaceManager
                simulationTask.bindComponentsToTask();
                incrementWaitingSimulations();
                threadPool.submit(simulationTask);
-
            }
 
        }
@@ -322,7 +308,6 @@ public enum UserInterfaceManager
 
     public synchronized void decrementExecutingSimulations()
     {
-
         executingSimulations--;
         primaryScreenController.executingSimulations.set(executingSimulations);
     }

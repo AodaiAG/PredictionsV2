@@ -226,4 +226,3 @@ public class HistogramController {
         return value2count;
     }
 }
-

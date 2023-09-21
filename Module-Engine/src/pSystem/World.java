@@ -62,9 +62,21 @@ public class World implements Cloneable
             clonedWorld.rules = clonedRules;
 
             // Clone the name2Env map (deep copy of EnvironmentInstances not shown here)
-            Map<String, EnvironmentInstance> clonedName2Env = new HashMap<>(this.name2Env);
+            Map<String, EnvironmentInstance> clonedName2Env = new HashMap<>();
+
+            for (Map.Entry<String, EnvironmentInstance> entry : this.name2Env.entrySet()) {
+                String key = entry.getKey();
+                EnvironmentInstance originalInstance = entry.getValue();
+
+                // Perform a deep copy of the EnvironmentInstance
+                EnvironmentInstance clonedInstance = originalInstance.clone();
+
+                // Add the cloned instance to the new map
+                clonedName2Env.put(key, clonedInstance);
+            }
 
             clonedWorld.name2Env = clonedName2Env;
+
 
             // Clone the EntityInstancesCircularGrid (if it's cloneable)
             clonedWorld.grid = (EntityInstancesCircularGrid) this.grid.clone(); // Make sure EntityInstancesCircularGrid class implements Cloneable

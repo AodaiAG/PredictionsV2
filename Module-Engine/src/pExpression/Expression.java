@@ -12,61 +12,88 @@ public class Expression
     private final AuxiliaryMethods auxiliaryMethods;
 
     private final EntityInstance entityInstance;
+    private  EntityInstance entityInstanceA;
+    private EntityInstance entityInstanceB;
 
     public Expression(AuxiliaryMethods f, EntityInstance entityInstance)
     {
         this.entityInstance = entityInstance;
         this.auxiliaryMethods = f;
-        FUNCTIONS.put("random", args -> generateRandom(args[0]));
-        FUNCTIONS.put("environment", args -> environment(args[0]));
-        FUNCTIONS.put("percent", args -> percent(args[0],args[1]));
-        FUNCTIONS.put("evaluate", args -> evaluate(args[0]));
-        FUNCTIONS.put("ticks", args -> ticks(args[0]));
+        FUNCTIONS.put("random", args -> generateRandom(args[0], entityInstanceA, entityInstanceB));
+        FUNCTIONS.put("environment", args -> environment(args[0], entityInstanceA, entityInstanceB));
+        FUNCTIONS.put("percent", args -> percent(args[0],args[1], entityInstanceA, entityInstanceB));
+        FUNCTIONS.put("evaluate", args -> evaluate(args[0], entityInstanceA, entityInstanceB));
+        FUNCTIONS.put("ticks", args -> ticks(args[0], entityInstanceA, entityInstanceB));
         // Add more functions as needed
     }
 
-    private String generateRandom(String arg) {
-        return auxiliaryMethods.random(arg);
+    private String generateRandom(String arg, EntityInstance a, EntityInstance b) {
+        String valToReturn = auxiliaryMethods.random(arg);
+        return "DECIMAL." + valToReturn;
     }
 
-    private String percent(String exp1, String exp2)
+
+    private String percent(String exp1, String exp2, EntityInstance a, EntityInstance b)
     {
         try
         {
-            String valAndDataType1 = this.evaluateExpression(exp1);
-            String valAndDataType2 = this.evaluateExpression(exp2);
+            String valAndDataType1 = this.evaluateExpression(exp1, a, b);
+            String valAndDataType2 = this.evaluateExpression(exp2, a, b);
 
             int indexOfPeriod1 = valAndDataType1.indexOf(".");
             int indexOfPeriod2 = valAndDataType2.indexOf(".");
 
             String returnedFromPercent = auxiliaryMethods.percent(valAndDataType1.substring(indexOfPeriod1 + 1), valAndDataType2.substring(indexOfPeriod2 + 1));
-            return "INTEGER." + returnedFromPercent;
+            return "FLOAT." + returnedFromPercent;
 
         } catch (Exception e)
         {
             throw new RuntimeException(e);
         }
-
     }
-    private String evaluate(String arg)
-    {
+
+    private String evaluate(String arg, EntityInstance a, EntityInstance b ){
+        if(arg.contains(a.getNameOfEntity()))
+        {
+            auxiliaryMethods.setEntityInstanceToExtractPropertyFrom(a);
+        }
+        else if(arg.contains(b.getNameOfEntity()))
+        {
+            auxiliaryMethods.setEntityInstanceToExtractPropertyFrom(b);
+        }
         String valToReturn = auxiliaryMethods.evaluate(arg);
         return auxiliaryMethods.getReturnedValueTypeFromEvaluate().toString() + "." + valToReturn;
     }
 
-    private String ticks(String arg)
+    private String ticks(String arg, EntityInstance a, EntityInstance b)
     {
+        if(arg.contains(a.getNameOfEntity()))
+        {
+            auxiliaryMethods.setEntityInstanceToExtractTicksFrom(a);
+        }
+        else if(arg.contains(b.getNameOfEntity()))
+        {
+            auxiliaryMethods.setEntityInstanceToExtractTicksFrom(b);
+        }
         int valToReturn = auxiliaryMethods.ticks(arg);
         return  "DECIMAL." + Integer.toString(valToReturn);
     }
 
-    private String environment(String arg) {
+    private String environment(String arg, EntityInstance a, EntityInstance b) {
         String valToReturn = auxiliaryMethods.environment(arg);
         return auxiliaryMethods.getReturnedValueTypeFromEnvironment().toString() + "."  + valToReturn;
     }
 
-    public String evaluateExpression(String expression)
+    public String evaluateExpression(String expression, EntityInstance ...args)
     {
+        if(args.length != 0)
+        {
+            entityInstanceA = args[0];
+            if(args.length > 1)
+            {
+                entityInstanceB = args[1];
+            }
+        }
         if (expression.isEmpty())
         {
             return ""; // Empty expression
@@ -75,7 +102,7 @@ public class Expression
         String firstWord = "";
         boolean isAMethod = false;
         int startIndex = expression.indexOf("(");
-        int endIndex = expression.indexOf(")");
+        int endIndex = expression.length() - 1;
         String arguments = "";
         String[] argumentArray = null;
         if (startIndex > 0)
@@ -83,6 +110,7 @@ public class Expression
             firstWord = expression.substring(0, startIndex);
             arguments = expression.substring(startIndex + 1, endIndex);
             argumentArray = arguments.split(",");
+
             isAMethod = true;
         }
 

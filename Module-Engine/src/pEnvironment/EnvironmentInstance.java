@@ -2,10 +2,11 @@ package pEnvironment;
 
 import pEntity.Property;
 
-public class EnvironmentInstance
+public class EnvironmentInstance implements Cloneable
 {
     private Property EnvironmentProperty = new Property();
    private boolean isInitByUser=false;
+
     public Property getEnvironmentProperty() {
         return EnvironmentProperty;
     }
@@ -25,7 +26,6 @@ public class EnvironmentInstance
                EnvironmentProperty.getData().calculateNewVal(initVal, true);
            }
        }
-
     }
 
     public void setInitByUser(boolean initByUser)
@@ -35,5 +35,12 @@ public class EnvironmentInstance
 
     public void setEnvironmentProperty(Property EnvironmentProperty) {
         this.EnvironmentProperty = EnvironmentProperty;
+    }
+    @Override
+    public EnvironmentInstance clone() throws CloneNotSupportedException {
+        EnvironmentInstance clonedInstance = (EnvironmentInstance) super.clone();
+        clonedInstance.isInitByUser = isInitByUser;
+        clonedInstance.setEnvironmentProperty(getEnvironmentProperty().clone());
+        return clonedInstance;
     }
 }

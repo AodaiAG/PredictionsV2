@@ -6,9 +6,9 @@ public class ExceptionHandler
     {
         String lowc=type.toLowerCase();
 
-        if (!lowc.equals("decimal")&&!lowc.equals("boolean")&&!lowc.equals("float")&&!lowc.equals("string"))
+        if (!lowc.equals("decimal") && !lowc.equals("boolean") && !lowc.equals( "float" ) && !lowc.equals("string"))
         {
-            throw new Exception("type "+type+" not Supported!");
+            throw new Exception("type "+ type + " not Supported!");
         }
     }
 
@@ -28,7 +28,7 @@ public class ExceptionHandler
         }
     }
 
-    public void checkIfInRange(String value,String from,String to) throws Exception
+    public void checkIfInRange(String value, String from, String to) throws Exception
     {
         Float fValue = Float.parseFloat(value);
         Float fromValue = Float.parseFloat(from);
@@ -39,11 +39,9 @@ public class ExceptionHandler
         }
         else
         {
-            throw new Exception("the value you provided is not at the predefined range!");
+            throw new Exception("the value " + value + " you provided is not between " + from + " to " + to + ".");
         }
     }
-
-
 
     public void checkIfValueMatchesType(String value,String type) throws Exception
     {

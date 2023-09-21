@@ -119,7 +119,6 @@ public class NewExecutionScreenController
         String popString = populationText.getText();
         try
         {
-
             int popn = Integer.parseInt(popString);
             uiManager.generatePopulation(SelectedentityDTO, popn);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -200,19 +199,12 @@ public class NewExecutionScreenController
     @FXML
     void startSimulation(ActionEvent event)
     {
-
-
         uiManager.runSimulation();
         uiManager.switchToResultsScreen(event);
-
-
     }
 
     public void clearOnAction(ActionEvent event)
     {
-
         uiManager.clearPressed();
-
     }
-
 }
