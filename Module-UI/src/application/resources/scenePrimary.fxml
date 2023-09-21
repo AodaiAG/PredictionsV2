@@ -112,7 +112,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </Button>
-                              <AnchorPane layoutX="808.0" layoutY="13.0">
+                              <AnchorPane layoutX="919.0" layoutY="13.0" prefHeight="95.0" prefWidth="313.0">
                                  <children>
                                     <Label layoutX="22.0" prefHeight="27.0" prefWidth="177.0" text="Waiting Simulations">
                                        <font>
