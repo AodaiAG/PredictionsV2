@@ -8,6 +8,7 @@ import pDTOS.ActionsDTO.ProximityActionDTO;
 import pEntity.Coordinate;
 import pEntity.Entity;
 import pEntity.EntityInstance;
+import pExceptionHandler.ActionExceptionHandler;
 import pExpression.AuxiliaryMethods;
 import pExpression.Expression;
 import pRules.Rule;
@@ -121,11 +122,17 @@ public class ProximityAction extends Action
            Element actionElement=(Element) ActionNode;
 
            Element betweenElement = (Element)(actionElement).getElementsByTagName("PRD-between").item(0);
+
+           ActionExceptionHandler actionExceptionHandler = new ActionExceptionHandler();
+           actionExceptionHandler.checkIfEntityExists(this.functions.getWorld().getEntities(), betweenElement.getAttribute("source-entity"));
+           actionExceptionHandler.checkIfEntityExists(this.functions.getWorld().getEntities(), betweenElement.getAttribute("target-entity"));
+
            this.sourceEntityName = betweenElement.getAttribute("source-entity");
            this.targetEntityName = betweenElement.getAttribute("target-entity");
 
            Element envDepthElement = (Element) actionElement.getElementsByTagName("PRD-env-depth").item(0);
            this.of = envDepthElement.getAttribute("of");
+           Integer.parseInt(of);
            // adding actions
            NodeList actionListNodes = actionElement.getElementsByTagName("PRD-action");
            for (int p = 0; p < actionListNodes.getLength(); p++)
@@ -137,6 +144,10 @@ public class ProximityAction extends Action
                    this.actionList.add(p,justToCallFunction.createAction(actionListNodes.item(p)));
                }
            }
+       }
+       catch(IllegalArgumentException iAE)
+       {
+           throw new IllegalArgumentException("Error at action: Proximity. of is not an Integer");
        }
        catch (Exception e)
        {

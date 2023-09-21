@@ -62,6 +62,13 @@ public class KillAction extends Action
             }
         }
         e.setTobeKilled(true);
+        if(e.getTobeKilled())
+        {
+            System.out.println("Im in kill action ready to die");
+            System.out.println();
+        }
+
+        functions.getWorld().getGrid().removeInstanceFromCell(e);
     }
 
     @Override

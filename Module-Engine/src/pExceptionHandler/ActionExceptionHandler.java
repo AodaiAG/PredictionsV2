@@ -10,8 +10,7 @@ import java.util.Set;
 
 import pSystem.World;
 
-public class ActionExceptionHandler
-{
+public class ActionExceptionHandler {
     public void checkProbabilityActivation(String prob) throws Exception {
         try {
             Float res = Float.parseFloat(prob);
@@ -24,10 +23,8 @@ public class ActionExceptionHandler
         }
     }
 
-    public void checkTicksActivation(String ticks) throws Exception
-    {
-        try
-        {
+    public void checkTicksActivation(String ticks) throws Exception {
+        try {
             Integer res = Integer.parseInt(ticks);
         } catch (Exception e) {
             throw new Exception("ticks should be Integer!");
@@ -36,10 +33,8 @@ public class ActionExceptionHandler
 
     public void checkIfEntityExists(List<Entity> entities, String checked) throws Exception {
 
-        for (Entity entity : entities)
-        {
-            if (entity.getNameOfEntity().equals(checked))
-            {
+        for (Entity entity : entities) {
+            if (entity.getNameOfEntity().equals(checked)) {
                 return;
             }
         }
@@ -49,8 +44,7 @@ public class ActionExceptionHandler
     public void checkIfActionTypeValid(String type) throws Exception {
         String lowCase = type.toLowerCase();
 
-        if (!lowCase.equals("condition") && !lowCase.equals("multiple") && !lowCase.equals("increase") && !lowCase.equals("decrease") && !lowCase.equals("calculation") && !lowCase.equals("set") && !lowCase.equals("kill")&& !lowCase.equals("proximity")&& !lowCase.equals("replace"))
-        {
+        if (!lowCase.equals("condition") && !lowCase.equals("multiple") && !lowCase.equals("increase") && !lowCase.equals("decrease") && !lowCase.equals("calculation") && !lowCase.equals("set") && !lowCase.equals("kill") && !lowCase.equals("proximity") && !lowCase.equals("replace")) {
             throw new Exception("Action type " + type + " not Supported!");
         }
     }
@@ -91,7 +85,7 @@ public class ActionExceptionHandler
         int startIndex = checked.indexOf("(");
         if (startIndex > 0) {
             String firstWord = checked.substring(0, startIndex);
-            return firstWord.equals("environment") || firstWord.equals("random")|| firstWord.equals("evaluate")|| firstWord.equals("percent")|| firstWord.equals("ticks");
+            return firstWord.equals("environment") || firstWord.equals("random") || firstWord.equals("evaluate") || firstWord.equals("percent") || firstWord.equals("ticks");
         }
         return false;
     }
@@ -105,18 +99,15 @@ public class ActionExceptionHandler
         return false;
     }
 
-    public void isExpressionValid(String exp, String entityWorksOn, World world, String typeofAction) throws Exception
-    {
+    public void isExpressionValid(String exp, String entityWorksOn, World world, String typeofAction) throws Exception {
         Entity entityWanted = null;
         for (Entity entity : world.getEntities()) {
-            if (entity.getNameOfEntity().equals(entityWorksOn))
-            {
+            if (entity.getNameOfEntity().equals(entityWorksOn)) {
                 entityWanted = entity;
                 break;
             }
         }
-        if (isAuxiliaryMethods(exp))
-        {
+        if (isAuxiliaryMethods(exp)) {
             return;
         }
 
@@ -129,7 +120,7 @@ public class ActionExceptionHandler
                 try {
                     Float.parseFloat(exp);
                 } catch (Exception e) {
-                    throw new Exception("'"+ exp + "'" + " is neither a predefined method, nor a property in '" + entityWorksOn + "' nor does it match the action type '" + typeofAction + "'!");
+                    throw new Exception("'" + exp + "'" + " is neither a predefined method, nor a property in '" + entityWorksOn + "' nor does it match the action type '" + typeofAction + "'!");
                 }
                 break;
             }
@@ -138,17 +129,16 @@ public class ActionExceptionHandler
                 try {
                     Float.parseFloat(exp);
                 } catch (Exception e) {
-                    throw new Exception("'"+ exp + "'" + " is neither a predefined method, nor a property in '" + entityWorksOn + "' nor does it match the action type '" + typeofAction + "'!");
+                    throw new Exception("'" + exp + "'" + " is neither a predefined method, nor a property in '" + entityWorksOn + "' nor does it match the action type '" + typeofAction + "'!");
                 }
                 break;
             }
 
-            case "calculation":
-            {
+            case "calculation": {
                 try {
                     Float.parseFloat(exp);
                 } catch (Exception e) {
-                    throw new Exception("'"+ exp + "'" + " is neither a predefined method, nor a property in '" + entityWorksOn + "' nor does it match the action type '" + typeofAction + "'!");
+                    throw new Exception("'" + exp + "'" + " is neither a predefined method, nor a property in '" + entityWorksOn + "' nor does it match the action type '" + typeofAction + "'!");
                 }
                 break;
             }
@@ -156,8 +146,7 @@ public class ActionExceptionHandler
     }
 
     public void throwableCheckIfPropertyExists(Boolean isExists, String entityName, String nameofProperty) throws Exception {
-        if (!isExists)
-        {
+        if (!isExists) {
             throw new Exception("Property name " + nameofProperty + " doesn't exists in entity " + entityName);
         }
     }

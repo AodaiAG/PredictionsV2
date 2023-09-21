@@ -268,42 +268,49 @@ public class Rule {
     }
 
     public void isActivated(int ticksCounter, List<Entity> entities, int ticks, double generatedProbability) {
-        if (ticks % activation.getTicks() == 0 && generatedProbability < activation.getProbability()) {
-            for (Action action : this.actions) {
-                String currentEntityName = action.getNameOfEntity();
-                System.out.println(currentEntityName);
-                Entity currentEntity;
-                try {
-                    currentEntity = action.findEntityAccordingName(entities, currentEntityName);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    continue;
-                }
+       try{
+           if (ticks % activation.getTicks() == 0 && generatedProbability < activation.getProbability()) {
+               for (Action action : this.actions) {
+                   String currentEntityName = action.getNameOfEntity();
+                   Entity currentEntity;
+                   try {
+                       currentEntity = action.findEntityAccordingName(entities, currentEntityName);
+                   } catch (Exception e) {
+                       System.out.println(e.getMessage());
+                       continue;
+                   }
 
-                if (!currentEntity.getEntities().isEmpty()) {
-                    for (EntityInstance primaryInstance : currentEntity.getEntities()) {
-                        try {
-                            if (primaryInstance != null) {
-                                if (action.getPrDsecondaryEntity() != null) {
-                                    Entity secondaryEntity = action.findEntityAccordingName(entities, action.getPrDsecondaryEntity().getNameOfSecondEntity());
-                                    action.getPrDsecondaryEntity().calcInstancesToFetch(ticksCounter, secondaryEntity);
-                                    List<EntityInstance> secondaryEntityInstances = action.getPrDsecondaryEntity().getListOfInstancesToFetch();
-                                    for (EntityInstance secondaryInstance : secondaryEntityInstances) {
-                                        action.ActivateAction(ticksCounter, primaryInstance, secondaryInstance);
-                                    }
-                                } else
-                                    {
-                                    action.ActivateAction(ticksCounter, primaryInstance);
-                                }
-                            }
-                        } catch (Exception e) {
+                   if (!currentEntity.getEntities().isEmpty()) {
+                       for (EntityInstance primaryInstance : currentEntity.getEntities()) {
+                           try {
+                               if (primaryInstance != null) {
+                                   if (action.getPrDsecondaryEntity() != null) {
+                                       Entity secondaryEntity = action.findEntityAccordingName(entities, action.getPrDsecondaryEntity().getNameOfSecondEntity());
+                                       action.getPrDsecondaryEntity().calcInstancesToFetch(ticksCounter, secondaryEntity);
+                                       List<EntityInstance> secondaryEntityInstances = action.getPrDsecondaryEntity().getListOfInstancesToFetch();
+                                       for (EntityInstance secondaryInstance : secondaryEntityInstances) {
+                                           action.ActivateAction(ticksCounter, primaryInstance, secondaryInstance);
+                                       }
+                                   } else
+                                   {
+                                       action.ActivateAction(ticksCounter, primaryInstance);
+                                   }
+                               }
+                           } catch (Exception e) {
 
-                        }
-                    }
-                }
-                functions.getWorld().removeKilledInstances(currentEntity);
-                currentEntity.updateNumberOfInstances();
-            }
+                           }
+                       }
+                   }
+                   for (Entity e: functions.getWorld().getEntities()) {
+                       boolean hasRemoved = currentEntity.getEntities().removeIf(EntityInstance::getTobeKilled);
+                   }
+                   currentEntity.updateNumberOfInstances();
+               }
+           }
+       }
+       catch (Exception e)
+        {
+            System.out.println(e.getMessage());
         }
     }
 }

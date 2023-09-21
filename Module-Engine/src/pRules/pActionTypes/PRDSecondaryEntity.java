@@ -92,7 +92,6 @@ public class PRDSecondaryEntity {
                 }
             }
         } catch (Exception e) {
-            System.out.println("my name is");
         }
 
         return 0;

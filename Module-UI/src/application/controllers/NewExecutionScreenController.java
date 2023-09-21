@@ -125,19 +125,29 @@ public class NewExecutionScreenController
             alert.setHeaderText("Population added successfully!");
             alert.showAndWait();
         }
-        catch (Exception e)
+        catch (IllegalArgumentException e)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Population should be numeric!");
             alert.showAndWait();
         }
+        catch(Exception exception)
+        {
+            // Create and configure an alert
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("An error occurred");
+            alert.setContentText("Unable to generate population: " + exception.getMessage());
+            // Show the alert
+            alert.showAndWait();
+        }
     }
+
     public void updateDetailsPane(EnvironmentDTO selectedEnvironment)
     {
         // Clear any existing content in the detailsPane
         detailsPane.getChildren().clear();
         Button modifyButton = new Button("Modify data");
-        System.out.println("update-pane");
         // Create and add UI elements to detailsPane based on selectedEnvironment
         Label nameLabel = new Label("Name: " + selectedEnvironment.getEnProperty().getNameOfProperty());
         Label type = new Label("Type: " + selectedEnvironment.getEnProperty().getNameOfDataType());
