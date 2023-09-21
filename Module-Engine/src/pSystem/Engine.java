@@ -113,13 +113,13 @@ public class Engine implements IEngine
     {
         try
         {
+            initEnviromentVariables(); //
             World clonedWorld = originalWorld.clone();
             World toBeExecutedWorld = originalWorld.clone();
             f.setWorld(clonedWorld);
             WorldDTO oldWorldDTO = convertWorldToDTO(clonedWorld);
             clonedWorld.initCoordinates();
             UUID simulationId = UUID.randomUUID();
-            initEnviromentVariables(); //
             String reasonForTermination = runSimulation(clonedWorld, simulationConditions, consumer,entityWrapper);
             WorldDTO worldAfter = convertWorldToDTO(clonedWorld);
             Simulation simulation = new Simulation(oldWorldDTO, worldAfter, simulationId);
