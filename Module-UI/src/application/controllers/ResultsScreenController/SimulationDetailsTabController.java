@@ -30,9 +30,7 @@ import java.util.*;
 public class SimulationDetailsTabController
 {
     SimulationTask simulationTask;
-
     private Simulation simulation;
-
     @FXML
 
     private AnchorPane resultsAnchor,detailsMainAnchor,progressPane;
