@@ -172,7 +172,7 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
-                              <FontAwesomeIconView fill="#dddddd" glyphName="INFO" layoutX="594.0" layoutY="85.0" size="20" wrappingWidth="39.0" />
+                              <FontAwesomeIconView fill="#dddddd" glyphName="BOOK" layoutX="594.0" layoutY="85.0" size="20" wrappingWidth="39.0" />
                            </children>
                         </Pane>
                      </children>
