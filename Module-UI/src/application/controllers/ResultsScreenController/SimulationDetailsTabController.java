@@ -94,6 +94,7 @@ public class SimulationDetailsTabController
     //entityNameColumnProgress
     EntityWrapper entityWrapper=new EntityWrapper();
 
+
     public void initialize()
 
     {

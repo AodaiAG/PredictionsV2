@@ -270,7 +270,8 @@ public class Rule {
     public void isActivated(int ticksCounter, List<Entity> entities, int ticks, double generatedProbability) {
        try{
            if (ticks % activation.getTicks() == 0 && generatedProbability < activation.getProbability()) {
-               for (Action action : this.actions) {
+               for (Action action : this.actions)
+               {
                    String currentEntityName = action.getNameOfEntity();
                    Entity currentEntity;
                    try {
@@ -284,14 +285,19 @@ public class Rule {
                        for (EntityInstance primaryInstance : currentEntity.getEntities()) {
                            try {
                                if (primaryInstance != null) {
-                                   if (action.getPrDsecondaryEntity() != null) {
+                                   if (action.getPrDsecondaryEntity() != null)
+                                   {
                                        Entity secondaryEntity = action.findEntityAccordingName(entities, action.getPrDsecondaryEntity().getNameOfSecondEntity());
                                        action.getPrDsecondaryEntity().calcInstancesToFetch(ticksCounter, secondaryEntity);
                                        List<EntityInstance> secondaryEntityInstances = action.getPrDsecondaryEntity().getListOfInstancesToFetch();
-                                       for (EntityInstance secondaryInstance : secondaryEntityInstances) {
+                                       System.out.println("Instances to fitch size: "+action.getPrDsecondaryEntity().getListOfInstancesToFetch().size());
+                                       for (EntityInstance secondaryInstance : secondaryEntityInstances)
+                                       {
                                            action.ActivateAction(ticksCounter, primaryInstance, secondaryInstance);
                                        }
-                                   } else
+
+                                   }
+                                   else
                                    {
                                        action.ActivateAction(ticksCounter, primaryInstance);
                                    }

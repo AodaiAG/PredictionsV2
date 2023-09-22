@@ -5,7 +5,7 @@
       <element id="module-output" name="Module-UI" />
       <element id="module-output" name="Module-Engine" />
       <element id="module-output" name="DTO" />
-      <element id="module-output" name="PredictionsV1" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Module-UI/src/application/resources/fontawesomefx-8.9.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

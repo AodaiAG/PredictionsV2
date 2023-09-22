@@ -20,7 +20,7 @@
         <AnchorPane fx:id="progressAnchor" prefWidth="200.0" style="-fx-background-color: #E0E0E0;">
          <children>
             <Label layoutX="20.0" layoutY="75.0" prefHeight="43.0" prefWidth="141.0" text="Simulation status" />
-            <Button fx:id="stopBtn" layoutX="149.0" layoutY="75.0" mnemonicParsing="false" onAction="#stopSimulation" prefHeight="44.0" prefWidth="98.0" text="stop" textFill="RED">
+            <Button fx:id="stopBtn" layoutX="149.0" layoutY="75.0" mnemonicParsing="false" onAction="#stopSimulation" prefHeight="44.0" prefWidth="98.0" text="Stop" textFill="RED">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>

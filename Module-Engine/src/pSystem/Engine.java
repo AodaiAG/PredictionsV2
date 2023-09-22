@@ -200,7 +200,8 @@ public class Engine implements IEngine
             clonedWorld.moveAllInstances();
 
             //check if ticks
-            for (Rule rule : clonedWorld.getRules()) {
+            for (Rule rule : clonedWorld.getRules())
+            {
                 rule.isActivated(clonedWorld.ticksCounter, clonedWorld.getEntities(), clonedWorld.ticksCounter, generatedProbability);
                 generatedProbability = r.nextDouble();
             }
