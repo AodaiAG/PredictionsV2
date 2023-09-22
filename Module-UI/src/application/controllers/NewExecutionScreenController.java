@@ -112,6 +112,10 @@ public class NewExecutionScreenController
         }
     }
 
+    public void refreshScreen()
+    {
+        this.initialize();
+    }
 
     @FXML
     private void handleAddButtonClick()

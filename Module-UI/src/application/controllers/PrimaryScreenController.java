@@ -63,7 +63,9 @@ public class PrimaryScreenController
         uiManager.loadXmlFile(event);
         filePathLabel.setText(uiManager.directoryPath);
         filePathLabel.setDisable(true);
+
     }
+
     public PrimaryScreenController()
     {
         uiManager = UserInterfaceManager.INSTANCE;
@@ -211,4 +213,8 @@ public class PrimaryScreenController
     }
 
 
+    public void refreshScreen()
+    {
+        mainAnchorpane.requestLayout();
+    }
 }

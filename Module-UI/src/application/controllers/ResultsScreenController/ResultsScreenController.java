@@ -28,7 +28,8 @@ public class ResultsScreenController
     private UserInterfaceManager uiManager;
     @FXML
     private AnchorPane mainAnchor;
-    public void initialize() {
+    public void initialize()
+    {
         TabPane tabPane = uiManager.getTabPane();
 
         AnchorPane.setTopAnchor(tabPane, 0.0);
@@ -49,7 +50,10 @@ public class ResultsScreenController
     }
 
 
-
+      public void refreshScreen()
+      {
+          this.initialize();
+      }
     public Tab createAndAddNewTab(TabPane tabPane)
     {
         Tab tab = new Tab("Simulation " + tabCounter);

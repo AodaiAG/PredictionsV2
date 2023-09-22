@@ -1,5 +1,6 @@
 package application.manager;
 
+import application.controllers.DetailsScreenController;
 import application.controllers.NewExecutionScreenController;
 import application.controllers.PrimaryScreenController;
 import application.controllers.ResultsScreenController.ResultsScreenController;
@@ -39,15 +40,16 @@ public enum UserInterfaceManager {
     String simulationName = "Simulation";
     private int tabCounter = 0;
     private Stage stage;
-    private NewExecutionScreenController newExecutionController;
-    private ResultsScreenController resultsController;
     private TabPane tabPane = new TabPane();
     private Scene primaryScene;
     private ExecutorService threadPool;
-    private PrimaryScreenController primaryScreenController;
     private int waitingSimulations = 0;
     private int executingSimulations = 0;
     private int completedSimulations = 0;
+    private NewExecutionScreenController newExecutionController;
+    private ResultsScreenController resultsController;
+    private PrimaryScreenController primaryScreenController;
+    private DetailsScreenController detailsScreenController;
 
 
     public void initApplication() {
@@ -68,7 +70,8 @@ public enum UserInterfaceManager {
         }
     }
 
-    public PrimaryScreenController getPrimaryScreenController() {
+    public PrimaryScreenController getPrimaryScreenController()
+    {
         return primaryScreenController;
     }
 
@@ -89,7 +92,8 @@ public enum UserInterfaceManager {
     }
 
     @FXML
-    public void loadXmlFile(ActionEvent event) {
+    public void loadXmlFile(ActionEvent event)
+    {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open XML File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
@@ -102,7 +106,8 @@ public enum UserInterfaceManager {
 
             directoryPath = selectedFile.getParent();
             // Load and process the XML file with the simulation name
-            try {
+            try
+            {
                 engine.ParseXmlAndLoadWorld(selectedFile);
 
                 // Notify the user of successful loading
@@ -112,6 +117,7 @@ public enum UserInterfaceManager {
                 alert.showAndWait();
                 int numThreads = engine.getNumThreads();
                 threadPool = Executors.newFixedThreadPool(numThreads);
+               // primaryScreenController.refreshScreen();
 
                 // Optionally, switch to a different scene or update UI components here
             } catch (Exception e) {

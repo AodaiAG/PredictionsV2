@@ -210,13 +210,18 @@ public class Engine implements IEngine
             // Iterate over each entity and save the population in its history list
             for (Entity entity : entityList)
             {
-                String entityName = entity.getNameOfEntity(); // Get the name of the entity
-                List<Integer> populationHistory = entityPopulationHistory.getOrDefault(entity.getNameOfEntity(), new ArrayList<>());
-                populationHistory.add(entity.getEntities().size());
-                entityPopulationHistory.put(entityName, populationHistory);
+
+                if(clonedWorld.ticksCounter%100==0)
+                {
+                    String entityName = entity.getNameOfEntity(); // Get the name of the entity
+                    List<Integer> populationHistory = entityPopulationHistory.getOrDefault(entity.getNameOfEntity(), new ArrayList<>());
+                    populationHistory.add(entity.getEntities().size());
+                    entityPopulationHistory.put(entityName, populationHistory);
+                }
+
                 Optional<ObservableEntity> existingEntity = entityWrapper.getEntityList()
                         .stream()
-                        .filter(e -> e.getName().equals(entityName))
+                        .filter(e -> e.getName().equals(entity.getNameOfEntity()))
                         .findFirst();
                 if (existingEntity.isPresent()) {
                     // Update the existing entity's population
@@ -224,7 +229,7 @@ public class Engine implements IEngine
                 } else {
                     // Create a new entity and add it to the wrapper
                     ObservableEntity newEntity = new ObservableEntity();
-                    newEntity.setName(entityName);
+                    newEntity.setName(entity.getNameOfEntity());
                     newEntity.setPopulation(String.valueOf(entity.getEntities().size()));
                     entityWrapper.addEntity(newEntity);
                 }

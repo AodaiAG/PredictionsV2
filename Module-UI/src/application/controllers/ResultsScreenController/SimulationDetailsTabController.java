@@ -238,7 +238,7 @@ public class SimulationDetailsTabController
             // Populate the data series with data points
             for (int ticksCounter = 0; ticksCounter < populationHistory.size(); ticksCounter++)
             {
-                entitySeries.getData().add(new XYChart.Data<>(ticksCounter, populationHistory.get(ticksCounter)));
+                entitySeries.getData().add(new XYChart.Data<>(ticksCounter*100, populationHistory.get(ticksCounter)));
             }
             // Add the entity data series to the LineChart
             lineChart.getData().add(entitySeries);
