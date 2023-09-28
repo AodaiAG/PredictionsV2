@@ -24,5 +24,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Tomcat 10.0.11" level="application_server_libraries" />
     <orderEntry type="library" name="jakarta.servlet-api-5.0.0" level="project" />
+    <orderEntry type="module" module-name="Module-Engine" />
+    <orderEntry type="library" name="google-gson-2" level="project" />
   </component>
 </module>

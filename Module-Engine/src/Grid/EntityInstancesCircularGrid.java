@@ -1,4 +1,4 @@
-package pSystem;
+package Grid;
 
 import pEntity.Coordinate;
 import pEntity.EntityInstance;
@@ -31,7 +31,7 @@ public class EntityInstancesCircularGrid implements Cloneable
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         EntityInstancesCircularGrid clonedGrid = (EntityInstancesCircularGrid) super.clone();
 
         // Clone the grid

@@ -1,5 +1,6 @@
 package pSystem;
 
+import Grid.EntityInstancesCircularGrid;
 import pEntity.Coordinate;
 import pEntity.EntityInstance;
 import pEnvironment.EnvironmentInstance;

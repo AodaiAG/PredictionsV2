@@ -17,11 +17,13 @@ public class Simulation
     private UUID simulationId;
     Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
 
-    public World getWorldTobeExecuted() {
+    public World getWorldTobeExecuted()
+    {
         return worldTobeExecuted;
     }
 
-    public void setWorldTobeExecuted(World worldTobeExecuted) {
+    public void setWorldTobeExecuted(World worldTobeExecuted)
+    {
         this.worldTobeExecuted = worldTobeExecuted;
     }
 

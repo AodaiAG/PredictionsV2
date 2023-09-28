@@ -38,6 +38,7 @@ public class Engine implements IEngine
     private WorldDTO worldBeforeChanging = null;
     private AuxiliaryMethods f;
     private int numbOfThreads = 1;
+    private List<aSimulation> simulationList=new ArrayList<>();
     private volatile Integer currTicksAmount = 0;
 
 
@@ -48,6 +49,14 @@ public class Engine implements IEngine
                 .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), dateFormat.format(entry.getValue().getRunningDate())))
                 .sorted(Comparator.comparing(Map.Entry::getValue))
                 .collect(Collectors.toList());
+    }
+
+    public List<aSimulation> getSimulationList() {
+        return simulationList;
+    }
+
+    public void setSimulationList(List<aSimulation> simulationList) {
+        this.simulationList = simulationList;
     }
 
     public Integer getCurrTicksAmount()

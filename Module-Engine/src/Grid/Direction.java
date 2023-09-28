@@ -1,4 +1,4 @@
-package pSystem;
+package Grid;
 
 import pEntity.Coordinate;
 

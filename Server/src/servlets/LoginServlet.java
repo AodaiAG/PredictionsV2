@@ -1,17 +1,14 @@
 package servlets;
 
-import chat.constants.Constants;
-import chat.utils.ServletUtils;
-import chat.utils.SessionUtils;
-import engine.users.UserManager;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import utils.SessionUtils;
 
 import java.io.IOException;
 
-import static chat.constants.Constants.USERNAME;
 
 public class LoginServlet extends HttpServlet {
 
@@ -33,7 +30,8 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         response.setContentType("text/html;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);
         UserManager userManager = ServletUtils.getUserManager(getServletContext());

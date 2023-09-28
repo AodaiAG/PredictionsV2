@@ -12,12 +12,10 @@ import pExceptionHandler.ActionExceptionHandler;
 import pExpression.AuxiliaryMethods;
 import pExpression.Expression;
 import pRules.Rule;
-import pSystem.EntityInstancesCircularGrid;
+import Grid.EntityInstancesCircularGrid;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ProximityAction extends Action
 {

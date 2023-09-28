@@ -1,4 +1,7 @@
 package Allocations;
 
-public class f {
+public class f
+{
+
+
 }

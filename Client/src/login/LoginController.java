@@ -80,8 +80,8 @@ public class LoginController
                 } else {
                     Platform.runLater(() ->
                     {
-                            chatAppMainController.updateUserName(userName);
-                            chatAppMainController.switchToChatRoom();
+                            //chatAppMainController.updateUserName(userName);
+                           // chatAppMainController.switchToChatRoom();
                     });
                 }
             }
