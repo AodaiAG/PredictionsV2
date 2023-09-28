@@ -98,11 +98,5 @@ public class LoginController
         Platform.exit();
     }
 
-    private void updateHttpStatusLine(String data) {
-        chatAppMainController.updateHttpLine(data);
-    }
 
-    public void setChatAppMainController(ChatAppMainController chatAppMainController) {
-        this.chatAppMainController = chatAppMainController;
-    }
 }

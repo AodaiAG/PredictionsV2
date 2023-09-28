@@ -6,7 +6,8 @@ import constants.Constants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class SessionUtils {
+public class SessionUtils
+{
 
     public static String getUsername (HttpServletRequest request)
     {
