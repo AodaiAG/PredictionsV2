@@ -16,8 +16,8 @@ public class FileUpload
 
         String RESOURCE = "/upload-file";
 
+        File f = new File("src/resources/some-file.xml");
 
-        File f = new File("src/resources/some-file.txt");
 
         RequestBody body =
                 new MultipartBody.Builder()

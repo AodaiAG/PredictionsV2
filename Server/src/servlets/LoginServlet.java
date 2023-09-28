@@ -9,8 +9,11 @@ import utils.SessionUtils;
 
 import java.io.IOException;
 
+import static constants.Constants.USERNAME;
 
-public class LoginServlet extends HttpServlet {
+
+public class LoginServlet extends HttpServlet
+{
 
     // urls that starts with forward slash '/' are considered absolute
     // urls that doesn't start with forward slash '/' are considered relative to the place where this servlet request comes from
@@ -34,7 +37,7 @@ public class LoginServlet extends HttpServlet {
     {
         response.setContentType("text/html;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);
-        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+       // UserManager userManager = ServletUtils.getUserManager(getServletContext());
         if (usernameFromSession == null) {
             //user is not logged in yet
             String usernameFromParameter = request.getParameter(USERNAME);
@@ -59,8 +62,10 @@ public class LoginServlet extends HttpServlet {
                 A better code would be to perform only as little and as necessary things we need here inside the synchronized block and avoid
                 do here other not related actions (such as request dispatcher\redirection etc. this is shown here in that manner just to stress this issue
                  */
-                synchronized (this) {
-                    if (userManager.isUserExists(usernameFromParameter)) {
+                synchronized (this)
+                {
+                    if (userManager.isUserExists(usernameFromParameter))
+                    {
                         String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
                         // username already exists, forward the request back to index.jsp
                         // with a parameter that indicates that an error should be displayed

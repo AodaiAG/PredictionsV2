@@ -123,7 +123,8 @@ public enum UserInterfaceManager
         // Show open file dialog
         File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if (selectedFile != null) {
+        if (selectedFile != null)
+        {
             // Prompt the user to enter the name of the simulation
 
             directoryPath = selectedFile.getParent();

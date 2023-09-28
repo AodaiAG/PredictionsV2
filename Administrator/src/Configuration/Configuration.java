@@ -14,7 +14,8 @@ public class Configuration
     public final static OkHttpClient HTTP_CLIENT = new OkHttpClient();
     public final static String LINE_SEPARATOR = System.getProperty("line.separator");
 
-    public static Callback SIMPLE_CALLBACK = new Callback() {
+    public static Callback SIMPLE_CALLBACK = new Callback()
+    {
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) {
             System.out.println("Ooops... something went wrong... error: " + e.getMessage());
