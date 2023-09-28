@@ -135,7 +135,8 @@ public class Simulation
         return propertyValueCounts.get(propertyName);
     }
 
-    public void initQuantities() {
+    public void initQuantities()
+    {
         for (EntityDTO entityDTO : this.wordBeforeSimulation.getEntityDTOSet()) {
             initialQuantities.put(entityDTO.getName(), entityDTO.getNumberOfInstances());
         }

@@ -34,7 +34,6 @@ public class SimulationDetailsTabController
     @FXML
 
     private AnchorPane resultsAnchor,detailsMainAnchor,progressPane;
-
     @FXML
 
     TextField simulationIdText;
@@ -116,7 +115,6 @@ public class SimulationDetailsTabController
     {
 
         return simulationTask;
-
     }
 
     public synchronized void setStatusLabel(String s)

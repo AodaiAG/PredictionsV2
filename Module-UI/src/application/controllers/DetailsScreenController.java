@@ -4,10 +4,13 @@ import application.manager.UserInterfaceManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.AnchorPane;
 
 public class DetailsScreenController
 {
     private UserInterfaceManager uiManager;
+    @FXML
+    private AnchorPane mainAnchorPain;
 
     public DetailsScreenController()
     {
@@ -34,5 +37,19 @@ public class DetailsScreenController
            alert.setHeaderText("Please,load a file first!");
            alert.showAndWait();
        }
+    }
+
+    public AnchorPane getMainAnchorPain()
+    {
+        return mainAnchorPain;
+    }
+
+    private static class Holder
+    {
+        private static final DetailsScreenController INSTANCE = new DetailsScreenController();
+    }
+    public static DetailsScreenController getInstance()
+    {
+        return DetailsScreenController.Holder.INSTANCE;
     }
 }

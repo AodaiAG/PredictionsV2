@@ -1,5 +1,6 @@
 package application.controllers;
 
+import application.controllers.ResultsScreenController.ResultsScreenController;
 import application.manager.UserInterfaceManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -96,7 +97,7 @@ public class NewExecutionScreenController
                     // Get the selected EnvironmentDTO
                     EnvironmentDTO selectedEnvironment = enDTO.get(environmentVariableListView.getSelectionModel().getSelectedIndex());
                     selectedEnvironment = uiManager.updateEnvironment(selectedEnvironment);
-                    System.out.println(selectedEnvironment.getEnProperty().getDataString());
+
                     updateDetailsPane(selectedEnvironment);
 
                     environmentVariableListView.refresh();
@@ -217,6 +218,18 @@ public class NewExecutionScreenController
         uiManager.switchToResultsScreen(event);
     }
 
+
+    // Rest of your code...
+
+    // Private static inner class to hold the instance
+    private static class Holder
+    {
+        private static final NewExecutionScreenController INSTANCE = new NewExecutionScreenController();
+    }
+    public static NewExecutionScreenController getInstance()
+    {
+        return NewExecutionScreenController.Holder.INSTANCE;
+    }
     public void clearOnAction(ActionEvent event)
     {
         uiManager.clearPressed();

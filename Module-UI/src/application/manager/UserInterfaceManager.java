@@ -33,7 +33,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public enum UserInterfaceManager {
+public enum UserInterfaceManager
+{
     INSTANCE;
     private final IEngine engine = new Engine();
     public String directoryPath;
@@ -52,7 +53,8 @@ public enum UserInterfaceManager {
     private DetailsScreenController detailsScreenController;
 
 
-    public void initApplication() {
+    public void initApplication()
+    {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/scenePrimary.fxml"));
         Parent root = null;
@@ -63,8 +65,8 @@ public enum UserInterfaceManager {
             stage.setScene(primaryScene);
             stage.setTitle("Main Application");
             stage.show();
-
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             System.out.println("failed to load scenePrimary.fxml");
         }
@@ -89,6 +91,26 @@ public enum UserInterfaceManager {
 
     public String getSimulationName() {
         return simulationName;
+    }
+
+    public NewExecutionScreenController getNewExecutionController() {
+        return newExecutionController;
+    }
+
+    public void setNewExecutionController(NewExecutionScreenController newExecutionController) {
+        this.newExecutionController = newExecutionController;
+    }
+
+    public ResultsScreenController getResultsController() {
+        return resultsController;
+    }
+
+    public DetailsScreenController getDetailsScreenController() {
+        return detailsScreenController;
+    }
+
+    public void setDetailsScreenController(DetailsScreenController detailsScreenController) {
+        this.detailsScreenController = detailsScreenController;
     }
 
     @FXML

@@ -180,7 +180,7 @@ public class World implements Cloneable
         }
         catch (Exception e)
         {
-            System.out.println(e.getMessage());
+
         }
     }
 

@@ -277,7 +277,7 @@ public class Rule {
                    try {
                        currentEntity = action.findEntityAccordingName(entities, currentEntityName);
                    } catch (Exception e) {
-                       System.out.println(e.getMessage());
+
                        continue;
                    }
 
@@ -290,7 +290,6 @@ public class Rule {
                                        Entity secondaryEntity = action.findEntityAccordingName(entities, action.getPrDsecondaryEntity().getNameOfSecondEntity());
                                        action.getPrDsecondaryEntity().calcInstancesToFetch(ticksCounter, secondaryEntity);
                                        List<EntityInstance> secondaryEntityInstances = action.getPrDsecondaryEntity().getListOfInstancesToFetch();
-                                       System.out.println("Instances to fitch size: "+action.getPrDsecondaryEntity().getListOfInstancesToFetch().size());
                                        for (EntityInstance secondaryInstance : secondaryEntityInstances)
                                        {
                                            action.ActivateAction(ticksCounter, primaryInstance, secondaryInstance);
@@ -316,7 +315,7 @@ public class Rule {
        }
        catch (Exception e)
         {
-            System.out.println(e.getMessage());
+
         }
     }
 }

@@ -102,7 +102,7 @@ public class ConditionAction extends Action
         condition.ActivateAction(currTick, args);
         conditionResult = condition.getConditionResult();
         if (conditionResult) {
-            System.out.println("condition = true");
+
             if (!actionsToDoIfTrue.isEmpty()) {
                 for (Action a : actionsToDoIfTrue) {
                     a.ActivateAction(currTick, args);
@@ -110,7 +110,7 @@ public class ConditionAction extends Action
             }
         } else {
             if (!actionsToDoIfFalse.isEmpty()) {
-                System.out.println("condition = false");
+
                 for (Action a : actionsToDoIfFalse) {
                     a.ActivateAction(currTick, args);
                 }
