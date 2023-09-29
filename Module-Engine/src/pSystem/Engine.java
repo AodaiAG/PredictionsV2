@@ -517,7 +517,8 @@ public class Engine implements IEngine
 
                 originalWorld.getRules().add(newRule);
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new Exception("Problem occurred while Parsing xml at rule name " + nameOfRule + " reason/s:" + '\n' + e.getMessage());
         }
     }
