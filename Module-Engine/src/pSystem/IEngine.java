@@ -20,7 +20,7 @@ public interface IEngine
 
     public WorldDTO convertWorldToDTO(World world);
 
-    public List<aSimulation> getSimulationList() ;
+
     public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO) throws Exception;
 
     public WorldDTO getWorldBeforeChanging();
@@ -39,6 +39,8 @@ public interface IEngine
     public Map<UUID, Simulation> getSimulations();
 
     public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulatioID);
+    public Map<String, aSimulation> getAllSimulations();
+
 
     public void endOfSimulationHandlerPropertyHistogram(UUID simulationID, String chosenEntityName, String chosenPropertyName);
 

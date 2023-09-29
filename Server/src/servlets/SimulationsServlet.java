@@ -23,7 +23,7 @@ public class SimulationsServlet extends HttpServlet
         {
             Gson gson = new Gson();
             Engine engine = ServletUtils.getEngine(getServletContext());
-            String json = gson.toJson(engine.getSimulationList());
+            String json = gson.toJson(engine.getAllSimulations().keySet());
             out.println(json);
             out.flush();
         }

@@ -30,6 +30,7 @@ public class Engine implements IEngine
 {
     private static boolean programRunning = true;
     private final Map<UUID, Simulation> simulations = new HashMap<>();
+    private final Map<String, aSimulation> AllSimulations = new HashMap<>();
     public Random r = new Random();
     public World originalWorld;
     public World FileWorld;
@@ -38,7 +39,7 @@ public class Engine implements IEngine
     private WorldDTO worldBeforeChanging = null;
     private AuxiliaryMethods f;
     private int numbOfThreads = 1;
-    private List<aSimulation> simulationList=new ArrayList<>();
+
     private volatile Integer currTicksAmount = 0;
 
 
@@ -51,17 +52,17 @@ public class Engine implements IEngine
                 .collect(Collectors.toList());
     }
 
-    public List<aSimulation> getSimulationList() {
-        return simulationList;
-    }
 
-    public void setSimulationList(List<aSimulation> simulationList) {
-        this.simulationList = simulationList;
-    }
+
 
     public Integer getCurrTicksAmount()
     {
         return currTicksAmount;
+    }
+
+    public Map<String, aSimulation> getAllSimulations()
+    {
+        return AllSimulations;
     }
 
     public void setCurrTicksAmount(Integer currTicksAmount) {
@@ -83,7 +84,8 @@ public class Engine implements IEngine
         for (Entity e : world.getEntities()) {
             entityDTOSet.add(convertEntityToDTO(e));
         }
-        for (Rule r : world.getRules()) {
+        for (Rule r : world.getRules())
+        {
             rulesDTOSet.add(convertRuleToDTO(r));
         }
         for (EnvironmentInstance env : world.getName2Env().values()) {
@@ -391,8 +393,8 @@ public class Engine implements IEngine
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try
         {
+            String simulationName;
             World originalWorld = new World();
-
             f = new AuxiliaryMethods(originalWorld);
             DocumentBuilder builder = factory.newDocumentBuilder();
 
@@ -403,11 +405,13 @@ public class Engine implements IEngine
                 this.numbOfThreads = Integer.parseInt(doc.getElementsByTagName("PRD-thread-count").item(0).getTextContent());
 
             }
+            simulationName=doc.getDocumentElement().getAttribute("name");
 
             if (doc.getElementsByTagName("PRD-grid").getLength() > 0)
             {
                 setGridCoordinate(doc.getElementsByTagName("PRD-grid"),originalWorld);
             }
+
 
 
             NodeList prdEvironment = doc.getElementsByTagName("PRD-env-property");
@@ -425,6 +429,7 @@ public class Engine implements IEngine
 
             simulations.clear();
             this.FileWorld=originalWorld.clone();
+            AllSimulations.put(simulationName,new aSimulation(simulationName,originalWorld));
             return originalWorld;
 
         } catch (Exception e)
@@ -526,7 +531,8 @@ public class Engine implements IEngine
     public void initEnvironmentFromFile(NodeList list,World originalWorld) throws Exception
     {
         PropertyExceptionHandler exceptionHandler = new PropertyExceptionHandler();
-        for (int i = 0; i < list.getLength(); i++) {
+        for (int i = 0; i < list.getLength(); i++)
+        {
             try {
                 Node item = list.item(i);
                 Element el = (Element) item;
