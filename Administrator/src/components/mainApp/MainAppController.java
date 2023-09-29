@@ -6,6 +6,7 @@ import components.Configuration.Configuration;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -53,24 +54,33 @@ public class MainAppController
             fileChooser.setTitle("Open XML File");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
             File f = fileChooser.showOpenDialog(mainAnchorProgram.getScene().getWindow());
-            String RESOURCE = "/upload-file";
+            if(f!=null)
+            {
+                String RESOURCE = "/upload-file";
 
-            RequestBody body =
-                    new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("file1", f.getName(), RequestBody.create(f, MediaType.parse("text/xml")))
-                            .build();
+                RequestBody body =
+                        new MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("file1", f.getName(), RequestBody.create(f, MediaType.parse("text/xml")))
+                                .build();
 
-            Request request = new Request.Builder()
-                    .url(Configuration.BASE_URL + RESOURCE)
-                    .post(body)
-                    .build();
+                Request request = new Request.Builder()
+                        .url(Configuration.BASE_URL + RESOURCE)
+                        .post(body)
+                        .build();
 
-            Call call = Configuration.HTTP_CLIENT.newCall(request);
+                Call call = Configuration.HTTP_CLIENT.newCall(request);
 
-            Response response = call.execute();
+                Response response = call.execute();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Status");
+                alert.setContentText(response.body().string());
+                alert.showAndWait();
+            }
 
-            System.out.println(response.body().string()+"From client Admin");
+
+
+           // System.out.println(response.body().string()+"From client Admin");
         }
         catch (Exception e)
         {
