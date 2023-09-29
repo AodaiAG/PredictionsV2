@@ -1,12 +1,10 @@
-package Management;
+package components.Management;
 
+import components.Configuration.Configuration;
 import okhttp3.*;
 
 import java.io.File;
 import java.io.IOException;
-
-import static Configuration.Configuration.BASE_URL;
-import static Configuration.Configuration.HTTP_CLIENT;
 
 public class FileUpload
 {
@@ -26,11 +24,11 @@ public class FileUpload
                         .build();
 
         Request request = new Request.Builder()
-                .url(BASE_URL + RESOURCE)
+                .url(Configuration.BASE_URL + RESOURCE)
                 .post(body)
                 .build();
 
-        Call call = HTTP_CLIENT.newCall(request);
+        Call call = Configuration.HTTP_CLIENT.newCall(request);
 
         Response response = call.execute();
 

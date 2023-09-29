@@ -1,4 +1,4 @@
-package Configuration;
+package components.Configuration;
 
 import okhttp3.Call;
 import okhttp3.Callback;

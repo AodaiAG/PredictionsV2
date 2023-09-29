@@ -6,6 +6,13 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="Server" />
+          <element id="module-output" name="Module-Engine" />
+          <element id="module-output" name="DTO" />
+          <element id="module-output" name="Module-UI" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/3rd/fontawesomefx-8.9.jar" />
+          <element id="library" level="project" name="google-gson-2" />
         </element>
       </element>
     </root>

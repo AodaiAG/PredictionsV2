@@ -2,6 +2,7 @@ package pSystem;
 
 import application.controllers.EntityWrapper;
 import application.controllers.SimulationConditions;
+import org.w3c.dom.Document;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
 import pDTOS.WorldDTO;
@@ -15,6 +16,7 @@ import java.util.function.Consumer;
 public interface IEngine
 {
     public void ParseXmlAndLoadWorld(File file) throws Exception;
+    public World ParseXmlAndLoadWorldFromDoc(Document doc) throws Exception;
 
     public WorldDTO convertWorldToDTO(World world);
 

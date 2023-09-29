@@ -357,7 +357,7 @@ public class Engine implements IEngine
 
             if (doc.getElementsByTagName("PRD-grid").getLength() > 0)
             {
-                setGridCoordinate(doc.getElementsByTagName("PRD-grid"));
+                setGridCoordinate(doc.getElementsByTagName("PRD-grid"),originalWorld);
             }
             NodeList worldList = doc.getElementsByTagName("PRD-world");
 
@@ -365,15 +365,15 @@ public class Engine implements IEngine
             NodeList Everything = worldNode.getChildNodes();
 
             NodeList prdEvironment = doc.getElementsByTagName("PRD-env-property");
-            initEnvironmentFromFile(prdEvironment);
+            initEnvironmentFromFile(prdEvironment,originalWorld);
 
             NodeList prdEntities = doc.getElementsByTagName("PRD-entity");
-            initEntitiesFromFile(prdEntities);
+            initEntitiesFromFile(prdEntities,originalWorld);
 
             NodeList prdRules = doc.getElementsByTagName("PRD-rule");
-            initRulesFromFile(prdRules, this.originalWorld);
+            initRulesFromFile(prdRules, originalWorld);
 
-            initTerminationTerms(doc);
+            initTerminationTerms(doc,originalWorld);
 
             this.worldBeforeChanging = convertWorldToDTO(originalWorld);
             currentXMLFilePath = file;
@@ -386,19 +386,67 @@ public class Engine implements IEngine
         }
     }
 
-    void initTerminationTerms(Document doc) {
+    public World ParseXmlAndLoadWorldFromDoc(Document doc) throws Exception
+    {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try
+        {
+            World originalWorld = new World();
+
+            f = new AuxiliaryMethods(originalWorld);
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            doc.getDocumentElement().normalize();
+
+            if (doc.getElementsByTagName("PRD-thread-count").item(0) != null)
+            {
+                this.numbOfThreads = Integer.parseInt(doc.getElementsByTagName("PRD-thread-count").item(0).getTextContent());
+
+            }
+
+            if (doc.getElementsByTagName("PRD-grid").getLength() > 0)
+            {
+                setGridCoordinate(doc.getElementsByTagName("PRD-grid"),originalWorld);
+            }
+
+
+            NodeList prdEvironment = doc.getElementsByTagName("PRD-env-property");
+            initEnvironmentFromFile(prdEvironment,originalWorld);
+
+            NodeList prdEntities = doc.getElementsByTagName("PRD-entity");
+            initEntitiesFromFile(prdEntities,originalWorld);
+
+            NodeList prdRules = doc.getElementsByTagName("PRD-rule");
+            initRulesFromFile(prdRules, originalWorld);
+
+            initTerminationTerms(doc,originalWorld);
+
+            this.worldBeforeChanging = convertWorldToDTO(originalWorld);
+
+            simulations.clear();
+            this.FileWorld=originalWorld.clone();
+            return originalWorld;
+
+        } catch (Exception e)
+        {
+            throw e;
+        }
+    }
+
+    void initTerminationTerms(Document doc,World originalWorld)
+    {
         if (doc.getElementsByTagName("PRD-by-ticks").item(0) != null) {
             String ticks = doc.getElementsByTagName("PRD-by-ticks").item(0).getAttributes().getNamedItem("count").getTextContent();
-            this.originalWorld.setTerminationTicks(Integer.parseInt(ticks));
+            originalWorld.setTerminationTicks(Integer.parseInt(ticks));
         }
         if (doc.getElementsByTagName("PRD-by-second").item(0) != null) {
             String seconds = doc.getElementsByTagName("PRD-by-second").item(0).getAttributes().getNamedItem("count").getTextContent();
-            this.originalWorld.setTerminationSeconds(Integer.parseInt(seconds));
+            originalWorld.setTerminationSeconds(Integer.parseInt(seconds));
 
         }
 
         if (doc.getElementsByTagName("PRD-by-user").item(0) != null) {
-            this.originalWorld.setTerminationByUser(true);
+            originalWorld.setTerminationByUser(true);
         }
     }
     @Override
@@ -407,14 +455,16 @@ public class Engine implements IEngine
         this.originalWorld=FileWorld.clone();
     }
 
-    void setGridCoordinate(NodeList list) throws Exception {
+    void setGridCoordinate(NodeList list,World originalWorld) throws Exception
+    {
         ExceptionHandler exceptionHandler = new ExceptionHandler();
         int gridRows;
         int gridCols;
-        try{
+        try
+        {
             gridRows = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("rows")).getTextContent());
             gridCols = Integer.parseInt(((Node) list.item(0).getAttributes().getNamedItem("columns")).getTextContent());
-            this.originalWorld.getGrid().initEntityInstancesCircularGrid(gridRows, gridCols);
+            originalWorld.getGrid().initEntityInstancesCircularGrid(gridRows, gridCols);
             exceptionHandler.checkIfInRange(String.valueOf(gridRows), "10" ,"100");
             exceptionHandler.checkIfInRange(String.valueOf(gridCols), "10" ,"100");
     }catch(Exception e)
@@ -423,7 +473,8 @@ public class Engine implements IEngine
         }
     }
 
-    private void initRulesFromFile(NodeList list, World world) throws Exception {
+    private void initRulesFromFile(NodeList list, World originalWorld) throws Exception
+    {
         String nameOfRule = "";
         try {
             RuleExceptionHandler ruleExceptionHandler = new RuleExceptionHandler();
@@ -464,14 +515,15 @@ public class Engine implements IEngine
                     }
                 }
 
-                this.originalWorld.getRules().add(newRule);
+                originalWorld.getRules().add(newRule);
             }
         } catch (Exception e) {
             throw new Exception("Problem occurred while Parsing xml at rule name " + nameOfRule + " reason/s:" + '\n' + e.getMessage());
         }
     }
 
-    public void initEnvironmentFromFile(NodeList list) throws Exception {
+    public void initEnvironmentFromFile(NodeList list,World originalWorld) throws Exception
+    {
         PropertyExceptionHandler exceptionHandler = new PropertyExceptionHandler();
         for (int i = 0; i < list.getLength(); i++) {
             try {
@@ -504,7 +556,8 @@ public class Engine implements IEngine
         }
     }
 
-    public void initEntitiesFromFile(NodeList list) throws Exception {
+    public void initEntitiesFromFile(NodeList list,World originalWorld) throws Exception
+    {
         String name = new String();
 
         PropertyExceptionHandler exceptionHandler = new PropertyExceptionHandler();
@@ -554,7 +607,7 @@ public class Engine implements IEngine
                 }
                 newEntity.setPropertiesOfTheEntity(e1.getPropertiesOfTheEntity());
 
-                this.originalWorld.getEntities().add(newEntity);
+               originalWorld.getEntities().add(newEntity);
 
             } catch (Exception e) {
                 throw new Exception("Error at entity name: " + name + " " + e.getMessage());
@@ -562,7 +615,8 @@ public class Engine implements IEngine
         }
     }
 
-    public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO) throws Exception {
+    public void createEntityPopulation(int popNumber, EntityDTO selectedentityDTO) throws Exception
+    {
         int maxPopulationAmount = this.originalWorld.getGrid().getNumRows() * this.originalWorld.getGrid().getNumCols();
 
         if(popNumber <= maxPopulationAmount - originalWorld.getCurrentPopulationAmount() ) {
