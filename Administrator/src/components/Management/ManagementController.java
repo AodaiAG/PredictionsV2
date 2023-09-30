@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import static util.Constants.*;
 
@@ -26,9 +27,15 @@ public class ManagementController
 
 
 
-    void HTTPgetSimulationTreeView()
-    {
 
+
+    void startSimulationDetailsRefresher()
+    {
+        Timer timer = new Timer();
+        TimerTask task = new SimulationTreeViewRefresher(treeView);
+        long delay = 2000; // Initial delay (0 milliseconds)
+        long period = 2000; // Repeat every 2 seconds (2000 milliseconds)
+        timer.scheduleAtFixedRate(task, delay, period);
 
     }
 

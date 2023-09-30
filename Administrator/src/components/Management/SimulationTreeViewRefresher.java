@@ -2,65 +2,96 @@ package components.Management;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import components.Configuration.Configuration;
+import javafx.application.Platform;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import pDTOS.SimulationDTO;
+import util.Constants;
 import util.http.HttpClientUtil;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.TimerTask;
-import java.util.function.Consumer;
+import java.util.concurrent.CompletableFuture;
 
 public class SimulationTreeViewRefresher extends TimerTask
 {
+    TreeView treeView;
+
+    public SimulationTreeViewRefresher(TreeView treeView)
+    {
+        this.treeView = treeView;
+    }
 
     @Override
     public void run()
     {
-
         try
         {
+            // Fetch data from the server (e.g., using HTTP requests)
+            List<SimulationDTO> simulationDTOList = fetchDataFromServer().get();
 
-            String RESOURCE = "/simulations";
-
-            HttpClientUtil.runAsync(Configuration.BASE_URL + RESOURCE, new Callback()
+            // Update the JavaFX TreeView on the JavaFX Application Thread
+            Platform.runLater(() ->
             {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e)
-                {
-                    // httpRequestLoggerConsumer.accept("Something went wrong with Chat Request # " + finalRequestNumber);
-                }
+                // Clear the existing tree items
+                treeView.getRoot().getChildren().clear();
 
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+                // Iterate through simulationDTOList and populate the TreeView
+                for (SimulationDTO simulationDTO : simulationDTOList)
                 {
-                    if (response.isSuccessful())
-                    {
-                        String rawBody = response.body().string();
-                        Gson gson = new Gson();
-                        TypeToken<List<SimulationDTO>> typeToken = new TypeToken<List<SimulationDTO>>() {};
-                        List<SimulationDTO> simulationDTOList = gson.fromJson(rawBody, typeToken.getType());
-                        System.out.println("hmmm");
-                    }
-                    else
-                    {
-                        // httpRequestLoggerConsumer.accept("Something went wrong with Request # " + finalRequestNumber + ". Code is " + response.code());
-                    }
+                    treeView.getRoot().getChildren().add(simulationDTO.generateTreeView());
                 }
             });
-
-
-            // System.out.println(response.body().string()+"From client Admin");
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+
+    private CompletableFuture<List<SimulationDTO>> fetchDataFromServer()
+    {
+        // Replace this URL with the actual URL of your server endpoint
+        String serverUrl = "http://localhost:8080/simulations"; // Example URL
+
+        Request request = new Request.Builder()
+                .url(serverUrl)
+                .build();
+
+        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+
+        CompletableFuture<List<SimulationDTO>> future = new CompletableFuture<>();
+
+        call.enqueue(new Callback()
+        {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                future.completeExceptionally(e);
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                try {
+                    if (!response.isSuccessful())
+                    {
+                        throw new IOException("Unexpected HTTP response: " + response);
+                    }
+
+                    String rawBody = response.body().string();
+                    Gson gson = new Gson();
+                    TypeToken<List<SimulationDTO>> typeToken = new TypeToken<List<SimulationDTO>>() {};
+                    List<SimulationDTO> simulationDTOList = gson.fromJson(rawBody, typeToken.getType());
+
+                    future.complete(simulationDTOList);
+                } catch (Exception e) {
+                    future.completeExceptionally(e);
+                }
+            }
+        });
+
+        return future;
+    }
+
+
 }
