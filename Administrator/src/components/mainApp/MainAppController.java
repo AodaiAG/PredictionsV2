@@ -3,9 +3,12 @@
 package components.mainApp;
 
 import components.Configuration.Configuration;
+import components.Management.ManagementController;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,10 +21,15 @@ import javafx.stage.Window;
 import okhttp3.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import static util.Constants.MANAGMENT_PAGE;
 
 public class MainAppController
 {
-
+    AnchorPane ManagmentComponent;
+    ManagementController managementController;
     @FXML
     private AnchorPane mainAnchorProgram;
     @FXML
@@ -45,6 +53,36 @@ public class MainAppController
     @FXML
     private AnchorPane mainAnchorpane;
 
+
+
+
+    private void loadManagment()
+    {
+        URL loginPageUrl = getClass().getResource(MANAGMENT_PAGE);
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(loginPageUrl);
+            ManagmentComponent = fxmlLoader.load();
+            managementController = fxmlLoader.getController();
+            managementController.setChatAppMainController(this);
+            setMainPanelTo(ManagmentComponent);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void setMainPanelTo(Parent pane)
+    {
+        mainAnchorpane.getChildren().clear();
+        mainAnchorpane.getChildren().add(pane);
+        AnchorPane.setBottomAnchor(pane, 1.0);
+        AnchorPane.setTopAnchor(pane, 1.0);
+        AnchorPane.setLeftAnchor(pane, 1.0);
+        AnchorPane.setRightAnchor(pane, 1.0);
+    }
     @FXML
     void loadXmlButton(ActionEvent event)
     {

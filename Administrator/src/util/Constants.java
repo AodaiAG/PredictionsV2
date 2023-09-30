@@ -13,7 +13,7 @@ public class Constants
 
     // fxml locations
     public final static String MAIN_PAGE_FXML_RESOURCE_LOCATION = "/components/mainApp/mainApp.fxml";
-    public final static String LOGIN_PAGE_FXML_RESOURCE_LOCATION = "/chat/client/component/login/login.fxml";
+    public final static String MANAGMENT_PAGE = "/components/Management/mangment.fxml";
     public final static String CHAT_ROOM_FXML_RESOURCE_LOCATION = "/chat/client/component/chatroom/chat-room-main.fxml";
 
     // Server resources locations

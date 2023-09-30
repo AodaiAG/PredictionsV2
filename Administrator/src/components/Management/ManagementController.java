@@ -3,6 +3,8 @@ package components.Management;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import components.Configuration.Configuration;
+import components.mainApp.MainAppController;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -22,11 +24,20 @@ import static util.Constants.*;
 
 public class ManagementController
 {
-
+MainAppController mainAppController;
+    @FXML
     TreeView treeView;
 
 
+//    public void initApplication()
+//    {
+//        startSimulationDetailsRefresher();
+//    }
 
+    public void initRef()
+    {
+        startSimulationDetailsRefresher();
+    }
 
 
     void startSimulationDetailsRefresher()
@@ -39,6 +50,11 @@ public class ManagementController
 
     }
 
+    public void setChatAppMainController(MainAppController mainAppController)
+    {
+        this.mainAppController=mainAppController;
+
+    }
 }
 
 
