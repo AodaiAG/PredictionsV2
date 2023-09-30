@@ -73,7 +73,10 @@ public class Engine implements IEngine
         return numbOfThreads;
     }
 
-
+    public SimulationDTO convertSimulationToDTO(aSimulation aSimulation)
+    {
+        return new SimulationDTO(convertWorldToDTO(aSimulation.getWorld()),aSimulation.getNameofSimulation());
+    }
 
     @Override
     public WorldDTO convertWorldToDTO(World world) {

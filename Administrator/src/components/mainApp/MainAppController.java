@@ -78,8 +78,6 @@ public class MainAppController
                 alert.showAndWait();
             }
 
-
-
            // System.out.println(response.body().string()+"From client Admin");
         }
         catch (Exception e)
