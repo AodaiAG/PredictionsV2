@@ -37,6 +37,7 @@ public class MainAppController
     AllocationsController allocationsController;
     AnchorPane ManagmentComponent;
     ManagementController managementController;
+
     @FXML
     private AnchorPane mainAnchorProgram;
     @FXML

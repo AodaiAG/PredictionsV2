@@ -13,5 +13,15 @@
     <orderEntry type="library" name="google-gson-2" level="project" />
     <orderEntry type="library" name="okHttp" level="project" />
     <orderEntry type="library" name="jakarta.servlet-api-5.0.0" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../Module-UI/src/application/resources/fontawesomefx-8.9.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="fontawesomefx-8.9" level="project" />
   </component>
 </module>

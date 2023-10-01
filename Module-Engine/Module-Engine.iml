@@ -11,5 +11,6 @@
     <orderEntry type="module" module-name="Module-UI" />
     <orderEntry type="module" module-name="DTO" />
     <orderEntry type="module" module-name="Server" />
+    <orderEntry type="library" name="fontawesomefx-8.9" level="project" />
   </component>
 </module>
