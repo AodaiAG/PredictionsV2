@@ -2,7 +2,9 @@
 
 package components.mainApp;
 
-
+import components.Allocations.AllocationsController;
+import components.ExecutionsHistory.ExecutionsController;
+import components.Management.ManagementController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
