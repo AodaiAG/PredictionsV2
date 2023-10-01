@@ -14,11 +14,12 @@ public class Constants
     // fxml locations
     public final static String MAIN_PAGE_FXML_RESOURCE_LOCATION = "/components/mainApp/mainApp.fxml";
     public final static String MANAGMENT_PAGE = "/components/Management/mangment.fxml";
-    public final static String CHAT_ROOM_FXML_RESOURCE_LOCATION = "/chat/client/component/chatroom/chat-room-main.fxml";
+    public final static String ALLOCATIONS_FXML = "/components/Allocations/allocations.fxml";
+    public final static String EXECUTIONS_FXML = "/components/ExecutionsHistory/executions.fxml";
 
     // Server resources locations
     public final static String BASE_DOMAIN = "localhost";
-    private final static String BASE_URL = "http://" + BASE_DOMAIN + ":8080";
+    public final static String BASE_URL = "http://" + BASE_DOMAIN + ":8080";
     private final static String CONTEXT_PATH = "/chatApp";
     private final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;
 

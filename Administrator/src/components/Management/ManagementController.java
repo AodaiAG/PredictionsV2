@@ -2,7 +2,7 @@ package components.Management;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import components.Configuration.Configuration;
+
 import components.mainApp.MainAppController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -29,18 +29,9 @@ MainAppController mainAppController;
     TreeView treeView;
 
 
-//    public void initApplication()
-//    {
-//        startSimulationDetailsRefresher();
-//    }
-
-    public void initRef()
-    {
-        startSimulationDetailsRefresher();
-    }
 
 
-    void startSimulationDetailsRefresher()
+    public void startSimulationDetailsRefresher()
     {
         Timer timer = new Timer();
         TimerTask task = new SimulationTreeViewRefresher(treeView);

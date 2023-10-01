@@ -1,19 +1,20 @@
 package components.Management;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
+import pDTOS.ActionsDTO.*;
 import pDTOS.SimulationDTO;
 import util.Constants;
 import util.http.HttpClientUtil;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.TimerTask;
+import java.lang.reflect.Type;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class SimulationTreeViewRefresher extends TimerTask
@@ -23,6 +24,7 @@ public class SimulationTreeViewRefresher extends TimerTask
     public SimulationTreeViewRefresher(TreeView treeView)
     {
         this.treeView = treeView;
+        treeView.setRoot(new TreeItem<>("Simulations"));
     }
 
     @Override
@@ -33,22 +35,73 @@ public class SimulationTreeViewRefresher extends TimerTask
             // Fetch data from the server (e.g., using HTTP requests)
             List<SimulationDTO> simulationDTOList = fetchDataFromServer().get();
 
+            // Create a map of existing SimulationDTO names to their TreeItem nodes
+            Map<String, TreeItem<String>> existingNodes = new HashMap<>();
+            for (Object itemObj : treeView.getRoot().getChildren())
+            {
+                TreeItem<String> item = (TreeItem<String>) itemObj;
+                existingNodes.put(item.getValue(), item);
+
+            }
             // Update the JavaFX TreeView on the JavaFX Application Thread
             Platform.runLater(() ->
             {
-                // Clear the existing tree items
-                treeView.getRoot().getChildren().clear();
-
-                // Iterate through simulationDTOList and populate the TreeView
+                // Iterate through simulationDTOList
                 for (SimulationDTO simulationDTO : simulationDTOList)
                 {
-                    treeView.getRoot().getChildren().add(simulationDTO.generateTreeView());
+                    String simulationName = simulationDTO.getNameofSimulation();
+
+                    // Check if there's an existing TreeItem for this SimulationDTO
+                    TreeItem<String> existingNode = existingNodes.get(simulationName);
+
+                    if (existingNode != null)
+                    {
+                        // Update the existing TreeItem (e.g., update labels)
+                        // You might need to implement an update method for your TreeItems
+                        // existingNode.setValue(simulationDTO.getNameofSimulation());
+                    }
+                    else
+                    {
+                        // Create a new TreeItem for the SimulationDTO
+                        TreeItem<String> newSimulationNode = simulationDTO.generateTreeView();
+                        existingNodes.put(simulationName, newSimulationNode);
+                        treeView.getRoot().getChildren().add(newSimulationNode);
+                    }
                 }
             });
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
+
+
+
+    // Helper function to get the expanded TreeItems
+    private List<TreeItem<String>> getExpandedItems(TreeItem<String> root)
+    {
+        List<TreeItem<String>> expandedItems = new ArrayList<>();
+        for (TreeItem<String> item : root.getChildren())
+        {
+            if (item.isExpanded()) {
+                expandedItems.add(item);
+                expandedItems.addAll(getExpandedItems(item));
+            }
+        }
+        return expandedItems;
+    }
+
+    // Helper function to restore the expanded state
+    private void restoreExpandedItems(TreeItem<String> root, List<TreeItem<String>> expandedItems) {
+        for (TreeItem<String> item : root.getChildren()) {
+            if (expandedItems.contains(item)) {
+                item.setExpanded(true);
+                restoreExpandedItems(item, expandedItems);
+            }
+        }
+    }
+
 
     private CompletableFuture<List<SimulationDTO>> fetchDataFromServer()
     {
@@ -71,26 +124,64 @@ public class SimulationTreeViewRefresher extends TimerTask
             }
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                try {
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+                try
+                {
                     if (!response.isSuccessful())
                     {
-                        throw new IOException("Unexpected HTTP response: " + response);
+                        return;
                     }
-
                     String rawBody = response.body().string();
-                    Gson gson = new Gson();
+                    Gson gson = new GsonBuilder().registerTypeAdapter(ActionDTO.class,new ActionDTODeserilzer())
+                            .setPrettyPrinting().create();
                     TypeToken<List<SimulationDTO>> typeToken = new TypeToken<List<SimulationDTO>>() {};
                     List<SimulationDTO> simulationDTOList = gson.fromJson(rawBody, typeToken.getType());
-
                     future.complete(simulationDTOList);
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     future.completeExceptionally(e);
                 }
             }
         });
 
         return future;
+    }
+
+    private static class ActionDTODeserilzer implements JsonDeserializer<ActionDTO>
+    {
+        @Override
+        public ActionDTO deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            JsonObject jsonObject = json.getAsJsonObject();
+            String actionType = jsonObject.get("nameOfAction").getAsString();
+
+            // Depending on the 'type' field in the JSON, create an instance of the corresponding concrete ActionDTO subclass
+            switch (actionType)
+            {
+                case "calculation":
+                    return context.deserialize(json, CalculationActionDTO.class);
+                case "condition":
+                    return context.deserialize(json, ConditionActionDTO.class);
+                case "decrease":
+                    return context.deserialize(json, DecreaseActionDTO.class);
+                case "increase":
+                    return context.deserialize(json, IncreaseActionDTO.class);
+                case "kill":
+                    return context.deserialize(json, KillActionDTO.class);
+                case "proximity":
+                    return context.deserialize(json, ProximityActionDTO.class);
+                case "replace":
+                    return context.deserialize(json, ReplaceActionDTO.class);
+                case "set":
+                    return context.deserialize(json, SetActionDTO.class);
+
+                // Add more cases for other concrete ActionDTO subclasses as needed
+                default:
+                    throw new JsonParseException("Unknown action type: " + actionType);
+            }
+        }
+
     }
 
 

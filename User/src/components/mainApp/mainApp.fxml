@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="894.0" prefWidth="1487.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.mainApp.MainAppController">
+   <content>
+      <AnchorPane fx:id="mainAnchorProgram" style="-fx-background-color: ffff;">
+         <children>
+            <VBox fx:id="Leftvbox" layoutX="-1.0" prefHeight="638.0" prefWidth="240.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Pane prefHeight="124.0" prefWidth="240.0">
+                     <children>
+                        <FontAwesomeIconView fill="WHITE" glyphName="XING" layoutX="40.0" layoutY="80.0" size="50" />
+                        <Label layoutX="72.0" layoutY="46.0" text="Predictions" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="241.0" stylesheets="@full.css" text="Home" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView fill="#dddddd" glyphName="HOME" size="20" wrappingWidth="39.0" />
+                     </graphic>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="241.0" stylesheets="@full.css" text="Settings" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView fill="#dddddd" glyphName="GEAR" size="20" wrappingWidth="36.0" />
+                     </graphic>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <AnchorPane layoutX="239.0" layoutY="46.0" prefHeight="225.0" prefWidth="1147.0" AnchorPane.bottomAnchor="616.0" AnchorPane.leftAnchor="239.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="46.0">
+               <children>
+                  <VBox prefHeight="225.0" prefWidth="1147.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Pane fx:id="pnlStatus" prefHeight="112.0" prefWidth="1147.0" style="-fx-background-color: #3F2B63;">
+                           <children>
+                              <Label fx:id="pnlsMessage" layoutX="43.0" layoutY="38.0" text="Home" textFill="WHITE">
+                                 <font>
+                                    <Font size="33.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="buttonsPane" prefHeight="112.0" prefWidth="1147.0" style="-fx-background-color: #ffffff;">
+                           <children>
+                              <Button fx:id="btnLoad" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="32.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadXmlButton" prefHeight="31.0" prefWidth="190.0" stylesheets="@full.css" text="Load File" textFill="WHITE">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#dddddd" glyphName="FILE" size="20" wrappingWidth="39.0" />
+                                 </graphic>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Button>
+                              <TextField fx:id="filePathLabel" layoutX="247.0" layoutY="10.0" prefHeight="31.0" prefWidth="553.0" />
+                              <Button fx:id="magnmentBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="31.0" layoutY="63.0" mnemonicParsing="false" onAction="#switchToManagmentScreen" prefHeight="31.0" prefWidth="196.0" stylesheets="@full.css" text="Managment" textFill="WHITE">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#dddddd" glyphName="INFO" size="20" wrappingWidth="39.0" />
+                                 </graphic>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="AllocationsBtn" alignment="BASELINE_LEFT" graphicTextGap="0.0" layoutX="297.0" layoutY="63.0" mnemonicParsing="false" onAction="#switchToAllocationsScreen" prefHeight="31.0" prefWidth="210.0" text="Allocations" textFill="WHITE">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#dddddd" glyphName="PLUS" size="20" wrappingWidth="39.0" />
+                                 </graphic>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <stylesheets>
+                                    <URL value="@full.css" />
+                                    <URL value="@full.css" />
+                                 </stylesheets>
+                              </Button>
+                              <Button fx:id="ExecutionsBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="574.0" layoutY="61.0" mnemonicParsing="false" onAction="#switchToExecutionsScene" prefHeight="31.0" prefWidth="227.0" stylesheets="@full.css" text="Executions History" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Button>
+                              <FontAwesomeIconView fill="#dddddd" glyphName="BOOK" layoutX="594.0" layoutY="85.0" size="20" wrappingWidth="39.0" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
+                  <Separator layoutY="224.0" prefHeight="3.0" prefWidth="1147.0" style="-fx-background-color: BLACK;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="224.0" />
+               </children>
+            </AnchorPane>
+            <Button layoutX="1114.0" layoutY="8.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #3F2B63;" />
+            <Label layoutX="1029.0" layoutY="13.0" text="Theme" />
+            <Button layoutX="1172.0" layoutY="8.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: #7c4848;" textFill="#7c4848" />
+            <Button layoutX="1230.0" layoutY="8.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="58.0" style="-fx-background-color: BLACK;" textFill="WHITE" />
+            <AnchorPane fx:id="mainAnchorpane" layoutX="242.0" layoutY="276.0" prefHeight="611.0" prefWidth="1147.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="276.0" />
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

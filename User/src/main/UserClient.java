@@ -10,18 +10,16 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-import static util.Constants.*;
+import static util.Constants.MAIN_PAGE_FXML_RESOURCE_LOCATION;
 
-public class AdministratorClient extends Application
+public class UserClient extends Application
 {
     private MainAppController mainAppController;
     @Override
     public void start(Stage primaryStage)
     {
 
-
-        primaryStage.setTitle("Administrator");
-
+        primaryStage.setTitle("User");
         URL loginPage = getClass().getResource(MAIN_PAGE_FXML_RESOURCE_LOCATION);
         try
         {
@@ -33,7 +31,8 @@ public class AdministratorClient extends Application
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.show();
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
