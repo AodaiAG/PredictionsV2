@@ -193,5 +193,4 @@ public class MainAppController
         setMainPanelTo(ManagmentComponent);
         managementController. startSimulationDetailsRefresher();
     }
-
 }

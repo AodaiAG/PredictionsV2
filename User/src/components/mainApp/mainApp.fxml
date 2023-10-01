@@ -67,7 +67,7 @@
                         </Pane>
                         <Pane fx:id="buttonsPane" prefHeight="112.0" prefWidth="1147.0" style="-fx-background-color: #ffffff;">
                            <children>
-                              <Button fx:id="magnmentBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="31.0" layoutY="63.0" mnemonicParsing="false" onAction="#switchToManagmentScreen" prefHeight="31.0" prefWidth="196.0" stylesheets="@full.css" text="Simulation Details" textFill="WHITE">
+                              <Button fx:id="simulationDetailsBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="31.0" layoutY="63.0" mnemonicParsing="false" onAction="#switchToSimulationDetailsScene" prefHeight="31.0" prefWidth="196.0" stylesheets="@full.css" text="Simulation Details" textFill="WHITE">
                                  <padding>
                                     <Insets left="50.0" />
                                  </padding>
@@ -75,7 +75,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="AllocationsBtn" alignment="BASELINE_LEFT" graphicTextGap="0.0" layoutX="260.0" layoutY="63.0" mnemonicParsing="false" onAction="#switchToAllocationsScreen" prefHeight="31.0" prefWidth="210.0" text="Requests" textFill="WHITE">
+                              <Button fx:id="requestsBtn" alignment="BASELINE_LEFT" graphicTextGap="0.0" layoutX="260.0" layoutY="63.0" mnemonicParsing="false" onAction="#switchToRequestsScene" prefHeight="31.0" prefWidth="210.0" text="Requests" textFill="WHITE">
                                  <padding>
                                     <Insets left="50.0" />
                                  </padding>
@@ -87,7 +87,7 @@
                                     <URL value="@full.css" />
                                  </stylesheets>
                               </Button>
-                              <Button fx:id="ExecutionsBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="539.0" layoutY="63.0" mnemonicParsing="false" onAction="#switchToExecutionsScene" prefHeight="31.0" prefWidth="227.0" stylesheets="@full.css" text="Execution" textFill="WHITE">
+                              <Button fx:id="ExecutionBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="539.0" layoutY="63.0" mnemonicParsing="false" onAction="#switchToExecutionScene" prefHeight="31.0" prefWidth="227.0" stylesheets="@full.css" text="Execution" textFill="WHITE">
                                  <padding>
                                     <Insets left="50.0" />
                                  </padding>
@@ -95,7 +95,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="magnmentBtn11" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="873.0" layoutY="63.0" mnemonicParsing="false" onAction="#switchToManagmentScreen" prefHeight="31.0" prefWidth="196.0" stylesheets="@full.css" text="Results" textFill="WHITE">
+                              <Button fx:id="resultsBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="873.0" layoutY="63.0" mnemonicParsing="false" onAction="#switchToResultsScene" prefHeight="31.0" prefWidth="196.0" stylesheets="@full.css" text="Results" textFill="WHITE">
                                  <padding>
                                     <Insets left="50.0" />
                                  </padding>

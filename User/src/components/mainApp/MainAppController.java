@@ -1,32 +1,35 @@
 package components.mainApp;
+import components.execution.ExecutionController;
+import components.requests.RequestsController;
+import components.results.ResultsController;
+import components.simulationDetails.SimulationDetailsController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import okhttp3.*;
-import util.Constants;
-import util.http.HttpClientUtil;
-
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 public class MainAppController
 {
-    AnchorPane executionsComponent;
-    ExecutionsController executionsController;
-    AnchorPane allocationsComponent;
-    AllocationsController allocationsController;
-    AnchorPane ManagmentComponent;
-    ManagementController managementController;
+    ExecutionController executionController;
+    AnchorPane executionComponent;
+
+    RequestsController requestsController;
+    AnchorPane requestsComponent;
+
+    ResultsController resultsController;
+    AnchorPane resultsComponent;
+
+    SimulationDetailsController simulationDetailsController;
+    AnchorPane simulationDetailsComponent;
+
     @FXML
     private AnchorPane mainAnchorProgram;
     @FXML
@@ -52,57 +55,22 @@ public class MainAppController
 
     public void initApplication()
     {
-        loadManagment();
-        loadAllocations();
-        loadExecutionsHistory();
+        loadExecution();
+        loadRequests();
+        loadResults();
+        loadSimulationDetails();
     }
 
-
-    private void loadManagment()
-    {
-
-        URL loginPageUrl = getClass().getResource(MANAGMENT_PAGE);
-        try
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(loginPageUrl);
-            ManagmentComponent = fxmlLoader.load();
-            managementController = fxmlLoader.getController();
-            managementController.setChatAppMainController(this);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-    private void loadAllocations()
-    {
-        URL loginPageUrl = getClass().getResource(ALLOCATIONS_FXML);
-        try
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(loginPageUrl);
-            allocationsComponent = fxmlLoader.load();
-            allocationsController = fxmlLoader.getController();
-            allocationsController.setChatAppMainController(this);
-
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadExecutionsHistory()
+    private void loadExecution()
     {
         URL loginPageUrl = getClass().getResource(EXECUTIONS_FXML);
         try
         {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(loginPageUrl);
-            executionsComponent = fxmlLoader.load();
-            executionsController = fxmlLoader.getController();
-            executionsController.setChatAppMainController(this);
+            executionComponent = fxmlLoader.load();
+            executionController = fxmlLoader.getController();
+            executionController.setChatAppMainController(this);
 
         }
         catch (IOException e)
@@ -111,8 +79,58 @@ public class MainAppController
         }
     }
 
+    private void loadRequests()
+    {
+        URL loginPageUrl = getClass().getResource(EXECUTIONS_FXML);
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(loginPageUrl);
+            requestsComponent = fxmlLoader.load();
+            requestsController = fxmlLoader.getController();
+            requestsController.setChatAppMainController(this);
 
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
+    private void loadResults()
+    {
+        URL loginPageUrl = getClass().getResource(EXECUTIONS_FXML);
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(loginPageUrl);
+            resultsComponent = fxmlLoader.load();
+            resultsController = fxmlLoader.getController();
+            resultsController.setChatAppMainController(this);
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    private void loadSimulationDetails()
+    {
+        URL loginPageUrl = getClass().getResource(EXECUTIONS_FXML);
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(loginPageUrl);
+            simulationDetailsComponent = fxmlLoader.load();
+            simulationDetailsController = fxmlLoader.getController();
+            simulationDetailsController.setChatAppMainController(this);
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     private void setMainPanelTo(Parent pane)
     {
@@ -123,65 +141,30 @@ public class MainAppController
         AnchorPane.setLeftAnchor(pane, 1.0);
         AnchorPane.setRightAnchor(pane, 1.0);
     }
-    @FXML
-    void loadXmlButton(ActionEvent event)
-    {
-        try
-        {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open XML File");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-            File f = fileChooser.showOpenDialog(mainAnchorProgram.getScene().getWindow());
-            if(f!=null)
-            {
-                String RESOURCE = "/upload-file";
 
-                RequestBody body =
-                        new MultipartBody.Builder()
-                                .setType(MultipartBody.FORM)
-                                .addFormDataPart("file1", f.getName(), RequestBody.create(f, MediaType.parse("text/xml")))
-                                .build();
-
-                Request request = new Request.Builder()
-                        .url(Constants.BASE_URL + RESOURCE)
-                        .post(body)
-                        .build();
-
-                Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
-
-                Response response = call.execute();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Status");
-                alert.setContentText(response.body().string());
-                alert.showAndWait();
-            }
-
-           // System.out.println(response.body().string()+"From client Admin");
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-    }
 //
     @FXML
-    void switchToAllocationsScreen(ActionEvent event)
+    void switchToExecutionScreen(ActionEvent event)
     {
-        setMainPanelTo(allocationsComponent);
+        setMainPanelTo(executionComponent);
     }
 
     @FXML
-    void switchToExecutionsScene(ActionEvent event)
+    void switchToRequestsScene(ActionEvent event)
     {
-        setMainPanelTo(executionsComponent);
+        setMainPanelTo(requestsComponent);
     }
 
     @FXML
-    void switchToManagmentScreen(ActionEvent event)
+    void switchToResultsScene(ActionEvent event)
     {
-        setMainPanelTo(ManagmentComponent);
-        managementController. startSimulationDetailsRefresher();
+        setMainPanelTo(resultsComponent);
     }
 
+    @FXML
+    void switchToSimulationDetailsScene(ActionEvent event)
+    {
+        setMainPanelTo(simulationDetailsComponent);
+        //writing something else?
+    }
 }

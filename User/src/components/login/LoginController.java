@@ -1,4 +1,4 @@
-package login;
+package components.login;
 
 
 import javafx.application.Platform;
