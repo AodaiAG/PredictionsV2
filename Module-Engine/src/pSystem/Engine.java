@@ -292,7 +292,8 @@ public class Engine implements IEngine
     }
 
     @Override
-    public void endOfSimulationHandlerPropertyHistogram(UUID simulationID, String chosenEntityName, String chosenPropertyName) {
+    public void endOfSimulationHandlerPropertyHistogram(UUID simulationID, String chosenEntityName, String chosenPropertyName)
+    {
         Simulation simulation = simulations.get(simulationID);
         try {
             Entity chosenEntity = findEntityAccordingName(this.originalWorld.getEntities(), chosenEntityName);
