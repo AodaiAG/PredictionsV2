@@ -11,21 +11,18 @@ public class SimulationDTO
     WorldDTO worldDTO;
 
 
-    public TreeView<String> generateTreeView()
+    public TreeItem<String> generateTreeView()
     {
         // Create a root item for the SimulationDTO
         TreeItem<String> rootItem = new TreeItem<>(nameofSimulation);
 
         // Add the WorldDTO's tree view as a child
-        TreeView<String> worldTreeView = worldDTO.generateTreeView();
-        rootItem.getChildren().add(worldTreeView.getRoot());
+        TreeItem<String> worldTreeItem = worldDTO.generateTreeView().getRoot();
+        rootItem.getChildren().add(worldTreeItem);
 
-        // Create and return the tree view for the SimulationDTO
-        TreeView<String> simulationTreeView = new TreeView<>(rootItem);
-        simulationTreeView.setShowRoot(true); // Display the root item
-
-        return simulationTreeView;
+        return rootItem;
     }
+
     public SimulationDTO(WorldDTO worldDTO, String nameofSimulation)
     {
         this.worldDTO = worldDTO;

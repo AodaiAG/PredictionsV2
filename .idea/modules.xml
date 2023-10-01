@@ -3,11 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Administrator/Administrator.iml" filepath="$PROJECT_DIR$/Administrator/Administrator.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Client/Client.iml" filepath="$PROJECT_DIR$/Client/Client.iml" />
       <module fileurl="file://$PROJECT_DIR$/DTO/DTO.iml" filepath="$PROJECT_DIR$/DTO/DTO.iml" />
       <module fileurl="file://$PROJECT_DIR$/Module-Engine/Module-Engine.iml" filepath="$PROJECT_DIR$/Module-Engine/Module-Engine.iml" />
       <module fileurl="file://$PROJECT_DIR$/Module-UI/Module-UI.iml" filepath="$PROJECT_DIR$/Module-UI/Module-UI.iml" />
       <module fileurl="file://$PROJECT_DIR$/Server/Server.iml" filepath="$PROJECT_DIR$/Server/Server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/User/User.iml" filepath="$PROJECT_DIR$/User/User.iml" />
     </modules>
   </component>
 </project>

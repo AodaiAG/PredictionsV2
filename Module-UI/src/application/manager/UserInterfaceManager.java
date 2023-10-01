@@ -166,7 +166,8 @@ public enum UserInterfaceManager
     }
 
 
-    public TreeView<String> generateWorldDetails() {
+    public TreeView<String> generateWorldDetails()
+    {
         World world = engine.getOriginalWorld();
         return engine.convertWorldToDTO(world).generateTreeView();
     }
