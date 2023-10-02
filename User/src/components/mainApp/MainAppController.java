@@ -144,12 +144,8 @@ public class MainAppController
         AnchorPane.setRightAnchor(pane, 1.0);
     }
 
-//
-    @FXML
-    void switchToExecutionScreen(ActionEvent event)
-    {
-        setMainPanelTo(executionComponent);
-    }
+
+
 
     @FXML
     void switchToRequestsScene(ActionEvent event)
@@ -167,6 +163,11 @@ public class MainAppController
     void switchToSimulationDetailsScene(ActionEvent event)
     {
         setMainPanelTo(simulationDetailsComponent);
-        //writing something else?
+        simulationDetailsController.startSimulationDetailsRefresher();
+    }
+
+    public void switchToExecutionScene(ActionEvent event)
+    {
+        setMainPanelTo(executionComponent);
     }
 }
