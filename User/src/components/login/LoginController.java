@@ -79,7 +79,6 @@ public class LoginController
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
             {
-
                 if (response.code() != 200)
                 {
                     System.out.println("im not good");
@@ -101,8 +100,7 @@ public class LoginController
         });
     }
 
-    public void switchToMainAppPage(ActionEvent event)
-    {
+    public void switchToMainAppPage(ActionEvent event) {
         // Assuming you have a MainApp.fxml file and MainAppController for your main app
         FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_PAGE_FXML_RESOURCE_LOCATION));
         Parent mainAppRoot;
@@ -115,11 +113,18 @@ public class LoginController
 
         UserMainAppController mainAppController = loader.getController();
         Scene mainAppScene = new Scene(mainAppRoot);
-        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        currentStage.setScene(mainAppScene);
-        currentStage.setTitle("User");
-        currentStage.show();
+
+        // Get the current stage (login stage)
+        Stage loginStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Set the new scene on the current stage
+        loginStage.setScene(mainAppScene);
+        loginStage.setTitle("User");
+
+        // Close the login window's stage
+        loginStage.close();
     }
+
 
 
     @FXML

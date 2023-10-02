@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,6 +19,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -72,6 +75,27 @@ public class UserMainAppController
        // userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
         // prepare components
         loadLoginPage();
+    }
+
+    public void showMainAppStage() {
+        try {
+            // Load the FXML file for the main app
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/MainApp.fxml"));
+            Parent mainAppRoot = loader.load();
+
+            // Create a new scene with the main app's root
+            Scene mainAppScene = new Scene(mainAppRoot);
+
+            // Create a new stage for the main app
+            Stage mainAppStage = new Stage();
+            mainAppStage.setScene(mainAppScene);
+            mainAppStage.setTitle("Main App"); // Set the title for the main app window
+
+            // Show the main app stage
+            mainAppStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void initApplication()
