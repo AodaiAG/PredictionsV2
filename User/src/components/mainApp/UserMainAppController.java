@@ -64,17 +64,18 @@ public class UserMainAppController
     private Button ExecutionsBtn;
     @FXML
     private AnchorPane mainAnchorpane;
-
+    @FXML private Label userGreetingLabel;
     public UserMainAppController() {
         currentUserName = new SimpleStringProperty(JHON_DOE);
     }
 
     @FXML
-    public void initialize() {
+    public void initialize()
+    {
 
-       // userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
+       userGreetingLabel.textProperty().bind(Bindings.concat( currentUserName));
         // prepare components
-        loadLoginPage();
+        //loadLoginPage();
     }
 
     public void showMainAppStage() {
@@ -106,7 +107,8 @@ public class UserMainAppController
         loadSimulationDetails();
     }
 
-    private void loadLoginPage() {
+    private void loadLoginPage()
+    {
         URL loginPageUrl = getClass().getResource(LOGIN_PAGE_FXML_RESOURCE_LOCATION);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -228,7 +230,8 @@ public class UserMainAppController
         setMainPanelTo(executionComponent);
     }
 
-    public void updateUserName(String userName) {
+    public void updateUserName(String userName)
+    {
         this.currentUserName.set(userName);
         System.out.println("done update name");
     }

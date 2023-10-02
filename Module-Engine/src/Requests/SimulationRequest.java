@@ -1,14 +1,16 @@
 package Requests;
 
+import javafx.beans.property.StringProperty;
 import pDTOS.TerminationDTO;
 
 import java.util.UUID;
 
 public class SimulationRequest
 {
-    UUID id;
+    private UUID id;
     private String simulationName;
     private int numOfExecutions;
+    private String requestStatus="Unhandled";
     private TerminationDTO terminationConditions;
 
 
@@ -21,7 +23,15 @@ public class SimulationRequest
     }
 
 
+    public String getRequestStatus()
+    {
+        return requestStatus;
+    }
 
+    public void setRequestStatus(String requestStatus)
+    {
+        this.requestStatus = requestStatus;
+    }
 
     public UUID getId()
     {
