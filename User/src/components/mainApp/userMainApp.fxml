@@ -107,7 +107,7 @@
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font></Label>
-                              <Label fx:id="userNameLabel" layoutX="86.0" layoutY="27.0" text="Label" />
+                              <Label fx:id="userGreetingLabel" layoutX="86.0" layoutY="27.0" text="Label" />
                            </children>
                         </Pane>
                      </children>

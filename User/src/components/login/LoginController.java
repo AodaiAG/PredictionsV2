@@ -89,17 +89,19 @@ public class LoginController
                     Platform.runLater(() ->
                             errorMessageProperty.set("Something went wrong: " + responseBody)
                     );
-                } else {
+                } else
+                {
                     Platform.runLater(() ->
                     {
-                        System.out.println("im good");
-                           // mainAppController.updateUserName(userName);
-                            switchToMainAppPage(event);
+                        switchToMainAppPage(event);
+                        mainAppController.updateUserName(userName);
                     });
                 }
             }
         });
     }
+
+
 
     public void switchToMainAppPage(ActionEvent event)
     {
@@ -109,12 +111,13 @@ public class LoginController
         try
         {
             mainAppRoot = loader.load();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
             return;
         }
 
-        UserMainAppController mainAppController = loader.getController();
+        this.mainAppController = loader.getController();
         mainAppController.initApplication();
         Scene mainAppScene = new Scene(mainAppRoot);
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -122,6 +125,7 @@ public class LoginController
         currentStage.setTitle("User");
         currentStage.show();
     }
+
 
 
     @FXML
