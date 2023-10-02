@@ -8,7 +8,7 @@ public class ExecutionsController
 MainAppController mainAppController;
     public void setChatAppMainController(MainAppController mainAppController)
     {
-        this.mainAppController=mainAppController;
+        this.mainAppController = mainAppController;
 
     }
 }

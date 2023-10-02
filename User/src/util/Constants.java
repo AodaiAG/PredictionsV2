@@ -12,9 +12,15 @@ public class Constants
     public final static String CHAT_LINE_FORMATTING = "%tH:%tM:%tS | %.10s: %s%n";
 
     // fxml locations
-    public final static String MAIN_PAGE_FXML_RESOURCE_LOCATION = "/component/main/chat-app-main.fxml";
-    public final static String LOGIN_PAGE_FXML_RESOURCE_LOCATION = "/chat/client/component/login/login.fxml";
-    public final static String CHAT_ROOM_FXML_RESOURCE_LOCATION = "/chat/client/component/chatroom/chat-room-main.fxml";
+    public final static String MAIN_PAGE_FXML_RESOURCE_LOCATION = "/components/mainApp/mainApp.fxml";
+    public final static String LOGIN_PAGE_FXML_RESOURCE_LOCATION = "/components/login/login.fxml";
+    public final static String EXECUTION_FXML_RESOURCE_LOCATION = "/components/execution/execution.fxml";
+    public final static String REQUESTS_FXML_RESOURCE_LOCATION = "/components/requests/requests.fxml";
+    public final static String RESULTS_FXML_RESOURCE_LOCATION = "/components/results/results.fxml";
+    public final static String SIMULATION_DETAILS_FXML_RESOURCE_LOCATION = "/components/simulationDetails/simulationDetails.fxml";
+
+
+
 
     // Server resources locations
     public final static String BASE_DOMAIN = "localhost";

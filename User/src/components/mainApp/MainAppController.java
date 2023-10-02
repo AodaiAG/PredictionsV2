@@ -16,6 +16,8 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.net.URL;
 
+import static util.Constants.*;
+
 public class MainAppController
 {
     ExecutionController executionController;
@@ -63,14 +65,14 @@ public class MainAppController
 
     private void loadExecution()
     {
-        URL loginPageUrl = getClass().getResource(EXECUTIONS_FXML);
+        URL loginPageUrl = getClass().getResource(EXECUTION_FXML_RESOURCE_LOCATION);
         try
         {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(loginPageUrl);
             executionComponent = fxmlLoader.load();
             executionController = fxmlLoader.getController();
-            executionController.setChatAppMainController(this);
+            executionController.setAppMainController(this);
 
         }
         catch (IOException e)
@@ -81,14 +83,14 @@ public class MainAppController
 
     private void loadRequests()
     {
-        URL loginPageUrl = getClass().getResource(EXECUTIONS_FXML);
+        URL loginPageUrl = getClass().getResource(REQUESTS_FXML_RESOURCE_LOCATION);
         try
         {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(loginPageUrl);
             requestsComponent = fxmlLoader.load();
             requestsController = fxmlLoader.getController();
-            requestsController.setChatAppMainController(this);
+            requestsController.setAppMainController(this);
 
         }
         catch (IOException e)
@@ -99,14 +101,14 @@ public class MainAppController
 
     private void loadResults()
     {
-        URL loginPageUrl = getClass().getResource(EXECUTIONS_FXML);
+        URL loginPageUrl = getClass().getResource(RESULTS_FXML_RESOURCE_LOCATION);
         try
         {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(loginPageUrl);
             resultsComponent = fxmlLoader.load();
             resultsController = fxmlLoader.getController();
-            resultsController.setChatAppMainController(this);
+            resultsController.setAppMainController(this);
 
         }
         catch (IOException e)
@@ -116,14 +118,14 @@ public class MainAppController
     }
     private void loadSimulationDetails()
     {
-        URL loginPageUrl = getClass().getResource(EXECUTIONS_FXML);
+        URL loginPageUrl = getClass().getResource(SIMULATION_DETAILS_FXML_RESOURCE_LOCATION);
         try
         {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(loginPageUrl);
             simulationDetailsComponent = fxmlLoader.load();
             simulationDetailsController = fxmlLoader.getController();
-            simulationDetailsController.setChatAppMainController(this);
+            simulationDetailsController.setAppMainController(this);
 
         }
         catch (IOException e)
