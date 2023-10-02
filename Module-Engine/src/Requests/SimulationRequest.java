@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class SimulationRequest
 {
-    UUID id;
+    private UUID id;
     private String simulationName;
     private int numOfExecutions;
     private TerminationDTO terminationConditions;
