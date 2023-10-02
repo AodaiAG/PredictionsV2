@@ -18,6 +18,7 @@ public class Constants
     public final static String REQUESTS_FXML_RESOURCE_LOCATION = "/components/requests/requests.fxml";
     public final static String RESULTS_FXML_RESOURCE_LOCATION = "/components/results/results.fxml";
     public final static String SIMULATION_DETAILS_FXML_RESOURCE_LOCATION = "/components/simulationDetails/simulationDetails.fxml";
+    public final static String SUBMIT_NEW_REQUEST_LOCATION = "/components/requests/submitNewRequest/submitnewRequest.fxml";
 
 
 
@@ -25,8 +26,9 @@ public class Constants
     // Server resources locations
     public final static String BASE_DOMAIN = "localhost";
     private final static String BASE_URL = "http://" + BASE_DOMAIN + ":8080";
-    private final static String CONTEXT_PATH = "/chatApp";
-    private final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;
+    private final static String CONTEXT_PATH = "/";
+    public final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;
+    public final static String NEW_REQUEST= "new_request";
 
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/loginShortResponse";
     public final static String USERS_LIST = FULL_SERVER_PATH + "/userslist";

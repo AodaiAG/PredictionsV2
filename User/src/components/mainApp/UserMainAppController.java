@@ -123,6 +123,7 @@ public class UserMainAppController
             requestsComponent = fxmlLoader.load();
             requestsController = fxmlLoader.getController();
             requestsController.setAppMainController(this);
+            requestsController.initApplication();
 
         }
         catch (IOException e)

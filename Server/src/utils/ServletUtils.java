@@ -1,10 +1,11 @@
 package utils;
 
 
+import Requests.RequestManager;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import pSystem.Engine;
-import pSystem.IEngine;
+import users.UserManager;
 
 import static constants.Constants.*;
 
@@ -13,19 +14,22 @@ public class ServletUtils
 {
 
 	private static final String Engine_ATTRIBUTE_NAME = "engine";
-	private static final String CHAT_MANAGER_ATTRIBUTE_NAME = "chatManager";
+	private static final String USER_MANAGER_ATTRIBUTE_NAME = "userManager";
+	private static final String REQUEST_MANAGER_ATTRIBUTE_NAME = "requestManager";
 
 	/*
 	Note how the synchronization is done only on the question and\or creation of the relevant managers and once they exist -
 	the actual fetch of them is remained un-synchronized for performance POV
 	 */
+	private static final Object engineLock = new Object();
 	private static final Object userManagerLock = new Object();
-	private static final Object chatManagerLock = new Object();
+	private static final Object requestManagerLock = new Object();
+
 
 	public static Engine getEngine(ServletContext servletContext)
 	{
 
-		synchronized (userManagerLock)
+		synchronized (engineLock)
 		{
 			if (servletContext.getAttribute(Engine_ATTRIBUTE_NAME) == null)
 			{
@@ -37,16 +41,30 @@ public class ServletUtils
 		}
 		return (Engine) servletContext.getAttribute(Engine_ATTRIBUTE_NAME);
 	}
-//
-//	public static ChatManager getChatManager(ServletContext servletContext)
-//	{
-//		synchronized (chatManagerLock) {
-//			if (servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME) == null) {
-//				servletContext.setAttribute(CHAT_MANAGER_ATTRIBUTE_NAME, new ChatManager());
-//			}
-//		}
-//		return (ChatManager) servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME);
-//	}
+
+	public static UserManager getUserManager(ServletContext servletContext)
+	{
+		synchronized (userManagerLock)
+		{
+			if (servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME) == null)
+			{
+				servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, getEngine(servletContext).getUserManager());
+			}
+		}
+		return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
+	}
+
+	public static RequestManager getRequestManager(ServletContext servletContext)
+	{
+		synchronized (requestManagerLock)
+		{
+			if (servletContext.getAttribute(REQUEST_MANAGER_ATTRIBUTE_NAME) == null)
+			{
+				servletContext.setAttribute(REQUEST_MANAGER_ATTRIBUTE_NAME, getEngine(servletContext).getRequestManager());
+			}
+		}
+		return (RequestManager) servletContext.getAttribute(REQUEST_MANAGER_ATTRIBUTE_NAME);
+	}
 
 	public static int getIntParameter(HttpServletRequest request, String name)
 	{
