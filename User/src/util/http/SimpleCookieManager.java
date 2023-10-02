@@ -8,7 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class SimpleCookieManager implements CookieJar {
+public class SimpleCookieManager implements CookieJar
+{
 
     private final static String CACHE_MANAGER_PREFIX = "    [Cookie Manager] ---> ";
     Map<String, Map<String, Cookie>> cookies = new HashMap<>();
@@ -20,7 +21,8 @@ public class SimpleCookieManager implements CookieJar {
 
     @NotNull
     @Override
-    public List<Cookie> loadForRequest(@NotNull HttpUrl httpUrl) {
+    public List<Cookie> loadForRequest(@NotNull HttpUrl httpUrl)
+    {
         String host = httpUrl.host();
         StringBuilder sb = new StringBuilder();
         sb.append(CACHE_MANAGER_PREFIX).append("Fetching cookies for domain: [").append(host).append("]...");

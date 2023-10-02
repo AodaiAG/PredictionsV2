@@ -1,9 +1,6 @@
 package Requests;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class RequestManager
 {
@@ -16,7 +13,17 @@ public class RequestManager
     }
     public synchronized void addRequest(String username, SimulationRequest simulationRequest)
     {
-        userRequestMap.get(username).add(simulationRequest);
+        if (userRequestMap.containsKey(username)) {
+            // Username exists in the map, retrieve the set and add the request
+            Set<SimulationRequest> existingRequests = userRequestMap.get(username);
+            existingRequests.add(simulationRequest);
+        } else {
+            // Username doesn't exist in the map, create a new set, add the request, and put it into the map
+            Set<SimulationRequest> newRequests = new HashSet<>();
+            newRequests.add(simulationRequest);
+            userRequestMap.put(username, newRequests);
+        }
+
     }
 
     public synchronized void removeRequest(String username, SimulationRequest simulationRequest)
