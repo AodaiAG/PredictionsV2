@@ -86,10 +86,17 @@ public class SubmitNewRequestController
                     .addHeader("Content-Type", "application/json")
                     .build();
             Response response= HttpClientUtil.HTTP_CLIENT.newCall(request).execute();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Status");
+            alert.setContentText(response.body().string());
+            alert.showAndWait();
         }
         catch(Exception e)
         {
-
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Status");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
 
     }

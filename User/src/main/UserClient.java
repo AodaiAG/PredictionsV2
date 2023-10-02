@@ -20,7 +20,8 @@ public class UserClient extends Application
     private GridPane loginComponent;
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage)
+    {
         primaryStage.setTitle("User");
 
         try {

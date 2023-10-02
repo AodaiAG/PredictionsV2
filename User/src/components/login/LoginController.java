@@ -106,7 +106,8 @@ public class LoginController
         // Assuming you have a MainApp.fxml file and MainAppController for your main app
         FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_PAGE_FXML_RESOURCE_LOCATION));
         Parent mainAppRoot;
-        try {
+        try
+        {
             mainAppRoot = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,6 +115,7 @@ public class LoginController
         }
 
         UserMainAppController mainAppController = loader.getController();
+        mainAppController.initApplication();
         Scene mainAppScene = new Scene(mainAppRoot);
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.setScene(mainAppScene);
