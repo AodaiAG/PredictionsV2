@@ -57,7 +57,6 @@ public class LoginController
             errorMessageProperty.set("User name is empty. You can't login with empty user name");
             return;
         }
-        switchToMainAppPage(event);
         //noinspection ConstantConditions
         String finalUrl = HttpUrl
                         .parse(Constants.LOGIN_PAGE)
@@ -70,7 +69,6 @@ public class LoginController
 
         HttpClientUtil.runAsync(finalUrl, new Callback()
         {
-
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Platform.runLater(() ->
@@ -95,7 +93,7 @@ public class LoginController
                     Platform.runLater(() ->
                     {
                         System.out.println("im good");
-                            mainAppController.updateUserName(userName);
+                           // mainAppController.updateUserName(userName);
                             switchToMainAppPage(event);
                     });
                 }

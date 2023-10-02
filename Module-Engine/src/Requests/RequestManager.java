@@ -24,10 +24,10 @@ public class RequestManager
         userRequestMap.get(username).remove(simulationRequest);
     }
 
-    public synchronized Set<SimulationRequest> getRequests()
-    {
-        return Collections.unmodifiableSet((Set<? extends SimulationRequest>) userRequestMap.values());
-    }
+//    public synchronized Set<SimulationRequest> getRequests()
+//    {
+//        return Collections.unmodifiableSet((Set<? extends SimulationRequest>) userRequestMap.values());
+//    }
 
     public boolean isRequestExists(String username, SimulationRequest simulationRequest)
     {

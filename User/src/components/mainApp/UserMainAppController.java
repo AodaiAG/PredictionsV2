@@ -68,8 +68,8 @@ public class UserMainAppController
 
     @FXML
     public void initialize() {
-        //   userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
 
+       // userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
         // prepare components
         loadLoginPage();
     }

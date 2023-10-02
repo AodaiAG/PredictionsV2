@@ -3,7 +3,7 @@ package components.requests.submitNewRequest;
 import Requests.SimulationRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import components.mainApp.MainAppController;
+import components.mainApp.UserMainAppController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -40,7 +40,7 @@ public class SubmitNewRequestController
     @FXML
     private Button submitBTN;
 
-    MainAppController mainAppController;
+    UserMainAppController mainAppController;
 
 
     public void initialize()
@@ -61,7 +61,7 @@ public class SubmitNewRequestController
         }
     }
 
-    public void setAppMainController(MainAppController mainAppController)
+    public void setAppMainController(UserMainAppController mainAppController)
     {
         this.mainAppController = mainAppController;
     }
@@ -70,10 +70,8 @@ public class SubmitNewRequestController
     @FXML
     void submitClicked(ActionEvent event)
     {
-
         try
         {
-
             Gson gson = new GsonBuilder() .setPrettyPrinting().create();
             SimulationRequest simulationRequest=new SimulationRequest(new UUID(6,6),
                     simulatioNameText.getText(),

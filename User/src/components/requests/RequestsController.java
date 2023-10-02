@@ -1,6 +1,6 @@
 package components.requests;
 
-import components.mainApp.MainAppController;
+import components.mainApp.UserMainAppController;
 import components.requests.submitNewRequest.SubmitNewRequestController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,9 +54,9 @@ public class RequestsController
         }
     }
 
-    MainAppController mainAppController;
+    UserMainAppController mainAppController;
 
-    public void setAppMainController(MainAppController mainAppController)
+    public void setAppMainController(UserMainAppController mainAppController)
     {
         this.mainAppController = mainAppController;
     }
