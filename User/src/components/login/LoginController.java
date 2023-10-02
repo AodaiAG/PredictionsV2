@@ -1,6 +1,7 @@
 package components.login;
 
 
+import components.mainApp.MainAppController;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -18,25 +19,25 @@ import java.io.IOException;
 
 public class LoginController
 {
-
     @FXML
     public TextField userNameTextField;
 
     @FXML
     public Label errorMessageLabel;
 
-   // private ChatAppMainController chatAppMainController;
+   private MainAppController mainAppController;
 
     private final StringProperty errorMessageProperty = new SimpleStringProperty();
 
     @FXML
     public void initialize()
     {
-//        errorMessageLabel.textProperty().bind(errorMessageProperty);
+        errorMessageLabel.textProperty().bind(errorMessageProperty);
 //        HttpClientUtil.setCookieManagerLoggingFacility(line ->
 //                Platform.runLater(() ->
 //                        updateHttpStatusLine(line)));
     }
+
 
     @FXML
     private void loginButtonClicked(ActionEvent event)
@@ -80,8 +81,8 @@ public class LoginController
                 } else {
                     Platform.runLater(() ->
                     {
-                            //chatAppMainController.updateUserName(userName);
-                           // chatAppMainController.switchToChatRoom();
+                            mainAppController.updateUserName(userName);
+                            mainAppController.();
                     });
                 }
             }
@@ -97,6 +98,4 @@ public class LoginController
     private void quitButtonClicked(ActionEvent e) {
         Platform.exit();
     }
-
-
 }
