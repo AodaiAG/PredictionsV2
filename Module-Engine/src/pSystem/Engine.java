@@ -1,5 +1,6 @@
 package pSystem;
 
+import Requests.RequestManager;
 import application.controllers.EntityWrapper;
 import application.controllers.ObservableEntity;
 import application.controllers.SimulationConditions;
@@ -25,12 +26,15 @@ import java.util.stream.Collectors;
 
 import pExceptionHandler.PropertyExceptionHandler;
 import pExceptionHandler.RuleExceptionHandler;
+import users.UserManager;
 
 public class Engine implements IEngine
 {
     private static boolean programRunning = true;
     private final Map<UUID, Simulation> simulations = new HashMap<>();
     private final Map<String, aSimulation> AllSimulations = new HashMap<>();
+    private UserManager userManager=new UserManager();
+    private RequestManager requestManager=new RequestManager();
     public Random r = new Random();
     public World originalWorld;
     public World FileWorld;
@@ -53,7 +57,14 @@ public class Engine implements IEngine
     }
 
 
+    public UserManager getUserManager()
+    {
+        return userManager;
+    }
 
+    public RequestManager getRequestManager() {
+        return requestManager;
+    }
 
     public Integer getCurrTicksAmount()
     {

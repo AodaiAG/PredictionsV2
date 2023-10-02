@@ -1,21 +1,18 @@
 package servlets;
 
+import Requests.SimulationRequest;
+import Requests.RequestManager;
+import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import pSystem.Engine;
-import pSystem.World;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 
 import static constants.Constants.*;
 
@@ -30,7 +27,7 @@ public class SubmitRequestServlet extends HttpServlet
     {
         try
         {
-            Engine engine = ServletUtils.getEngine(getServletContext());
+
             String usernameFromSession = SessionUtils.getUsername(request);
             if (usernameFromSession == null)
             {
@@ -42,11 +39,32 @@ public class SubmitRequestServlet extends HttpServlet
                     //redirect back to the index page
                     //this return an HTTP code back to the browser telling it to load
                     response.sendRedirect(SIGN_UP_URL);
-                } else
+                }
+                else
                 {
-                    //normalize the username value
                     usernameFromParameter = usernameFromParameter.trim();
                 }
+
+            }
+            else
+            {
+
+                RequestManager requestManager=ServletUtils.getRequestManager(getServletContext());
+                // Get the input stream from the request
+                BufferedReader reader = request.getReader();
+                StringBuilder jsonRequest = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null)
+                {
+                    jsonRequest.append(line);
+                }
+
+                // Parse the JSON data using Gson into your Request object
+                Gson gson = new Gson();
+                SimulationRequest simulationRequestObject = gson.fromJson(jsonRequest.toString(), SimulationRequest.class);
+                requestManager.addRequest(usernameFromSession, simulationRequestObject);
+                response.getWriter().print("Request Submitted. ");
 
             }
 

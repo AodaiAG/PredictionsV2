@@ -6,11 +6,17 @@ public class TerminationDTO
 {
     private int terminationTicks;
     private int terminationSeconds;
+    private boolean isByUser;
 
 
-    public TerminationDTO(int terminationTicks, int terminationSeconds) {
+    public TerminationDTO(int terminationTicks, int terminationSeconds)
+    {
         this.terminationTicks = terminationTicks;
         this.terminationSeconds = terminationSeconds;
+    }
+    public TerminationDTO()
+    {
+
     }
     public TreeItem<String> generateTreeView()
     {
@@ -41,5 +47,13 @@ public class TerminationDTO
 
     public void setTerminationSeconds(int terminationSeconds) {
         this.terminationSeconds = terminationSeconds;
+    }
+
+    public boolean isByUser() {
+        return isByUser;
+    }
+
+    public void setByUser(boolean byUser) {
+        isByUser = byUser;
     }
 }
