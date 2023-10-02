@@ -1,6 +1,6 @@
 package components.simulationDetails;
 
-import components.mainApp.MainAppController;
+import components.mainApp.UserMainAppController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeView;
 
@@ -9,11 +9,11 @@ import java.util.TimerTask;
 
 public class SimulationDetailsController
 {
-    MainAppController mainAppController;
+    UserMainAppController mainAppController;
     @FXML
     TreeView treeView;
 
-    public void setAppMainController(MainAppController mainAppController)
+    public void setAppMainController(UserMainAppController mainAppController)
     {
         this.mainAppController = mainAppController;
     }

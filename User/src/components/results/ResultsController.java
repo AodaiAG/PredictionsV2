@@ -1,11 +1,12 @@
 package components.results;
 
-import components.mainApp.MainAppController;
+
+import components.mainApp.UserMainAppController;
 
 public class ResultsController {
-    MainAppController mainAppController;
+    UserMainAppController mainAppController;
 
-    public void setAppMainController(MainAppController mainAppController) {
+    public void setAppMainController(UserMainAppController mainAppController) {
         this.mainAppController = mainAppController;
     }
 }

@@ -1,11 +1,11 @@
 package components.execution;
 
-import components.mainApp.MainAppController;
+import components.mainApp.UserMainAppController;
 
 public class ExecutionController {
-    MainAppController mainAppController;
+    UserMainAppController mainAppController;
 
-    public void setAppMainController(MainAppController mainAppController) {
+    public void setAppMainController(UserMainAppController mainAppController) {
         this.mainAppController = mainAppController;
     }
 }

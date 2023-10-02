@@ -1,11 +1,11 @@
 package components.requests;
 
-import components.mainApp.MainAppController;
+import components.mainApp.UserMainAppController;
 
 public class RequestsController {
-    MainAppController mainAppController;
+    UserMainAppController mainAppController;
 
-    public void setAppMainController(MainAppController mainAppController) {
+    public void setAppMainController(UserMainAppController userMainAppController) {
         this.mainAppController = mainAppController;
     }
 }

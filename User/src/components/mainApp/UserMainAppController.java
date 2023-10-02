@@ -1,8 +1,12 @@
 package components.mainApp;
 import components.execution.ExecutionController;
+import components.login.LoginController;
 import components.requests.RequestsController;
 import components.results.ResultsController;
 import components.simulationDetails.SimulationDetailsController;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
@@ -18,8 +23,11 @@ import java.net.URL;
 
 import static util.Constants.*;
 
-public class MainAppController
+public class UserMainAppController
 {
+    private LoginController logicController;
+    private GridPane loginComponent;
+
     ExecutionController executionController;
     AnchorPane executionComponent;
 
@@ -31,6 +39,9 @@ public class MainAppController
 
     SimulationDetailsController simulationDetailsController;
     AnchorPane simulationDetailsComponent;
+
+    private final StringProperty currentUserName;
+
 
     @FXML
     private AnchorPane mainAnchorProgram;
@@ -47,13 +58,21 @@ public class MainAppController
     @FXML
     private TextField filePathLabel;
     @FXML
-    private Button magnmentBtn;
-    @FXML
-    private Button AllocationsBtn;
-    @FXML
     private Button ExecutionsBtn;
     @FXML
     private AnchorPane mainAnchorpane;
+
+    public UserMainAppController() {
+        currentUserName = new SimpleStringProperty(JHON_DOE);
+    }
+
+    @FXML
+    public void initialize() {
+        //   userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
+
+        // prepare components
+        loadLoginPage();
+    }
 
     public void initApplication()
     {
@@ -63,6 +82,19 @@ public class MainAppController
         loadSimulationDetails();
     }
 
+    private void loadLoginPage() {
+        URL loginPageUrl = getClass().getResource(LOGIN_PAGE_FXML_RESOURCE_LOCATION);
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(loginPageUrl);
+            loginComponent = fxmlLoader.load();
+            logicController = fxmlLoader.getController();
+            logicController.setAppMainController(this);
+            setMainPanelTo(loginComponent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void loadExecution()
     {
         URL loginPageUrl = getClass().getResource(EXECUTION_FXML_RESOURCE_LOCATION);
@@ -169,5 +201,10 @@ public class MainAppController
     public void switchToExecutionScene(ActionEvent event)
     {
         setMainPanelTo(executionComponent);
+    }
+
+    public void updateUserName(String userName) {
+        this.currentUserName.set(userName);
+        System.out.println("done update name");
     }
 }

@@ -1,5 +1,4 @@
 
-
 package components.mainApp;
 
 import components.Allocations.AllocationsController;
