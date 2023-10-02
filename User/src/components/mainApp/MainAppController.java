@@ -1,11 +1,8 @@
 package components.mainApp;
-import com.sun.deploy.util.BlackList;
 import components.execution.ExecutionController;
 import components.requests.RequestsController;
 import components.results.ResultsController;
 import components.simulationDetails.SimulationDetailsController;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +20,6 @@ import static util.Constants.*;
 
 public class MainAppController
 {
-    private final StringProperty currentUserName;
     ExecutionController executionController;
     AnchorPane executionComponent;
 
@@ -35,7 +31,6 @@ public class MainAppController
 
     SimulationDetailsController simulationDetailsController;
     AnchorPane simulationDetailsComponent;
-
 
     @FXML
     private AnchorPane mainAnchorProgram;
@@ -59,10 +54,6 @@ public class MainAppController
     private Button ExecutionsBtn;
     @FXML
     private AnchorPane mainAnchorpane;
-
-    public MainAppController() {
-        currentUserName = new SimpleStringProperty(JHON_DOE);
-    }
 
     public void initApplication()
     {
@@ -153,11 +144,8 @@ public class MainAppController
         AnchorPane.setRightAnchor(pane, 1.0);
     }
 
-    @FXML
-    void switchToExecutionScreen(ActionEvent event)
-    {
-        setMainPanelTo(executionComponent);
-    }
+
+
 
     @FXML
     void switchToRequestsScene(ActionEvent event)
@@ -175,10 +163,11 @@ public class MainAppController
     void switchToSimulationDetailsScene(ActionEvent event)
     {
         setMainPanelTo(simulationDetailsComponent);
-        //writing something else?
+        simulationDetailsController.startSimulationDetailsRefresher();
     }
 
-    public void updateUserName(String userName) {
-        currentUserName.set(userName);
+    public void switchToExecutionScene(ActionEvent event)
+    {
+        setMainPanelTo(executionComponent);
     }
 }
