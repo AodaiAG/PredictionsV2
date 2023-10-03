@@ -20,5 +20,6 @@
     </orderEntry>
     <orderEntry type="module" module-name="DTO" />
     <orderEntry type="library" name="fontawesomefx-8.9" level="project" />
+    <orderEntry type="module" module-name="Module-Engine" />
   </component>
 </module>

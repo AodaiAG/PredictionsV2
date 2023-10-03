@@ -25,7 +25,6 @@ public class RequestManager
             newRequests.add(simulationRequest);
             userRequestMap.put(username, newRequests);
         }
-
     }
 
     public synchronized void removeRequest(String username, SimulationRequest simulationRequest)
@@ -33,13 +32,19 @@ public class RequestManager
         userRequestMap.get(username).remove(simulationRequest);
     }
 
-//    public synchronized Set<SimulationRequest> getRequests()
-//    {
-//        return Collections.unmodifiableSet((Set<? extends SimulationRequest>) userRequestMap.values());
-//    }
+    public synchronized Set<SimulationRequest> getRequests()
+    {
+        return Collections.unmodifiableSet((Set<? extends SimulationRequest>) userRequestMap.values());
+    }
+
+    public synchronized Set<SimulationRequest> getUserRequests(String userName)
+    {
+        return Collections.unmodifiableSet(this.userRequestMap.get(userName));
+    }
 
     public boolean isRequestExists(String username, SimulationRequest simulationRequest)
     {
        return userRequestMap.get(username).contains(simulationRequest);
     }
+
 }
