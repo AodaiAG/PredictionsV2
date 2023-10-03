@@ -13,7 +13,8 @@ public class RequestManager
     }
     public synchronized void addRequest(String username, SimulationRequest simulationRequest)
     {
-        if (userRequestMap.containsKey(username)) {
+        if (userRequestMap.containsKey(username))
+        {
             // Username exists in the map, retrieve the set and add the request
             Set<SimulationRequest> existingRequests = userRequestMap.get(username);
             existingRequests.add(simulationRequest);
