@@ -11,7 +11,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-public class UserRequestsController {
+public class UserRequestsController
+{
 
     private UserMainAppController userMainAppController;
 

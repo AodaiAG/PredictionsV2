@@ -35,19 +35,23 @@ public class RequestsRefresher extends TimerTask
         {
             System.out.println("I'm going to refresh requests bud/ user");
             Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
-            Set<UUID> existingUUIDs = tableView.getItems()
-                    .stream()
-                    .map(SimulationRequest::getId)
-                    .collect(Collectors.toSet());
-
-            Set<SimulationRequest> newItems = simulationRequests.stream()
-                    .filter(simulationRequest -> !existingUUIDs.contains(simulationRequest.getId()))
-                    .collect(Collectors.toSet());
-
-            Platform.runLater(() ->
+            if(simulationRequests!=null)
             {
-                tableView.getItems().addAll(newItems);
-            });
+                Set<UUID> existingUUIDs = tableView.getItems()
+                        .stream()
+                        .map(SimulationRequest::getId)
+                        .collect(Collectors.toSet());
+
+                Set<SimulationRequest> newItems = simulationRequests.stream()
+                        .filter(simulationRequest -> !existingUUIDs.contains(simulationRequest.getId()))
+                        .collect(Collectors.toSet());
+
+                Platform.runLater(() ->
+                {
+                    tableView.getItems().addAll(newItems);
+                });
+
+            }
 
         }
         catch (Exception e)

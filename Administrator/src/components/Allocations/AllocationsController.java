@@ -60,7 +60,8 @@ public class AllocationsController
             String idString = id != null ? id.toString() : ""; // Convert UUID to String or set an empty string if it's null
             return new SimpleStringProperty(idString);
         });
-        simulationNameColumn.setCellValueFactory(cellData-> {
+        simulationNameColumn.setCellValueFactory(cellData->
+        {
             String sName = cellData.getValue().getSimulationName();
             return new SimpleStringProperty(sName != null ? sName : "");
         });

@@ -43,10 +43,10 @@ public class RequestsController
             //submitNewRequestController.initApplication();
             submitNewAnchor.getChildren().clear();
             submitNewAnchor.getChildren().add(toBeSubmitted);
-            AnchorPane.setBottomAnchor(submitNewAnchor, 1.0);
-            AnchorPane.setTopAnchor(submitNewAnchor, 1.0);
-            AnchorPane.setLeftAnchor(submitNewAnchor, 1.0);
-            AnchorPane.setRightAnchor(submitNewAnchor, 1.0);
+            AnchorPane.setBottomAnchor(toBeSubmitted, 1.0);
+            AnchorPane.setTopAnchor(toBeSubmitted, 1.0);
+            AnchorPane.setLeftAnchor(toBeSubmitted, 1.0);
+            AnchorPane.setRightAnchor(toBeSubmitted, 1.0);
 
         }
         catch (IOException e)
@@ -68,10 +68,10 @@ public class RequestsController
             //submitNewRequestController.initApplication();
             showRequestAnchor.getChildren().clear();
             showRequestAnchor.getChildren().add(toBeSubmitted);
-            AnchorPane.setBottomAnchor(showRequestAnchor, 1.0);
-            AnchorPane.setTopAnchor(showRequestAnchor, 1.0);
-            AnchorPane.setLeftAnchor(showRequestAnchor, 1.0);
-            AnchorPane.setRightAnchor(showRequestAnchor, 1.0);
+            AnchorPane.setBottomAnchor(toBeSubmitted, 1.0);
+            AnchorPane.setTopAnchor(toBeSubmitted, 1.0);
+            AnchorPane.setLeftAnchor(toBeSubmitted, 1.0);
+            AnchorPane.setRightAnchor(toBeSubmitted, 1.0);
 
         }
         catch (IOException e)
