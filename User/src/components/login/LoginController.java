@@ -105,7 +105,8 @@ public class LoginController
         // Load the FXML file for the main app
         FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_PAGE_FXML_RESOURCE_LOCATION));
         Parent mainAppRoot;
-        try {
+        try
+        {
             mainAppRoot = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
