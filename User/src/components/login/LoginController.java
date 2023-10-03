@@ -101,30 +101,57 @@ public class LoginController
         });
     }
 
-
-
-    public void switchToMainAppPage(ActionEvent event)
-    {
-        // Assuming you have a MainApp.fxml file and MainAppController for your main app
+    public void switchToMainAppPage(ActionEvent event) {
+        // Load the FXML file for the main app
         FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_PAGE_FXML_RESOURCE_LOCATION));
         Parent mainAppRoot;
-        try
-        {
+        try {
             mainAppRoot = loader.load();
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
             return;
         }
 
-        this.mainAppController = loader.getController();
-        mainAppController.initApplication();
+        // Create a new stage for the main app
+        Stage newStage = new Stage();
+        newStage.setTitle("User");
         Scene mainAppScene = new Scene(mainAppRoot);
+       this.mainAppController = loader.getController();
+        mainAppController.initApplication();
+        // Set the scene for the new stage
+        newStage.setScene(mainAppScene);
+
+        // Close the previous stage if needed
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        currentStage.setScene(mainAppScene);
-        currentStage.setTitle("User");
-        currentStage.show();
+        currentStage.close();
+
+        // Show the new stage
+        newStage.show();
     }
+
+
+//    public void switchToMainAppPage(ActionEvent event)
+//    {
+//        // Assuming you have a MainApp.fxml file and MainAppController for your main app
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_PAGE_FXML_RESOURCE_LOCATION));
+//        Parent mainAppRoot;
+//        try
+//        {
+//            mainAppRoot = loader.load();
+//        } catch (IOException e)
+//        {
+//            e.printStackTrace();
+//            return;
+//        }
+//
+//        this.mainAppController = loader.getController();
+//        mainAppController.initApplication();
+//        Scene mainAppScene = new Scene(mainAppRoot);
+//        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        currentStage.setScene(mainAppScene);
+//        currentStage.setTitle("User");
+//        currentStage.show();
+//    }
 
 
 
