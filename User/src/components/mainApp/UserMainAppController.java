@@ -77,6 +77,10 @@ public class UserMainAppController
         // prepare components
         //loadLoginPage();
     }
+    public String getUserName()
+    {
+        return currentUserName.getValue();
+    }
 
     public void showMainAppStage() {
         try {
@@ -98,6 +102,8 @@ public class UserMainAppController
             e.printStackTrace();
         }
     }
+
+
 
     public void initApplication()
     {

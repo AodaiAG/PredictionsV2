@@ -76,7 +76,7 @@ public class SubmitNewRequestController
             SimulationRequest simulationRequest=
                     new SimulationRequest( UUID.randomUUID(),
                     simulatioNameText.getText(),
-                    Integer.parseInt(numOfExecutions.getText()),getTermination(),"to write"
+                    Integer.parseInt(numOfExecutions.getText()),getTermination(), mainAppController.getUserName()
             );
 
 
