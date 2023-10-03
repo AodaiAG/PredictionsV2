@@ -18,7 +18,8 @@ public class RequestManager
             // Username exists in the map, retrieve the set and add the request
             Set<SimulationRequest> existingRequests = userRequestMap.get(username);
             existingRequests.add(simulationRequest);
-        } else {
+        } else
+        {
             // Username doesn't exist in the map, create a new set, add the request, and put it into the map
             Set<SimulationRequest> newRequests = new HashSet<>();
             newRequests.add(simulationRequest);
