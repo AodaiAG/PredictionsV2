@@ -78,7 +78,7 @@ public class SubmitNewRequestController
                     simulatioNameText.getText(),
                     Integer.parseInt(numOfExecutions.getText()),getTermination(), mainAppController.getUserName()
             );
-
+//
 
             MediaType mediaType = MediaType.parse("application/json");
             RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequest));
