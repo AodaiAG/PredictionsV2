@@ -75,7 +75,8 @@ public class SubmitNewRequestController
             Gson gson = new GsonBuilder() .setPrettyPrinting().create();
             SimulationRequest simulationRequest=new SimulationRequest(new UUID(6,6),
                     simulatioNameText.getText(),
-                    Integer.parseInt(numOfExecutions.getText()),getTermination());
+                    Integer.parseInt(numOfExecutions.getText()),getTermination(),"to write"
+            );
 
 
             MediaType mediaType = MediaType.parse("application/json");

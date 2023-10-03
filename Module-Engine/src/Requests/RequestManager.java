@@ -23,7 +23,6 @@ public class RequestManager
             newRequests.add(simulationRequest);
             userRequestMap.put(username, newRequests);
         }
-
     }
 
     public synchronized void removeRequest(String username, SimulationRequest simulationRequest)
