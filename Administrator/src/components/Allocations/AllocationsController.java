@@ -47,7 +47,7 @@ public class AllocationsController
     {
         Timer timer = new Timer();
         TimerTask task = new RequestsRefresher(requestTableView);
-        long delay = 2000; // Initial delay (0 milliseconds)
+        long delay = 0; // Initial delay (0 milliseconds)
         long period = 2000; // Repeat every 2 seconds (2000 milliseconds)
         timer.scheduleAtFixedRate(task, delay, period);
 

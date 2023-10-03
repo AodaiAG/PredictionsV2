@@ -73,7 +73,8 @@ public class SubmitNewRequestController
         try
         {
             Gson gson = new GsonBuilder() .setPrettyPrinting().create();
-            SimulationRequest simulationRequest=new SimulationRequest(new UUID(6,6),
+            SimulationRequest simulationRequest=
+                    new SimulationRequest( UUID.randomUUID(),
                     simulatioNameText.getText(),
                     Integer.parseInt(numOfExecutions.getText()),getTermination(),"to write"
             );

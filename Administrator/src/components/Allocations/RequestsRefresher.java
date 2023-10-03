@@ -20,11 +20,10 @@ import util.Constants;
 import util.http.HttpClientUtil;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 public class RequestsRefresher extends TimerTask
 {
@@ -39,16 +38,22 @@ public class RequestsRefresher extends TimerTask
     {
         try
         {
-            System.out.println("im going to refresh requests bud");
+            System.out.println("I'm going to refresh requests bud");
             Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
-            Platform.runLater(()->
+            Set<UUID> existingUUIDs = tableView.getItems()
+                    .stream()
+                    .map(SimulationRequest::getId)
+                    .collect(Collectors.toSet());
+
+            Set<SimulationRequest> newItems = simulationRequests.stream()
+                    .filter(simulationRequest -> !existingUUIDs.contains(simulationRequest.getId()))
+                    .collect(Collectors.toSet());
+
+            Platform.runLater(() ->
             {
-
-                ObservableList<SimulationRequest> observableList = FXCollections.observableArrayList(simulationRequests);
-                // Set the items of the table
-                tableView.setItems(observableList);
-
+                tableView.getItems().addAll(newItems);
             });
+
 
 
         }

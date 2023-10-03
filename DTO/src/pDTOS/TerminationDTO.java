@@ -2,6 +2,8 @@ package pDTOS;
 
 import javafx.scene.control.TreeItem;
 
+import java.util.Objects;
+
 public class TerminationDTO
 {
     private int terminationTicks;
@@ -18,6 +20,30 @@ public class TerminationDTO
     {
 
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TerminationDTO that = (TerminationDTO) o;
+        return terminationTicks == that.terminationTicks &&
+                terminationSeconds == that.terminationSeconds &&
+                isByUser == that.isByUser;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(terminationTicks, terminationSeconds, isByUser);
+    }
+
+    @Override
+    public String toString()
+    {
+        return ("ticks: "+terminationTicks+" Seconds: "+terminationSeconds+" UserTermination: "+ this.isByUser);
+    }
+
     public TreeItem<String> generateTreeView()
     {
         TreeItem<String> rootNode = new TreeItem<>("Termination");

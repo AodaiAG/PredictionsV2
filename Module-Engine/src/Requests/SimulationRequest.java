@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import pDTOS.TerminationDTO;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class SimulationRequest
@@ -46,7 +47,26 @@ public class SimulationRequest
         this.executionsFinishedAmount=executionsFinishedAmount;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SimulationRequest that = (SimulationRequest) o;
+        return numOfExecutions == that.numOfExecutions &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(executionsRunningAmount, that.executionsRunningAmount) &&
+                Objects.equals(executionsFinishedAmount, that.executionsFinishedAmount) &&
+                Objects.equals(simulationName, that.simulationName) &&
+                Objects.equals(terminationConditions, that.terminationConditions) &&
+                Objects.equals(requestStatus, that.requestStatus) &&
+                Objects.equals(userName, that.userName);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, executionsRunningAmount, executionsFinishedAmount, simulationName, numOfExecutions, terminationConditions, requestStatus, userName);
+    }
 
     public TerminationDTO getTerminationConditions() {
         return terminationConditions;
