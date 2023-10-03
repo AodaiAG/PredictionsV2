@@ -1,8 +1,7 @@
-package components.Allocations;
+package components.requests.showUserRequests;
 
 import Requests.SimulationRequest;
-import components.Management.SimulationTreeViewRefresher;
-import components.mainApp.MainAppController;
+import components.mainApp.UserMainAppController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -12,11 +11,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-public class AllocationsController
-{
-    MainAppController mainAppController;
+public class UserRequestsController {
+
+    private UserMainAppController userMainAppController;
+
     @FXML
-    private TableView<SimulationRequest> requestTableView;
+    private TableView<SimulationRequest> userRequestTableView;
 
     @FXML
     private TableColumn<SimulationRequest, String> idColumn;
@@ -25,32 +25,16 @@ public class AllocationsController
     private TableColumn<SimulationRequest, String> simulationNameColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> userNameColumn;
-
-    @FXML
     private TableColumn<SimulationRequest, String> numOfExecutionsColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> terminationConditionsColumn;
+    private TableColumn<SimulationRequest, String> requestStatusColumn;
 
     @FXML
     private TableColumn<SimulationRequest, String> executionsRunningColumn;
 
     @FXML
     private TableColumn<SimulationRequest, String> executionsFinishedColumn;
-
-    public void setChatAppMainController(MainAppController mainAppController)
-    {
-        this.mainAppController = mainAppController;
-    }
-    public void startRequestRefresher()
-    {
-        Timer timer = new Timer();
-        TimerTask task = new RequestsRefresher(requestTableView);
-        long delay = 0; // Initial delay (0 milliseconds)
-        long period = 2000; // Repeat every 2 seconds (2000 milliseconds)
-        timer.scheduleAtFixedRate(task, delay, period);
-    }
 
     public void initialize()
     {
@@ -64,19 +48,9 @@ public class AllocationsController
             String sName = cellData.getValue().getSimulationName();
             return new SimpleStringProperty(sName != null ? sName : "");
         });
-        userNameColumn.setCellValueFactory(cellData->
-        {
-            String uName = cellData.getValue().getUserName();
-            return new SimpleStringProperty(uName != null ? uName : "");
-        });
         numOfExecutionsColumn.setCellValueFactory(cellData-> {
             int numOfExecutions = cellData.getValue().getNumOfExecutions();
             return new SimpleStringProperty(String.valueOf(numOfExecutions));
-        });
-        terminationConditionsColumn.setCellValueFactory(cellData->
-        {
-            String terminationConditions = cellData.getValue().getTerminationConditions().toString();
-            return new SimpleStringProperty(terminationConditions);
         });
         executionsRunningColumn.setCellValueFactory(cellData->
         {
@@ -90,5 +64,18 @@ public class AllocationsController
         });
 
         startRequestRefresher();
+    }
+
+    public void startRequestRefresher()
+    {
+        Timer timer = new Timer();
+        TimerTask task = new RequestsRefresher(userRequestTableView);
+        long delay = 0; // Initial delay (0 milliseconds)
+        long period = 2000; // Repeat every 2 seconds (2000 milliseconds)
+        timer.scheduleAtFixedRate(task, delay, period);
+    }
+
+    public void setAppMainController(UserMainAppController mainAppController) {
+        this.userMainAppController = mainAppController;
     }
 }

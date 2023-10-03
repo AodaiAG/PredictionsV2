@@ -19,6 +19,7 @@ public class Constants
     public final static String RESULTS_FXML_RESOURCE_LOCATION = "/components/results/results.fxml";
     public final static String SIMULATION_DETAILS_FXML_RESOURCE_LOCATION = "/components/simulationDetails/simulationDetails.fxml";
     public final static String SUBMIT_NEW_REQUEST_LOCATION = "/components/requests/submitNewRequest/submitnewRequest.fxml";
+    public final static String SHOW_USER_REQUESTS = "/components/requests/showUserRequests/userRequessts.fxml";
 
 
 
