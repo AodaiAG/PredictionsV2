@@ -9,38 +9,43 @@ import java.util.UUID;
 public class SimulationRequest
 {
     private UUID id;
+    private String executionsRunningAmount;
+    private String executionsFinishedAmount;
     private String simulationName;
     private int numOfExecutions;
     private TerminationDTO terminationConditions;
     private SimpleStringProperty requestStatus = new SimpleStringProperty("unhandled");
     private String userName;
 
-    public String getExecutionsRunningAmount() {
-        return executionsRunningAmount.get();
+    public String getExecutionsRunningAmount()
+    {
+        return executionsRunningAmount;
+
     }
 
-    public SimpleStringProperty executionsRunningAmountProperty() {
+    public String executionsRunningAmountProperty()
+    {
         return executionsRunningAmount;
     }
 
-    public void setExecutionsRunningAmount(String executionsRunningAmount) {
-        this.executionsRunningAmount.set(executionsRunningAmount);
+    public void setExecutionsRunningAmount(String executionsRunningAmount)
+    {
+        this.executionsRunningAmount=executionsRunningAmount;
     }
 
     public String getExecutionsFinishedAmount() {
-        return executionsFinishedAmount.get();
-    }
-
-    public SimpleStringProperty executionsFinishedAmountProperty() {
         return executionsFinishedAmount;
     }
 
-    public void setExecutionsFinishedAmount(String executionsFinishedAmount) {
-        this.executionsFinishedAmount.set(executionsFinishedAmount);
+    public String executionsFinishedAmountProperty() {
+        return executionsFinishedAmount;
     }
 
-    private SimpleStringProperty executionsRunningAmount;
-    private SimpleStringProperty executionsFinishedAmount;
+    public void setExecutionsFinishedAmount(String executionsFinishedAmount)
+    {
+        this.executionsFinishedAmount=executionsFinishedAmount;
+    }
+
 
 
     public TerminationDTO getTerminationConditions() {

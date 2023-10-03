@@ -24,13 +24,13 @@ public class AllocationsServlet extends HttpServlet
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         RequestManager requestManager = ServletUtils.getRequestManager(this.getServletContext());
-        Object clientType = req.getAttribute("type");
-        if(clientType != null)
+        String type = req.getParameter("type");
+        if(type != null && !type.isEmpty())
         {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            String clientTypeString = clientType.toString();
-            if(clientType.equals("admin"))
+
+            if(type.equals("admin"))
             {
                 Set<SimulationRequest> simulationRequests = requestManager.getRequests();
 
@@ -41,7 +41,7 @@ public class AllocationsServlet extends HttpServlet
                 }
 
             }
-            else if(clientType.equals("user"))
+            else if(type.equals("user"))
             {
                 Set<SimulationRequest> userSimulationReq = requestManager.getUserRequests(SessionUtils.getUsername(req));
                 String jsonResponse = gson.toJson(userSimulationReq);

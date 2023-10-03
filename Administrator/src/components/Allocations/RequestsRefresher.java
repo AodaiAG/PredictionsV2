@@ -35,59 +35,61 @@ public class RequestsRefresher extends TimerTask
     }
 
     @Override
-    public void run() {
-        try {
+    public void run()
+    {
+        try
+        {
+            System.out.println("im going to refresh requests bud");
             Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
-            Platform.runLater(()->{  ObservableList<SimulationRequest> observableList = FXCollections.observableArrayList(simulationRequests);
+            Platform.runLater(()->
+            {
 
+                ObservableList<SimulationRequest> observableList = FXCollections.observableArrayList(simulationRequests);
                 // Set the items of the table
                 tableView.setItems(observableList);
 
             });
 
 
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 
     private CompletableFuture<Set<SimulationRequest>> fetchDataFromServer()
     {
+        String serverUrl = "http://localhost:8080/allocations?type=admin"; // Example URL
         CompletableFuture<Set<SimulationRequest>> future = new CompletableFuture<>();
-
-        String finalUrl = HttpUrl
-                .parse(Constants.ALLOCATIONS_PATH)
-                .newBuilder()
-                .addQueryParameter("type", "admin")
-                .build()
-                .toString();
-        HttpClientUtil.runAsync(finalUrl, new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-            }
+        Request request = new Request.Builder()
+                .url(serverUrl)
+                .build();
+        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+        call.enqueue(new Callback()
+        { @Override
+        public void onFailure(@NotNull Call call, @NotNull IOException e)
+        {
+            System.out.println("i'm in onFailure");
+        }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
             {
                 try
                 {
-                    if (!response.isSuccessful())
-                    {
-                        return;
-                    }
+                    System.out.println("i'm in onRespone");
+
                     String rawBody = response.body().string();
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
                     TypeToken<Set<SimulationRequest>> typeToken = new TypeToken<Set<SimulationRequest>>() {};
                     Set<SimulationRequest> simulationReqs = gson.fromJson(rawBody, typeToken.getType());
                     future.complete(simulationReqs);
-                } catch (IOException e) {
-                   future.completeExceptionally(e);
+                } catch (IOException e)
+                {
+                    future.completeExceptionally(e);
                 }
             }
-
         });
 
         return future;

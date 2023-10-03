@@ -34,7 +34,15 @@ public class RequestManager
 
     public synchronized Set<SimulationRequest> getRequests()
     {
-        return Collections.unmodifiableSet((Set<? extends SimulationRequest>) userRequestMap.values());
+
+        Set<SimulationRequest> allRequests = new HashSet<>();
+        for (Set<SimulationRequest> requestSet : userRequestMap.values())
+        {
+            allRequests.addAll(requestSet);
+        }
+
+        return Collections.unmodifiableSet(allRequests);
+
     }
 
     public synchronized Set<SimulationRequest> getUserRequests(String userName)
