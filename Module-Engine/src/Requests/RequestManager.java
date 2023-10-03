@@ -47,7 +47,8 @@ public class RequestManager
 
     public synchronized Set<SimulationRequest> getUserRequests(String userName)
     {
-        return Collections.unmodifiableSet(this.userRequestMap.get(userName));
+        Set<SimulationRequest> set = this.userRequestMap.get(userName);
+        return set!= null ? Collections.unmodifiableSet(set): null;
     }
 
     public boolean isRequestExists(String username, SimulationRequest simulationRequest)

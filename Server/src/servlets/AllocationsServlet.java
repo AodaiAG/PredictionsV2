@@ -39,15 +39,18 @@ public class AllocationsServlet extends HttpServlet
                 {
                     out.println(jsonResponse);
                 }
-
             }
             else if(type.equals("user"))
             {
-                Set<SimulationRequest> userSimulationReq = requestManager.getUserRequests(SessionUtils.getUsername(req));
-                String jsonResponse = gson.toJson(userSimulationReq);
-                try (PrintWriter out = resp.getWriter())
+                String userName = SessionUtils.getUsername(req);
+                Set<SimulationRequest> userSimulationReq = requestManager.getUserRequests(userName);
+                if(userSimulationReq != null)
                 {
-                    out.println(jsonResponse);
+                    String jsonResponse = gson.toJson(userSimulationReq);
+                    try (PrintWriter out = resp.getWriter())
+                    {
+                        out.println(jsonResponse);
+                    }
                 }
             }
         }

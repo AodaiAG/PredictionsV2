@@ -33,7 +33,7 @@ public class RequestsRefresher extends TimerTask
     {
         try
         {
-            System.out.println("I'm going to refresh requests bud");
+            System.out.println("I'm going to refresh requests bud/ user");
             Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
             Set<UUID> existingUUIDs = tableView.getItems()
                     .stream()
@@ -48,8 +48,6 @@ public class RequestsRefresher extends TimerTask
             {
                 tableView.getItems().addAll(newItems);
             });
-
-
 
         }
         catch (Exception e)
@@ -70,7 +68,7 @@ public class RequestsRefresher extends TimerTask
         { @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e)
         {
-            System.out.println("i'm in onFailure");
+            System.out.println("i'm in onFailure/user");
         }
 
             @Override
@@ -78,7 +76,7 @@ public class RequestsRefresher extends TimerTask
             {
                 try
                 {
-                    System.out.println("i'm in onResponse");
+                    System.out.println("i'm in onResponse/user");
 
                     String rawBody = response.body().string();
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
