@@ -44,6 +44,20 @@ public class RequestManager
         return Collections.unmodifiableSet(allRequests);
 
     }
+    public synchronized SimulationRequest getRequestUserTwoUUID(String userName,UUID uuid)
+    {
+
+        Set<SimulationRequest> userRequests=this.getUserRequests(userName);
+        for(SimulationRequest simulationRequest:userRequests)
+        {
+           if( simulationRequest.getId().equals(uuid))
+           {
+               return simulationRequest;
+           }
+        }
+
+        return null;
+    }
 
     public synchronized Set<SimulationRequest> getUserRequests(String userName)
     {

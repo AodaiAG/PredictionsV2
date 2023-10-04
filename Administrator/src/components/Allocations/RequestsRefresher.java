@@ -63,6 +63,35 @@ public class RequestsRefresher extends TimerTask
         }
     }
 
+//    @Override
+//    public void run()
+//    {
+//        try
+//        {
+//            System.out.println("I'm going to refresh requests bud");
+//            Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
+//            Set<UUID> existingUUIDs = tableView.getItems()
+//                    .stream()
+//                    .map(SimulationRequest::getId)
+//                    .collect(Collectors.toSet());
+//
+//            Set<SimulationRequest> newItems = simulationRequests.stream()
+//                    .filter(simulationRequest -> !existingUUIDs.contains(simulationRequest.getId()))
+//                    .collect(Collectors.toSet());
+//
+//            Platform.runLater(() ->
+//            {
+//                tableView.getItems().addAll(newItems);
+//            });
+//
+//
+//
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
     private CompletableFuture<Set<SimulationRequest>> fetchDataFromServer()
     {
         String serverUrl = "http://localhost:8080/allocations?type=admin"; // Example URL

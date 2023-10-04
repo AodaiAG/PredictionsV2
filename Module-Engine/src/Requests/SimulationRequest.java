@@ -15,7 +15,7 @@ public class SimulationRequest
     private String simulationName;
     private int numOfExecutions;
     private TerminationDTO terminationConditions;
-    private SimpleStringProperty requestStatus = new SimpleStringProperty("unhandled");
+    private String requestStatus = "unhandled";
     private String userName;
 
     public String getExecutionsRunningAmount()
@@ -93,12 +93,12 @@ public class SimulationRequest
 
     public String getRequestStatus()
     {
-        return requestStatus.getValue();
+        return requestStatus;
     }
 
     public void setRequestStatus(String requestStatus)
     {
-        this.requestStatus.setValue(requestStatus);
+        this.requestStatus=requestStatus;
     }
 
     public UUID getId()

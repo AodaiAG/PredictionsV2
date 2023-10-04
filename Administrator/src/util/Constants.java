@@ -25,6 +25,7 @@ public class Constants
 
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/loginShortResponse";
     public final static String USERS_LIST = FULL_SERVER_PATH + "/userslist";
+    public final static String REQUEST_STATUS_HANDLER = FULL_SERVER_PATH + "/handle_request";
     public final static String LOGOUT = FULL_SERVER_PATH + "/chat/logout";
     public final static String SEND_CHAT_LINE = FULL_SERVER_PATH + "/pages/chatroom/sendChat";
     public final static String ALLOCATIONS_PATH = FULL_SERVER_PATH + "/allocations";
