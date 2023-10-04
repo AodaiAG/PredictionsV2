@@ -4,11 +4,11 @@ import java.util.*;
 
 public class RequestManager
 {
-    private final Map<String,Set<SimulationRequest>> userRequestMap;
+    private final Map<String,List<SimulationRequest>> userRequestMap;
 
     public RequestManager()
     {
-        this.userRequestMap = new HashMap<>();
+        this.userRequestMap =new HashMap<>();
 
     }
     public synchronized void addRequest(String username, SimulationRequest simulationRequest)
@@ -16,12 +16,13 @@ public class RequestManager
         if (userRequestMap.containsKey(username))
         {
             // Username exists in the map, retrieve the set and add the request
-            Set<SimulationRequest> existingRequests = userRequestMap.get(username);
+            List<SimulationRequest> existingRequests = userRequestMap.get(username);
             existingRequests.add(simulationRequest);
-        } else
+        }
+        else
         {
             // Username doesn't exist in the map, create a new set, add the request, and put it into the map
-            Set<SimulationRequest> newRequests = new HashSet<>();
+            List<SimulationRequest> newRequests = new ArrayList<>();
             newRequests.add(simulationRequest);
             userRequestMap.put(username, newRequests);
         }
@@ -32,22 +33,22 @@ public class RequestManager
         userRequestMap.get(username).remove(simulationRequest);
     }
 
-    public synchronized Set<SimulationRequest> getRequests()
+    public synchronized List<SimulationRequest> getRequests()
     {
 
-        Set<SimulationRequest> allRequests = new HashSet<>();
-        for (Set<SimulationRequest> requestSet : userRequestMap.values())
+        List<SimulationRequest> allRequests = new ArrayList<>();
+        for (List<SimulationRequest> requestSet : userRequestMap.values())
         {
             allRequests.addAll(requestSet);
         }
 
-        return Collections.unmodifiableSet(allRequests);
+        return Collections.unmodifiableList(allRequests);
 
     }
     public synchronized SimulationRequest getRequestUserTwoUUID(String userName,UUID uuid)
     {
 
-        Set<SimulationRequest> userRequests=this.getUserRequests(userName);
+        List<SimulationRequest> userRequests=this.getUserRequests(userName);
         for(SimulationRequest simulationRequest:userRequests)
         {
            if( simulationRequest.getId().equals(uuid))
@@ -59,10 +60,10 @@ public class RequestManager
         return null;
     }
 
-    public synchronized Set<SimulationRequest> getUserRequests(String userName)
+    public synchronized List<SimulationRequest> getUserRequests(String userName)
     {
-        Set<SimulationRequest> set = this.userRequestMap.get(userName);
-        return set!= null ? Collections.unmodifiableSet(set): null;
+        List<SimulationRequest> set = this.userRequestMap.get(userName);
+        return set!= null ? Collections.unmodifiableList(set): null;
     }
 
     public boolean isRequestExists(String username, SimulationRequest simulationRequest)

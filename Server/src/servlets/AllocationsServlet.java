@@ -14,6 +14,7 @@ import utils.SessionUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Set;
 
 @WebServlet(name = "AllocationServlet", urlPatterns = "/allocations")
@@ -32,7 +33,7 @@ public class AllocationsServlet extends HttpServlet
 
             if(type.equals("admin"))
             {
-                Set<SimulationRequest> simulationRequests = requestManager.getRequests();
+               List<SimulationRequest> simulationRequests = requestManager.getRequests();
 
                 String jsonResponse = gson.toJson(simulationRequests);
                 try (PrintWriter out = resp.getWriter())
@@ -43,7 +44,7 @@ public class AllocationsServlet extends HttpServlet
             else if(type.equals("user"))
             {
                 String userName = SessionUtils.getUsername(req);
-                Set<SimulationRequest> userSimulationReq = requestManager.getUserRequests(userName);
+               List<SimulationRequest> userSimulationReq = requestManager.getUserRequests(userName);
                 if(userSimulationReq != null)
                 {
                     String jsonResponse = gson.toJson(userSimulationReq);

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import okhttp3.Call;
@@ -31,60 +32,32 @@ public class RequestsRefresher extends TimerTask
     {
         try
         {
-            System.out.println("I'm going to refresh requests bud/ user");
-            Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
+            List<SimulationRequest> simulationRequests = fetchDataFromServer().get();
+
+
+
             if (simulationRequests == null)
                 return;
+            for(SimulationRequest simulationRequest:simulationRequests)
+            {
+                int i=1;
+                System.out.println(i+"- "+simulationRequest.getSimulationName());
+            }
+
+            // Use LinkedHashSet to preserve the order
+
+            ObservableList<SimulationRequest> observableList = FXCollections.observableArrayList(simulationRequests);
 
             Platform.runLater(() ->
             {
-                ObservableList<SimulationRequest> items = tableView.getItems();
-                Map<UUID, SimulationRequest> itemMap = new HashMap<>();
-
-                // Add existing items to the map
-                for (SimulationRequest existingItem : items)
-                {
-                    itemMap.put(existingItem.getId(), existingItem);
-                }
-
-                // Create a list to track items that need to be removed
-                List<UUID> itemsToRemove = new ArrayList<>();
-
-                // Iterate through the fetched items
-                for (SimulationRequest fetchedItem : simulationRequests)
-                {
-                    UUID itemId = fetchedItem.getId();
-
-                    if (itemMap.containsKey(itemId))
-                    {
-                        // Item already exists, update it with new data
-                        SimulationRequest existingItem = itemMap.get(itemId);
-                        // Update fields as needed
-                        existingItem.setExecutionsRunningAmount(fetchedItem.getExecutionsRunningAmount());
-                        existingItem.setExecutionsFinishedAmount(fetchedItem.getExecutionsFinishedAmount());
-                        existingItem.setRequestStatus(fetchedItem.getRequestStatus());
-                        // Update other fields accordingly
-                    } else
-                    {
-                        // Item is new, add it to the map and new items list
-                        itemMap.put(itemId, fetchedItem);
-                        Platform.runLater(() -> items.add(fetchedItem));
-                    }
-                }
-
-                // Remove items that are no longer in the fetched data
-                for (SimulationRequest existingItem : items) {
-                    if (!itemMap.containsKey(existingItem.getId())) {
-                        itemsToRemove.add(existingItem.getId());
-                    }
-                }
-                Platform.runLater(() -> items.removeIf(item -> itemsToRemove.contains(item.getId())));
+                tableView.setItems(observableList);
             });
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
 
 //    @Override
@@ -146,10 +119,10 @@ public class RequestsRefresher extends TimerTask
 //        }
 //    }
 
-    private CompletableFuture<Set<SimulationRequest>> fetchDataFromServer()
+    private CompletableFuture<List<SimulationRequest>> fetchDataFromServer()
     {
         String serverUrl = "http://localhost:8080/allocations?type=user"; // Example URL
-        CompletableFuture<Set<SimulationRequest>> future = new CompletableFuture<>();
+        CompletableFuture<List<SimulationRequest>> future = new CompletableFuture<>();
         Request request = new Request.Builder()
                 .url(serverUrl)
                 .build();
@@ -166,12 +139,12 @@ public class RequestsRefresher extends TimerTask
             {
                 try
                 {
-                    System.out.println("i'm in onResponse/user");
+                    //System.out.println("i'm in onResponse/user");
 
                     String rawBody = response.body().string();
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    TypeToken<Set<SimulationRequest>> typeToken = new TypeToken<Set<SimulationRequest>>() {};
-                    Set<SimulationRequest> simulationReqs = gson.fromJson(rawBody, typeToken.getType());
+                    TypeToken<List<SimulationRequest>> typeToken = new TypeToken<List<SimulationRequest>>() {};
+                    List<SimulationRequest> simulationReqs = gson.fromJson(rawBody, typeToken.getType());
                     future.complete(simulationReqs);
                 } catch (IOException e)
                 {
