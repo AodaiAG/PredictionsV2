@@ -39,21 +39,13 @@ public class RequestsRefresher extends TimerTask
         try
         {
             List<SimulationRequest> simulationRequests = fetchDataFromServer().get();
-            Set<UUID> existingUUIDs = tableView.getItems()
-                    .stream()
-                    .map(SimulationRequest::getId)
-                    .collect(Collectors.toSet());
-
-            Set<SimulationRequest> newItems = simulationRequests.stream()
-                    .filter(simulationRequest -> !existingUUIDs.contains(simulationRequest.getId()))
-                    .collect(Collectors.toSet());
-
+            if (simulationRequests == null)
+                return;
+            ObservableList<SimulationRequest> observableList = FXCollections.observableArrayList(simulationRequests);
             Platform.runLater(() ->
             {
-                tableView.getItems().addAll(newItems);
+                tableView.setItems(observableList);
             });
-
-
 
         }
         catch (Exception e)
@@ -62,6 +54,36 @@ public class RequestsRefresher extends TimerTask
         }
     }
 
+
+
+//    @Override
+//    public void run()
+//    {
+//        try
+//        {
+//            List<SimulationRequest> simulationRequests = fetchDataFromServer().get();
+//            Set<UUID> existingUUIDs = tableView.getItems()
+//                    .stream()
+//                    .map(SimulationRequest::getId)
+//                    .collect(Collectors.toSet());
+//
+//            Set<SimulationRequest> newItems = simulationRequests.stream()
+//                    .filter(simulationRequest -> !existingUUIDs.contains(simulationRequest.getId()))
+//                    .collect(Collectors.toSet());
+//
+//            Platform.runLater(() ->
+//            {
+//                tableView.getItems().addAll(newItems);
+//            });
+//
+//
+//
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
 
     private CompletableFuture<List<SimulationRequest>> fetchDataFromServer()
     {

@@ -33,21 +33,9 @@ public class RequestsRefresher extends TimerTask
         try
         {
             List<SimulationRequest> simulationRequests = fetchDataFromServer().get();
-
-
-
             if (simulationRequests == null)
                 return;
-            for(SimulationRequest simulationRequest:simulationRequests)
-            {
-                int i=1;
-                System.out.println(i+"- "+simulationRequest.getSimulationName());
-            }
-
-            // Use LinkedHashSet to preserve the order
-
             ObservableList<SimulationRequest> observableList = FXCollections.observableArrayList(simulationRequests);
-
             Platform.runLater(() ->
             {
                 tableView.setItems(observableList);

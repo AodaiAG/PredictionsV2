@@ -15,9 +15,16 @@ public class RequestManager
     {
         if (userRequestMap.containsKey(username))
         {
+
             // Username exists in the map, retrieve the set and add the request
             List<SimulationRequest> existingRequests = userRequestMap.get(username);
             existingRequests.add(simulationRequest);
+            for(SimulationRequest s:existingRequests)
+            {
+                int i=1;
+                System.out.println("im in engine");
+                System.out.println(i+"- "+s.getSimulationName());
+            }
         }
         else
         {
@@ -42,7 +49,7 @@ public class RequestManager
             allRequests.addAll(requestSet);
         }
 
-        return Collections.unmodifiableList(allRequests);
+        return allRequests;
 
     }
     public synchronized SimulationRequest getRequestUserTwoUUID(String userName,UUID uuid)
@@ -63,7 +70,7 @@ public class RequestManager
     public synchronized List<SimulationRequest> getUserRequests(String userName)
     {
         List<SimulationRequest> set = this.userRequestMap.get(userName);
-        return set!= null ? Collections.unmodifiableList(set): null;
+        return set!= null ? set: null;
     }
 
     public boolean isRequestExists(String username, SimulationRequest simulationRequest)
