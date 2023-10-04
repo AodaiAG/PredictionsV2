@@ -1,16 +1,15 @@
 package components.Allocations;
 
 import Requests.SimulationRequest;
-import components.Management.SimulationTreeViewRefresher;
 import components.mainApp.MainAppController;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.UUID;
+import java.util.*;
 
 public class AllocationsController
 {
@@ -38,6 +37,16 @@ public class AllocationsController
 
     @FXML
     private TableColumn<SimulationRequest, String> executionsFinishedColumn;
+    @FXML
+    private TableColumn<SimulationRequest, Void> approveColumn;
+    @FXML
+    private TableColumn<SimulationRequest, Void> declineColumn;
+    @FXML
+    private TableColumn<SimulationRequest, Void> handleRequestColumn;
+    private final Map<UUID, Boolean> approvalStatusMap = new HashMap<>();
+
+
+
 
     public void setChatAppMainController(MainAppController mainAppController)
     {
@@ -89,7 +98,75 @@ public class AllocationsController
             String executionsFinishedAmount = cellData.getValue().getExecutionsFinishedAmount();
             return new SimpleStringProperty(executionsFinishedAmount);
         });
+        // Define the Approve column
+
+        handleRequestColumn.setCellFactory(param -> new TableCell<SimulationRequest, Void>() {
+            private final Button approveButton = new Button("Approve");
+            private final Button declineButton = new Button("Decline");
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                    return;
+                }
+
+                SimulationRequest simulationRequest = getTableView().getItems().get(getIndex());
+
+                // Create a property to track approval status
+                BooleanProperty isApproved = new SimpleBooleanProperty(false);
+
+                // Bind button properties to the approval status
+                approveButton.disableProperty().bind(isApproved);
+                declineButton.disableProperty().bind(isApproved);
+
+                approveButton.setStyle("-fx-background-color: #2feb0c; -fx-text-fill: white;");
+                declineButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+
+                // Create an HBox with spacing
+                HBox buttonsBox = new HBox(10); // Adjust the spacing value (10 in this case)
+                buttonsBox.getChildren().addAll(approveButton, declineButton);
+
+                setGraphic(buttonsBox);
+
+                approveButton.setOnAction(event -> {
+                    // Handle the approve action for simulationRequest here
+                    handleApprove(simulationRequest);
+
+                    // Set the approval status to true
+                    isApproved.set(true);
+                });
+
+                declineButton.setOnAction(event -> {
+                    // Handle the decline action for simulationRequest here
+                    handleDecline(simulationRequest);
+
+                    // Set the approval status to true
+                    isApproved.set(true);
+                });
+            }
+        });
+
+
+
 
         startRequestRefresher();
+    }
+
+    private void handleDecline(SimulationRequest simulationRequest)
+    {
+
+        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("decline pressed");
+        alert.showAndWait();
+    }
+
+    private void handleApprove(SimulationRequest simulationRequest)
+    {
+        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("approved pressed");
+        alert.showAndWait();
     }
 }
