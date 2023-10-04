@@ -19,12 +19,6 @@ public class RequestManager
             // Username exists in the map, retrieve the set and add the request
             List<SimulationRequest> existingRequests = userRequestMap.get(username);
             existingRequests.add(simulationRequest);
-            for(SimulationRequest s:existingRequests)
-            {
-                int i=1;
-                System.out.println("im in engine");
-                System.out.println(i+"- "+s.getSimulationName());
-            }
         }
         else
         {
