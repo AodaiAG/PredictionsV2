@@ -15,7 +15,6 @@ public class RequestManager
     {
         if (userRequestMap.containsKey(username))
         {
-
             // Username exists in the map, retrieve the set and add the request
             List<SimulationRequest> existingRequests = userRequestMap.get(username);
             existingRequests.add(simulationRequest);
