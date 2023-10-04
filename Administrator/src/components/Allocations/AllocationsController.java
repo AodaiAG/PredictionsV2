@@ -107,14 +107,16 @@ public class AllocationsController
             String executionsFinishedAmount = cellData.getValue().getExecutionsFinishedAmount();
             return new SimpleStringProperty(executionsFinishedAmount);
         });
-        // Define the Approve column
 
-        handleRequestColumn.setCellFactory(param -> new TableCell<SimulationRequest, Void>() {
+
+        handleRequestColumn.setCellFactory(param -> new TableCell<SimulationRequest, Void>()
+        {
             private final Button approveButton = new Button("Approve");
             private final Button declineButton = new Button("Decline");
 
             @Override
-            protected void updateItem(Void item, boolean empty) {
+            protected void updateItem(Void item, boolean empty)
+            {
                 super.updateItem(item, empty);
 
                 if (empty) {
@@ -125,36 +127,44 @@ public class AllocationsController
                 SimulationRequest simulationRequest = getTableView().getItems().get(getIndex());
 
                 // Create a property to track approval status
-                BooleanProperty isApproved = new SimpleBooleanProperty(false);
 
                 // Bind button properties to the approval status
-                approveButton.disableProperty().bind(isApproved);
-                declineButton.disableProperty().bind(isApproved);
+
 
                 approveButton.setStyle("-fx-background-color: #2feb0c; -fx-text-fill: white;");
                 declineButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
 
                 // Create an HBox with spacing
+
                 HBox buttonsBox = new HBox(10); // Adjust the spacing value (10 in this case)
+                if(simulationRequest.getRequestStatus().equals("unhandled"))
+                {
+                    buttonsBox.setDisable(false);
+                }
+                else
+                {
+                    buttonsBox.setDisable(true);
+                }
+
                 buttonsBox.getChildren().addAll(approveButton, declineButton);
 
                 setGraphic(buttonsBox);
 
-                approveButton.setOnAction(event -> {
+                approveButton.setOnAction(event ->
+                {
                     // Handle the approve action for simulationRequest here
-                    handleApprove(simulationRequest);
+                    handleApprove(simulationRequest,buttonsBox);
 
                     // Set the approval status to true
-                    isApproved.set(true);
+
                 });
 
                 declineButton.setOnAction(event ->
                 {
                     // Handle the decline action for simulationRequest here
-                    handleDecline(simulationRequest);
+                    handleDecline(simulationRequest,buttonsBox);
 
-                    // Set the approval status to true
-                    isApproved.set(true);
+
 
                 });
             }
@@ -166,8 +176,10 @@ public class AllocationsController
         startRequestRefresher();
     }
 
-    private void handleDecline(SimulationRequest simulationRequest)
+    private void handleDecline(SimulationRequest simulationRequest,HBox buttonsBox)
     {
+        buttonsBox.setDisable(true);
+
         Gson gson = new GsonBuilder() .setPrettyPrinting().create();
         String url = "http://localhost:8080/handle_request?status=declined&username="+simulationRequest.getUserName();        MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequest.getId()));
@@ -209,8 +221,9 @@ public class AllocationsController
 
 
     }
-        private void handleApprove(SimulationRequest simulationRequest)
+        private void handleApprove(SimulationRequest simulationRequest,HBox buttonsBox)
     {
+        buttonsBox.setDisable(true);
         Gson gson = new GsonBuilder() .setPrettyPrinting().create();
         String url = "http://localhost:8080/handle_request?status=approved&username="+simulationRequest.getUserName();
         MediaType mediaType = MediaType.parse("application/json");

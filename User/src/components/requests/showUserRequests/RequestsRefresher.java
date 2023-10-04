@@ -33,6 +33,8 @@ public class RequestsRefresher extends TimerTask
         {
             System.out.println("I'm going to refresh requests bud/ user");
             Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
+            if (simulationRequests == null)
+                return;
 
             Platform.runLater(() ->
             {
@@ -40,17 +42,21 @@ public class RequestsRefresher extends TimerTask
                 Map<UUID, SimulationRequest> itemMap = new HashMap<>();
 
                 // Add existing items to the map
-                for (SimulationRequest existingItem : items) {
+                for (SimulationRequest existingItem : items)
+                {
                     itemMap.put(existingItem.getId(), existingItem);
                 }
 
-                List<SimulationRequest> newItems = new ArrayList<>();
+                // Create a list to track items that need to be removed
+                List<UUID> itemsToRemove = new ArrayList<>();
 
                 // Iterate through the fetched items
-                for (SimulationRequest fetchedItem : simulationRequests) {
+                for (SimulationRequest fetchedItem : simulationRequests)
+                {
                     UUID itemId = fetchedItem.getId();
 
-                    if (itemMap.containsKey(itemId)) {
+                    if (itemMap.containsKey(itemId))
+                    {
                         // Item already exists, update it with new data
                         SimulationRequest existingItem = itemMap.get(itemId);
                         // Update fields as needed
@@ -58,17 +64,21 @@ public class RequestsRefresher extends TimerTask
                         existingItem.setExecutionsFinishedAmount(fetchedItem.getExecutionsFinishedAmount());
                         existingItem.setRequestStatus(fetchedItem.getRequestStatus());
                         // Update other fields accordingly
-                    } else {
+                    } else
+                    {
                         // Item is new, add it to the map and new items list
                         itemMap.put(itemId, fetchedItem);
-                        newItems.add(fetchedItem);
+                        Platform.runLater(() -> items.add(fetchedItem));
                     }
                 }
 
-                // Clear the existing items before adding the updated ones
-                items.clear();
-                // Add the new items to the TableView
-                items.addAll(itemMap.values());
+                // Remove items that are no longer in the fetched data
+                for (SimulationRequest existingItem : items) {
+                    if (!itemMap.containsKey(existingItem.getId())) {
+                        itemsToRemove.add(existingItem.getId());
+                    }
+                }
+                Platform.runLater(() -> items.removeIf(item -> itemsToRemove.contains(item.getId())));
             });
 
         } catch (Exception e) {
