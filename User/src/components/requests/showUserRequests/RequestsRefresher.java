@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -14,9 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import util.http.HttpClientUtil;
 
 import java.io.IOException;
-import java.util.Set;
-import java.util.TimerTask;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -27,7 +26,6 @@ public class RequestsRefresher extends TimerTask
     {
         this.tableView = tableView;
     }
-
     @Override
     public void run()
     {
@@ -35,30 +33,108 @@ public class RequestsRefresher extends TimerTask
         {
             System.out.println("I'm going to refresh requests bud/ user");
             Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
-            if(simulationRequests!=null)
+
+            Platform.runLater(() ->
             {
-                Set<UUID> existingUUIDs = tableView.getItems()
-                        .stream()
-                        .map(SimulationRequest::getId)
-                        .collect(Collectors.toSet());
+                ObservableList<SimulationRequest> items = tableView.getItems();
+                Map<UUID, SimulationRequest> itemMap = new HashMap<>();
 
-                Set<SimulationRequest> newItems = simulationRequests.stream()
-                        .filter(simulationRequest -> !existingUUIDs.contains(simulationRequest.getId()))
-                        .collect(Collectors.toSet());
+                // Add existing items to the map
+                for (SimulationRequest existingItem : items) {
+                    itemMap.put(existingItem.getId(), existingItem);
+                }
 
-                Platform.runLater(() ->
-                {
-                    tableView.getItems().addAll(newItems);
-                });
+                List<SimulationRequest> newItems = new ArrayList<>();
 
-            }
+                // Iterate through the fetched items
+                for (SimulationRequest fetchedItem : simulationRequests) {
+                    UUID itemId = fetchedItem.getId();
 
-        }
-        catch (Exception e)
-        {
+                    if (itemMap.containsKey(itemId)) {
+                        // Item already exists, update it with new data
+                        SimulationRequest existingItem = itemMap.get(itemId);
+                        // Update fields as needed
+                        existingItem.setExecutionsRunningAmount(fetchedItem.getExecutionsRunningAmount());
+                        existingItem.setExecutionsFinishedAmount(fetchedItem.getExecutionsFinishedAmount());
+                        existingItem.setRequestStatus(fetchedItem.getRequestStatus());
+                        // Update other fields accordingly
+                    } else {
+                        // Item is new, add it to the map and new items list
+                        itemMap.put(itemId, fetchedItem);
+                        newItems.add(fetchedItem);
+                    }
+                }
+
+                // Clear the existing items before adding the updated ones
+                items.clear();
+                // Add the new items to the TableView
+                items.addAll(itemMap.values());
+            });
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
+//    @Override
+//    public void run()
+//    {
+//        try
+//        {
+//            System.out.println("I'm going to refresh requests bud/ user");
+//            Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
+//
+//            Platform.runLater(() ->
+//            {
+//                ObservableList<SimulationRequest> items = tableView.getItems();
+//                Map<UUID, SimulationRequest> itemMap = new HashMap<>();
+//
+//                // Add existing items to the map
+//                for (SimulationRequest existingItem : items)
+//                {
+//                    itemMap.put(existingItem.getId(), existingItem);
+//                }
+//
+//                List<SimulationRequest> newItems = new ArrayList<>();
+//                // Iterate through the fetched items
+//                for (SimulationRequest fetchedItem : simulationRequests)
+//                {
+//                    UUID itemId = fetchedItem.getId();
+//
+//                    if (itemMap.containsKey(itemId))
+//                    {
+//                        // Item already exists, update it with new data
+//                        SimulationRequest existingItem = itemMap.get(itemId);
+//                        // Update fields as needed
+//                        existingItem.setExecutionsRunningAmount(fetchedItem.getExecutionsRunningAmount());
+//                        existingItem.setExecutionsFinishedAmount(fetchedItem.getExecutionsFinishedAmount());
+//                        existingItem.setRequestStatus(fetchedItem.getRequestStatus());
+//
+//
+//                        // Update other fields accordingly
+//
+//                    }
+//                    else
+//                    {
+//                        // Item is new, add it to the map and new items list
+//                        itemMap.put(itemId, fetchedItem);
+//                        newItems.add(fetchedItem);
+//                    }
+//                }
+//
+//                // Update the TableView
+//                items.setAll(itemMap.values());
+//                // Add the new items to the TableView
+//                items.addAll(newItems);
+//            });
+//
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
 
     private CompletableFuture<Set<SimulationRequest>> fetchDataFromServer()
     {

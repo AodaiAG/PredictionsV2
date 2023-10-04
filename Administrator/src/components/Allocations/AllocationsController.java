@@ -1,15 +1,24 @@
 package components.Allocations;
 
 import Requests.SimulationRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import components.mainApp.MainAppController;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
+import util.http.HttpClientUtil;
 
+import java.io.IOException;
 import java.util.*;
+
+import static util.Constants.*;
 
 public class AllocationsController
 {
@@ -139,7 +148,8 @@ public class AllocationsController
                     isApproved.set(true);
                 });
 
-                declineButton.setOnAction(event -> {
+                declineButton.setOnAction(event ->
+                {
                     // Handle the decline action for simulationRequest here
                     handleDecline(simulationRequest);
 
@@ -157,16 +167,87 @@ public class AllocationsController
 
     private void handleDecline(SimulationRequest simulationRequest)
     {
+        Gson gson = new GsonBuilder() .setPrettyPrinting().create();
+        String url = "http://localhost:8080/handle_request?status=declined&username="+simulationRequest.getUserName();        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequest.getId()));
+        // Create a request object
+        Request request = new Request.Builder()
+                .url(url)
+                .method("POST", body)
+                .addHeader("Content-Type", "application/json")
+                .build();
+            Callback callback=new Callback()
+            {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e)
+                {
+                    Platform.runLater(() ->
+                    {
+                        Alert alert=new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText(e.getMessage());
+                        alert.showAndWait();
+                    });
 
-        Alert alert=new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("decline pressed");
-        alert.showAndWait();
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+                {
+
+                    Platform.runLater(() ->
+                    {
+                        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Request Declined");
+                        alert.showAndWait();
+                    });
+
+                }
+            };
+        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+        call.enqueue(callback);
+
+
     }
-
-    private void handleApprove(SimulationRequest simulationRequest)
+        private void handleApprove(SimulationRequest simulationRequest)
     {
-        Alert alert=new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("approved pressed");
-        alert.showAndWait();
+        Gson gson = new GsonBuilder() .setPrettyPrinting().create();
+        String url = "http://localhost:8080/handle_request?status=approved&username="+simulationRequest.getUserName();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequest.getId()));
+        // Create a request object
+        Request request = new Request.Builder()
+                .url(url)
+                .method("POST", body)
+                .addHeader("Content-Type", "application/json")
+                .build();
+        Callback callback=new Callback()
+        {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
+                Platform.runLater(() ->
+                {
+                    Alert alert=new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText(e.getMessage());
+                    alert.showAndWait();
+                });
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+
+                Platform.runLater(() ->
+                {
+                    Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Request Approved");
+                    alert.showAndWait();
+                });
+
+            }
+        };
+        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+        call.enqueue(callback);
     }
 }

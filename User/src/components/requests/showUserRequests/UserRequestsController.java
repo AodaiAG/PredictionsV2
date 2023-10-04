@@ -63,6 +63,11 @@ public class UserRequestsController
             String executionsFinishedAmount = cellData.getValue().getExecutionsFinishedAmount();
             return new SimpleStringProperty(executionsFinishedAmount);
         });
+        requestStatusColumn.setCellValueFactory(cellData->
+        {
+            String requestStatus = cellData.getValue().getRequestStatus();
+            return new SimpleStringProperty(requestStatus);
+        });
 
         startRequestRefresher();
     }
