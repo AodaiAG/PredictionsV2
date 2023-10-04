@@ -9,7 +9,6 @@ public class RequestManager
     public RequestManager()
     {
         this.userRequestMap =new HashMap<>();
-
     }
     public synchronized void addRequest(String username, SimulationRequest simulationRequest)
     {

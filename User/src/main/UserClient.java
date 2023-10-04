@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import util.http.HttpClientUtil;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,6 +23,7 @@ public class UserClient extends Application
     @Override
     public void start(Stage primaryStage)
     {
+
         primaryStage.setTitle("User");
 
         try {
@@ -37,5 +39,10 @@ public class UserClient extends Application
             e.printStackTrace();
         }
     }
-
+    @Override
+    public void stop() throws Exception
+    {
+        System.exit(5);
+        //chatAppMainController.close();
+    }
 }
