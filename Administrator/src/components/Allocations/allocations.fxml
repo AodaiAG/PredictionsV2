@@ -4,17 +4,18 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1210.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.Allocations.AllocationsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="705.0" prefWidth="1320.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.Allocations.AllocationsController">
    <children>
       <TableView fx:id="requestTableView" layoutX="47.0" layoutY="-131.0" prefHeight="783.0" prefWidth="1113.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-            <TableColumn fx:id="idColumn" minWidth="0.0" prefWidth="106.0" text="UUID" />
-          <TableColumn fx:id="simulationNameColumn" prefWidth="157.0" text="Simulation Name" />
-          <TableColumn fx:id="userNameColumn" minWidth="7.0" prefWidth="200.0" text="User Name" />
-            <TableColumn fx:id="numOfExecutionsColumn" prefWidth="155.0" text="Executions Amount" />
-            <TableColumn fx:id="terminationConditionsColumn" prefWidth="225.0" text="Termination Condition" />
-            <TableColumn fx:id="executionsRunningColumn" prefWidth="147.0" text="Running" />
-            <TableColumn fx:id="executionsFinishedColumn" prefWidth="334.0" text="Finished" />
+            <TableColumn fx:id="idColumn" minWidth="0.0" prefWidth="190.00003051757812" text="UUID" />
+          <TableColumn fx:id="simulationNameColumn" prefWidth="195.99996948242188" text="Simulation Name" />
+          <TableColumn fx:id="userNameColumn" minWidth="7.0" prefWidth="223.0" text="User Name" />
+            <TableColumn fx:id="numOfExecutionsColumn" prefWidth="181.0" text="Executions Amount" />
+            <TableColumn fx:id="terminationConditionsColumn" prefWidth="184.0" text="Termination Condition" />
+            <TableColumn fx:id="requestStatusColumn" prefWidth="140.0" text="RequestStatus" />
+            <TableColumn fx:id="executionsRunningColumn" prefWidth="101.0" text="Running" />
+            <TableColumn fx:id="executionsFinishedColumn" prefWidth="104.0" text="Finished" />
         </columns>
       </TableView>
    </children>
