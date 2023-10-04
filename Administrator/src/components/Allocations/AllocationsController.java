@@ -155,6 +155,7 @@ public class AllocationsController
 
                     // Set the approval status to true
                     isApproved.set(true);
+
                 });
             }
         });
