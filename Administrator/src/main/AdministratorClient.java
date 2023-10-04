@@ -39,5 +39,10 @@ public class AdministratorClient extends Application
         }
 
     }
-
+    @Override
+    public void stop() throws Exception
+    {
+        System.exit(5);
+        //chatAppMainController.close();
+    }
 }
