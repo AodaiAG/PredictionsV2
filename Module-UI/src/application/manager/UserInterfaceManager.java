@@ -17,11 +17,11 @@ import javafx.stage.Stage;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
 import pDTOS.WorldDTO;
-import pSystem.Engine;
-import pSystem.IEngine;
+import pSystem.engine.Engine;
+import pSystem.engine.IEngine;
 import javafx.stage.FileChooser;
-import pSystem.Simulation;
-import pSystem.World;
+import pSystem.engine.SimulationResult;
+import pSystem.engine.World;
 
 import java.io.File;
 
@@ -58,7 +58,8 @@ public enum UserInterfaceManager
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/scenePrimary.fxml"));
         Parent root = null;
-        try {
+        try
+        {
             root = loader.load();
             primaryScreenController = loader.getController();
             primaryScene = new Scene(root);
@@ -143,7 +144,8 @@ public enum UserInterfaceManager
                // primaryScreenController.refreshScreen();
 
                 // Optionally, switch to a different scene or update UI components here
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 // Handle any exceptions that may occur during XML parsing
                 // Notify the user of the error
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -159,7 +161,8 @@ public enum UserInterfaceManager
         return threadPool;
     }
 
-    public void shutdownThreadPool() {
+    public void shutdownThreadPool()
+    {
         if (threadPool != null) {
             threadPool.shutdown();
         }
@@ -172,7 +175,8 @@ public enum UserInterfaceManager
         return engine.convertWorldToDTO(world).generateTreeView();
     }
 
-    public List<EnvironmentDTO> getEnvironmentsDTO() {
+    public List<EnvironmentDTO> getEnvironmentsDTO()
+    {
         return engine.getWorldBeforeChanging().getEnvironmentDTOS();
     }
 
@@ -197,7 +201,8 @@ public enum UserInterfaceManager
         this.resultsController = resultsController;
     }
 
-    public List<EntityDTO> getEntityDto() {
+    public List<EntityDTO> getEntityDto()
+    {
         World world = engine.getOriginalWorld();
         return this.engine.convertWorldToDTO(world).getEntityDTOSet();
     }
@@ -214,10 +219,12 @@ public enum UserInterfaceManager
         return !engine.isWordNull();
     }
 
-    public EnvironmentDTO updateEnvironment(EnvironmentDTO modifiedEnvironment) {
+    public EnvironmentDTO updateEnvironment(EnvironmentDTO modifiedEnvironment)
+    {
         World world = engine.getOriginalWorld();
         WorldDTO worldDTO = engine.convertWorldToDTO(world);
-        for (EnvironmentDTO environmentDTO : worldDTO.getEnvironmentDTOS()) {
+        for (EnvironmentDTO environmentDTO : worldDTO.getEnvironmentDTOS())
+        {
             if (environmentDTO.getEnProperty().getNameOfProperty().equals(modifiedEnvironment.getEnProperty().getNameOfProperty())) {
                 return environmentDTO;
             }
@@ -226,17 +233,22 @@ public enum UserInterfaceManager
         return modifiedEnvironment;
     }
 
-    public Map<UUID, Simulation> getSimulations() {
-        return engine.getSimulations();
+    public Map<UUID, SimulationResult> getSimulations() {
+        return engine.getSimulationResults();
     }
 
-    public void runSimulation() {
-        try {
-            if (engine.isWordNull()) {
+    public void runSimulation()
+    {
+        try
+        {
+            if (engine.isWordNull())
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Please Load A File First !");
                 alert.showAndWait();
-            } else {
+            }
+            else
+            {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/SimulationDetails.fxml"));
                 AnchorPane simulationDetails = loader.load();
                 SimulationDetailsTabController simulationDetailsTabController = loader.getController();
@@ -267,7 +279,8 @@ public enum UserInterfaceManager
         return completedSimulations;
     }
 
-    public synchronized void incrementExecutingSimulations() {
+    public synchronized void incrementExecutingSimulations()
+    {
         executingSimulations++;
         primaryScreenController.executingSimulations.set(executingSimulations);
     }
@@ -291,7 +304,7 @@ public enum UserInterfaceManager
     }
 
 
-    public void updateSimulationResultsTab(Tab tab, Simulation simulation) {
+    public void updateSimulationResultsTab(Tab tab, SimulationResult simulationResult) {
 
     }
 

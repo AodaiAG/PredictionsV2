@@ -1,6 +1,6 @@
 package components.requests.submitNewRequest;
 
-import Requests.SimulationRequest;
+import Requests.SimulationRequestDetails;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import components.mainApp.UserMainAppController;
@@ -11,7 +11,6 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import pDTOS.ActionsDTO.ActionDTO;
 import pDTOS.TerminationDTO;
 import util.http.HttpClientUtil;
 
@@ -73,15 +72,15 @@ public class SubmitNewRequestController
         try
         {
             Gson gson = new GsonBuilder() .setPrettyPrinting().create();
-            SimulationRequest simulationRequest=
-                    new SimulationRequest( UUID.randomUUID(),
+            SimulationRequestDetails simulationRequestDetails =
+                    new SimulationRequestDetails( UUID.randomUUID(),
                     simulatioNameText.getText(),
                     Integer.parseInt(numOfExecutions.getText()),getTermination(), mainAppController.getUserName()
             );
 
 
             MediaType mediaType = MediaType.parse("application/json");
-            RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequest));
+            RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequestDetails));
             Request request = new Request.Builder()
                     .url(FULL_SERVER_PATH+NEW_REQUEST)
                     .method("POST", body)

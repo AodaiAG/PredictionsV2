@@ -1,34 +1,25 @@
 package components.Allocations;
 
-import Requests.SimulationRequest;
+import Requests.SimulationRequestDetails;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import components.Management.SimulationTreeViewRefresher;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
-import pDTOS.ActionsDTO.ActionDTO;
-import pDTOS.SimulationDTO;
-import util.Constants;
 import util.http.HttpClientUtil;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 public class RequestsRefresher extends TimerTask
 {
-    TableView<SimulationRequest> tableView;
-    public RequestsRefresher(TableView<SimulationRequest> tableView)
+    TableView<SimulationRequestDetails> tableView;
+    public RequestsRefresher(TableView<SimulationRequestDetails> tableView)
     {
         this.tableView = tableView;
     }
@@ -38,10 +29,10 @@ public class RequestsRefresher extends TimerTask
     {
         try
         {
-            List<SimulationRequest> simulationRequests = fetchDataFromServer().get();
-            if (simulationRequests == null)
+            List<SimulationRequestDetails> simulationRequestDetails = fetchDataFromServer().get();
+            if (simulationRequestDetails == null)
                 return;
-            ObservableList<SimulationRequest> observableList = FXCollections.observableArrayList(simulationRequests);
+            ObservableList<SimulationRequestDetails> observableList = FXCollections.observableArrayList(simulationRequestDetails);
             Platform.runLater(() ->
             {
                 tableView.setItems(observableList);
@@ -54,10 +45,10 @@ public class RequestsRefresher extends TimerTask
     }
 
 
-    private CompletableFuture<List<SimulationRequest>> fetchDataFromServer()
+    private CompletableFuture<List<SimulationRequestDetails>> fetchDataFromServer()
     {
         String serverUrl = "http://localhost:8080/allocations?type=admin"; // Example URL
-        CompletableFuture<List<SimulationRequest>> future = new CompletableFuture<>();
+        CompletableFuture<List<SimulationRequestDetails>> future = new CompletableFuture<>();
         Request request = new Request.Builder()
                 .url(serverUrl)
                 .build();
@@ -76,8 +67,8 @@ public class RequestsRefresher extends TimerTask
 
                     String rawBody = response.body().string();
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    TypeToken<List<SimulationRequest>> typeToken = new TypeToken<List<SimulationRequest>>() {};
-                    List<SimulationRequest> simulationReqs = gson.fromJson(rawBody, typeToken.getType());
+                    TypeToken<List<SimulationRequestDetails>> typeToken = new TypeToken<List<SimulationRequestDetails>>() {};
+                    List<SimulationRequestDetails> simulationReqs = gson.fromJson(rawBody, typeToken.getType());
                     future.complete(simulationReqs);
                 } catch (IOException e)
                 {

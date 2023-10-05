@@ -1,4 +1,4 @@
-package pSystem;
+package pSystem.engine;
 
 import application.controllers.EntityWrapper;
 import application.controllers.SimulationConditions;
@@ -33,10 +33,10 @@ public interface IEngine
 //    public void resumeSimulation();
     public World cloneWorld();
     Boolean isWordNull();
-    public void setWorldFromExecution(Simulation simulation);
+    public void setWorldFromExecution(SimulationResult simulationResult);
     public void clearButtonPressed();
 
-    public Map<UUID, Simulation> getSimulations();
+    public Map<UUID, SimulationResult> getSimulationResults();
 
     public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulatioID);
     public Map<String, aSimulation> getAllSimulations();

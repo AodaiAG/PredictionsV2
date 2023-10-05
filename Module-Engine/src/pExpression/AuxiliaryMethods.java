@@ -6,7 +6,7 @@ import pEnvironment.EnvironmentInstance;
 import java.util.IllegalFormatException;
 import java.util.Map;
 import java.util.Random;
-import pSystem.World;
+import pSystem.engine.World;
 
 public class AuxiliaryMethods
 {

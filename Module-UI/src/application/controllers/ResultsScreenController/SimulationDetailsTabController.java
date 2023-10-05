@@ -3,8 +3,6 @@ package application.controllers.ResultsScreenController;
 import application.controllers.EntityWrapper;
 import application.controllers.ObservableEntity;
 import application.controllers.SimulationTask;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -17,12 +15,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import pDTOS.EntityDTO;
-import pEntity.Entity;
-import pSystem.Simulation;
+import pSystem.engine.SimulationResult;
 
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 import java.util.*;
 
@@ -30,7 +24,7 @@ import java.util.*;
 public class SimulationDetailsTabController
 {
     SimulationTask simulationTask;
-    private Simulation simulation;
+    private SimulationResult simulationResult;
     @FXML
 
     private AnchorPane resultsAnchor,detailsMainAnchor,progressPane;
@@ -132,19 +126,19 @@ public class SimulationDetailsTabController
     }
 
 
-    public void setSimulationResultsPane(Simulation Simulation)
+    public void setSimulationResultsPane(SimulationResult SimulationResult)
 
     {
 
         resultsAnchor.setDisable(false);
 
-        this.simulation=Simulation;
+        this.simulationResult = SimulationResult;
 
         populateLineChart();// graph init
 
         populationInfoTable.setVisible(false);
 
-        simulationIdText.setText(simulation.getSimulationId());
+        simulationIdText.setText(simulationResult.getSimulationId());
 
         populationInfoRadioButton.setToggleGroup(toggleGroup);
 
@@ -211,7 +205,7 @@ public class SimulationDetailsTabController
 
         // Retrieve entity population history from the simulation
 
-        Map<String, List<Integer>> entityPopulationHistory = simulation.getEntityPopulationHistory();
+        Map<String, List<Integer>> entityPopulationHistory = simulationResult.getEntityPopulationHistory();
 
 
         // Create a map to store the Y-values for each entity
@@ -262,7 +256,7 @@ public class SimulationDetailsTabController
 
         populationInfoTable.getItems().clear();
 
-        List<EntityDTO> entityDTOList = simulation.getWordBeforeSimulation().getEntityDTOSet();
+        List<EntityDTO> entityDTOList = simulationResult.getWordBeforeSimulation().getEntityDTOSet();
 
         ObservableList<EntityDTO> observableEntityDTOList = FXCollections.observableArrayList(entityDTOList);
 
@@ -326,7 +320,7 @@ public class SimulationDetailsTabController
 
                     EntityDTO entityDTO = getTableView().getItems().get(getIndex());
 
-                    setText(String.valueOf(simulation.getNumberOfEntityInstancesBefore(entityDTO) ));
+                    setText(String.valueOf(simulationResult.getNumberOfEntityInstancesBefore(entityDTO) ));
 
                 }
 
@@ -359,7 +353,7 @@ public class SimulationDetailsTabController
 
                     EntityDTO entityDTO = getTableView().getItems().get(getIndex());
 
-                    setText(String.valueOf(simulation.getNumberOfEntityInstancesAfter(entityDTO) ));
+                    setText(String.valueOf(simulationResult.getNumberOfEntityInstancesAfter(entityDTO) ));
 
                 }
 
@@ -394,7 +388,7 @@ public class SimulationDetailsTabController
 
             HistogramController histogramController = loader.getController();
 
-            histogramController.initialize(simulation); // Pass the simulation data to the controller
+            histogramController.initialize(simulationResult); // Pass the simulation data to the controller
 
             hisoPopPane.getChildren().setAll(histogram);
 

@@ -53,7 +53,6 @@ public class NewExecutionScreenController
             populationText.setDisable(true);
             ObservableList<String> entitiesList = FXCollections.observableArrayList();
             List<EntityDTO> entities = uiManager.getEntityDto();
-
             for (EntityDTO entityDTO : entities)
             {
                 String envName = entityDTO.getName();
@@ -69,7 +68,8 @@ public class NewExecutionScreenController
                     populationText.setDisable(false);
                     SelectedentityDTO = entities.get(entitesList.getSelectionModel().getSelectedIndex());
                     populationText.clear();
-                } else
+                }
+                else
                 {
 
                 }
@@ -97,9 +97,7 @@ public class NewExecutionScreenController
                     // Get the selected EnvironmentDTO
                     EnvironmentDTO selectedEnvironment = enDTO.get(environmentVariableListView.getSelectionModel().getSelectedIndex());
                     selectedEnvironment = uiManager.updateEnvironment(selectedEnvironment);
-
                     updateDetailsPane(selectedEnvironment);
-
                     environmentVariableListView.refresh();
                 }
             });

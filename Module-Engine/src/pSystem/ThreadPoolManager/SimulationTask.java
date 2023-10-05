@@ -1,8 +1,9 @@
-package application.controllers;
+package pSystem.ThreadPoolManager;
 
+import application.controllers.EntityWrapper;
 import application.controllers.ResultsScreenController.SimulationDetailsTabController;
+import application.controllers.SimulationConditions;
 import application.manager.UserInterfaceManager;
-
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -17,7 +18,7 @@ public class SimulationTask extends Task<Void>
     public SimulationConditions simulationConditions = new SimulationConditions();
     UserInterfaceManager uiManger;
     IEngine engine;
-    EntityWrapper entityWrapper;
+    application.controllers.EntityWrapper entityWrapper;
     private SimulationResult simulationResult;
     SimulationDetailsTabController simulationDetailsTabController;
 
@@ -30,7 +31,7 @@ public class SimulationTask extends Task<Void>
         this.simulationDetailsTabController = ct;
     }
 
-    public EntityWrapper getEntityWrapper()
+    public application.controllers.EntityWrapper getEntityWrapper()
     {
         return entityWrapper;
     }

@@ -1,6 +1,6 @@
 package servlets;
 
-import Requests.SimulationRequest;
+import Requests.SimulationRequestDetails;
 import Requests.RequestManager;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
@@ -62,8 +62,8 @@ public class SubmitRequestServlet extends HttpServlet
 
                 // Parse the JSON data using Gson into your Request object
                 Gson gson = new Gson();
-                SimulationRequest simulationRequestObject = gson.fromJson(jsonRequest.toString(), SimulationRequest.class);
-                requestManager.addRequest(usernameFromSession, simulationRequestObject);
+                SimulationRequestDetails simulationRequestDetailsObject = gson.fromJson(jsonRequest.toString(), SimulationRequestDetails.class);
+                requestManager.addRequest(usernameFromSession, simulationRequestDetailsObject);
                 response.getWriter().print("Request Submitted. ");
 
             }

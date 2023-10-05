@@ -7,7 +7,6 @@ public class SimulationDTO
 {
 
     String nameofSimulation;
-
     WorldDTO worldDTO;
 
 

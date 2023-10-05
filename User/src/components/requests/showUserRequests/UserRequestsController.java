@@ -1,6 +1,6 @@
 package components.requests.showUserRequests;
 
-import Requests.SimulationRequest;
+import Requests.SimulationRequestDetails;
 import components.mainApp.UserMainAppController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -17,31 +17,38 @@ public class UserRequestsController
     private UserMainAppController userMainAppController;
 
     @FXML
-    private TableView<SimulationRequest> userRequestTableView;
+    private TableView<SimulationRequestDetails> userRequestTableView;
 
     @FXML
-    private TableColumn<SimulationRequest, String> idColumn;
+    private TableColumn<SimulationRequestDetails, String> idColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> simulationNameColumn;
+    private TableColumn<SimulationRequestDetails, String> simulationNameColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> numOfExecutionsColumn;
+    private TableColumn<SimulationRequestDetails, String> numOfExecutionsColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> requestStatusColumn;
+    private TableColumn<SimulationRequestDetails, String> requestStatusColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> executionsRunningColumn;
+    private TableColumn<SimulationRequestDetails, String> executionsRunningColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> executionsFinishedColumn;
+    private TableColumn<SimulationRequestDetails, String> executionsFinishedColumn;
+    @FXML
+    private TableColumn<SimulationRequestDetails, String> executeColumn;
+    @FXML
+    private TableColumn<SimulationRequestDetails, String> leftCoulmn;
+
 
     public void initialize()
     {
+
         idColumn.setCellValueFactory(cellData ->
         {
             UUID id = cellData.getValue().getId();
+
             String idString = id != null ? id.toString() : ""; // Convert UUID to String or set an empty string if it's null
             return new SimpleStringProperty(idString);
         });
@@ -68,6 +75,15 @@ public class UserRequestsController
             String requestStatus = cellData.getValue().getRequestStatus();
             return new SimpleStringProperty(requestStatus);
         });
+        leftCoulmn.setCellValueFactory(cellData->
+        {
+            String requestStatus = cellData.getValue().getExecutionsLeftAmount();
+
+            return new SimpleStringProperty(requestStatus);
+
+        });
+
+
 
         startRequestRefresher();
     }
