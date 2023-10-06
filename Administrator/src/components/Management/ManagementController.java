@@ -46,8 +46,6 @@ public class ManagementController
         loadThreadPoolPage();
     }
 
-
-
     private void loadSimulationDetailsPage()
     {
 
