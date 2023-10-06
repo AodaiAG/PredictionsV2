@@ -14,6 +14,8 @@ import okhttp3.Response;
 import pDTOS.TerminationDTO;
 import util.http.HttpClientUtil;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import static util.Constants.FULL_SERVER_PATH;
@@ -22,8 +24,7 @@ import static util.Constants.NEW_REQUEST;
 
 public class SubmitNewRequestController
 {
-    @FXML
-    private TextField simulatioNameText;
+
     @FXML
     private TextField numOfExecutions;
     @FXML
@@ -38,15 +39,27 @@ public class SubmitNewRequestController
     private TextField timeText;
     @FXML
     private Button submitBTN;
-
     UserMainAppController mainAppController;
+    @FXML
+    private ChoiceBox<String> simulationNamesCHoiceBox;
 
 
     public void initialize()
     {
         ticksOption.setOnAction(event -> handleOptionChange(ticksOption, ticksText));
         timeOption.setOnAction(event -> handleOptionChange(timeOption, timeText));
+        startSimulationNamesRefresher();
     }
+    public void startSimulationNamesRefresher()
+    {
+        Timer timer = new Timer();
+        TimerTask task = new simulationNamesRefresher(simulationNamesCHoiceBox);
+        long delay = 0; // Initial delay (0 milliseconds)
+        long period = 2000; // Repeat every 2 seconds (2000 milliseconds)
+        timer.scheduleAtFixedRate(task, delay, period);
+    }
+
+
 
     private void handleOptionChange(CheckBox checkBox, TextField textField)
     {
@@ -75,7 +88,7 @@ public class SubmitNewRequestController
             Gson gson = new GsonBuilder() .setPrettyPrinting().create();
             SimulationRequestDetails simulationRequestDetails =
                     new SimulationRequestDetails( UUID.randomUUID(),
-                    simulatioNameText.getText(),
+                            simulationNamesCHoiceBox.getValue(),
                     Integer.parseInt(numOfExecutions.getText()),getTermination(), mainAppController.getUserName()
             );
 

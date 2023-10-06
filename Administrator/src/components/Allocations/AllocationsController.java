@@ -161,8 +161,6 @@ public class AllocationsController
                     handleDecline(simulationRequestDetails,buttonsBox);
 
 
-
-
                 });
             }
         });
