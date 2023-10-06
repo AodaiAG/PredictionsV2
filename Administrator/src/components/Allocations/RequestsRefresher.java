@@ -53,9 +53,6 @@ public class RequestsRefresher extends TimerTask
             {
                 tableView.getItems().addAll(newItems);
             });
-
-
-
         }
         catch (Exception e)
         {
@@ -92,6 +89,7 @@ public class RequestsRefresher extends TimerTask
 //            e.printStackTrace();
 //        }
 //    }
+
     private CompletableFuture<Set<SimulationRequest>> fetchDataFromServer()
     {
         String serverUrl = "http://localhost:8080/allocations?type=admin"; // Example URL

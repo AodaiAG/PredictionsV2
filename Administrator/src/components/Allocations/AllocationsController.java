@@ -163,15 +163,9 @@ public class AllocationsController
                 {
                     // Handle the decline action for simulationRequest here
                     handleDecline(simulationRequest,buttonsBox);
-
-
-
                 });
             }
         });
-
-
-
 
         startRequestRefresher();
     }
@@ -218,10 +212,9 @@ public class AllocationsController
             };
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
         call.enqueue(callback);
-
-
     }
-        private void handleApprove(SimulationRequest simulationRequest,HBox buttonsBox)
+
+    private void handleApprove(SimulationRequest simulationRequest,HBox buttonsBox)
     {
         buttonsBox.setDisable(true);
         Gson gson = new GsonBuilder() .setPrettyPrinting().create();

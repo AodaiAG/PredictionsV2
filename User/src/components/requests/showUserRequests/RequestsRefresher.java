@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -26,65 +27,109 @@ public class RequestsRefresher extends TimerTask
     {
         this.tableView = tableView;
     }
-    @Override
-    public void run()
-    {
-        try
-        {
-            System.out.println("I'm going to refresh requests bud/ user");
+
+    public void run() {
+        try {
+            System.out.println("I'm going to refresh requests for the user");
             Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
-            if (simulationRequests == null)
-                return;
 
-            Platform.runLater(() ->
-            {
+            Platform.runLater(() -> {
                 ObservableList<SimulationRequest> items = tableView.getItems();
-                Map<UUID, SimulationRequest> itemMap = new HashMap<>();
 
-                // Add existing items to the map
-                for (SimulationRequest existingItem : items)
-                {
-                    itemMap.put(existingItem.getId(), existingItem);
-                }
+                for (SimulationRequest fetchedItem : simulationRequests) {
+                    // Check if an item with the same ID is already in the TableView
+                    boolean itemExists = items.stream()
+                            .anyMatch(existingItem -> existingItem.getId().equals(fetchedItem.getId()));
 
-                // Create a list to track items that need to be removed
-                List<UUID> itemsToRemove = new ArrayList<>();
+                    if (!itemExists) {
+                        // Add the new item to the TableView
+                        items.add(fetchedItem);
+                    } else {
+                        // If the item already exists, you can update it here if needed
+                        // For example, you might want to update certain fields of the existing item
+                        SimulationRequest existingItem = items.stream()
+                                .filter(item -> item.getId().equals(fetchedItem.getId()))
+                                .findFirst()
+                                .orElse(null);
 
-                // Iterate through the fetched items
-                for (SimulationRequest fetchedItem : simulationRequests)
-                {
-                    UUID itemId = fetchedItem.getId();
-
-                    if (itemMap.containsKey(itemId))
-                    {
-                        // Item already exists, update it with new data
-                        SimulationRequest existingItem = itemMap.get(itemId);
-                        // Update fields as needed
-                        existingItem.setExecutionsRunningAmount(fetchedItem.getExecutionsRunningAmount());
-                        existingItem.setExecutionsFinishedAmount(fetchedItem.getExecutionsFinishedAmount());
-                        existingItem.setRequestStatus(fetchedItem.getRequestStatus());
-                        // Update other fields accordingly
-                    } else
-                    {
-                        // Item is new, add it to the map and new items list
-                        itemMap.put(itemId, fetchedItem);
-                        Platform.runLater(() -> items.add(fetchedItem));
+                        if (existingItem != null) {
+                            existingItem.setExecutionsRunningAmount(fetchedItem.getExecutionsRunningAmount());
+                            existingItem.setExecutionsFinishedAmount(fetchedItem.getExecutionsFinishedAmount());
+                            existingItem.setRequestStatus(fetchedItem.getRequestStatus());
+                            // Update other fields accordingly
+                        }
                     }
                 }
 
-                // Remove items that are no longer in the fetched data
-                for (SimulationRequest existingItem : items) {
-                    if (!itemMap.containsKey(existingItem.getId())) {
-                        itemsToRemove.add(existingItem.getId());
-                    }
-                }
-                Platform.runLater(() -> items.removeIf(item -> itemsToRemove.contains(item.getId())));
+                // Refresh the entire TableView to apply updates
+                tableView.refresh();
             });
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    //  @Override
+
+//    public void run()
+//    {
+//        try
+//        {
+//            System.out.println("I'm going to refresh requests bud/ user");
+//            Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
+//            if (simulationRequests == null)
+//                return;
+//
+//            Platform.runLater(() ->
+//            {
+//                ObservableList<SimulationRequest> items = tableView.getItems();
+//                Map<UUID, SimulationRequest> itemMap = new HashMap<>();
+//
+//                // Add existing items to the map
+//                for (SimulationRequest existingItem : items)
+//                {
+//                    itemMap.put(existingItem.getId(), existingItem);
+//                }
+//
+//                // Create a list to track items that need to be removed
+//                List<UUID> itemsToRemove = new ArrayList<>();
+//
+//                // Iterate through the fetched items
+//                for (SimulationRequest fetchedItem : simulationRequests)
+//                {
+//                    UUID itemId = fetchedItem.getId();
+//
+//                    if (itemMap.containsKey(itemId))
+//                    {
+//                        // Item already exists, update it with new data
+//                        SimulationRequest existingItem = itemMap.get(itemId);
+//                        // Update fields as needed
+//                        existingItem.setExecutionsRunningAmount(fetchedItem.getExecutionsRunningAmount());
+//                        existingItem.setExecutionsFinishedAmount(fetchedItem.getExecutionsFinishedAmount());
+//                        existingItem.setRequestStatus(fetchedItem.getRequestStatus());
+//                        // Update other fields accordingly
+//                    } else
+//                    {
+//                        // Item is new, add it to the map and new items list
+//                        itemMap.put(itemId, fetchedItem);
+//                        Platform.runLater(() -> items.add(fetchedItem));
+//                    }
+//                }
+//
+//                // Remove items that are no longer in the fetched data
+//                for (SimulationRequest existingItem : items) {
+//                    if (!itemMap.containsKey(existingItem.getId())) {
+//                        itemsToRemove.add(existingItem.getId());
+//                    }
+//                }
+//                Platform.runLater(() -> items.removeIf(item -> itemsToRemove.contains(item.getId())));
+//            });
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 //    @Override
