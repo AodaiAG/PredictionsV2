@@ -1,4 +1,6 @@
 package components.mainApp;
+import Requests.SimulationRequestDetails;
+import components.execution.ExecutionController;
 import components.login.LoginController;
 import components.requests.RequestsController;
 import components.results.ResultsController;
@@ -30,7 +32,7 @@ public class UserMainAppController
     private LoginController logicController;
     private GridPane loginComponent;
 
-   // ExecutionController executionController;
+    ExecutionController executionController;
     AnchorPane executionComponent;
 
     RequestsController requestsController;
@@ -81,7 +83,8 @@ public class UserMainAppController
         return currentUserName.getValue();
     }
 
-    public void showMainAppStage() {
+    public void showMainAppStage()
+    {
         try {
             // Load the FXML file for the main app
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/MainApp.fxml"));
@@ -106,7 +109,7 @@ public class UserMainAppController
 
     public void initApplication()
     {
-       // loadExecution();
+        loadExecution();
         loadRequests();
         loadResults();
         loadSimulationDetails();
@@ -126,23 +129,22 @@ public class UserMainAppController
             e.printStackTrace();
         }
     }
-//    private void loadExecution()
-//    {
-//        URL loginPageUrl = getClass().getResource(EXECUTION_FXML_RESOURCE_LOCATION);
-//        try
-//        {
-//            FXMLLoader fxmlLoader = new FXMLLoader();
-//            fxmlLoader.setLocation(loginPageUrl);
-//            executionComponent = fxmlLoader.load();
-//            executionController = fxmlLoader.getController();
-//            executionController.setAppMainController(this);
-//
-//        }
-//        catch (IOException e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
+    private void loadExecution()
+    {
+        URL loginPageUrl = getClass().getResource(EXECUTION_FXML_RESOURCE_LOCATION);
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(loginPageUrl);
+            executionComponent = fxmlLoader.load();
+            executionController = fxmlLoader.getController();
+            executionController.setAppMainController(this);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     private void loadRequests()
     {
@@ -239,5 +241,10 @@ public class UserMainAppController
     {
         this.currentUserName.set(userName);
         System.out.println("done update name");
+    }
+
+    public void initExecuterPageWithDetails(SimulationRequestDetails simulationRequestDetails)
+    {
+        executionController.initializeController(simulationRequestDetails);
     }
 }

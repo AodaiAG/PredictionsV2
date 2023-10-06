@@ -131,6 +131,19 @@ public class Engine implements IEngine
             throw e;
         }
     }
+    public void setDataToEnvironmentVarGivenWorld(EnvironmentDTO environmentDTO, String userValue,World world) throws Exception
+    {
+        EnvironmentInstance environmentInstance = world.getName2Env().get(environmentDTO.getEnProperty().getNameOfProperty());
+        try
+        {
+            environmentInstance.getEnvironmentProperty().getData().setNewValue(userValue);
+            environmentInstance.getEnvironmentProperty().setRandomInitialize(false);
+            environmentInstance.setInitByUser(true);
+        } catch (Exception e)
+        {
+            throw e;
+        }
+    }
     public void initEnviromentVariables()
     {
         for(EnvironmentInstance environmentInstance:originalWorld.getName2Env().values())
@@ -822,16 +835,47 @@ public class Engine implements IEngine
         entity.setNumberOfInstances(popNumber);
     }
 
+    public void createEntityPopulationGivenWorld(int popNumber, EntityDTO selectedentityDTO,World world) throws Exception
+    {
+        int maxPopulationAmount = world.getGrid().getNumRows() * world.getGrid().getNumCols();
+
+        if(popNumber <= maxPopulationAmount - world.getCurrentPopulationAmount() ) {
+            world.setCurrentPopulationAmount(popNumber);
+        }
+        else {
+            throw new Exception("Population limit exceeded. Max population allowed: " + maxPopulationAmount);
+        }
+        Entity entity = null;
+        try {
+            entity = findEntityAccordingName(world.getEntities(), selectedentityDTO.getName());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        List<EntityInstance> entityInstances = new ArrayList<>();
+        Set<Property> propOfEntity = entity.getPropertiesOfTheEntity();
+
+        for (int m = 0; m < popNumber; m++)
+        {
+            EntityInstance added = entity.createNewInstance();
+            entityInstances.add(added);
+        }
+
+        entity.setEntities(entityInstances);
+        entity.setNumberOfInstances(popNumber);
+    }
+
+
     Property initProperty(String type, String name, boolean isRange, String from, String to, boolean bool, String init,Boolean isEnvVariable)
     {
-
         Property res = new Property();
         res.setNameOfProperty(name);
         res.setRandomInitialize(bool);
         Data eD = new Data();
         eD.setDataType(DataType.valueOf(type.toUpperCase()));
         eD.setRangeExist(isRange);
-        if (isRange) {
+        if (isRange)
+        {
             eD.setFrom(from);
             eD.setTo(to);
         }

@@ -28,6 +28,14 @@ public class SimulationRequestExecuter
 
     }
 
+    public aSimulation getCurrSimulation() {
+        return currSimulation;
+    }
+
+    public void setCurrSimulation(aSimulation currSimulation) {
+        this.currSimulation = currSimulation;
+    }
+
     public aSimulation getSimulationToBeExecuted()
     {
         return originalSimulationToBeExecuted;

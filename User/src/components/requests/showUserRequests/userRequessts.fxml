@@ -12,8 +12,8 @@
             <TableColumn fx:id="simulationNameColumn" prefWidth="136.0" text="Simulation Name" />
             <TableColumn fx:id="requestStatusColumn" minWidth="0.0" prefWidth="137.0" text="Request Status" />
             <TableColumn fx:id="numOfExecutionsColumn" prefWidth="153.0" text="Executions Amount" />
-            <TableColumn fx:id="executeColumn" prefWidth="75.0" text="Execute" />
-            <TableColumn fx:id="leftCoulmn" editable="false" prefWidth="56.0" sortable="false" text="Left" />
+            <TableColumn fx:id="executeColumn" prefWidth="85.0" text="Execute" />
+            <TableColumn fx:id="leftCoulmn" editable="false" prefWidth="46.0" sortable="false" text="Left" />
             <TableColumn fx:id="executionsRunningColumn" editable="false" prefWidth="85.0" sortable="false" text="Running" />
             <TableColumn fx:id="executionsFinishedColumn" editable="false" minWidth="3.0" prefWidth="72.0" sortable="false" text="Finished" />
          </columns>

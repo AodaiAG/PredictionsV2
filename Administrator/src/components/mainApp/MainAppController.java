@@ -192,4 +192,9 @@ public class MainAppController
         setMainPanelTo(ManagmentComponent);
         managementController. startSimulationDetailsRefresher();
     }
+
+    public void switchToExecutionPage()
+    {
+        setMainPanelTo(executionsComponent);
+    }
 }
