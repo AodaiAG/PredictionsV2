@@ -54,17 +54,17 @@ public class RequestsRefresher extends TimerTask
                 .build();
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
         call.enqueue(new Callback()
-        { @Override
-        public void onFailure(@NotNull Call call, @NotNull IOException e)
         {
-        }
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
+            }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
             {
                 try
                 {
-
                     String rawBody = response.body().string();
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
                     TypeToken<List<SimulationRequestDetails>> typeToken = new TypeToken<List<SimulationRequestDetails>>() {};

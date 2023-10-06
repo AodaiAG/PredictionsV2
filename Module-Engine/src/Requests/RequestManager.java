@@ -4,14 +4,17 @@ import java.util.*;
 
 public class RequestManager
 {
+    private  int requestsCounter = 1;
     private final Map<String,List<SimulationRequestDetails>> userRequestMap;
 
     public RequestManager()
     {
         this.userRequestMap =new HashMap<>();
     }
+
     public synchronized void addRequest(String username, SimulationRequestDetails simulationRequestDetails)
     {
+        simulationRequestDetails.setRequestCounter(requestsCounter);
         if (userRequestMap.containsKey(username))
         {
             // Username exists in the map, retrieve the set and add the request
@@ -25,6 +28,7 @@ public class RequestManager
             newRequests.add(simulationRequestDetails);
             userRequestMap.put(username, newRequests);
         }
+        requestsCounter++;
     }
 
     public synchronized void removeRequest(String username, SimulationRequestDetails simulationRequestDetails)
@@ -41,9 +45,11 @@ public class RequestManager
             allRequests.addAll(requestSet);
         }
 
+        allRequests.sort(Comparator.comparingInt(SimulationRequestDetails::getRequestCounter));
         return allRequests;
 
     }
+
     public synchronized SimulationRequestDetails getRequestUserTwoUUID(String userName, UUID uuid)
     {
 
