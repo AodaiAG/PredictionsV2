@@ -13,7 +13,6 @@ import java.util.UUID;
 
 public class UserRequestsController
 {
-
     private UserMainAppController userMainAppController;
 
     @FXML
@@ -82,8 +81,6 @@ public class UserRequestsController
             return new SimpleStringProperty(requestStatus);
 
         });
-
-
 
         startRequestRefresher();
     }

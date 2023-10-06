@@ -48,7 +48,6 @@ public class SubmitRequestServlet extends HttpServlet
             }
             else
             {
-
                 RequestManager requestManager=ServletUtils.getRequestManager(getServletContext());
                 // Get the input stream from the request
                 BufferedReader reader = request.getReader();

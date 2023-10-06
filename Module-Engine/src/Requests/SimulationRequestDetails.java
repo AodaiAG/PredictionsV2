@@ -17,6 +17,24 @@ public class SimulationRequestDetails
     private String requestStatus = "unhandled";
     private String userName;
 
+    public int getRequestCounter() {
+        return requestCounter;
+    }
+
+    public void setRequestCounter(int requestCounter) {
+        this.requestCounter = requestCounter;
+    }
+
+    private int requestCounter;
+
+    public SimulationRequestDetails(UUID id, String simulationName, int numOfExecutions, TerminationDTO terminationConditions, String userName)
+    {
+        this.id = id;
+        this.simulationName = simulationName;
+        this.numOfExecutions = numOfExecutions;
+        this.terminationConditions = terminationConditions;
+        this.userName = userName;
+    }
 
 
     public String getExecutionsLeftAmount()
@@ -90,17 +108,6 @@ public class SimulationRequestDetails
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-
-    public SimulationRequestDetails(UUID id, String simulationName, int numOfExecutions, TerminationDTO terminationConditions, String userName)
-    {
-        this.id = id;
-        this.simulationName = simulationName;
-        this.numOfExecutions = numOfExecutions;
-        this.terminationConditions = terminationConditions;
-        this.userName = userName;
-    }
-
 
     public String getRequestStatus()
     {

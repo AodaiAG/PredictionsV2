@@ -47,6 +47,7 @@ public class SubmitNewRequestController
         ticksOption.setOnAction(event -> handleOptionChange(ticksOption, ticksText));
         timeOption.setOnAction(event -> handleOptionChange(timeOption, timeText));
     }
+
     private void handleOptionChange(CheckBox checkBox, TextField textField)
     {
         boolean isSelected = checkBox.isSelected();
