@@ -65,7 +65,6 @@ public class ManagementController
             AnchorPane.setLeftAnchor(toBeSubmitted, 1.0);
             AnchorPane.setRightAnchor(toBeSubmitted, 1.0);
 
-
         }
         catch (IOException e)
         {

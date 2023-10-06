@@ -64,6 +64,7 @@ public class ExecutionController
              requestId=simulationRequest.getId();
              fetchWorldDtoAndUpdateInfo();
 
+
     }
 
     public void fetchWorldDtoAndUpdateInfo()
@@ -211,6 +212,7 @@ public class ExecutionController
             // Handle the "Modify" button click here
             handleModifyButtonClick(selectedEnvironment);
             fetchWorldDtoAndUpdateInfo();
+
         });
 
         // Define the layout of elements within detailsPane
@@ -232,9 +234,8 @@ public class ExecutionController
         {
             String dataEnterd=dataTextField.getText();
             setDataToEnvironmentVar(selectedEnvironment,dataEnterd);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Modification completed successfully!");
-            alert.showAndWait();}
+
+        }
 
         catch (Exception e)
         {
@@ -256,11 +257,19 @@ public class ExecutionController
                     .addHeader("Content-Type", "application/json")
                     .build();
             Response response= HttpClientUtil.HTTP_CLIENT.newCall(request).execute();
+            String responseBody = response.body().string();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(responseBody);
+            alert.showAndWait();
+
 
         }
         catch(Exception e)
         {
-           throw e;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("An error occurred reasons: "+e.getMessage());
+            alert.showAndWait();
         }
     }
 
