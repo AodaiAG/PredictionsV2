@@ -261,7 +261,6 @@ public class ExecutionController
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText(responseBody);
             alert.showAndWait();
-
         }
         catch(Exception e)
         {
