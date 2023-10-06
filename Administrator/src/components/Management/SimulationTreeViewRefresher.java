@@ -106,7 +106,7 @@ public class SimulationTreeViewRefresher extends TimerTask
     private CompletableFuture<List<SimulationDTO>> fetchDataFromServer()
     {
         // Replace this URL with the actual URL of your server endpoint
-        String serverUrl = "http://localhost:8080/simulations"; // Example URL
+        String serverUrl = "http://localhost:8080/get_simulations_details"; // Example URL
 
         Request request = new Request.Builder()
                 .url(serverUrl)

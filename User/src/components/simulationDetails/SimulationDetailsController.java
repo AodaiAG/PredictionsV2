@@ -13,6 +13,11 @@ public class SimulationDetailsController
     @FXML
     TreeView treeView;
 
+    public void initialize()
+    {
+        startSimulationDetailsRefresher();
+    }
+
     public void setAppMainController(UserMainAppController mainAppController)
     {
         this.mainAppController = mainAppController;

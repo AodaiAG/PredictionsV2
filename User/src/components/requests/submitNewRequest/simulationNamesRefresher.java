@@ -34,21 +34,25 @@ public class simulationNamesRefresher extends TimerTask
     {
         try
         {
-            // Store the selected item
-            String selectedItem = simulationNamesCHoiceBox.getValue();
-
             List<String> listOfSimulationNames = fetchDataFromServer().get();
             if (listOfSimulationNames == null)
                 return;
+            // Store the selected item
+            String selectedItem = simulationNamesCHoiceBox.getValue();
             ObservableList<String> observableList = FXCollections.observableArrayList(listOfSimulationNames);
-            Platform.runLater(() ->
+            if(listOfSimulationNames.size()!=simulationNamesCHoiceBox.getItems().size())
             {
-                // Update the ChoiceBox items
-                simulationNamesCHoiceBox.setItems(observableList);
+                Platform.runLater(() ->
+                {
+                    // Update the ChoiceBox items
+                    simulationNamesCHoiceBox.setItems(observableList);
 
-                // Set the previously selected item back as selected
-                simulationNamesCHoiceBox.setValue(selectedItem);
-            });
+                    // Set the previously selected item back as selected
+                    simulationNamesCHoiceBox.setValue(selectedItem);
+                });
+            }
+
+
 
         } catch (Exception e)
         {

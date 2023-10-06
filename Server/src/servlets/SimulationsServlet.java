@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "SimulationsList",urlPatterns = "/simulations")
+@WebServlet(name = "SimulationsList",urlPatterns = "/get_simulations_details")
 public class SimulationsServlet extends HttpServlet
 {
 

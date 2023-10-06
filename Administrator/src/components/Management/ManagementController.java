@@ -29,7 +29,10 @@ MainAppController mainAppController;
     TreeView treeView;
 
 
-
+    public void initialize()
+    {
+        startSimulationDetailsRefresher();
+    }
 
     public void startSimulationDetailsRefresher()
     {

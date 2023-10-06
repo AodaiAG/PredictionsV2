@@ -285,7 +285,7 @@ public class ExecutionController
     private CompletableFuture<WorldDTO> fetchWorldDTOFromServer(UUID uuid)
     {
         // Replace this URL with the actual URL of your server endpoint
-        String serverUrl = "http://localhost:8080/get_worldDto?id="+uuid.toString(); // Example URL
+        String serverUrl = "http://localhost:8080/get_world_dto?id="+uuid.toString(); // Example URL
 
         Request request = new Request.Builder()
                 .url(serverUrl)

@@ -75,6 +75,7 @@ public class UserMainAppController
     {
 
        userGreetingLabel.textProperty().bind(Bindings.concat( currentUserName));
+
         // prepare components
         //loadLoginPage();
     }
@@ -113,6 +114,7 @@ public class UserMainAppController
         loadRequests();
         loadResults();
         loadSimulationDetails();
+        setMainPanelTo(simulationDetailsComponent);
     }
 
     private void loadLoginPage()
@@ -229,7 +231,7 @@ public class UserMainAppController
     void switchToSimulationDetailsScene(ActionEvent event)
     {
         setMainPanelTo(simulationDetailsComponent);
-        simulationDetailsController.startSimulationDetailsRefresher();
+
     }
 
     public void switchToExecutionScene(ActionEvent event)
