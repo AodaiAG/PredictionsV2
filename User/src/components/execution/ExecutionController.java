@@ -262,7 +262,6 @@ public class ExecutionController
             alert.setHeaderText(responseBody);
             alert.showAndWait();
 
-
         }
         catch(Exception e)
         {
