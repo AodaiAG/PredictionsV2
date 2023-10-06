@@ -1,7 +1,7 @@
 package servlets;
 
 import Requests.RequestManager;
-import Requests.SimulationRequest;
+import Requests.SimulationRequestDetails;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import jakarta.servlet.ServletException;
@@ -14,7 +14,7 @@ import utils.SessionUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Set;
+import java.util.List;
 
 @WebServlet(name = "AllocationServlet", urlPatterns = "/allocations")
 public class AllocationsServlet extends HttpServlet
@@ -32,9 +32,9 @@ public class AllocationsServlet extends HttpServlet
 
             if(type.equals("admin"))
             {
-                Set<SimulationRequest> simulationRequests = requestManager.getRequests();
+               List<SimulationRequestDetails> simulationRequestDetails = requestManager.getRequests();
 
-                String jsonResponse = gson.toJson(simulationRequests);
+                String jsonResponse = gson.toJson(simulationRequestDetails);
                 try (PrintWriter out = resp.getWriter())
                 {
                     out.println(jsonResponse);
@@ -43,7 +43,7 @@ public class AllocationsServlet extends HttpServlet
             else if(type.equals("user"))
             {
                 String userName = SessionUtils.getUsername(req);
-                Set<SimulationRequest> userSimulationReq = requestManager.getUserRequests(userName);
+               List<SimulationRequestDetails> userSimulationReq = requestManager.getUserRequests(userName);
                 if(userSimulationReq != null)
                 {
                     String jsonResponse = gson.toJson(userSimulationReq);

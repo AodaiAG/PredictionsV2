@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pEntity.EntityInstance;
-import pSystem.World;
+import pSystem.engine.World;
 
 public class Rule {
     private String nameOfRule;

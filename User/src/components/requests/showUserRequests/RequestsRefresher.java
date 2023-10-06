@@ -1,12 +1,12 @@
 package components.requests.showUserRequests;
 
-import Requests.SimulationRequest;
+import Requests.SimulationRequestDetails;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -18,51 +18,26 @@ import util.http.HttpClientUtil;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class RequestsRefresher extends TimerTask
 {
-    TableView<SimulationRequest> tableView;
-    public RequestsRefresher(TableView<SimulationRequest> tableView)
+    TableView<SimulationRequestDetails> tableView;
+    public RequestsRefresher(TableView<SimulationRequestDetails> tableView)
     {
         this.tableView = tableView;
     }
-
-    public void run() {
-        try {
-            System.out.println("I'm going to refresh requests for the user");
-            Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
-
-            Platform.runLater(() -> {
-                ObservableList<SimulationRequest> items = tableView.getItems();
-
-                for (SimulationRequest fetchedItem : simulationRequests) {
-                    // Check if an item with the same ID is already in the TableView
-                    boolean itemExists = items.stream()
-                            .anyMatch(existingItem -> existingItem.getId().equals(fetchedItem.getId()));
-
-                    if (!itemExists) {
-                        // Add the new item to the TableView
-                        items.add(fetchedItem);
-                    } else {
-                        // If the item already exists, you can update it here if needed
-                        // For example, you might want to update certain fields of the existing item
-                        SimulationRequest existingItem = items.stream()
-                                .filter(item -> item.getId().equals(fetchedItem.getId()))
-                                .findFirst()
-                                .orElse(null);
-
-                        if (existingItem != null) {
-                            existingItem.setExecutionsRunningAmount(fetchedItem.getExecutionsRunningAmount());
-                            existingItem.setExecutionsFinishedAmount(fetchedItem.getExecutionsFinishedAmount());
-                            existingItem.setRequestStatus(fetchedItem.getRequestStatus());
-                            // Update other fields accordingly
-                        }
-                    }
-                }
-
-                // Refresh the entire TableView to apply updates
-                tableView.refresh();
+    @Override
+    public void run()
+    {
+        try
+        {
+            List<SimulationRequestDetails> simulationRequestDetails = fetchDataFromServer().get();
+            if (simulationRequestDetails == null)
+                return;
+            ObservableList<SimulationRequestDetails> observableList = FXCollections.observableArrayList(simulationRequestDetails);
+            Platform.runLater(() ->
+            {
+                tableView.setItems(observableList);
             });
 
         } catch (Exception e) {
@@ -70,66 +45,6 @@ public class RequestsRefresher extends TimerTask
         }
     }
 
-    //  @Override
-
-//    public void run()
-//    {
-//        try
-//        {
-//            System.out.println("I'm going to refresh requests bud/ user");
-//            Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
-//            if (simulationRequests == null)
-//                return;
-//
-//            Platform.runLater(() ->
-//            {
-//                ObservableList<SimulationRequest> items = tableView.getItems();
-//                Map<UUID, SimulationRequest> itemMap = new HashMap<>();
-//
-//                // Add existing items to the map
-//                for (SimulationRequest existingItem : items)
-//                {
-//                    itemMap.put(existingItem.getId(), existingItem);
-//                }
-//
-//                // Create a list to track items that need to be removed
-//                List<UUID> itemsToRemove = new ArrayList<>();
-//
-//                // Iterate through the fetched items
-//                for (SimulationRequest fetchedItem : simulationRequests)
-//                {
-//                    UUID itemId = fetchedItem.getId();
-//
-//                    if (itemMap.containsKey(itemId))
-//                    {
-//                        // Item already exists, update it with new data
-//                        SimulationRequest existingItem = itemMap.get(itemId);
-//                        // Update fields as needed
-//                        existingItem.setExecutionsRunningAmount(fetchedItem.getExecutionsRunningAmount());
-//                        existingItem.setExecutionsFinishedAmount(fetchedItem.getExecutionsFinishedAmount());
-//                        existingItem.setRequestStatus(fetchedItem.getRequestStatus());
-//                        // Update other fields accordingly
-//                    } else
-//                    {
-//                        // Item is new, add it to the map and new items list
-//                        itemMap.put(itemId, fetchedItem);
-//                        Platform.runLater(() -> items.add(fetchedItem));
-//                    }
-//                }
-//
-//                // Remove items that are no longer in the fetched data
-//                for (SimulationRequest existingItem : items) {
-//                    if (!itemMap.containsKey(existingItem.getId())) {
-//                        itemsToRemove.add(existingItem.getId());
-//                    }
-//                }
-//                Platform.runLater(() -> items.removeIf(item -> itemsToRemove.contains(item.getId())));
-//            });
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 
 //    @Override
@@ -191,10 +106,10 @@ public class RequestsRefresher extends TimerTask
 //        }
 //    }
 
-    private CompletableFuture<Set<SimulationRequest>> fetchDataFromServer()
+    private CompletableFuture<List<SimulationRequestDetails>> fetchDataFromServer()
     {
         String serverUrl = "http://localhost:8080/allocations?type=user"; // Example URL
-        CompletableFuture<Set<SimulationRequest>> future = new CompletableFuture<>();
+        CompletableFuture<List<SimulationRequestDetails>> future = new CompletableFuture<>();
         Request request = new Request.Builder()
                 .url(serverUrl)
                 .build();
@@ -211,12 +126,12 @@ public class RequestsRefresher extends TimerTask
             {
                 try
                 {
-                    System.out.println("i'm in onResponse/user");
+                    //System.out.println("i'm in onResponse/user");
 
                     String rawBody = response.body().string();
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    TypeToken<Set<SimulationRequest>> typeToken = new TypeToken<Set<SimulationRequest>>() {};
-                    Set<SimulationRequest> simulationReqs = gson.fromJson(rawBody, typeToken.getType());
+                    TypeToken<List<SimulationRequestDetails>> typeToken = new TypeToken<List<SimulationRequestDetails>>() {};
+                    List<SimulationRequestDetails> simulationReqs = gson.fromJson(rawBody, typeToken.getType());
                     future.complete(simulationReqs);
                 } catch (IOException e)
                 {

@@ -3,15 +3,13 @@ package application.controllers.ResultsScreenController;
 import application.manager.UserInterfaceManager;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 
-import java.io.IOException;
 import java.util.UUID;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import pSystem.Simulation;
+import pSystem.engine.SimulationResult;
 
 public class ResultsScreenController
 {
@@ -23,7 +21,7 @@ public class ResultsScreenController
     @FXML
     private TabPane tabPane;
 
-    private Simulation selectedSimulation;
+    private SimulationResult selectedSimulationResult;
 
     private UserInterfaceManager uiManager;
     @FXML

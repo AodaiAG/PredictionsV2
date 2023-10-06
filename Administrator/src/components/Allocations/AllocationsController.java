@@ -1,12 +1,10 @@
 package components.Allocations;
 
-import Requests.SimulationRequest;
+import Requests.SimulationRequestDetails;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import components.mainApp.MainAppController;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,40 +16,38 @@ import util.http.HttpClientUtil;
 import java.io.IOException;
 import java.util.*;
 
-import static util.Constants.*;
-
 public class AllocationsController
 {
     MainAppController mainAppController;
     @FXML
-    private TableView<SimulationRequest> requestTableView;
+    private TableView<SimulationRequestDetails> requestTableView;
 
     @FXML
-    private TableColumn<SimulationRequest, String> idColumn;
+    private TableColumn<SimulationRequestDetails, String> idColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> simulationNameColumn;
+    private TableColumn<SimulationRequestDetails, String> simulationNameColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> userNameColumn;
+    private TableColumn<SimulationRequestDetails, String> userNameColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> numOfExecutionsColumn;
+    private TableColumn<SimulationRequestDetails, String> numOfExecutionsColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> terminationConditionsColumn;
+    private TableColumn<SimulationRequestDetails, String> terminationConditionsColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> executionsRunningColumn;
+    private TableColumn<SimulationRequestDetails, String> executionsRunningColumn;
 
     @FXML
-    private TableColumn<SimulationRequest, String> executionsFinishedColumn;
+    private TableColumn<SimulationRequestDetails, String> executionsFinishedColumn;
     @FXML
-    private TableColumn<SimulationRequest, Void> approveColumn;
+    private TableColumn<SimulationRequestDetails, Void> approveColumn;
     @FXML
-    private TableColumn<SimulationRequest, Void> declineColumn;
+    private TableColumn<SimulationRequestDetails, Void> declineColumn;
     @FXML
-    private TableColumn<SimulationRequest, Void> handleRequestColumn;
+    private TableColumn<SimulationRequestDetails, Void> handleRequestColumn;
     private final Map<UUID, Boolean> approvalStatusMap = new HashMap<>();
 
 
@@ -109,7 +105,7 @@ public class AllocationsController
         });
 
 
-        handleRequestColumn.setCellFactory(param -> new TableCell<SimulationRequest, Void>()
+        handleRequestColumn.setCellFactory(param -> new TableCell<SimulationRequestDetails, Void>()
         {
             private final Button approveButton = new Button("Approve");
             private final Button declineButton = new Button("Decline");
@@ -124,7 +120,7 @@ public class AllocationsController
                     return;
                 }
 
-                SimulationRequest simulationRequest = getTableView().getItems().get(getIndex());
+                SimulationRequestDetails simulationRequestDetails = getTableView().getItems().get(getIndex());
 
                 // Create a property to track approval status
 
@@ -137,7 +133,7 @@ public class AllocationsController
                 // Create an HBox with spacing
 
                 HBox buttonsBox = new HBox(10); // Adjust the spacing value (10 in this case)
-                if(simulationRequest.getRequestStatus().equals("unhandled"))
+                if(simulationRequestDetails.getRequestStatus().equals("unhandled"))
                 {
                     buttonsBox.setDisable(false);
                 }
@@ -153,7 +149,7 @@ public class AllocationsController
                 approveButton.setOnAction(event ->
                 {
                     // Handle the approve action for simulationRequest here
-                    handleApprove(simulationRequest,buttonsBox);
+                    handleApprove(simulationRequestDetails,buttonsBox);
 
                     // Set the approval status to true
 
@@ -162,21 +158,27 @@ public class AllocationsController
                 declineButton.setOnAction(event ->
                 {
                     // Handle the decline action for simulationRequest here
-                    handleDecline(simulationRequest,buttonsBox);
+                    handleDecline(simulationRequestDetails,buttonsBox);
+
+
+
                 });
             }
         });
 
+
+
+
         startRequestRefresher();
     }
 
-    private void handleDecline(SimulationRequest simulationRequest,HBox buttonsBox)
+    private void handleDecline(SimulationRequestDetails simulationRequestDetails, HBox buttonsBox)
     {
         buttonsBox.setDisable(true);
 
         Gson gson = new GsonBuilder() .setPrettyPrinting().create();
-        String url = "http://localhost:8080/handle_request?status=declined&username="+simulationRequest.getUserName();        MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequest.getId()));
+        String url = "http://localhost:8080/handle_request?status=declined&username="+ simulationRequestDetails.getUserName();        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequestDetails.getId()));
         // Create a request object
         Request request = new Request.Builder()
                 .url(url)
@@ -212,15 +214,16 @@ public class AllocationsController
             };
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
         call.enqueue(callback);
-    }
 
-    private void handleApprove(SimulationRequest simulationRequest,HBox buttonsBox)
+
+    }
+        private void handleApprove(SimulationRequestDetails simulationRequestDetails, HBox buttonsBox)
     {
         buttonsBox.setDisable(true);
         Gson gson = new GsonBuilder() .setPrettyPrinting().create();
-        String url = "http://localhost:8080/handle_request?status=approved&username="+simulationRequest.getUserName();
+        String url = "http://localhost:8080/handle_request?status=approved&username="+ simulationRequestDetails.getUserName();
         MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequest.getId()));
+        RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequestDetails.getId()));
         // Create a request object
         Request request = new Request.Builder()
                 .url(url)

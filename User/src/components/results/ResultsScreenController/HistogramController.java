@@ -1,4 +1,4 @@
-package application.controllers.ResultsScreenController;
+package components.Results.ResultsScreenController;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,9 +19,9 @@ public class HistogramController {
     @FXML
     TableView histogramTableView;
     @FXML
-    javafx.scene.control.TableColumn<Map.Entry<String, Integer>, String> valueColumn;
+    TableColumn<Map.Entry<String, Integer>, String> valueColumn;
     @FXML
-    javafx.scene.control.TableColumn<Map.Entry<String, Integer>, String> countColumn;
+    TableColumn<Map.Entry<String, Integer>, String> countColumn;
     @FXML
     private ComboBox<String> entityComboBox;
     @FXML

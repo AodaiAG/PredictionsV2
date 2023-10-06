@@ -9,7 +9,7 @@
       <TableView fx:id="requestTableView" layoutX="47.0" layoutY="-131.0" prefHeight="748.0" prefWidth="1009.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
             <TableColumn fx:id="idColumn" minWidth="0.0" prefWidth="106.0" text="UUID" />
-          <TableColumn fx:id="simulationNameColumn" prefWidth="134.0" text="Simulation Name" />
+          <TableColumn fx:id="simulationNameColumn" prefWidth="134.0" text="SimulationResult Name" />
           <TableColumn fx:id="userNameColumn" minWidth="7.0" prefWidth="113.0" text="User Name" />
             <TableColumn fx:id="numOfExecutionsColumn" prefWidth="144.0" text="Executions Amount" />
             <TableColumn fx:id="terminationConditionsColumn" prefWidth="174.0" text="Termination Condition" />

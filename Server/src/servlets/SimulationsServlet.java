@@ -7,10 +7,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pDTOS.SimulationDTO;
-import pDTOS.WorldDTO;
-import pSystem.Engine;
-import pSystem.World;
-import pSystem.aSimulation;
+import pSystem.engine.Engine;
+import pSystem.engine.aSimulation;
 import utils.ServletUtils;
 
 import java.io.IOException;
@@ -18,7 +16,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 @WebServlet(name = "SimulationsList",urlPatterns = "/simulations")
 public class SimulationsServlet extends HttpServlet
 {
@@ -28,10 +26,9 @@ public class SimulationsServlet extends HttpServlet
 
         response.setContentType("application/json");
         List<SimulationDTO> simulationDTOS=new ArrayList<>();
-
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            Engine engine = ServletUtils.getEngine(getServletContext());
-            Map<String, aSimulation> simulationMap=engine.getAllSimulations();
+        Engine engine = ServletUtils.getEngine(getServletContext());
+        Map<String, aSimulation> simulationMap=engine.getAllSimulations();
 
         for ( aSimulation aSimulation:simulationMap.values())
         {

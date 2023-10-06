@@ -4,70 +4,70 @@ import java.util.*;
 
 public class RequestManager
 {
-    private final Map<String,Set<SimulationRequest>> userRequestMap;
+    private final Map<String,List<SimulationRequestDetails>> userRequestMap;
 
     public RequestManager()
     {
-        this.userRequestMap = new HashMap<>();
-
+        this.userRequestMap =new HashMap<>();
     }
-    public synchronized void addRequest(String username, SimulationRequest simulationRequest)
+    public synchronized void addRequest(String username, SimulationRequestDetails simulationRequestDetails)
     {
         if (userRequestMap.containsKey(username))
         {
             // Username exists in the map, retrieve the set and add the request
-            Set<SimulationRequest> existingRequests = userRequestMap.get(username);
-            existingRequests.add(simulationRequest);
-        } else
+            List<SimulationRequestDetails> existingRequests = userRequestMap.get(username);
+            existingRequests.add(simulationRequestDetails);
+        }
+        else
         {
             // Username doesn't exist in the map, create a new set, add the request, and put it into the map
-            Set<SimulationRequest> newRequests = new HashSet<>();
-            newRequests.add(simulationRequest);
+            List<SimulationRequestDetails> newRequests = new ArrayList<>();
+            newRequests.add(simulationRequestDetails);
             userRequestMap.put(username, newRequests);
         }
     }
 
-    public synchronized void removeRequest(String username, SimulationRequest simulationRequest)
+    public synchronized void removeRequest(String username, SimulationRequestDetails simulationRequestDetails)
     {
-        userRequestMap.get(username).remove(simulationRequest);
+        userRequestMap.get(username).remove(simulationRequestDetails);
     }
 
-    public synchronized Set<SimulationRequest> getRequests()
+    public synchronized List<SimulationRequestDetails> getRequests()
     {
 
-        Set<SimulationRequest> allRequests = new HashSet<>();
-        for (Set<SimulationRequest> requestSet : userRequestMap.values())
+        List<SimulationRequestDetails> allRequests = new ArrayList<>();
+        for (List<SimulationRequestDetails> requestSet : userRequestMap.values())
         {
             allRequests.addAll(requestSet);
         }
 
-        return Collections.unmodifiableSet(allRequests);
+        return allRequests;
 
     }
-    public synchronized SimulationRequest getRequestUserTwoUUID(String userName,UUID uuid)
+    public synchronized SimulationRequestDetails getRequestUserTwoUUID(String userName, UUID uuid)
     {
 
-        Set<SimulationRequest> userRequests=this.getUserRequests(userName);
-        for(SimulationRequest simulationRequest:userRequests)
+        List<SimulationRequestDetails> userRequests=this.getUserRequests(userName);
+        for(SimulationRequestDetails simulationRequestDetails :userRequests)
         {
-           if( simulationRequest.getId().equals(uuid))
+           if( simulationRequestDetails.getId().equals(uuid))
            {
-               return simulationRequest;
+               return simulationRequestDetails;
            }
         }
 
         return null;
     }
 
-    public synchronized Set<SimulationRequest> getUserRequests(String userName)
+    public synchronized List<SimulationRequestDetails> getUserRequests(String userName)
     {
-        Set<SimulationRequest> set = this.userRequestMap.get(userName);
-        return set!= null ? Collections.unmodifiableSet(set): null;
+        List<SimulationRequestDetails> set = this.userRequestMap.get(userName);
+        return set!= null ? set: null;
     }
 
-    public boolean isRequestExists(String username, SimulationRequest simulationRequest)
+    public boolean isRequestExists(String username, SimulationRequestDetails simulationRequestDetails)
     {
-       return userRequestMap.get(username).contains(simulationRequest);
+       return userRequestMap.get(username).contains(simulationRequestDetails);
     }
 
 }

@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 
-import pSystem.World;
+import pSystem.engine.World;
 
 public class MultipleCondition extends ConditionAction
 {

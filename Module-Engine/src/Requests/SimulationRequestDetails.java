@@ -1,50 +1,61 @@
 package Requests;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import pDTOS.TerminationDTO;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public class SimulationRequest
+public class SimulationRequestDetails
 {
     private UUID id;
-    private String executionsRunningAmount;
-    private String executionsFinishedAmount;
+    private int executionsRunningAmount=0;
+    private int executionsFinishedAmount=0;
+    private int executionsLeftAmount;
     private String simulationName;
     private int numOfExecutions;
     private TerminationDTO terminationConditions;
     private String requestStatus = "unhandled";
     private String userName;
 
+
+
+    public String getExecutionsLeftAmount()
+    {
+        return String.valueOf(numOfExecutions-executionsFinishedAmount);
+    }
+
+    public void setExecutionsLeftAmount(String executionsLeftAmount)
+    {
+        this.executionsLeftAmount = Integer.parseInt(executionsLeftAmount);
+    }
+
     public String getExecutionsRunningAmount()
     {
-        return executionsRunningAmount;
-
+        return String.valueOf(executionsRunningAmount);
     }
 
     public String executionsRunningAmountProperty()
     {
-        return executionsRunningAmount;
+        return String.valueOf(executionsRunningAmount);
     }
 
     public void setExecutionsRunningAmount(String executionsRunningAmount)
     {
-        this.executionsRunningAmount=executionsRunningAmount;
+        this.executionsRunningAmount= Integer.parseInt(executionsRunningAmount);
     }
 
+
     public String getExecutionsFinishedAmount() {
-        return executionsFinishedAmount;
+        return String.valueOf(executionsFinishedAmount);
     }
 
     public String executionsFinishedAmountProperty() {
-        return executionsFinishedAmount;
+        return String.valueOf(executionsFinishedAmount);
     }
 
     public void setExecutionsFinishedAmount(String executionsFinishedAmount)
     {
-        this.executionsFinishedAmount=executionsFinishedAmount;
+        this.executionsFinishedAmount= Integer.parseInt(executionsFinishedAmount);
     }
 
     @Override
@@ -52,7 +63,7 @@ public class SimulationRequest
     {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SimulationRequest that = (SimulationRequest) o;
+        SimulationRequestDetails that = (SimulationRequestDetails) o;
         return numOfExecutions == that.numOfExecutions &&
                 Objects.equals(id, that.id) &&
                 Objects.equals(executionsRunningAmount, that.executionsRunningAmount) &&
@@ -81,7 +92,7 @@ public class SimulationRequest
     }
 
 
-    public SimulationRequest(UUID id, String simulationName, int numOfExecutions, TerminationDTO terminationConditions, String userName)
+    public SimulationRequestDetails(UUID id, String simulationName, int numOfExecutions, TerminationDTO terminationConditions, String userName)
     {
         this.id = id;
         this.simulationName = simulationName;

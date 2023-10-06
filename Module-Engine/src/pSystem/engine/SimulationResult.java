@@ -1,4 +1,4 @@
-package pSystem;
+package pSystem.engine;
 
 import pDTOS.EntityDTO;
 import pDTOS.WorldDTO;
@@ -8,7 +8,7 @@ import pEntity.Property;
 
 import java.util.*;
 
-public class Simulation
+public class SimulationResult
 {
     private static boolean programRunning;
     private WorldDTO wordAfterSimulation;
@@ -61,7 +61,7 @@ public class Simulation
 
     private final Map<String, Integer> initialQuantities = new HashMap<>();
 
-    public Simulation(WorldDTO worldBefore, WorldDTO worldAfter, UUID simulationId)
+    public SimulationResult(WorldDTO worldBefore, WorldDTO worldAfter, UUID simulationId)
     {
         this.wordAfterSimulation = worldAfter;
         wordBeforeSimulation = worldBefore;

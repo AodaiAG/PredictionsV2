@@ -16,7 +16,7 @@
    <content>
       <AnchorPane fx:id="mainAnchorProgram" style="-fx-background-color: ffff;">
          <children>
-            <VBox fx:id="Leftvbox" layoutX="-1.0" prefHeight="638.0" prefWidth="240.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox fx:id="Leftvbox" layoutX="-1.0" prefHeight="638.0" prefWidth="240.0" style="-fx-background-color: BLACK;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Pane prefHeight="124.0" prefWidth="240.0">
                      <children>
@@ -56,7 +56,7 @@
                <children>
                   <VBox prefHeight="225.0" prefWidth="1147.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Pane fx:id="pnlStatus" prefHeight="112.0" prefWidth="1147.0" style="-fx-background-color: #3F2B63;">
+                        <Pane fx:id="pnlStatus" prefHeight="112.0" prefWidth="1147.0" style="-fx-background-color: BLACK;">
                            <children>
                               <Label fx:id="pnlsMessage" layoutX="43.0" layoutY="38.0" text="Home" textFill="WHITE">
                                  <font>

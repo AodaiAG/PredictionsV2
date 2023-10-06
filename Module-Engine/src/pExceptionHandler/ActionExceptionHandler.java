@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import pSystem.World;
+import pSystem.engine.World;
 
 public class ActionExceptionHandler {
     public void checkProbabilityActivation(String prob) throws Exception {
