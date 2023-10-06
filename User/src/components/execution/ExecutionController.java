@@ -230,22 +230,10 @@ public class ExecutionController
 
     private void handleModifyButtonClick(EnvironmentDTO selectedEnvironment)
     {
-        try
-        {
-            String dataEnterd=dataTextField.getText();
-            setDataToEnvironmentVar(selectedEnvironment,dataEnterd);
-
-        }
-
-        catch (Exception e)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error!");
-            alert.setHeaderText("An error occurred reasons: "+e.getMessage());
-            alert.showAndWait();
-        }
+        String dataEnterd=dataTextField.getText();
+        setDataToEnvironmentVar(selectedEnvironment,dataEnterd);
     }
-    public void setDataToEnvironmentVar(EnvironmentDTO selectedEnvironment, String enteredData) throws IOException {
+    public void setDataToEnvironmentVar(EnvironmentDTO selectedEnvironment, String enteredData) {
         try
         {
             Gson gson = new GsonBuilder() .setPrettyPrinting().create();
