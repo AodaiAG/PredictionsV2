@@ -247,4 +247,9 @@ public class UserMainAppController
     {
         executionController.initializeController(simulationRequestDetails);
     }
+
+    public void switchToExecutionPage()
+    {
+        setMainPanelTo(executionComponent);
+    }
 }

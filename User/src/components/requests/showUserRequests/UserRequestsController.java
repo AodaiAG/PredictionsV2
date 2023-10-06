@@ -115,6 +115,7 @@ public class UserRequestsController
                 executeButton.setOnAction(event ->
                 {
                     handleExecute(simulationRequestDetails,buttonsBox);
+                    userMainAppController.switchToExecutionPage();
                 });
 
 

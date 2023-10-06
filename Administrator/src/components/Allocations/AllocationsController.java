@@ -159,7 +159,7 @@ public class AllocationsController
                 {
                     // Handle the decline action for simulationRequest here
                     handleDecline(simulationRequestDetails,buttonsBox);
-                    mainAppController.switchToExecutionPage();
+
 
 
 
