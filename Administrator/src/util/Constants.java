@@ -16,6 +16,9 @@ public class Constants
     public final static String MANAGMENT_PAGE = "/components/Management/mangment.fxml";
     public final static String ALLOCATIONS_FXML = "/components/Allocations/allocations.fxml";
     public final static String EXECUTIONS_FXML = "/components/ExecutionsHistory/executions.fxml";
+    public final static String SIMULATION_DETAILS_FXML_RESOURCE_LOCATION = "/components/Management/simulationDetails/simulationDetails.fxml";
+    public final static String THREAD_POOL_LOCATION = "/components/Management/threadPoolManager/threadpoolfxml.fxml";
+
 
     // Server resources locations
     public final static String BASE_DOMAIN = "localhost";

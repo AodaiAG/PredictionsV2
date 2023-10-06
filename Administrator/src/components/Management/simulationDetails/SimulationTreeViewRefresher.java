@@ -1,15 +1,17 @@
-package components.Management;
+package components.Management.simulationDetails;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import okhttp3.*;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 import pDTOS.ActionsDTO.*;
 import pDTOS.SimulationDTO;
-import util.Constants;
 import util.http.HttpClientUtil;
 
 import java.io.IOException;
