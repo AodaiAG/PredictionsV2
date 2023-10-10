@@ -1,9 +1,10 @@
 package components.mainApp;
 import Requests.SimulationRequestDetails;
+import components.Results.ResultsController;
 import components.execution.ExecutionController;
 import components.login.LoginController;
 import components.requests.RequestsController;
-import components.results.ResultsController;
+
 import components.simulationDetails.SimulationDetailsController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.UUID;
 
 import static util.Constants.*;
 
@@ -253,5 +255,10 @@ public class UserMainAppController
     public void switchToExecutionPage()
     {
         setMainPanelTo(executionComponent);
+    }
+
+    public void initExecutionTracker(UUID requestId, UUID executedSimulationId)
+    {
+        resultsController.createAndInitSimulationTab( requestId,  executedSimulationId);
     }
 }

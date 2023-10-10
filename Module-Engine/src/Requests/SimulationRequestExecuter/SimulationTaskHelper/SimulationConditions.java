@@ -1,4 +1,4 @@
-package pSystem.ThreadPoolManager.SimulationTaskHelper;
+package Requests.SimulationRequestExecuter.SimulationTaskHelper;
 
 public class SimulationConditions
 {

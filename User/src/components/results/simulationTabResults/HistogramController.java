@@ -1,4 +1,4 @@
-package components.Results.ResultsScreenController;
+package components.Results.simulationTabResults;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,13 +9,15 @@ import javafx.scene.layout.VBox;
 import pDTOS.EntityDTO;
 import pDTOS.EntityInstancesDTO;
 import pDTOS.PropertyDTO;
+import pDTOS.WorldDTO;
 import pSystem.engine.SimulationResult;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HistogramController {
+public class HistogramController
+{
     @FXML
     TableView histogramTableView;
     @FXML
@@ -27,20 +29,23 @@ public class HistogramController {
     @FXML
     private ComboBox<String> propertyComboBox;
     private VBox histogramContent;
-    private SimulationResult simulationResult;
+
     @FXML
     private Label averageLabel;
     @FXML
     private TextField averageText, consText1;
-
+    private WorldDTO worldDTOAfterSimulation;
 
     // Initialize the ComboBoxes with entity and property data
-    public void initialize(SimulationResult simulationResult) {
-        this.simulationResult = simulationResult;
+    public void initialize(WorldDTO worldDTOAfter)
+    {
+
+         worldDTOAfterSimulation=worldDTOAfter;
 
         // Populate entityComboBox with entity names
         // You can retrieve this data from your simulation or wherever it's stored
-        for (EntityDTO entityDTO : simulationResult.getWordAfterSimulation().getEntityDTOSet()) {
+        for (EntityDTO entityDTO : worldDTOAfterSimulation.getEntityDTOSet())
+        {
             entityComboBox.getItems().add(entityDTO.getName());
         }
 
@@ -49,7 +54,7 @@ public class HistogramController {
         {
             String selectedEntity = entityComboBox.getValue();
             EntityDTO selectedEntityDTO = null;
-            for (EntityDTO entityDTO : simulationResult.getWordAfterSimulation().getEntityDTOSet()) {
+            for (EntityDTO entityDTO : worldDTOAfterSimulation.getEntityDTOSet()) {
                 if (entityDTO.getName().equals(selectedEntity)) {
                     selectedEntityDTO = entityDTO;
                     break;
@@ -70,12 +75,13 @@ public class HistogramController {
     }
 
     @FXML
-    private void showHistogramContent(ActionEvent event) {
+    private void showHistogramContent(ActionEvent event)
+    {
         String selectedEntity = entityComboBox.getValue();
         String selectedProperty = propertyComboBox.getValue();
         histogramTableView.getItems().clear();
         EntityDTO selectedEntityDTO = null;
-        for (EntityDTO entityDTO : simulationResult.getWordAfterSimulation().getEntityDTOSet()) {
+        for (EntityDTO entityDTO : worldDTOAfterSimulation.getEntityDTOSet()) {
             if (entityDTO.getName().equals(selectedEntity)) {
                 selectedEntityDTO = entityDTO;
                 break;
@@ -94,7 +100,7 @@ public class HistogramController {
 
             if (selectedPropertyDTO != null) {
                 Map<String, Integer> value2count = setHistogramToOneProperty(selectedPropertyDTO, selectedEntityDTO.getInstancesDTOS());
-                int consis = setConsistencyToOneProperty(selectedPropertyDTO, selectedEntityDTO.getInstancesDTOS(), simulationResult.getWordAfterSimulation().tickCounter);
+                int consis = setConsistencyToOneProperty(selectedPropertyDTO, selectedEntityDTO.getInstancesDTOS(), worldDTOAfterSimulation.tickCounter);
                 ObservableList<Map.Entry<String, Integer>> observableEntityDTOList = FXCollections.observableArrayList(value2count.entrySet());
                 this.histogramTableView.setItems(observableEntityDTOList);
                 valueColumn.setCellFactory(param -> new TableCell<Map.Entry<String, Integer>, String>() {

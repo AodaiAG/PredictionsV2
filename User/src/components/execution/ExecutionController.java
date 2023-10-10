@@ -26,6 +26,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import static util.Constants.FULL_SERVER_PATH;
@@ -268,9 +269,58 @@ public class ExecutionController
     @FXML
     void startSimulation(ActionEvent event)
     {
-//        uiManager.runSimulation();
-//        uiManager.switchToResultsScreen(event);
+        try
+        {
+            UUID executedSimulationId=sendHttpRequestAndGetExecutionID(requestId).get();
+            this.mainAppController.initExecutionTracker(requestId,executedSimulationId);
+        }
+        catch (Exception e)
+        {
+
+        }
+
     }
+
+
+
+    private  CompletableFuture<UUID> sendHttpRequestAndGetExecutionID(UUID requestId)
+    {
+        // Replace this URL with the actual URL of your server endpoint
+        String serverUrl = "http://localhost:8080/init_execute_simulation?id="+requestId.toString(); // Example URL
+
+        Request request = new Request.Builder()
+                .url(serverUrl)
+                .build();
+
+        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+        CompletableFuture<UUID> future = new CompletableFuture<>();
+        call.enqueue(new Callback()
+        {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                future.completeExceptionally(e);
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+                try
+                {
+
+                    String rawBody = response.body().string();
+                    UUID executionId= UUID.fromString(rawBody);
+                    future.complete(executionId);
+                }
+                catch (Exception e)
+                {
+                    future.completeExceptionally(e);
+                }
+            }
+        });
+
+        return future;
+    }
+
 
     public void clearOnAction(ActionEvent event)
     {
@@ -287,9 +337,7 @@ public class ExecutionController
                 .build();
 
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
-
         CompletableFuture<WorldDTO> future = new CompletableFuture<>();
-
         call.enqueue(new Callback()
         {
             @Override

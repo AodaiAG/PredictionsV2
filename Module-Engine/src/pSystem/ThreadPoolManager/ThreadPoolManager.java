@@ -7,12 +7,14 @@ public class ThreadPoolManager
 {
     private ExecutorService threadPool;
 
-    void initThreadPool(int numThreads )
+
+    public void initThreadPool(int numThreads )
     {
         threadPool = Executors.newFixedThreadPool(numThreads);
     }
-    void submitThreadTask(SimulationTask simulationTask)
+    public void submitThreadTask(SimulationTask simulationTask)
     {
+
         threadPool.submit(simulationTask);
     }
 

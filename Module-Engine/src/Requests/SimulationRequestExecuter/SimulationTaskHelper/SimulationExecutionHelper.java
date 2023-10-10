@@ -1,7 +1,6 @@
-package pSystem.ThreadPoolManager.SimulationTaskHelper;
+package Requests.SimulationRequestExecuter.SimulationTaskHelper;
 
-import application.controllers.EntityWrapper;
-import application.controllers.SimulationConditions;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +17,7 @@ public class SimulationExecutionHelper
     {
         return entityPopulationHistory;
     }
+    private String popAndTicks;
 
     public void setEntityPopulationHistory(Map<String, List<Integer>> entityPopulationHistory) {
         this.entityPopulationHistory = entityPopulationHistory;
@@ -27,6 +27,15 @@ public class SimulationExecutionHelper
     {
 
         return entityWrapper;
+    }
+
+    public String getPopAndTicks()
+    {
+        return popAndTicks;
+    }
+
+    public void setPopAndTicks(String popAndTicks) {
+        this.popAndTicks = popAndTicks;
     }
 
     public void setEntityWrapper(EntityWrapper entityWrapper) {

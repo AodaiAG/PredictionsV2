@@ -1,20 +1,17 @@
 package Requests.SimulationRequestExecuter;
 
-import Requests.SimulationRequestDetails;
-import pSystem.engine.SimulationResult;
+import Requests.SimulationRequestExecuter.SimulationTaskHelper.SimulationExecutionHelper;
 import pSystem.engine.aSimulation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class SimulationRequestExecuter
 {
     private UUID requestID;
     private aSimulation originalSimulationToBeExecuted;
     private aSimulation currSimulation;
-
+    private SimulationExecutionHelper simulationExecutionHelper;
+    private Map<UUID,SimulationReadyForExecution> uuidSimulationReadyForExecutionMap=new HashMap<>();
     private List<UUID> simulationResultUUID=new ArrayList<>();
 
     public SimulationRequestExecuter(UUID requestID, aSimulation simulationToBeExecuted)
@@ -26,6 +23,38 @@ public class SimulationRequestExecuter
     public SimulationRequestExecuter()
     {
 
+    }
+
+    public Map<UUID, SimulationReadyForExecution> getUuidSimulationReadyForExecutionMap()
+    {
+        return uuidSimulationReadyForExecutionMap;
+    }
+
+    public void setUuidSimulationReadyForExecutionMap(Map<UUID, SimulationReadyForExecution> uuidSimulationReadyForExecutionMap)
+    {
+        this.uuidSimulationReadyForExecutionMap = uuidSimulationReadyForExecutionMap;
+    }
+
+    public aSimulation getOriginalSimulationToBeExecuted() {
+        return originalSimulationToBeExecuted;
+    }
+
+    public void setOriginalSimulationToBeExecuted(aSimulation originalSimulationToBeExecuted) {
+        this.originalSimulationToBeExecuted = originalSimulationToBeExecuted;
+    }
+
+    public SimulationExecutionHelper getAndInitSimulationExecutionHelper()
+    {
+        this.simulationExecutionHelper=new SimulationExecutionHelper();
+        return simulationExecutionHelper;
+    }
+
+    public SimulationExecutionHelper getSimulationExecutionHelper() {
+        return simulationExecutionHelper;
+    }
+
+    public void setSimulationExecutionHelper(SimulationExecutionHelper simulationExecutionHelper) {
+        this.simulationExecutionHelper = simulationExecutionHelper;
     }
 
     public aSimulation getCurrSimulation() {

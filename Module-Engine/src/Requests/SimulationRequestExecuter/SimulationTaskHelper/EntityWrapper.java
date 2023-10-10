@@ -1,6 +1,4 @@
-package pSystem.ThreadPoolManager.SimulationTaskHelper;
-
-import application.controllers.ObservableEntity;
+package Requests.SimulationRequestExecuter.SimulationTaskHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
