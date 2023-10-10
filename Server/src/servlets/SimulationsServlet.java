@@ -36,7 +36,6 @@ public class SimulationsServlet extends HttpServlet
         }
 
         String jsonResponse = gson.toJson(simulationDTOS);
-        System.out.println(jsonResponse);
         try (PrintWriter out = response.getWriter())
         {
             out.println(jsonResponse);

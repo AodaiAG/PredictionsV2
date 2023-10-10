@@ -261,4 +261,9 @@ public class UserMainAppController
     {
         resultsController.createAndInitSimulationTab( requestId,  executedSimulationId);
     }
+
+    public void switchToResultsPage()
+    {
+        setMainPanelTo(requestsComponent);
+    }
 }

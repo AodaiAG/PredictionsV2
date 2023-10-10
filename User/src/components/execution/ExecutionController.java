@@ -155,9 +155,7 @@ public class ExecutionController
         {
             int popn = Integer.parseInt(popString);
             generatePopulation(SelectedentityDTO, popn);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Population added successfully!");
-            alert.showAndWait();
+
         }
         catch (IllegalArgumentException e)
         {
@@ -180,6 +178,7 @@ public class ExecutionController
     {
         try
         {
+
             Gson gson = new GsonBuilder() .setPrettyPrinting().create();
             MediaType mediaType = MediaType.parse("application/json");
             RequestBody body = RequestBody.create(mediaType, gson.toJson(selectedentityDTO));
@@ -189,6 +188,11 @@ public class ExecutionController
                     .addHeader("Content-Type", "application/json")
                     .build();
             Response response= HttpClientUtil.HTTP_CLIENT.newCall(request).execute();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(response.body().string());
+            alert.showAndWait();
+
 
         }
         catch(Exception e)
@@ -273,6 +277,8 @@ public class ExecutionController
         {
             UUID executedSimulationId=sendHttpRequestAndGetExecutionID(requestId).get();
             this.mainAppController.initExecutionTracker(requestId,executedSimulationId);
+            this.mainAppController.switchToResultsPage();
+
         }
         catch (Exception e)
         {
@@ -287,9 +293,10 @@ public class ExecutionController
     {
         // Replace this URL with the actual URL of your server endpoint
         String serverUrl = "http://localhost:8080/init_execute_simulation?id="+requestId.toString(); // Example URL
-
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = RequestBody.create(mediaType, "");
         Request request = new Request.Builder()
-                .url(serverUrl)
+                .url(serverUrl).method("POST",body)
                 .build();
 
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
@@ -297,7 +304,9 @@ public class ExecutionController
         call.enqueue(new Callback()
         {
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
+
                 future.completeExceptionally(e);
             }
 
@@ -306,7 +315,6 @@ public class ExecutionController
             {
                 try
                 {
-
                     String rawBody = response.body().string();
                     UUID executionId= UUID.fromString(rawBody);
                     future.complete(executionId);

@@ -10,7 +10,7 @@ public class SimulationReadyForExecution
 {
   private UUID ExecutionId;
   private  World world;
-  private SimulationExecutionHelper simulationExecutionHelper;
+  private SimulationExecutionHelper simulationExecutionHelper=new SimulationExecutionHelper();
   private Boolean isExecutionFinshed=false;
 
   private SimulationResult simulationResult=null;

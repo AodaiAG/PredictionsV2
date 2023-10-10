@@ -4,6 +4,8 @@
       <root url="jar://$PROJECT_DIR$/3rd/jakarta.servlet-api-5.0.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ideaLibSources/jakarta.servlet-api-5.0.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

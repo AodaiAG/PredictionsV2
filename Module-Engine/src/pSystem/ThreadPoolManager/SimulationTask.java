@@ -1,10 +1,7 @@
 package pSystem.ThreadPoolManager;
 
 import Requests.SimulationRequestExecuter.SimulationRequestExecuter;
-import application.controllers.EntityWrapper;
-import application.controllers.ResultsScreenController.SimulationDetailsTabController;
-import application.controllers.SimulationConditions;
-import application.manager.UserInterfaceManager;
+
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;

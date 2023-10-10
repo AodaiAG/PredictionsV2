@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 public class SimulationExecutionHelper
 {
-   private EntityWrapper entityWrapper;
+   private EntityWrapper entityWrapper=new EntityWrapper();
    private Consumer<String> consumer;
    private SimulationConditions simulationConditions;
    private Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
@@ -17,7 +17,7 @@ public class SimulationExecutionHelper
     {
         return entityPopulationHistory;
     }
-    private String popAndTicks;
+    private String popAndTicks="Not started Yet";
 
     public void setEntityPopulationHistory(Map<String, List<Integer>> entityPopulationHistory) {
         this.entityPopulationHistory = entityPopulationHistory;

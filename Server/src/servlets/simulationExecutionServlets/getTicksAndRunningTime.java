@@ -27,5 +27,6 @@ public class getTicksAndRunningTime extends HttpServlet
         SimulationReadyForExecution simulationReadyForExecution=simulationRequestExecuter.getUuidSimulationReadyForExecutionMap().get(UUID.fromString(executionId));
         String ticksAndTime=simulationReadyForExecution.getSimulationExecutionHelper().getPopAndTicks();
         resp.getWriter().print(ticksAndTime);
+
     }
 }

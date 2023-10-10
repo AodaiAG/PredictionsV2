@@ -29,5 +29,6 @@ public class startSimulationServlet extends HttpServlet
         ThreadPoolManager threadPoolManager = engine.getThreadPoolManager();
         SimulationTask simulationTask=new SimulationTask(engine,simulationRequestExecuter,UUID.fromString(executionId));
         threadPoolManager.submitThreadTask(simulationTask);
+        resp.getWriter().print("started");
     }
 }
