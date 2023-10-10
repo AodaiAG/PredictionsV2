@@ -5,6 +5,7 @@ import Requests.SimulationRequestExecuter.SimulationRequestExecuter;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import pSystem.engine.Engine;
 import pSystem.engine.IEngine;
 import pSystem.engine.SimulationResult;
@@ -33,8 +34,12 @@ public class SimulationTask extends Task<Void>
     @Override
     protected Void call() throws Exception
     {
+        Platform.runLater(() ->
+        {
+            System.out.println("About to execute the simulation");
+            engine.executeSimulation(simulationRequestExecuter,executionId);
 
-        engine.executeSimulation(simulationRequestExecuter,executionId);
+        });
         return null;
     }
 

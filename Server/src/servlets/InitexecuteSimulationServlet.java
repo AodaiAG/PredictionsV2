@@ -2,6 +2,7 @@ package servlets;
 
 import Requests.SimulationRequestExecuter.SimulationRequestExecuter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +23,10 @@ public class InitexecuteSimulationServlet extends HttpServlet
         String requestState = req.getParameter("id");
         SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestState));
         UUID executionId= engine.setSimulationToBeExecuted(simulationRequestExecuter);
-        resp.getWriter().print(executionId);
+        resp.setContentType("text/plain");
+        ServletOutputStream out = resp.getOutputStream();
+        out.print(executionId.toString());
+        out.close();
 
     }
 }

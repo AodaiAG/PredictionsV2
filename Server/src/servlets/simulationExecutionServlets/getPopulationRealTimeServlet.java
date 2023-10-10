@@ -6,6 +6,7 @@ import Requests.SimulationRequestExecuter.SimulationTaskHelper.ObservableEntity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ public class getPopulationRealTimeServlet extends HttpServlet
         String executionId = req.getParameter("e_id");
         SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestId));
         SimulationReadyForExecution simulationReadyForExecution=simulationRequestExecuter.getUuidSimulationReadyForExecutionMap().get(UUID.fromString(executionId));
+
         ObservableList<ObservableEntity> entityList = simulationReadyForExecution.getSimulationExecutionHelper().getEntityWrapper().getEntityList();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonResponse = gson.toJson(entityList);
@@ -38,6 +40,6 @@ public class getPopulationRealTimeServlet extends HttpServlet
             out.print(jsonResponse);
             out.flush();
         }
-
+        resp.getWriter().close();
     }
 }

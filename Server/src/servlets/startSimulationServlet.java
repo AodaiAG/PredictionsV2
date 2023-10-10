@@ -22,13 +22,21 @@ public class startSimulationServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        Engine engine = ServletUtils.getEngine(getServletContext());
-        String requestId = req.getParameter("r_id");
-        String executionId = req.getParameter("e_id");
-        SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestId));
-        ThreadPoolManager threadPoolManager = engine.getThreadPoolManager();
-        SimulationTask simulationTask=new SimulationTask(engine,simulationRequestExecuter,UUID.fromString(executionId));
-        threadPoolManager.submitThreadTask(simulationTask);
-        resp.getWriter().print("started");
+        try
+        {
+            Engine engine = ServletUtils.getEngine(getServletContext());
+            String requestId = req.getParameter("r_id");
+            String executionId = req.getParameter("e_id");
+            SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestId));
+            ThreadPoolManager threadPoolManager = engine.getThreadPoolManager();
+            SimulationTask simulationTask=new SimulationTask(engine,simulationRequestExecuter,UUID.fromString(executionId));
+            threadPoolManager.submitThreadTask(simulationTask);
+            resp.getWriter().close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
 }

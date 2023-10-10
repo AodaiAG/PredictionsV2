@@ -107,17 +107,17 @@ public class SimulationDetailsTabController
     WorldDTO worldDTOBefore;
     WorldDTO worldDTOAfter;
     private final Timer CheckingSimulationStatus=new Timer();
-    private final Timer populationTask=new Timer();
-    private final Timer ticksAndTimeTask=new Timer();
+    private  Timer populationTask=new Timer();
+    private  Timer ticksAndTimeTask=new Timer();
 
 
     public void initTab( UUID requestId ,UUID executionId)
 
     {
         this.requestId=requestId;
-        this.executionId=requestId;
-        entityNameColumnProgress.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        populationCountColumnProgress.setCellValueFactory(cellData -> cellData.getValue().populationProperty());
+        this.executionId=executionId;
+        entityNameColumnProgress.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        populationCountColumnProgress.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPopulation()));
         startExecution();
         startRefreshers();
     }
@@ -125,7 +125,7 @@ public class SimulationDetailsTabController
     private void startRefreshers()
     {
         startCheckingSimulationStatus();
-        startPopulationRefresher();
+       // startPopulationRefresher();
         startTicksAndTimeRefresher();
     }
 
@@ -201,7 +201,7 @@ public class SimulationDetailsTabController
 
     private  CompletableFuture<Boolean> checkSimulationStatus()
     {
-        String serverUrl = "http://localhost:8080/ticks_time?r_id="+requestId.toString()+"&e_id="+executionId.toString(); // Example URL
+        String serverUrl = "http://localhost:8080/is_execution_finished?r_id="+requestId.toString()+"&e_id="+executionId.toString(); // Example URL
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         Request request = new Request.Builder()
                 .url(serverUrl)

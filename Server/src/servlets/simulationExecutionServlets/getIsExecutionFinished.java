@@ -3,6 +3,7 @@ package servlets.simulationExecutionServlets;
 import Requests.SimulationRequestExecuter.SimulationReadyForExecution;
 import Requests.SimulationRequestExecuter.SimulationRequestExecuter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +26,9 @@ public class getIsExecutionFinished extends HttpServlet
         SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestId));
         SimulationReadyForExecution simulationReadyForExecution=simulationRequestExecuter.getUuidSimulationReadyForExecutionMap().get(UUID.fromString(executionId));
         String ticksAndTime=simulationReadyForExecution.getExecutionFinshed().toString();
-        resp.getWriter().print(ticksAndTime);
+        resp.setContentType("text/plain");
+        ServletOutputStream out = resp.getOutputStream();
+        out.print(ticksAndTime);
+        out.close();
     }
 }
