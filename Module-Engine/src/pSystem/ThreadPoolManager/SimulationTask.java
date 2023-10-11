@@ -28,20 +28,23 @@ public class SimulationTask extends Task<Void>
         executionId=id;
     }
 
-
-
-    //
     @Override
     protected Void call() throws Exception
     {
-        Platform.runLater(() ->
-        {
-            System.out.println("About to execute the simulation");
-            engine.executeSimulation(simulationRequestExecuter,executionId);
-
-        });
+        System.out.println("in call ");
         return null;
     }
+
+    @Override
+    public void run()
+    {
+        System.out.println("About to execute the simulation - in run ");
+        engine.executeSimulation(simulationRequestExecuter,executionId);
+
+    }
+
+    //
+
 
 
 

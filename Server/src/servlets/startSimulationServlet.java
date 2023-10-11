@@ -30,9 +30,11 @@ public class startSimulationServlet extends HttpServlet
             SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestId));
             ThreadPoolManager threadPoolManager = engine.getThreadPoolManager();
             SimulationTask simulationTask=new SimulationTask(engine,simulationRequestExecuter,UUID.fromString(executionId));
-            threadPoolManager.submitThreadTask(simulationTask);
-            resp.getWriter().close();
+             threadPoolManager.submitThreadTask(simulationTask);
+            //engine.executeSimulation(simulationRequestExecuter,UUID.fromString(executionId));
+
         }
+
         catch (Exception e)
         {
             e.printStackTrace();

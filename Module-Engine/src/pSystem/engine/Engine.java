@@ -179,8 +179,8 @@ public class Engine implements IEngine
         {
          try
          {
-             System.out.println("in startExecution in engine");
 
+             System.out.println("in startExecution in engine");
              SimulationReadyForExecution simulationReadyForExecution=requestExecuter.getUuidSimulationReadyForExecutionMap().get(simToExecute);
             SimulationExecutionHelper simulationExecutionHelper=simulationReadyForExecution.getSimulationExecutionHelper();
             World originalWorld=simulationReadyForExecution.getWorld();
