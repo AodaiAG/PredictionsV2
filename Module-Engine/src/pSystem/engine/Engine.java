@@ -201,8 +201,8 @@ public class Engine implements IEngine
             simulationResult.setReasonForTermination(reasonForTermination);
             simulationResults.put(simulationId, simulationResult);
             simulationReadyForExecution.setSimulationResult(simulationResult);
-            simulationReadyForExecution.setExecutionFinshed(true);
             requestExecuter.getSimulationResultUUID().add(simulationId);
+            simulationReadyForExecution.setExecutionFinshed(true);
          }
         catch (Exception e)
         {
@@ -260,7 +260,7 @@ public class Engine implements IEngine
             for (Entity entity : entityList)
             {
 
-                if(clonedWorld.ticksCounter%100==0)
+                if(clonedWorld.ticksCounter%500==0)
                 {
                     String entityName = entity.getNameOfEntity(); // Get the name of the entity
                     List<Integer> populationHistory = entityPopulationHistory.getOrDefault(entity.getNameOfEntity(), new ArrayList<>());

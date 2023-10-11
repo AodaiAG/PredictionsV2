@@ -6,12 +6,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import util.http.HttpClientUtil;
 
@@ -39,12 +37,14 @@ public class populationRefresher extends TimerTask
     {
         try
         {
-            ObservableList<ObservableEntity> tickspopRes = fetchDataFromServer().get();
+            List<ObservableEntity> tickspopRes = fetchDataFromServer().get();
+            ObservableList<ObservableEntity> observableList = FXCollections.observableArrayList(tickspopRes);
+
             if (tickspopRes == null)
                 return;
             Platform.runLater(() ->
             {
-                populationProgress.setItems(tickspopRes);
+                populationProgress.setItems(observableList);
             });
 
         } catch (Exception e)
@@ -53,12 +53,14 @@ public class populationRefresher extends TimerTask
         }
     }
 
-    private CompletableFuture< ObservableList<ObservableEntity>> fetchDataFromServer()
+    private CompletableFuture< List<ObservableEntity>> fetchDataFromServer()
     {
         String serverUrl = "http://localhost:8080/population_progress?r_id="+requestId.toString()+"&e_id="+executionId.toString(); // Example URL
-        CompletableFuture<ObservableList<ObservableEntity>> future = new CompletableFuture<>();
+        CompletableFuture<List<ObservableEntity>> future = new CompletableFuture<>();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = RequestBody.create(mediaType, "");
         Request request = new Request.Builder()
-                .url(serverUrl)
+                .url(serverUrl).method("POST",body )
                 .build();
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
         call.enqueue(new Callback()
@@ -75,8 +77,8 @@ public class populationRefresher extends TimerTask
                 {
                     String rawBody = response.body().string();
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    TypeToken< ObservableList<ObservableEntity>> typeToken = new TypeToken< ObservableList<ObservableEntity>>() {};
-                    ObservableList<ObservableEntity> simulationReqs = gson.fromJson(rawBody, typeToken.getType());
+                    TypeToken< List<ObservableEntity>> typeToken = new TypeToken< List<ObservableEntity>>() {};
+                    List<ObservableEntity> simulationReqs = gson.fromJson(rawBody, typeToken.getType());
                     future.complete(simulationReqs);
                 } catch (IOException e)
                 {

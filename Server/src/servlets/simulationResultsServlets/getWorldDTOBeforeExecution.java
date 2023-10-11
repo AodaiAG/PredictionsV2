@@ -16,7 +16,7 @@ import utils.ServletUtils;
 import java.io.IOException;
 import java.util.UUID;
 
-@WebServlet(name = "getWorldDTOAfterExecution",urlPatterns = "/get_dto_before")
+@WebServlet(name = "getWorldDTOBeforeExecution",urlPatterns = "/get_before")
 public class getWorldDTOBeforeExecution extends HttpServlet
 {
 
@@ -29,7 +29,7 @@ public class getWorldDTOBeforeExecution extends HttpServlet
         String executionId = req.getParameter("e_id");
         SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestId));
         SimulationReadyForExecution simulationReadyForExecution=simulationRequestExecuter.getUuidSimulationReadyForExecutionMap().get(UUID.fromString(executionId));
-        WorldDTO worldDTO = simulationReadyForExecution.getSimulationResult().getWordAfterSimulation();
+        WorldDTO worldDTO = simulationReadyForExecution.getSimulationResult().getWordBeforeSimulation();
         // Convert the WorldDTO object to JSON
         String json = gson.toJson(worldDTO);
         // Set response content type to JSON

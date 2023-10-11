@@ -26,12 +26,12 @@ public class UserClient extends Application
 
         primaryStage.setTitle("User");
 
-        try {
+        try
+        {
             URL loginPageUrl = getClass().getResource(LOGIN_PAGE_FXML_RESOURCE_LOCATION);
             FXMLLoader fxmlLoader = new FXMLLoader(loginPageUrl);
             loginComponent = fxmlLoader.load();
             loginController = fxmlLoader.getController();
-
             Scene loginScene = new Scene(loginComponent);
             primaryStage.setScene(loginScene);
             primaryStage.show();

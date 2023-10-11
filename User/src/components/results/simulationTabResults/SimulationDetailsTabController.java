@@ -153,6 +153,7 @@ public class SimulationDetailsTabController
     {
         populationTask.cancel();
         ticksAndTimeTask.cancel();
+       // CheckingSimulationStatus.cancel();
     }
     public void startPopulationRefresher()
     {
@@ -171,30 +172,37 @@ public class SimulationDetailsTabController
     }
     public void startCheckingSimulationStatus()
     {
+        Timer timer = new Timer();
+
         // Schedule a TimerTask to check the simulation status every 5 seconds (adjust as needed)
-        CheckingSimulationStatus.scheduleAtFixedRate(new TimerTask()
+        timer.scheduleAtFixedRate(new TimerTask()
         {
             @Override
             public void run()
             {
-              try
-              {
-                  boolean simulationEnded = checkSimulationStatus().get(); // Implement this method
-                  if (simulationEnded)
-                  {
-                      // The simulation has ended, so call setSimulationResultsPane
-                      setSimulationResultsPane();
-                      cancelRefreshers();
-                      cancel();
-                  }
-              }
-              catch (Exception e)
-              {
+                try {
+                    boolean simulationEnded = checkSimulationStatus().get(); // Implement this method
 
-              }
+                    if (simulationEnded)
+                    {
+                        System.out.println();
+
+                        // Execute UI update on the JavaFX Application Thread
+                        Platform.runLater(() ->
+                        {
+                            cancelRefreshers();
+                            setSimulationResultsPane();
+                        });
+
+                        cancel(); // This will stop the timer task
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }, 0, 1000); // Check every 5 seconds (5,000 milliseconds)
+        }, 0, 5000); // Check every 5 seconds (5,000 milliseconds)
     }
+
 
     private  CompletableFuture<Boolean> checkSimulationStatus()
     {
@@ -278,6 +286,7 @@ public class SimulationDetailsTabController
         try
         {
 
+            setWorldDTOsBeforeAndAfter();
             resultsAnchor.setDisable(false);
             populateLineChart();// graph init
             populationInfoTable.setVisible(false);
@@ -409,7 +418,7 @@ public class SimulationDetailsTabController
               // Populate the data series with data points
               for (int ticksCounter = 0; ticksCounter < populationHistory.size(); ticksCounter++)
               {
-                  entitySeries.getData().add(new XYChart.Data<>(ticksCounter*100, populationHistory.get(ticksCounter)));
+                  entitySeries.getData().add(new XYChart.Data<>(ticksCounter*500, populationHistory.get(ticksCounter)));
               }
               // Add the entity data series to the LineChart
               lineChart.getData().add(entitySeries);
@@ -436,7 +445,7 @@ public class SimulationDetailsTabController
     {
 
         // Replace this URL with the actual URL of your server endpoint
-        String serverUrl = "http://localhost:8080/population_progress?r_id="+requestId.toString()+"&e_id="+executionId.toString(); // Example URL
+        String serverUrl = "http://localhost:8080/population_history?r_id="+requestId.toString()+"&e_id="+executionId.toString(); // Example URL
         Request request = new Request.Builder()
                 .url(serverUrl)
                 .build();
@@ -480,8 +489,8 @@ public class SimulationDetailsTabController
         // Clear the table before populating it
        try
        {
-           WorldDTO worldDTOBefore=getWorldDtoBeforeFromServer().get();
-           WorldDTO worldDTOAfter=getWorldDtoAfterFromServer().get();
+        this.worldDTOBefore=getWorldDtoBeforeFromServer().get();
+        this.worldDTOAfter=getWorldDtoAfterFromServer().get();
        }
        catch (Exception e)
        {
@@ -626,7 +635,7 @@ public class SimulationDetailsTabController
 
             // Load the SimulationDetails.fxml
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/resources/histogramUI.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/Results/simulationTabResults/histogramUI.fxml"));
 
             AnchorPane histogram = loader.load();
 
@@ -655,7 +664,7 @@ public class SimulationDetailsTabController
     private CompletableFuture<WorldDTO> getWorldDtoBeforeFromServer()
     {
         // Replace this URL with the actual URL of your server endpoint
-        String serverUrl = "http://localhost:8080/get_dto_before?r_id="+requestId.toString()+"&e_id="+executionId.toString(); // Example URL
+        String serverUrl = "http://localhost:8080/get_before?r_id="+requestId.toString()+"&e_id="+executionId.toString(); // Example URL
         Request request = new Request.Builder()
                 .url(serverUrl)
                 .build();

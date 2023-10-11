@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 @WebServlet(name = "getWorldDTOAfterExecution",urlPatterns = "/get_dto_after")
-
 public class getWorldDTOAfterExecution extends HttpServlet
 {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();

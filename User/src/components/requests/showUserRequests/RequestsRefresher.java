@@ -46,66 +46,6 @@ public class RequestsRefresher extends TimerTask
     }
 
 
-
-//    @Override
-//    public void run()
-//    {
-//        try
-//        {
-//            System.out.println("I'm going to refresh requests bud/ user");
-//            Set<SimulationRequest> simulationRequests = fetchDataFromServer().get();
-//
-//            Platform.runLater(() ->
-//            {
-//                ObservableList<SimulationRequest> items = tableView.getItems();
-//                Map<UUID, SimulationRequest> itemMap = new HashMap<>();
-//
-//                // Add existing items to the map
-//                for (SimulationRequest existingItem : items)
-//                {
-//                    itemMap.put(existingItem.getId(), existingItem);
-//                }
-//
-//                List<SimulationRequest> newItems = new ArrayList<>();
-//                // Iterate through the fetched items
-//                for (SimulationRequest fetchedItem : simulationRequests)
-//                {
-//                    UUID itemId = fetchedItem.getId();
-//
-//                    if (itemMap.containsKey(itemId))
-//                    {
-//                        // Item already exists, update it with new data
-//                        SimulationRequest existingItem = itemMap.get(itemId);
-//                        // Update fields as needed
-//                        existingItem.setExecutionsRunningAmount(fetchedItem.getExecutionsRunningAmount());
-//                        existingItem.setExecutionsFinishedAmount(fetchedItem.getExecutionsFinishedAmount());
-//                        existingItem.setRequestStatus(fetchedItem.getRequestStatus());
-//
-//
-//                        // Update other fields accordingly
-//
-//                    }
-//                    else
-//                    {
-//                        // Item is new, add it to the map and new items list
-//                        itemMap.put(itemId, fetchedItem);
-//                        newItems.add(fetchedItem);
-//                    }
-//                }
-//
-//                // Update the TableView
-//                items.setAll(itemMap.values());
-//                // Add the new items to the TableView
-//                items.addAll(newItems);
-//            });
-//
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
-
     private CompletableFuture<List<SimulationRequestDetails>> fetchDataFromServer()
     {
         String serverUrl = "http://localhost:8080/allocations?type=user"; // Example URL
