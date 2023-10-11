@@ -2,11 +2,14 @@ package Requests.SimulationRequestExecuter.SimulationTaskHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EntityWrapper
 {
-    private ObservableList<ObservableEntity> entityList = FXCollections.observableArrayList();
+    private List<ObservableEntity> entityList = new ArrayList<>();
 
-    public ObservableList<ObservableEntity> getEntityList()
+    public List<ObservableEntity> getEntityList()
     {
         return entityList;
     }

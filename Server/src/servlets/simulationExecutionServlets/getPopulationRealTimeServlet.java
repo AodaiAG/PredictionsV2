@@ -18,6 +18,7 @@ import utils.ServletUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.UUID;
 @WebServlet(name = "getPopulationRealTimeServlet",urlPatterns = "/population_progress")
 public class getPopulationRealTimeServlet extends HttpServlet
@@ -30,8 +31,7 @@ public class getPopulationRealTimeServlet extends HttpServlet
         String executionId = req.getParameter("e_id");
         SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestId));
         SimulationReadyForExecution simulationReadyForExecution=simulationRequestExecuter.getUuidSimulationReadyForExecutionMap().get(UUID.fromString(executionId));
-
-        ObservableList<ObservableEntity> entityList = simulationReadyForExecution.getSimulationExecutionHelper().getEntityWrapper().getEntityList();
+        List<ObservableEntity> entityList = simulationReadyForExecution.getSimulationExecutionHelper().getEntityWrapper().getEntityList();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonResponse = gson.toJson(entityList);
         // Write the JSON response to the response's output stream
@@ -40,6 +40,6 @@ public class getPopulationRealTimeServlet extends HttpServlet
             out.print(jsonResponse);
             out.flush();
         }
-        resp.getWriter().close();
+
     }
 }

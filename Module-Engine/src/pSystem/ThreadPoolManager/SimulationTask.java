@@ -13,7 +13,7 @@ import pSystem.engine.SimulationResult;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class SimulationTask extends Task<Void>
+public class SimulationTask implements Runnable
 {
 
     Engine engine;
@@ -29,13 +29,6 @@ public class SimulationTask extends Task<Void>
     }
 
     @Override
-    protected Void call() throws Exception
-    {
-        System.out.println("in call ");
-        return null;
-    }
-
-    @Override
     public void run()
     {
         System.out.println("About to execute the simulation - in run ");
@@ -43,7 +36,7 @@ public class SimulationTask extends Task<Void>
 
     }
 
-    //
+
 
 
 

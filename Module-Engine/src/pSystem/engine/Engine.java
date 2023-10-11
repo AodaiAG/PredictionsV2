@@ -218,7 +218,7 @@ public class Engine implements IEngine
         SimulationConditions simulationConditions=simulationExecutionHelper.getSimulationConditions();
         Consumer<String> consumer=simulationExecutionHelper.getConsumer();
         EntityWrapper entityWrapper=simulationExecutionHelper.getEntityWrapper();
-        entityPopulationHistory = new HashMap<>();
+        Map<String, List<Integer>> entityPopulationHistory = simulationExecutionHelper.getEntityPopulationHistory();
         double generatedProbability;
         generatedProbability = r.nextDouble();
         clonedWorld.ticksCounter = 0;

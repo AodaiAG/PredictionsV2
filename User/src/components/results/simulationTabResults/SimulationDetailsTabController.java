@@ -21,10 +21,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import pDTOS.ActionsDTO.*;
 import pDTOS.EntityDTO;
@@ -124,9 +121,9 @@ public class SimulationDetailsTabController
 
     private void startRefreshers()
     {
-        startCheckingSimulationStatus();
-       // startPopulationRefresher();
-        startTicksAndTimeRefresher();
+         startCheckingSimulationStatus();
+         startPopulationRefresher();
+         startTicksAndTimeRefresher();
     }
 
     private void startExecution()
@@ -235,8 +232,10 @@ public class SimulationDetailsTabController
     public void handleInteractionButtons(String value)
     {
         String serverUrl = "http://localhost:8080/user_interaction?r_id="+requestId.toString()+"&e_id="+executionId.toString()+"&value="+value; // Example URL
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = RequestBody.create(mediaType, "");
         Request request = new Request.Builder()
-                .url(serverUrl)
+                .url(serverUrl).method("POST",body)
                 .build();
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
         call.enqueue(new Callback()

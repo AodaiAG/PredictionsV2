@@ -11,7 +11,7 @@ public class SimulationExecutionHelper
 {
    private EntityWrapper entityWrapper=new EntityWrapper();
    private Consumer<String> consumer;
-   private SimulationConditions simulationConditions;
+   private SimulationConditions simulationConditions=new SimulationConditions();
    private Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
     public Map<String, List<Integer>> getEntityPopulationHistory()
     {
