@@ -81,7 +81,6 @@ public class UserRequestsController
         leftCoulmn.setCellValueFactory(cellData->
         {
             String requestStatus = cellData.getValue().getExecutionsLeftAmount();
-
             return new SimpleStringProperty(requestStatus);
 
         });

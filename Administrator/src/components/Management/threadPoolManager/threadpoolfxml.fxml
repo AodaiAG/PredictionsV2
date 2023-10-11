@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.Management.threadPoolManager.ThreadPoolManagerController">
    <children>
@@ -12,5 +16,68 @@
             <Font size="24.0" />
          </font>
       </Label>
+      <TextField fx:id="threadText" layoutX="288.0" layoutY="88.0" prefHeight="31.0" prefWidth="128.0" promptText="set thread count" />
+      <Button fx:id="setBTN" layoutX="186.0" layoutY="88.0" mnemonicParsing="false" onAction="#setThreadPoolCount" prefHeight="31.0" prefWidth="77.0" text="Set" />
+      <AnchorPane layoutX="162.0" layoutY="139.0" prefHeight="159.0" prefWidth="328.0">
+         <children>
+            <Label layoutX="22.0" prefHeight="27.0" prefWidth="177.0" text="Waiting Simulations">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+               <textFill>
+                  <RadialGradient centerX="0.39204545454545453" centerY="0.5145631067961165" radius="0.5">
+                     <stops>
+                        <Stop color="#94a428" />
+                        <Stop color="BLACK" offset="1.0" />
+                     </stops>
+                  </RadialGradient>
+               </textFill>
+            </Label>
+            <Label layoutX="22.0" layoutY="25.0" prefHeight="27.0" prefWidth="190.0" text="Executing Simulations">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+               <textFill>
+                  <RadialGradient centerX="0.39204545454545453" centerY="0.5145631067961165" radius="0.5">
+                     <stops>
+                        <Stop color="#94a428" />
+                        <Stop color="BLACK" offset="1.0" />
+                     </stops>
+                  </RadialGradient>
+               </textFill>
+            </Label>
+            <Label layoutX="22.0" layoutY="51.0" prefHeight="27.0" prefWidth="210.0" text="Completed Simulations">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+               <textFill>
+                  <RadialGradient centerX="0.39204545454545453" centerY="0.5145631067961165" radius="0.5">
+                     <stops>
+                        <Stop color="#94a428" />
+                        <Stop color="BLACK" offset="1.0" />
+                     </stops>
+                  </RadialGradient>
+               </textFill>
+            </Label>
+            <FontAwesomeIconView fill="#00c365" glyphName="CLOSE" layoutY="70.0" size="16" wrappingWidth="14.571428298950195" />
+            <FontAwesomeIconView fill="#afd700" glyphName="CLOSE" layoutY="19.0" size="16" wrappingWidth="14.571428298950195" />
+            <FontAwesomeIconView fill="#e40000" glyphName="CLOSE" layoutY="44.0" size="16" wrappingWidth="14.571428298950195" />
+            <Label fx:id="waitingLabel" layoutX="246.0" layoutY="3.0" text="5">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="exeLabel" layoutX="246.0" layoutY="29.0" text="5">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="compLabel" layoutX="246.0" layoutY="59.0" text="5">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

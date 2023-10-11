@@ -424,13 +424,11 @@ public class SimulationDetailsTabController
               lineChart.getData().add(entitySeries);
           }
 
-
           // Set Y-axis categories based on entity names
       }
 
       catch (Exception e)
       {
-
               Alert alert=new Alert(Alert.AlertType.ERROR);
               alert.setContentText(e.getMessage());
               alert.showAndWait();

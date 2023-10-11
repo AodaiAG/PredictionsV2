@@ -74,6 +74,7 @@ public class Engine implements IEngine
         return requestManager;
     }
 
+
     public Integer getCurrTicksAmount()
     {
         return currTicksAmount;
