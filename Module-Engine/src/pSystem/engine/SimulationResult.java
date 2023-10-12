@@ -11,15 +11,35 @@ import java.util.*;
 public class SimulationResult
 {
     private static boolean programRunning;
+    private  UUID requestId;
+    String userNameExecuted;
     private WorldDTO wordAfterSimulation;
     private WorldDTO wordBeforeSimulation;
     private World worldTobeExecuted;
     private UUID simulationId;
     Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
 
+    public UUID getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(UUID requestId) {
+        this.requestId = requestId;
+    }
+
     public World getWorldTobeExecuted()
     {
         return worldTobeExecuted;
+    }
+
+    public String getUserNameExecuted()
+    {
+        return userNameExecuted;
+    }
+
+    public void setUserNameExecuted(String userNameExecuted)
+    {
+        this.userNameExecuted = userNameExecuted;
     }
 
     public void setWorldTobeExecuted(World worldTobeExecuted)
