@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public class SimulationReadyForExecution
 {
+    private String userName;
   private UUID ExecutionId;
   private  World world;
   private SimulationExecutionHelper simulationExecutionHelper=new SimulationExecutionHelper();
@@ -15,6 +16,13 @@ public class SimulationReadyForExecution
 
   private SimulationResult simulationResult=null;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public UUID getExecutionId()
     {

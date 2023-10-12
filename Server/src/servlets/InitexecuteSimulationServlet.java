@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pSystem.engine.Engine;
 import utils.ServletUtils;
+import utils.SessionUtils;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -21,8 +22,9 @@ public class InitexecuteSimulationServlet extends HttpServlet
     {
         Engine engine = ServletUtils.getEngine(getServletContext());
         String requestState = req.getParameter("id");
+        String usernameFromSession = SessionUtils.getUsername(req);
         SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestState));
-        UUID executionId= engine.setSimulationToBeExecuted(simulationRequestExecuter);
+        UUID executionId= engine.setSimulationToBeExecuted(simulationRequestExecuter,usernameFromSession);
         resp.setContentType("text/plain");
         ServletOutputStream out = resp.getOutputStream();
         out.print(executionId.toString());

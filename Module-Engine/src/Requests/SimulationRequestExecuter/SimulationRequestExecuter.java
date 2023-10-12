@@ -7,6 +7,7 @@ import java.util.*;
 
 public class SimulationRequestExecuter
 {
+    private String userName;
     private UUID requestID;
     private aSimulation originalSimulationToBeExecuted;
     private aSimulation currSimulation;
@@ -23,6 +24,15 @@ public class SimulationRequestExecuter
     public SimulationRequestExecuter()
     {
 
+    }
+
+    public String getUserName()
+    {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Map<UUID, SimulationReadyForExecution> getUuidSimulationReadyForExecutionMap()

@@ -11,6 +11,7 @@ import java.util.*;
 public class SimulationResult
 {
     private static boolean programRunning;
+    String userNameExecuted;
     private WorldDTO wordAfterSimulation;
     private WorldDTO wordBeforeSimulation;
     private World worldTobeExecuted;
@@ -20,6 +21,16 @@ public class SimulationResult
     public World getWorldTobeExecuted()
     {
         return worldTobeExecuted;
+    }
+
+    public String getUserNameExecuted()
+    {
+        return userNameExecuted;
+    }
+
+    public void setUserNameExecuted(String userNameExecuted)
+    {
+        this.userNameExecuted = userNameExecuted;
     }
 
     public void setWorldTobeExecuted(World worldTobeExecuted)

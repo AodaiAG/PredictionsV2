@@ -200,10 +200,12 @@ public class Engine implements IEngine
             Date currentDate = new Date(); // Replace this with the actual date you want to use
             simulationResult.setRunningDate(currentDate);
             simulationResult.setReasonForTermination(reasonForTermination);
+            simulationResult.setUserNameExecuted(simulationReadyForExecution.getUserName());
             simulationResults.put(simulationId, simulationResult);
             simulationReadyForExecution.setSimulationResult(simulationResult);
             requestExecuter.getSimulationResultUUID().add(simulationId);
             simulationReadyForExecution.setExecutionFinshed(true);
+
          }
         catch (Exception e)
         {
@@ -905,9 +907,10 @@ public class Engine implements IEngine
         return this.UUIdTORequestExecuter.get(id);
     }
 
-    public UUID setSimulationToBeExecuted(SimulationRequestExecuter simulationRequestExecuter)
+    public UUID setSimulationToBeExecuted(SimulationRequestExecuter simulationRequestExecuter,String userName)
     {
         SimulationReadyForExecution simulationReadyForExecution=new SimulationReadyForExecution();
+        simulationReadyForExecution.setUserName(userName);
         UUID uuid=UUID.randomUUID();
         simulationReadyForExecution.setWorld(simulationRequestExecuter.getCurrSimulation().getWorld().clone());
         simulationReadyForExecution.setExecutionId(uuid);
@@ -936,5 +939,18 @@ public class Engine implements IEngine
             }
         }
 
+    }
+
+    public List<String> getallSimulationResultIdForAUser(String userName)
+    {
+        List<String> res=new ArrayList<>();
+        for(SimulationResult simulationResult:this.simulationResults.values())
+        {
+            if(simulationResult.getUserNameExecuted().equals(userName))
+            {
+                res.add(simulationResult.getSimulationId());
+            }
+        }
+        return res;
     }
 }

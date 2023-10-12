@@ -109,7 +109,6 @@ public class SimulationDetailsTabController
 
 
     public void initTab( UUID requestId ,UUID executionId)
-
     {
         this.requestId=requestId;
         this.executionId=executionId;
@@ -497,7 +496,6 @@ public class SimulationDetailsTabController
     }
 
     @FXML
-
     private void showPopulationInfo()
     {
 
