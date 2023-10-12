@@ -1,16 +1,26 @@
 package components.ExecutionsHistory.userNamesExecutions;
 
+import components.ExecutionsHistory.showSimulationResult.SimulationResultsForUserController;
 import components.ExecutionsHistory.userNamesExecutions.Refreshers.UserNameRefresher;
 import components.ExecutionsHistory.userNamesExecutions.Refreshers.SimulationIdRefresher;
 import components.mainApp.MainAppController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
+import util.http.HttpClientUtil;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class showUsersAndSimulationIDController
 {
+    SimulationResultsForUserController simulationResultsForUserController;
+
     @FXML
     private ChoiceBox<String> usernameChoiceBox;
 
@@ -27,6 +37,21 @@ public class showUsersAndSimulationIDController
                 startSimulationIdRefresher(newValue);
                 // Call the function you want
                 //simulationIdTimer.cancel();
+            }
+        });
+        simulationIdChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            if (newValue != null)
+            {
+                try {
+                    UUID requestId= sendHttpRequestAndGetExecutionID(UUID.fromString(newValue)).get();
+                    simulationResultsForUserController.setSimulationResultsPane(requestId,UUID.fromString(newValue));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                }
+                //  simulationResultsForUserController.setSimulationResultsPane();
             }
         });
         startUserNameRefresher();
@@ -53,6 +78,51 @@ public class showUsersAndSimulationIDController
         long delay = 0; // Initial delay (0 milliseconds)
         long period = 2000; // Repeat every 2 seconds (2000 milliseconds)
         simulationIdTimer.scheduleAtFixedRate(task, delay, period);
+    }
+
+    public void setResultsController(SimulationResultsForUserController simulationResultsForUserController)
+    {
+        this.simulationResultsForUserController=simulationResultsForUserController;
+    }
+
+    private CompletableFuture<UUID> sendHttpRequestAndGetExecutionID(UUID execId)
+    {
+        // Replace this URL with the actual URL of your server endpoint
+        String serverUrl = "http://localhost:8080/get_req_from_exec?id="+execId.toString(); // Example URL
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = RequestBody.create(mediaType, "");
+        Request request = new Request.Builder()
+                .url(serverUrl).method("POST",body)
+                .build();
+
+        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+        CompletableFuture<UUID> future = new CompletableFuture<>();
+        call.enqueue(new Callback()
+        {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
+
+                future.completeExceptionally(e);
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+                try
+                {
+                    String rawBody = response.body().string();
+                    UUID executionId= UUID.fromString(rawBody);
+                    future.complete(executionId);
+                }
+                catch (Exception e)
+                {
+                    future.completeExceptionally(e);
+                }
+            }
+        });
+
+        return future;
     }
 
 }

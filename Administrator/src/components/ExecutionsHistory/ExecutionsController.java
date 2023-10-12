@@ -21,14 +21,14 @@ public class ExecutionsController
     @FXML
     private AnchorPane showSimulationAnchor;
     showUsersAndSimulationIDController  showUsersAndSimulationIDController;
-   MainAppController mainAppController;
+    MainAppController mainAppController;
 
     public void initialize()
     {
-        loadUsersExecutionsPage();
         loadSimulationResultPage();
-    }
+        loadUsersExecutionsPage();
 
+    }
     private void loadSimulationResultPage()
     {
         URL loginPage = getClass().getResource("/components/ExecutionsHistory/showSimulationResult/simUserResult.fxml");
@@ -63,6 +63,7 @@ public class ExecutionsController
             AnchorPane toBeSubmitted = fxmlLoader.load();
             showUsersAndSimulationIDController = fxmlLoader.getController();
             showUsersAndSimulationIDController.setAppMainController(this.mainAppController);
+            showUsersAndSimulationIDController.setResultsController(simulationResultsForUserController);
             //submitNewRequestController.initApplication();
             showusersAnchor.getChildren().clear();
             showusersAnchor.getChildren().add(toBeSubmitted);
@@ -70,8 +71,6 @@ public class ExecutionsController
             AnchorPane.setBottomAnchor(toBeSubmitted, 0.5);
             AnchorPane.setLeftAnchor(toBeSubmitted, 0.5);
             AnchorPane.setRightAnchor(toBeSubmitted, 0.5);
-
-
 
 
         }

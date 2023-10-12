@@ -201,6 +201,7 @@ public class Engine implements IEngine
             simulationResult.setRunningDate(currentDate);
             simulationResult.setReasonForTermination(reasonForTermination);
             simulationResult.setUserNameExecuted(simulationReadyForExecution.getUserName());
+            simulationResult.setRequestId(requestExecuter.getRequestID());
             simulationResults.put(simulationId, simulationResult);
             simulationReadyForExecution.setSimulationResult(simulationResult);
             requestExecuter.getSimulationResultUUID().add(simulationId);

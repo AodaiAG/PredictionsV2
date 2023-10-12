@@ -38,16 +38,13 @@ public class HistogramController
     // Initialize the ComboBoxes with entity and property data
     public void initialize(WorldDTO worldDTOAfter)
     {
-
          worldDTOAfterSimulation=worldDTOAfter;
-
         // Populate entityComboBox with entity names
         // You can retrieve this data from your simulation or wherever it's stored
         for (EntityDTO entityDTO : worldDTOAfterSimulation.getEntityDTOSet())
         {
-            entityComboBox.getItems().add(entityDTO.getName());
+           entityComboBox.getItems().add(entityDTO.getName());
         }
-
         // Populate propertyComboBox with property names based on the selected entity
         entityComboBox.setOnAction(event ->
         {
