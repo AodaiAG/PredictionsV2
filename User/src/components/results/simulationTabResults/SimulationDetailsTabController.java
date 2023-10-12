@@ -153,13 +153,13 @@ public class SimulationDetailsTabController
     {
         populationTask.cancel();
         ticksAndTimeTask.cancel();
-       // CheckingSimulationStatus.cancel();
+        CheckingSimulationStatus.cancel();
     }
     public void startPopulationRefresher()
     {
         TimerTask task = new populationRefresher(populationProgress,requestId,executionId);
         long delay = 0; // Initial delay (0 milliseconds)
-        long period = 1000; // Repeat every 2 seconds (2000 milliseconds)
+        long period = 1; // Repeat every 2 seconds (2000 milliseconds)
         populationTask.scheduleAtFixedRate(task, delay, period);
     }
     public void startTicksAndTimeRefresher()
@@ -167,7 +167,7 @@ public class SimulationDetailsTabController
         Timer timer = new Timer();
         TimerTask task = new ticksAndTimeRefresher(updateLabel,requestId,executionId);
         long delay = 0; // Initial delay (0 milliseconds)
-        long period = 1000; // Repeat every 2 seconds (2000 milliseconds)
+        long period = 1; // Repeat every 2 seconds (2000 milliseconds)
         ticksAndTimeTask.scheduleAtFixedRate(task, delay, period);
     }
     public void startCheckingSimulationStatus()
@@ -185,7 +185,6 @@ public class SimulationDetailsTabController
 
                     if (simulationEnded)
                     {
-                        System.out.println();
 
                         // Execute UI update on the JavaFX Application Thread
                         Platform.runLater(() ->
@@ -196,11 +195,12 @@ public class SimulationDetailsTabController
 
                         cancel(); // This will stop the timer task
                     }
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }
-        }, 0, 5000); // Check every 5 seconds (5,000 milliseconds)
+        }, 0, 100); // Check every 5 seconds (5,000 milliseconds)
     }
 
 

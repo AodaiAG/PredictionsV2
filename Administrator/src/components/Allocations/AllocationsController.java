@@ -103,6 +103,67 @@ public class AllocationsController
             String executionsFinishedAmount = cellData.getValue().getExecutionsFinishedAmount();
             return new SimpleStringProperty(executionsFinishedAmount);
         });
+        executionsRunningColumn.setCellFactory(column -> new TableCell<SimulationRequestDetails, String>()
+        {
+            @Override
+            protected void updateItem(String item, boolean empty)
+            {
+
+                super.updateItem(item, empty);
+
+                if (empty || item == null)
+                {
+
+                    setText(null);
+                    setGraphic(null);
+                }
+                else
+                {
+                    // Access the request status
+
+                    String requestStatus = getTableView().getItems().get(getIndex()).getRequestStatus();
+                    if ("approved".equals(requestStatus))
+                    {
+                        setText(item);
+                    } else
+                    {
+                        // Disable the column for unapproved requests
+                        setText(null);
+                    }
+                }
+            }
+        });
+
+        executionsFinishedColumn.setCellFactory(column -> new TableCell<SimulationRequestDetails, String>()
+        {
+            @Override
+            protected void updateItem(String item, boolean empty)
+            {
+
+                super.updateItem(item, empty);
+
+                if (empty || item == null)
+                {
+
+                    setText(null);
+                    setGraphic(null);
+                }
+                else
+                {
+                    // Access the request status
+
+                    String requestStatus = getTableView().getItems().get(getIndex()).getRequestStatus();
+                    if ("approved".equals(requestStatus))
+                    {
+                        setText(item);
+                    } else
+                    {
+                        // Disable the column for unapproved requests
+                        setText(null);
+                    }
+                }
+            }
+        });
 
 
         handleRequestColumn.setCellFactory(param -> new TableCell<SimulationRequestDetails, Void>()

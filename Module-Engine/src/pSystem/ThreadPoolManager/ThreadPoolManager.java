@@ -21,7 +21,6 @@ public class ThreadPoolManager
         try
         {
             SimulationRequestDetails simulationRequestDetails= simulationTask.engine.getRequestManager().getRequestFromId(simulationTask.simulationRequestExecuter.getRequestID());
-
             waitingSimulations++;
             threadPool.submit(() ->
             {

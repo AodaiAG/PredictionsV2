@@ -87,6 +87,7 @@ public class ThreadPoolManagerController
 
         try
         {
+            setBTN.setDisable(true);
             String serverUrl = "http://localhost:8080/set_thread_count?value="+threadText.getText(); // Example URL
             Request request = new Request.Builder()
                     .url(serverUrl)

@@ -18,7 +18,6 @@ public class HttpClientUtil
                     .build();
 
     public static void setCookieManagerLoggingFacility(Consumer<String> logConsumer) {
-        simpleCookieManager.setLogData(logConsumer);
     }
 
     public static void removeCookiesOf(String domain) {

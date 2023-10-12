@@ -244,7 +244,8 @@ public class UserMainAppController
     public void updateUserName(String userName)
     {
         this.currentUserName.set(userName);
-        System.out.println("done update name");
+
+
     }
 
     public void initExecuterPageWithDetails(SimulationRequestDetails simulationRequestDetails)

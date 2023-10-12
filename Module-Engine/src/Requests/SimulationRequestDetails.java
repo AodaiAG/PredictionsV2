@@ -17,6 +17,7 @@ public class SimulationRequestDetails
     private String requestStatus = "unhandled";
     private String userName;
 
+
     public int getRequestCounter() {
         return requestCounter;
     }
@@ -30,6 +31,10 @@ public class SimulationRequestDetails
      public void increaseExecutingAmount()
      {
          executionsRunningAmount=executionsRunningAmount+1;
+     }
+     public boolean isRequestFinished()
+     {
+         return numOfExecutions==executionsFinishedAmount;
      }
     public void decreaseExecutingAmount()
     {

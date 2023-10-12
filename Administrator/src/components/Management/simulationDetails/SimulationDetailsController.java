@@ -16,7 +16,7 @@ public class SimulationDetailsController
 
     public void initialize()
     {
-        //startSimulationDetailsRefresher();
+        startSimulationDetailsRefresher();
     }
 
     public void setAppMainController(MainAppController mainAppController)

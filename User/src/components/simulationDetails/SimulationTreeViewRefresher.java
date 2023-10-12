@@ -27,6 +27,7 @@ public class SimulationTreeViewRefresher extends TimerTask
     {
         this.treeView = treeView;
         treeView.setRoot(new TreeItem<>("Simulations"));
+
     }
 
     @Override

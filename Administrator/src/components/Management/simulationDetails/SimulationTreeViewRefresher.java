@@ -81,28 +81,10 @@ public class SimulationTreeViewRefresher extends TimerTask
 
 
     // Helper function to get the expanded TreeItems
-    private List<TreeItem<String>> getExpandedItems(TreeItem<String> root)
-    {
-        List<TreeItem<String>> expandedItems = new ArrayList<>();
-        for (TreeItem<String> item : root.getChildren())
-        {
-            if (item.isExpanded()) {
-                expandedItems.add(item);
-                expandedItems.addAll(getExpandedItems(item));
-            }
-        }
-        return expandedItems;
-    }
+
 
     // Helper function to restore the expanded state
-    private void restoreExpandedItems(TreeItem<String> root, List<TreeItem<String>> expandedItems) {
-        for (TreeItem<String> item : root.getChildren()) {
-            if (expandedItems.contains(item)) {
-                item.setExpanded(true);
-                restoreExpandedItems(item, expandedItems);
-            }
-        }
-    }
+
 
 
     private CompletableFuture<List<SimulationDTO>> fetchDataFromServer()
