@@ -895,9 +895,9 @@ public class Engine implements IEngine
 
     public void approveRequest(String userName, UUID request)
     {
-        SimulationRequestDetails simulationRequestDetails =requestManager.getRequestUserTwoUUID(userName,request);
-        aSimulation simulation=this.getSimulationFromName(simulationRequestDetails.getSimulationName());
-        SimulationRequestExecuter simulationRequestExecuter=new SimulationRequestExecuter(simulationRequestDetails.getId(),simulation.clone());
+        SimulationRequestDetails simulationRequestDetails = requestManager.getRequestUserTwoUUID(userName,request);
+        aSimulation simulation = this.getSimulationFromName(simulationRequestDetails.getSimulationName());
+        SimulationRequestExecuter simulationRequestExecuter = new SimulationRequestExecuter(simulationRequestDetails.getId(),simulation.clone());
         this.UUIdTORequestExecuter.put(simulationRequestDetails.getId(),simulationRequestExecuter);
 
     }

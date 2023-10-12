@@ -64,7 +64,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="198.0" prefWidth="434.0">
                            <children>
-                              <Button layoutX="282.0" layoutY="113.0" mnemonicParsing="false" onAction="#startSimulation" prefHeight="40.0" prefWidth="93.0" text="Start" />
+                              <Button layoutX="282.0" layoutY="113.0" mnemonicParsing="false" onAction="#startSimulationRequest" prefHeight="40.0" prefWidth="93.0" text="Start" />
                               <Label prefHeight="31.0" prefWidth="137.0" text="Population number" />
                               <TextField fx:id="populationText" layoutX="137.0" prefHeight="31.0" prefWidth="137.0" />
                               <Button layoutX="315.0" mnemonicParsing="false" onAction="#handleAddButtonClick" prefHeight="31.0" prefWidth="50.0" text="Add" />
