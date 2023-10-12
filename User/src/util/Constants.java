@@ -32,6 +32,7 @@ public class Constants
     public final static String NEW_REQUEST= "new_request";
 
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/login";
+    public final static String ADMIN_CHECK = FULL_SERVER_PATH + "/admin-check";
     public final static String USERS_LIST = FULL_SERVER_PATH + "/userslist";
     public final static String LOGOUT = FULL_SERVER_PATH + "/chat/logout";
     public final static String SEND_CHAT_LINE = FULL_SERVER_PATH + "/pages/chatroom/sendChat";

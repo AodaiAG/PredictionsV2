@@ -5,8 +5,6 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-import java.util.function.Consumer;
-
 public class HttpClientUtil
 {
 
@@ -16,11 +14,6 @@ public class HttpClientUtil
                     .cookieJar(simpleCookieManager)
                     .followRedirects(false)
                     .build();
-
-    public static void setCookieManagerLoggingFacility(Consumer<String> logConsumer)
-    {
-        simpleCookieManager.setLogData(logConsumer);
-    }
 
     public static void removeCookiesOf(String domain) {
         simpleCookieManager.removeCookiesOf(domain);

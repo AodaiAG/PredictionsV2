@@ -2,6 +2,8 @@ package util;
 
 import com.google.gson.Gson;
 
+import java.net.URL;
+
 public class Constants
 {
 
@@ -27,6 +29,7 @@ public class Constants
     private final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;
 
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/loginShortResponse";
+    public final static String ADMIN_ACTIVATION = FULL_SERVER_PATH + "/admin-activation";
     public final static String USERS_LIST = FULL_SERVER_PATH + "/userslist";
     public final static String REQUEST_STATUS_HANDLER = FULL_SERVER_PATH + "/handle_request";
     public final static String LOGOUT = FULL_SERVER_PATH + "/chat/logout";
