@@ -27,6 +27,7 @@ public class HttpClientUtil
     {
         Request request = new Request.Builder()
                 .url(finalUrl)
+
                 .build();
 
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
