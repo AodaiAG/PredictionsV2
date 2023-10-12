@@ -11,6 +11,7 @@ import java.util.*;
 public class SimulationResult
 {
     private static boolean programRunning;
+    private  UUID requestExecutorId;
     private  UUID requestId;
     String userNameExecuted;
     private WorldDTO wordAfterSimulation;
@@ -18,6 +19,14 @@ public class SimulationResult
     private World worldTobeExecuted;
     private UUID simulationId;
     Map<String, List<Integer>> entityPopulationHistory = new HashMap<>();
+
+    public UUID getRequestExecutorId() {
+        return requestExecutorId;
+    }
+
+    public void setRequestExecutorId(UUID requestExecutorId) {
+        this.requestExecutorId = requestExecutorId;
+    }
 
     public UUID getRequestId() {
         return requestId;

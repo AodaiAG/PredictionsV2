@@ -33,7 +33,8 @@ public class HttpClientUtil
         call.enqueue(callback);
     }
 
-    public static void shutdown() {
+    public static void shutdown()
+    {
         System.out.println("Shutting down HTTP CLIENT");
         HTTP_CLIENT.dispatcher().executorService().shutdown();
         HTTP_CLIENT.connectionPool().evictAll();

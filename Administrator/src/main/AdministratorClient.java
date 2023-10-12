@@ -54,7 +54,8 @@ public class AdministratorClient extends Application
         }
     }
 
-    private void showAdministratorActiveDialog() {
+    private void showAdministratorActiveDialog()
+    {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Administrator Active");
         alert.setHeaderText(null);
@@ -65,7 +66,8 @@ public class AdministratorClient extends Application
     @Override
     public void stop() throws Exception
     {
-        if (administratorWindowClosing) {
+        if (administratorWindowClosing)
+        {
             notifyAdministratorIsDeactivated();
         } else {
             System.out.println("i close dialog");
@@ -73,7 +75,8 @@ public class AdministratorClient extends Application
         System.exit(5);
     }
 
-    private boolean isAdministratorActive() {
+    private boolean isAdministratorActive()
+    {
         OkHttpClient client = new OkHttpClient();
         HttpUrl url = HttpUrl.parse(ADMIN_ACTIVATION)
                 .newBuilder()
