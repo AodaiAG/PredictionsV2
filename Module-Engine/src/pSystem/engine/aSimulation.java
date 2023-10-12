@@ -6,7 +6,6 @@ public class aSimulation
     private boolean isExecuted=false;
     private World world;
 
-
     public String getNameofSimulation()
     {
         return nameofSimulation;

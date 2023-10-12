@@ -4,7 +4,6 @@ import Requests.SimulationRequestDetails;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import components.mainApp.UserMainAppController;
-import components.simulationDetails.SimulationTreeViewRefresher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import pDTOS.ActionsDTO.*;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
-import pDTOS.SimulationDTO;
 import pDTOS.WorldDTO;
 import util.http.HttpClientUtil;
 
@@ -27,9 +25,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-
-import static util.Constants.FULL_SERVER_PATH;
-import static util.Constants.NEW_REQUEST;
 
 public class ExecutionController
 {
@@ -271,8 +266,10 @@ public class ExecutionController
     }
 
     @FXML
-    void startSimulation(ActionEvent event)
+    void startSimulationRequest(ActionEvent event)
     {
+
+
 //        uiManager.runSimulation();
 //        uiManager.switchToResultsScreen(event);
     }
