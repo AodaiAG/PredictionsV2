@@ -17,10 +17,7 @@ public class HttpClientUtil
                     .followRedirects(false)
                     .build();
 
-    public static void setCookieManagerLoggingFacility(Consumer<String> logConsumer)
-    {
-        simpleCookieManager.setLogData(logConsumer);
-    }
+
 
     public static void removeCookiesOf(String domain) {
         simpleCookieManager.removeCookiesOf(domain);
