@@ -1,15 +1,17 @@
-package components.Management;
+package components.Management.simulationDetails;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import okhttp3.*;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 import pDTOS.ActionsDTO.*;
 import pDTOS.SimulationDTO;
-import util.Constants;
 import util.http.HttpClientUtil;
 
 import java.io.IOException;
@@ -79,34 +81,16 @@ public class SimulationTreeViewRefresher extends TimerTask
 
 
     // Helper function to get the expanded TreeItems
-    private List<TreeItem<String>> getExpandedItems(TreeItem<String> root)
-    {
-        List<TreeItem<String>> expandedItems = new ArrayList<>();
-        for (TreeItem<String> item : root.getChildren())
-        {
-            if (item.isExpanded()) {
-                expandedItems.add(item);
-                expandedItems.addAll(getExpandedItems(item));
-            }
-        }
-        return expandedItems;
-    }
+
 
     // Helper function to restore the expanded state
-    private void restoreExpandedItems(TreeItem<String> root, List<TreeItem<String>> expandedItems) {
-        for (TreeItem<String> item : root.getChildren()) {
-            if (expandedItems.contains(item)) {
-                item.setExpanded(true);
-                restoreExpandedItems(item, expandedItems);
-            }
-        }
-    }
+
 
 
     private CompletableFuture<List<SimulationDTO>> fetchDataFromServer()
     {
         // Replace this URL with the actual URL of your server endpoint
-        String serverUrl = "http://localhost:8080/simulations"; // Example URL
+        String serverUrl = "http://localhost:8080/get_simulations_details"; // Example URL
 
         Request request = new Request.Builder()
                 .url(serverUrl)

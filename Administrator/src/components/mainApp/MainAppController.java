@@ -65,6 +65,7 @@ public class MainAppController
         loadManagment();
         loadAllocations();
         loadExecutionsHistory();
+        setMainPanelTo(ManagmentComponent);
     }
 
 
@@ -190,7 +191,7 @@ public class MainAppController
     void switchToManagmentScreen(ActionEvent event)
     {
         setMainPanelTo(ManagmentComponent);
-        managementController. startSimulationDetailsRefresher();
+
     }
 
     public void switchToExecutionPage()

@@ -94,4 +94,28 @@ public class WorldDTO {
     public void setTerminationDTO(TerminationDTO terminationDTO) {
         this.terminationDTO = terminationDTO;
     }
+    public int getNumberOfEntityInstancesBefore(EntityDTO entityDTO)
+    {
+        for(EntityDTO entityDTO1:entityDTOSet)
+        {
+            if(entityDTO1.getName().equals(entityDTO.getName()))
+            {
+                return entityDTO1.getInstancesDTOS().size();
+            }
+        }
+        return 0;
+    }
+
+    public int getNumberOfEntityInstancesAfter(EntityDTO entityDTO)
+    {
+
+        for(EntityDTO entityDTO1:getEntityDTOSet())
+        {
+            if(entityDTO1.getName().equals(entityDTO.getName()))
+            {
+                return entityDTO1.getInstancesDTOS().size();
+            }
+        }
+        return 0;
+    }
 }

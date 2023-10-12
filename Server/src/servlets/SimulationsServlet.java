@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "SimulationsList",urlPatterns = "/simulations")
+@WebServlet(name = "SimulationsList",urlPatterns = "/get_simulations_details")
 public class SimulationsServlet extends HttpServlet
 {
 
@@ -29,14 +29,12 @@ public class SimulationsServlet extends HttpServlet
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Engine engine = ServletUtils.getEngine(getServletContext());
         Map<String, aSimulation> simulationMap=engine.getAllSimulations();
-
         for ( aSimulation aSimulation:simulationMap.values())
         {
             simulationDTOS.add(engine.convertSimulationToDTO(aSimulation));
         }
 
         String jsonResponse = gson.toJson(simulationDTOS);
-        System.out.println(jsonResponse);
         try (PrintWriter out = response.getWriter())
         {
             out.println(jsonResponse);

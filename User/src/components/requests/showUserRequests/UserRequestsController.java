@@ -55,11 +55,13 @@ public class UserRequestsController
             String idString = id != null ? id.toString() : ""; // Convert UUID to String or set an empty string if it's null
             return new SimpleStringProperty(idString);
         });
-        simulationNameColumn.setCellValueFactory(cellData-> {
+        simulationNameColumn.setCellValueFactory(cellData->
+        {
             String sName = cellData.getValue().getSimulationName();
             return new SimpleStringProperty(sName != null ? sName : "");
         });
-        numOfExecutionsColumn.setCellValueFactory(cellData-> {
+        numOfExecutionsColumn.setCellValueFactory(cellData->
+        {
             int numOfExecutions = cellData.getValue().getNumOfExecutions();
             return new SimpleStringProperty(String.valueOf(numOfExecutions));
         });
@@ -68,22 +70,23 @@ public class UserRequestsController
             String executionsRunningAmount = cellData.getValue().getExecutionsRunningAmount();
             return new SimpleStringProperty(executionsRunningAmount);
         });
+
         executionsFinishedColumn.setCellValueFactory(cellData->
         {
             String executionsFinishedAmount = cellData.getValue().getExecutionsFinishedAmount();
             return new SimpleStringProperty(executionsFinishedAmount);
         });
+
+        leftCoulmn.setCellValueFactory(cellData->
+        {
+            String requestStatus = cellData.getValue().getExecutionsLeftAmount();
+            return new SimpleStringProperty(requestStatus);
+
+        });
         requestStatusColumn.setCellValueFactory(cellData->
         {
             String requestStatus = cellData.getValue().getRequestStatus();
             return new SimpleStringProperty(requestStatus);
-        });
-        leftCoulmn.setCellValueFactory(cellData->
-        {
-            String requestStatus = cellData.getValue().getExecutionsLeftAmount();
-
-            return new SimpleStringProperty(requestStatus);
-
         });
 
         executeColumn.setCellFactory(param -> new TableCell<SimulationRequestDetails, Void>()
@@ -103,7 +106,7 @@ public class UserRequestsController
                 // Create an HBox with spacing
                 HBox buttonsBox = new HBox(); // Adjust the spacing value (10 in this case)
                 buttonsBox.getChildren().addAll(executeButton);
-                if(!simulationRequestDetails.getRequestStatus().equals("approved"))
+                if(!simulationRequestDetails.getRequestStatus().equals("approved") || simulationRequestDetails.isRequestFinished())
                 {
                     buttonsBox.setDisable(true);
                 }
@@ -121,6 +124,98 @@ public class UserRequestsController
 
             }
         });
+        executionsRunningColumn.setCellFactory(column -> new TableCell<SimulationRequestDetails, String>()
+        {
+            @Override
+            protected void updateItem(String item, boolean empty)
+            {
+
+                super.updateItem(item, empty);
+                if (empty || item == null)
+                {
+                    setText(null);
+                    setGraphic(null);
+                }
+
+                else
+                {
+                    // Access the request status
+
+                    String requestStatus = getTableView().getItems().get(getIndex()).getRequestStatus();
+                    if ("approved".equals(requestStatus))
+                    {
+                        setText(item);
+                    } else
+                    {
+                        // Disable the column for unapproved requests
+                        setText(null);
+                    }
+                }
+            }
+        });
+
+        leftCoulmn.setCellFactory(column -> new TableCell<SimulationRequestDetails, String>()
+        {
+            @Override
+            protected void updateItem(String item, boolean empty)
+            {
+
+                super.updateItem(item, empty);
+
+                if (empty || item == null)
+                {
+
+                    setText(null);
+                    setGraphic(null);
+                }
+                else
+                {
+                    // Access the request status
+
+                    String requestStatus = getTableView().getItems().get(getIndex()).getRequestStatus();
+                    if ("approved".equals(requestStatus))
+                    {
+                        setText(item);
+                    } else
+                    {
+                        // Disable the column for unapproved requests
+                        setText(null);
+                    }
+                }
+            }
+        });
+        executionsFinishedColumn.setCellFactory(column -> new TableCell<SimulationRequestDetails, String>()
+        {
+            @Override
+            protected void updateItem(String item, boolean empty)
+            {
+
+                super.updateItem(item, empty);
+
+                if (empty || item == null)
+                {
+
+                    setText(null);
+                    setGraphic(null);
+                }
+                else
+                {
+                    // Access the request status
+
+                    String requestStatus = getTableView().getItems().get(getIndex()).getRequestStatus();
+
+                    if ("approved".equals(requestStatus))
+                    {
+                        setText(item);
+                    } else
+                    {
+                        // Disable the column for unapproved requests
+                        setText(null);
+                    }
+                }
+            }
+        });
+
         startRequestRefresher();
     }
 

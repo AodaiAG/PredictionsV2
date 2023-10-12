@@ -1,9 +1,10 @@
 package components.mainApp;
 import Requests.SimulationRequestDetails;
+import components.Results.ResultsController;
 import components.execution.ExecutionController;
 import components.login.LoginController;
 import components.requests.RequestsController;
-import components.results.ResultsController;
+
 import components.simulationDetails.SimulationDetailsController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.UUID;
 
 import static util.Constants.*;
 
@@ -75,6 +77,7 @@ public class UserMainAppController
     {
 
        userGreetingLabel.textProperty().bind(Bindings.concat( currentUserName));
+
         // prepare components
         //loadLoginPage();
     }
@@ -113,6 +116,7 @@ public class UserMainAppController
         loadRequests();
         loadResults();
         loadSimulationDetails();
+        setMainPanelTo(simulationDetailsComponent);
     }
 
     private void loadLoginPage()
@@ -229,7 +233,7 @@ public class UserMainAppController
     void switchToSimulationDetailsScene(ActionEvent event)
     {
         setMainPanelTo(simulationDetailsComponent);
-        simulationDetailsController.startSimulationDetailsRefresher();
+
     }
 
     public void switchToExecutionScene(ActionEvent event)
@@ -240,7 +244,8 @@ public class UserMainAppController
     public void updateUserName(String userName)
     {
         this.currentUserName.set(userName);
-        System.out.println("done update name");
+
+
     }
 
     public void initExecuterPageWithDetails(SimulationRequestDetails simulationRequestDetails)
@@ -251,5 +256,15 @@ public class UserMainAppController
     public void switchToExecutionPage()
     {
         setMainPanelTo(executionComponent);
+    }
+
+    public void initExecutionTracker(UUID requestId, UUID executedSimulationId)
+    {
+        resultsController.createAndInitSimulationTab( requestId,  executedSimulationId);
+    }
+
+    public void switchToResultsPage()
+    {
+        setMainPanelTo(requestsComponent);
     }
 }

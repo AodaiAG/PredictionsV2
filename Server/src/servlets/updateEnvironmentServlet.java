@@ -15,6 +15,7 @@ import utils.ServletUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.UUID;
 
 @WebServlet(name = "updateEnvironmentServlet",urlPatterns = "/update_env")
@@ -39,11 +40,19 @@ public class updateEnvironmentServlet extends HttpServlet
             }
             EnvironmentDTO environmentDTO = gson.fromJson(jsonBuilder.toString(), EnvironmentDTO.class);
             engine.setDataToEnvironmentVarGivenWorld(environmentDTO,userValue,world);
+            resp.setContentType("text/plain"); // Set the content type to plain text
+            PrintWriter out = resp.getWriter();
+            out.print("Modification completed successfully.");
+
 
         }
         catch (Exception e)
         {
-            resp.getWriter().print(e.getMessage());
+
+            resp.setContentType("text/plain"); // Set the content type to plain text
+            PrintWriter out = resp.getWriter();
+            out.print("Error occurred"+e.getMessage());
+
         }
 
 

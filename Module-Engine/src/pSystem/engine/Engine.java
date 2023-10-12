@@ -2,10 +2,9 @@ package pSystem.engine;
 
 import Requests.RequestManager;
 import Requests.SimulationRequestDetails;
+import Requests.SimulationRequestExecuter.SimulationReadyForExecution;
 import Requests.SimulationRequestExecuter.SimulationRequestExecuter;
-import application.controllers.EntityWrapper;
-import application.controllers.ObservableEntity;
-import application.controllers.SimulationConditions;
+import Requests.SimulationRequestExecuter.SimulationTaskHelper.*;
 import pDTOS.*;
 import pDTOS.ActionsDTO.ActionDTO;
 import pEntity.*;
@@ -28,7 +27,8 @@ import java.util.stream.Collectors;
 
 import pExceptionHandler.PropertyExceptionHandler;
 import pExceptionHandler.RuleExceptionHandler;
-import pSystem.ThreadPoolManager.SimulationTaskHelper.SimulationExecutionHelper;
+import Requests.SimulationRequestExecuter.SimulationTaskHelper.SimulationExecutionHelper;
+import pSystem.ThreadPoolManager.ThreadPoolManager;
 import users.UserManager;
 
 public class Engine implements IEngine
@@ -48,6 +48,7 @@ public class Engine implements IEngine
     private AuxiliaryMethods f;
     private int numbOfThreads = 1;
     private volatile Integer currTicksAmount = 0;
+    ThreadPoolManager threadPoolManager=new ThreadPoolManager();
 
     public List<Map.Entry<UUID, String>> getSortedSimulationsByDate()
     {
@@ -56,6 +57,11 @@ public class Engine implements IEngine
                 .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), dateFormat.format(entry.getValue().getRunningDate())))
                 .sorted(Comparator.comparing(Map.Entry::getValue))
                 .collect(Collectors.toList());
+    }
+
+    public ThreadPoolManager getThreadPoolManager()
+    {
+        return threadPoolManager;
     }
 
 
@@ -67,6 +73,7 @@ public class Engine implements IEngine
     public RequestManager getRequestManager() {
         return requestManager;
     }
+
 
     public Integer getCurrTicksAmount()
     {
@@ -159,43 +166,25 @@ public class Engine implements IEngine
         }
     }
 
-    //command #3
     @Override
-    public UUID startSimulation(SimulationConditions simulationConditions, Consumer<String> consumer, EntityWrapper entityWrapper)
-    {
-        try
-        {
-
-            initEnviromentVariables(); //
-            World clonedWorld = originalWorld.clone();
-            World toBeExecutedWorld = originalWorld.clone();
-            f.setWorld(clonedWorld);
-            WorldDTO oldWorldDTO = convertWorldToDTO(clonedWorld);
-            clonedWorld.initCoordinates();
-            UUID simulationId = UUID.randomUUID();
-            String reasonForTermination = runSimulation(clonedWorld, simulationConditions, consumer,entityWrapper);
-            WorldDTO worldAfter = convertWorldToDTO(clonedWorld);
-            SimulationResult simulationResult = new SimulationResult(oldWorldDTO, worldAfter, simulationId);
-            simulationResult.setWorldTobeExecuted(toBeExecutedWorld);
-            simulationResult.setEntityPopulationHistory(this.entityPopulationHistory);
-            Date currentDate = new Date(); // Replace this with the actual date you want to use
-            simulationResult.setRunningDate(currentDate);
-            simulationResult.setReasonForTermination(reasonForTermination);
-            simulationResults.put(simulationId, simulationResult);
-            return simulationId;
-        }
-        catch (Exception e)
-        {
-            return null;
-        }
+    public UUID startSimulation( SimulationConditions simulationConditions, Consumer<String> consumer, EntityWrapper entityWrapper) {
+        return null;
     }
 
+    //command #3
 
-        public UUID executeSimulation(SimulationRequestExecuter requestExecuter,SimulationExecutionHelper simulationExecutionHelper)
+
+
+        // wanted
+        public void executeSimulation(SimulationRequestExecuter requestExecuter,UUID simToExecute)
         {
-        try
-        {
-            World originalWorld=requestExecuter.getSimulationToBeExecuted().getWorld();
+         try
+         {
+
+             System.out.println("in startExecution in engine");
+             SimulationReadyForExecution simulationReadyForExecution=requestExecuter.getUuidSimulationReadyForExecutionMap().get(simToExecute);
+            SimulationExecutionHelper simulationExecutionHelper=simulationReadyForExecution.getSimulationExecutionHelper();
+            World originalWorld=simulationReadyForExecution.getWorld();
             initEnviromentVariablesToWorld(originalWorld) ;//
             World clonedWorld = originalWorld.clone();
             World toBeExecutedWorld = originalWorld.clone();
@@ -212,21 +201,25 @@ public class Engine implements IEngine
             simulationResult.setRunningDate(currentDate);
             simulationResult.setReasonForTermination(reasonForTermination);
             simulationResults.put(simulationId, simulationResult);
+            simulationReadyForExecution.setSimulationResult(simulationResult);
             requestExecuter.getSimulationResultUUID().add(simulationId);
-            return simulationId;
-        }
+            simulationReadyForExecution.setExecutionFinshed(true);
+         }
         catch (Exception e)
         {
-            return null;
+
         }
     }
+
+
+
 
     public String runS(World clonedWorld ,SimulationExecutionHelper simulationExecutionHelper)
     {
         SimulationConditions simulationConditions=simulationExecutionHelper.getSimulationConditions();
         Consumer<String> consumer=simulationExecutionHelper.getConsumer();
         EntityWrapper entityWrapper=simulationExecutionHelper.getEntityWrapper();
-        entityPopulationHistory = new HashMap<>();
+        Map<String, List<Integer>> entityPopulationHistory = simulationExecutionHelper.getEntityPopulationHistory();
         double generatedProbability;
         generatedProbability = r.nextDouble();
         clonedWorld.ticksCounter = 0;
@@ -268,7 +261,7 @@ public class Engine implements IEngine
             for (Entity entity : entityList)
             {
 
-                if(clonedWorld.ticksCounter%100==0)
+                if(clonedWorld.ticksCounter%500==0)
                 {
                     String entityName = entity.getNameOfEntity(); // Get the name of the entity
                     List<Integer> populationHistory = entityPopulationHistory.getOrDefault(entity.getNameOfEntity(), new ArrayList<>());
@@ -315,7 +308,7 @@ public class Engine implements IEngine
             ticksAsTermination = (ticksAmount > 0 && clonedWorld.ticksCounter < ticksAmount) || (ticksAmount == 0);
             currTicksAmount = clonedWorld.ticksCounter;
 
-            consumer.accept("Ticks: " + clonedWorld.ticksCounter + '\n' + "Running Time: " + runningTimeInSeconds + " seconds");
+           simulationExecutionHelper.setPopAndTicks("Ticks: " + clonedWorld.ticksCounter + '\n' + "Running Time: " + runningTimeInSeconds + " seconds");
         }
 
         timer.cancel(); // Cancel the timer when simulation is done
@@ -908,6 +901,40 @@ public class Engine implements IEngine
 
     public SimulationRequestExecuter getRequestExecutor(UUID id)
     {
+
         return this.UUIdTORequestExecuter.get(id);
+    }
+
+    public UUID setSimulationToBeExecuted(SimulationRequestExecuter simulationRequestExecuter)
+    {
+        SimulationReadyForExecution simulationReadyForExecution=new SimulationReadyForExecution();
+        UUID uuid=UUID.randomUUID();
+        simulationReadyForExecution.setWorld(simulationRequestExecuter.getCurrSimulation().getWorld().clone());
+        simulationReadyForExecution.setExecutionId(uuid);
+        simulationRequestExecuter.getUuidSimulationReadyForExecutionMap().put(uuid,simulationReadyForExecution);
+        return uuid;
+    }
+
+    public void handleUserInteractionButtons(SimulationReadyForExecution simulationReadyForExecution,String userChoice)
+    {
+        switch (userChoice)
+        {
+            case "pause":
+            {
+                simulationReadyForExecution.getSimulationExecutionHelper().getSimulationConditions().setPauseSimulation(true);
+                break;
+            }
+            case "resume":
+            {
+                simulationReadyForExecution.getSimulationExecutionHelper().getSimulationConditions().setPauseSimulation(false);
+                break;
+            }
+            case "stop":
+            {
+                simulationReadyForExecution.getSimulationExecutionHelper().getSimulationConditions().setSimulationRunning(false);
+                break;
+            }
+        }
+
     }
 }

@@ -1,7 +1,8 @@
 package pSystem.engine;
 
-import application.controllers.EntityWrapper;
-import application.controllers.SimulationConditions;
+
+import Requests.SimulationRequestExecuter.SimulationTaskHelper.EntityWrapper;
+import Requests.SimulationRequestExecuter.SimulationTaskHelper.SimulationConditions;
 import org.w3c.dom.Document;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;

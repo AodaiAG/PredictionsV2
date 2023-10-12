@@ -4,6 +4,7 @@ import Requests.SimulationRequestDetails;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import components.mainApp.UserMainAppController;
+import components.simulationDetails.SimulationTreeViewRefresher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import pDTOS.ActionsDTO.*;
 import pDTOS.EntityDTO;
 import pDTOS.EnvironmentDTO;
+import pDTOS.SimulationDTO;
 import pDTOS.WorldDTO;
 import util.http.HttpClientUtil;
 
@@ -24,7 +26,11 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+
+import static util.Constants.FULL_SERVER_PATH;
+import static util.Constants.NEW_REQUEST;
 
 public class ExecutionController
 {
@@ -58,6 +64,7 @@ public class ExecutionController
     {
              requestId=simulationRequest.getId();
              fetchWorldDtoAndUpdateInfo();
+
 
     }
 
@@ -148,9 +155,7 @@ public class ExecutionController
         {
             int popn = Integer.parseInt(popString);
             generatePopulation(SelectedentityDTO, popn);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Population added successfully!");
-            alert.showAndWait();
+
         }
         catch (IllegalArgumentException e)
         {
@@ -173,6 +178,7 @@ public class ExecutionController
     {
         try
         {
+
             Gson gson = new GsonBuilder() .setPrettyPrinting().create();
             MediaType mediaType = MediaType.parse("application/json");
             RequestBody body = RequestBody.create(mediaType, gson.toJson(selectedentityDTO));
@@ -182,6 +188,11 @@ public class ExecutionController
                     .addHeader("Content-Type", "application/json")
                     .build();
             Response response= HttpClientUtil.HTTP_CLIENT.newCall(request).execute();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(response.body().string());
+            alert.showAndWait();
+
 
         }
         catch(Exception e)
@@ -206,6 +217,7 @@ public class ExecutionController
             // Handle the "Modify" button click here
             handleModifyButtonClick(selectedEnvironment);
             fetchWorldDtoAndUpdateInfo();
+
         });
 
         // Define the layout of elements within detailsPane
@@ -223,23 +235,10 @@ public class ExecutionController
 
     private void handleModifyButtonClick(EnvironmentDTO selectedEnvironment)
     {
-        try
-        {
-            String dataEnterd=dataTextField.getText();
-            setDataToEnvironmentVar(selectedEnvironment,dataEnterd);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Modification completed successfully!");
-            alert.showAndWait();}
-
-        catch (Exception e)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error!");
-            alert.setHeaderText("An error occurred reasons: "+e.getMessage());
-            alert.showAndWait();
-        }
+        String dataEnterd=dataTextField.getText();
+        setDataToEnvironmentVar(selectedEnvironment,dataEnterd);
     }
-    public void setDataToEnvironmentVar(EnvironmentDTO selectedEnvironment, String enteredData) throws IOException {
+    public void setDataToEnvironmentVar(EnvironmentDTO selectedEnvironment, String enteredData) {
         try
         {
             Gson gson = new GsonBuilder() .setPrettyPrinting().create();
@@ -251,11 +250,17 @@ public class ExecutionController
                     .addHeader("Content-Type", "application/json")
                     .build();
             Response response= HttpClientUtil.HTTP_CLIENT.newCall(request).execute();
-
+            String responseBody = response.body().string();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(responseBody);
+            alert.showAndWait();
         }
         catch(Exception e)
         {
-           throw e;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("An error occurred reasons: "+e.getMessage());
+            alert.showAndWait();
         }
     }
 
@@ -266,13 +271,64 @@ public class ExecutionController
     }
 
     @FXML
-    void startSimulationRequest(ActionEvent event)
+    void startSimulation(ActionEvent event)
     {
+        try
+        {
+            UUID executedSimulationId=sendHttpRequestAndGetExecutionID(requestId).get();
+            this.mainAppController.initExecutionTracker(requestId,executedSimulationId);
+            this.mainAppController.switchToResultsPage();
 
+        }
+        catch (Exception e)
+        {
 
-//        uiManager.runSimulation();
-//        uiManager.switchToResultsScreen(event);
+        }
+
     }
+
+
+
+    private  CompletableFuture<UUID> sendHttpRequestAndGetExecutionID(UUID requestId)
+    {
+        // Replace this URL with the actual URL of your server endpoint
+        String serverUrl = "http://localhost:8080/init_execute_simulation?id="+requestId.toString(); // Example URL
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = RequestBody.create(mediaType, "");
+        Request request = new Request.Builder()
+                .url(serverUrl).method("POST",body)
+                .build();
+
+        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+        CompletableFuture<UUID> future = new CompletableFuture<>();
+        call.enqueue(new Callback()
+        {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
+
+                future.completeExceptionally(e);
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+                try
+                {
+                    String rawBody = response.body().string();
+                    UUID executionId= UUID.fromString(rawBody);
+                    future.complete(executionId);
+                }
+                catch (Exception e)
+                {
+                    future.completeExceptionally(e);
+                }
+            }
+        });
+
+        return future;
+    }
+
 
     public void clearOnAction(ActionEvent event)
     {
@@ -282,16 +338,14 @@ public class ExecutionController
     private CompletableFuture<WorldDTO> fetchWorldDTOFromServer(UUID uuid)
     {
         // Replace this URL with the actual URL of your server endpoint
-        String serverUrl = "http://localhost:8080/get_worldDto?id="+uuid.toString(); // Example URL
+        String serverUrl = "http://localhost:8080/get_world_dto?id="+uuid.toString(); // Example URL
 
         Request request = new Request.Builder()
                 .url(serverUrl)
                 .build();
 
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
-
         CompletableFuture<WorldDTO> future = new CompletableFuture<>();
-
         call.enqueue(new Callback()
         {
             @Override

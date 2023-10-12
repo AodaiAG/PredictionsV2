@@ -76,4 +76,15 @@ public class RequestManager
        return userRequestMap.get(username).contains(simulationRequestDetails);
     }
 
+    public SimulationRequestDetails getRequestFromId(UUID id)
+    {
+        List<SimulationRequestDetails> requestDetailsList=this.getRequests();
+        for(SimulationRequestDetails simulationRequestDetails:requestDetailsList)
+        {
+            if(simulationRequestDetails.getId().equals(id))
+                return simulationRequestDetails;
+        }
+        return null;
+    }
+
 }

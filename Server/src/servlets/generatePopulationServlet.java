@@ -16,6 +16,7 @@ import utils.ServletUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.UUID;
 
 @WebServlet(name = "generatePopulationServlet",urlPatterns = "/add_population")
@@ -24,28 +25,35 @@ public class generatePopulationServlet extends HttpServlet
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        resp.setContentType("text/plain"); // Set the content type to plain text
+        PrintWriter out = resp.getWriter();
         Engine engine = ServletUtils.getEngine(getServletContext());
         String requestState = req.getParameter("id");
         String population = req.getParameter("value");
         SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestState));
         World world = simulationRequestExecuter.getCurrSimulation().getWorld();
-        try (BufferedReader reader = req.getReader())
+        BufferedReader reader = req.getReader();
+        StringBuilder jsonRequest = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null)
         {
-            StringBuilder jsonBuilder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jsonBuilder.append(line);
-            }
-            int popn = Integer.parseInt(population);
-            EntityDTO entityDTO = gson.fromJson(jsonBuilder.toString(), EntityDTO.class);
-            engine.createEntityPopulationGivenWorld(popn,entityDTO,world);
-            resp.getWriter().print("Population Added.");
+            jsonRequest.append(line);
+        }
 
+            int popn = Integer.parseInt(population);
+            EntityDTO entityDTO = gson.fromJson(jsonRequest.toString(), EntityDTO.class);
+        try
+        {
+            engine.createEntityPopulationGivenWorld(popn,entityDTO,world);
+            out.print("Population Added.");
         } catch (Exception e)
         {
-            resp.getWriter().print(e.getMessage());
+           out.print("error : "+e.getMessage());
         }
+
+
 
 
     }
