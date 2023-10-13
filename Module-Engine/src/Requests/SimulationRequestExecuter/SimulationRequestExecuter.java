@@ -1,6 +1,7 @@
 package Requests.SimulationRequestExecuter;
 
 import Requests.SimulationRequestExecuter.SimulationTaskHelper.SimulationExecutionHelper;
+import pDTOS.TerminationDTO;
 import pSystem.engine.aSimulation;
 
 import java.util.*;
@@ -11,9 +12,19 @@ public class SimulationRequestExecuter
     private UUID requestID;
     private aSimulation originalSimulationToBeExecuted;
     private aSimulation currSimulation;
+    private TerminationDTO terminationConditions;
     private SimulationExecutionHelper simulationExecutionHelper;
     private Map<UUID,SimulationReadyForExecution> uuidSimulationReadyForExecutionMap=new HashMap<>();
     private List<UUID> simulationResultUUID=new ArrayList<>();
+
+    public TerminationDTO getTerminationConditions()
+    {
+        return terminationConditions;
+    }
+
+    public void setTerminationConditions(TerminationDTO terminationConditions) {
+        this.terminationConditions = terminationConditions;
+    }
 
     public SimulationRequestExecuter(UUID requestID, aSimulation simulationToBeExecuted)
     {

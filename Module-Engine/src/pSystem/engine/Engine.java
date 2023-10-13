@@ -183,7 +183,8 @@ public class Engine implements IEngine
 
              System.out.println("in startExecution in engine");
              SimulationReadyForExecution simulationReadyForExecution=requestExecuter.getUuidSimulationReadyForExecutionMap().get(simToExecute);
-            SimulationExecutionHelper simulationExecutionHelper=simulationReadyForExecution.getSimulationExecutionHelper();
+             SimulationExecutionHelper simulationExecutionHelper=simulationReadyForExecution.getSimulationExecutionHelper();
+             simulationExecutionHelper.setTerminationConditions(requestExecuter.getTerminationConditions());
             World originalWorld=simulationReadyForExecution.getWorld();
             initEnviromentVariablesToWorld(originalWorld) ;//
             World clonedWorld = originalWorld.clone();
@@ -221,6 +222,7 @@ public class Engine implements IEngine
     {
         SimulationConditions simulationConditions=simulationExecutionHelper.getSimulationConditions();
         Consumer<String> consumer=simulationExecutionHelper.getConsumer();
+        TerminationDTO terminationDTO=simulationExecutionHelper.getTerminationConditions();
         EntityWrapper entityWrapper=simulationExecutionHelper.getEntityWrapper();
         Map<String, List<Integer>> entityPopulationHistory = simulationExecutionHelper.getEntityPopulationHistory();
         double generatedProbability;
@@ -238,8 +240,8 @@ public class Engine implements IEngine
             }
         };
         long startTime = System.nanoTime(); // Record the start time
-        int ticksAmount = clonedWorld.getTerminationTicks();
-        long delay = (long) clonedWorld.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
+        int ticksAmount = terminationDTO.getTerminationTicks();
+        long delay = (long) terminationDTO.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
         timer.schedule(task, delay);
         // Graph //
 
@@ -893,11 +895,12 @@ public class Engine implements IEngine
         return AllSimulations.get(simulationName);
     }
 
-    public void approveRequest(String userName, UUID request)
+    public void approveRequest(String userName, UUID request, TerminationDTO terminationConditions)
     {
         SimulationRequestDetails simulationRequestDetails = requestManager.getRequestUserTwoUUID(userName,request);
         aSimulation simulation = this.getSimulationFromName(simulationRequestDetails.getSimulationName());
         SimulationRequestExecuter simulationRequestExecuter = new SimulationRequestExecuter(simulationRequestDetails.getId(),simulation.clone());
+        simulationRequestExecuter.setTerminationConditions(terminationConditions);
         this.UUIdTORequestExecuter.put(simulationRequestDetails.getId(),simulationRequestExecuter);
 
     }

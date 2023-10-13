@@ -34,8 +34,6 @@ public class AllocationsServlet extends HttpServlet
             if(type.equals("admin"))
             {
                 List<SimulationRequestDetails> simulationRequestDetails = requestManager.getRequests();
-
-// Use Java Streams to filter out items with requestStatus equal to "declined"
                 List<SimulationRequestDetails> filteredList = simulationRequestDetails.stream()
                         .filter(request -> !"declined".equals(request.getRequestStatus()))
                         .collect(Collectors.toList());
