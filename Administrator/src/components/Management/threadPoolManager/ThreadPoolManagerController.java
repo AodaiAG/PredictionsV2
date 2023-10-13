@@ -87,7 +87,9 @@ public class ThreadPoolManagerController
 
         try
         {
-
+            setBTN.setDisable(true);
+            threadText.clear();
+            threadText.setDisable(true);
             String serverUrl = "http://localhost:8080/set_thread_count?value="+threadText.getText(); // Example URL
             Request request = new Request.Builder()
                     .url(serverUrl)
@@ -110,9 +112,7 @@ public class ThreadPoolManagerController
                         {
                             String responsee=response.body().string();
                             alert.setContentText(responsee);
-                            setBTN.setDisable(true);
-                            threadText.clear();
-                            threadText.setDisable(true);
+
 
                         } catch (IOException e)
                         {

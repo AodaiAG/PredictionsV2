@@ -4,6 +4,7 @@ import Requests.SimulationRequestDetails;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class ThreadPoolManager
 {
@@ -45,8 +46,35 @@ public class ThreadPoolManager
             e.printStackTrace();
         }
 
-
     }
+    public void increaseThreadCount(int additionalThreads)
+    {
+        int currentThreads = ((ThreadPoolExecutor) threadPool).getMaximumPoolSize();
+        ((ThreadPoolExecutor) threadPool).setMaximumPoolSize(currentThreads + additionalThreads);
+    }
+
+    public void decreaseThreadCount(int reductionThreads)
+    {
+        int currentThreads = ((ThreadPoolExecutor) threadPool).getMaximumPoolSize();
+        int newThreadCount = Math.max(1, currentThreads - reductionThreads); // Ensure there's at least 1 thread
+        ((ThreadPoolExecutor) threadPool).setMaximumPoolSize(newThreadCount);
+    }
+    public int getActiveThreadCount()
+    {
+        return ((ThreadPoolExecutor) threadPool).getActiveCount();
+    }
+
+    public int getQueueSize()
+    {
+        return ((ThreadPoolExecutor) threadPool).getQueue().size();
+    }
+
+    public int getCompletedTaskCount()
+    {
+        return (int) ((ThreadPoolExecutor) threadPool).getCompletedTaskCount();
+    }
+
+
 
     public int getWaitingSimulations()
     {
