@@ -22,6 +22,11 @@ public class SimulationRequestExecuter
         return terminationConditions;
     }
 
+    public void clearBtnPressed()
+    {
+        currSimulation=originalSimulationToBeExecuted.clone();
+    }
+
     public void setTerminationConditions(TerminationDTO terminationConditions) {
         this.terminationConditions = terminationConditions;
     }

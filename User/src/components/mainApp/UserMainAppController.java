@@ -64,7 +64,7 @@ public class UserMainAppController
     @FXML
     private TextField filePathLabel;
     @FXML
-    private Button ExecutionsBtn;
+    private Button ExecutionBtn;
     @FXML
     private AnchorPane mainAnchorpane;
     @FXML private Label userGreetingLabel;
@@ -77,6 +77,7 @@ public class UserMainAppController
     {
 
        userGreetingLabel.textProperty().bind(Bindings.concat( currentUserName));
+        setExecutionsBtnVisibility(true);
 
         // prepare components
         //loadLoginPage();
@@ -84,6 +85,11 @@ public class UserMainAppController
     public String getUserName()
     {
         return currentUserName.getValue();
+    }
+
+    public void setExecutionsBtnVisibility(boolean b)
+    {
+        ExecutionBtn.setDisable(b);
     }
 
     public void showMainAppStage()
