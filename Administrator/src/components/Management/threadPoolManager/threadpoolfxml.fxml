@@ -21,7 +21,7 @@
       <Button fx:id="setBTN" layoutX="126.0" layoutY="88.0" mnemonicParsing="false" onAction="#setThreadPoolCount" prefHeight="31.0" prefWidth="100.0" text="Set" />
       <AnchorPane layoutX="176.0" layoutY="139.0" prefHeight="86.0" prefWidth="269.0">
          <children>
-            <Label layoutX="22.0" prefHeight="27.0" prefWidth="177.0" text="Waiting Simulations">
+            <Label layoutX="22.0" prefHeight="27.0" prefWidth="177.0" text="Waiting Executions">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
@@ -34,7 +34,7 @@
                   </RadialGradient>
                </textFill>
             </Label>
-            <Label layoutX="22.0" layoutY="25.0" prefHeight="27.0" prefWidth="190.0" text="Executing Simulations">
+            <Label layoutX="22.0" layoutY="25.0" prefHeight="27.0" prefWidth="190.0" text="Running Executions">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
@@ -47,7 +47,7 @@
                   </RadialGradient>
                </textFill>
             </Label>
-            <Label layoutX="22.0" layoutY="51.0" prefHeight="27.0" prefWidth="210.0" text="Completed Simulations">
+            <Label layoutX="22.0" layoutY="51.0" prefHeight="27.0" prefWidth="210.0" text="Completed Executions">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
