@@ -47,6 +47,20 @@ public class ThreadPoolManager
         }
 
     }
+    public int calculateSystemLoad()
+    {
+        int queueSize = getQueueSize();
+        int activeThreads = getActiveThreadCount();
+        // Calculate a load score based on queue size and active threads
+        int loadScore = Math.min(queueSize + activeThreads, 10); // Adjust based on your system
+        // Normalize the load score to the range 1-10
+        return (loadScore * 10) / Math.max(1, Math.min(queueSize + activeThreads, 10));
+    }
+
+    // ...
+
+    // Replace these methods with your actual metric retrieval logic
+
     public void increaseThreadCount(int additionalThreads)
     {
         int currentThreads = ((ThreadPoolExecutor) threadPool).getMaximumPoolSize();
