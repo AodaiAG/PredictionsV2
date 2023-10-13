@@ -33,6 +33,7 @@ public class ResultsController
            AnchorPane simulationDetails = loader.load();
            SimulationDetailsTabController simulationDetailsTabController = loader.getController();
            simulationDetailsTabController.initTab(requestId,executedSimulationId);
+           simulationDetailsTabController.setMainApp(mainAppController);
            tab.setContent(simulationDetails);
            tabPane.getTabs().add(tab);
            tabCounter++;

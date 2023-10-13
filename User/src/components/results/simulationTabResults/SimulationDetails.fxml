@@ -41,7 +41,7 @@
                </font>
             </Label>
             <Label fx:id="updateLabel" layoutX="106.0" layoutY="135.0" prefHeight="71.0" prefWidth="307.0" />
-            <Label fx:id="statusLabel" layoutX="356.0" layoutY="22.0" prefHeight="27.0" prefWidth="119.0" text="Label" textFill="#00907d">
+            <Label fx:id="statusLabel" layoutX="356.0" layoutY="22.0" prefHeight="27.0" prefWidth="119.0" text="Untracked" textFill="#00907d">
                <font>
                   <Font name="Arial Bold Italic" size="18.0" />
                </font>
@@ -95,7 +95,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <Button fx:id="reExecuteBTN" layoutX="14.0" layoutY="263.0" mnemonicParsing="false" text="ReExecute" />
+            <Button fx:id="reExecuteBTN" layoutX="14.0" layoutY="263.0" mnemonicParsing="false" onAction="#switchTorequests" text="ReExecute" />
          </children></AnchorPane>
     </SplitPane>
 </AnchorPane>
