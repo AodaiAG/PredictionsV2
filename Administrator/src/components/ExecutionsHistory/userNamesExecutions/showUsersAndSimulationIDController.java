@@ -39,10 +39,14 @@ public class showUsersAndSimulationIDController
         usernameChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null)
             {
+                // If a previous task exists, cancel it
+                if (simulationIdTimer != null) {
+                    simulationIdTimer.cancel();
+                    // Create a new Timer for the new task
+                    simulationIdTimer = new Timer();
+                }
                 // Populate the simulationIdChoiceBox based on the selected username
                 startSimulationIdRefresher(newValue);
-                // Call the function you want
-                //simulationIdTimer.cancel();
             }
         });
         simulationIdChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->

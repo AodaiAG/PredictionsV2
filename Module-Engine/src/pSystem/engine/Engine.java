@@ -235,7 +235,6 @@ public class Engine implements IEngine
             @Override
             public void run() {
                 programRunning = false;
-
                 timer.cancel();
             }
         };
