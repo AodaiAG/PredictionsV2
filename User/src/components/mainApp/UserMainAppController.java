@@ -265,6 +265,6 @@ public class UserMainAppController
 
     public void switchToResultsPage()
     {
-        setMainPanelTo(requestsComponent);
+        setMainPanelTo(resultsComponent);
     }
 }
