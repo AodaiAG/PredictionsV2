@@ -273,4 +273,9 @@ public class UserMainAppController
     {
         setMainPanelTo(resultsComponent);
     }
+
+    public void switchToRequestsPage()
+    {
+        setMainPanelTo(requestsComponent);
+    }
 }
