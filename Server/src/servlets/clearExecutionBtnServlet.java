@@ -2,6 +2,7 @@ package servlets;
 
 import Requests.SimulationRequestExecuter.SimulationRequestExecuter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,8 @@ public class clearExecutionBtnServlet extends HttpServlet
         String requestState = req.getParameter("id");
         SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestState));
         simulationRequestExecuter.clearBtnPressed();
+        ServletOutputStream out = resp.getOutputStream();
+        out.close();
 
     }
 }

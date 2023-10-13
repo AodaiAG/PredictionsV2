@@ -280,6 +280,7 @@ public class ExecutionController
             //executedSimulationId
             this.mainAppController.initExecutionTracker(requestId,executedSimulationId);
             this.mainAppController.switchToResultsPage();
+            mainAppController.setExecutionsBtnVisibility(true);
 
         }
         catch (Exception e)
@@ -331,7 +332,7 @@ public class ExecutionController
         return future;
     }
 
-
+@FXML
     public void clearOnAction(ActionEvent event)
     {
         // Replace this URL with the actual URL of your server endpoint
@@ -346,8 +347,15 @@ public class ExecutionController
         call.enqueue(new Callback()
         {
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                future.completeExceptionally(e);
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
+                System.out.println("i failed to clear");
+                Platform.runLater(()->
+                {
+                    Alert alert=new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText(e.getMessage());
+                });
+
             }
 
             @Override
@@ -363,6 +371,7 @@ public class ExecutionController
                     {
                         Alert alert=new Alert(Alert.AlertType.INFORMATION);
                         alert.setContentText("Cleared .");
+                        alert.showAndWait();
                     });
 
                 }
@@ -372,6 +381,7 @@ public class ExecutionController
                     {
                         Alert alert=new Alert(Alert.AlertType.ERROR);
                         alert.setContentText(e.getMessage());
+                        alert.showAndWait();
                     });
                 }
             }
