@@ -31,9 +31,9 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <CheckBox fx:id="ticksOption" layoutX="169.0" layoutY="231.0" mnemonicParsing="false" text="Ticks" />
-      <CheckBox fx:id="timeOption" layoutX="169.0" layoutY="267.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="75.0" text="Time" />
-      <CheckBox fx:id="userOption" layoutX="169.0" layoutY="195.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="75.0" text="User" />
+      <CheckBox fx:id="ticksOption" layoutX="169.0" layoutY="231.0" mnemonicParsing="false" onAction="#ticksCheckBoxClicked" text="Ticks" />
+      <CheckBox fx:id="timeOption" layoutX="169.0" layoutY="267.0" mnemonicParsing="false" onAction="#timeCheckBoxClicked" prefHeight="21.0" prefWidth="75.0" text="Time" />
+      <CheckBox fx:id="userOption" layoutX="169.0" layoutY="195.0" mnemonicParsing="false" onAction="#userCheckBoxClicked" prefHeight="21.0" prefWidth="75.0" text="User" />
       <TextField fx:id="ticksText" disable="true" layoutX="248.0" layoutY="229.0" prefHeight="31.0" prefWidth="85.0" />
       <TextField fx:id="timeText" disable="true" layoutX="248.0" layoutY="262.0" prefHeight="31.0" prefWidth="85.0" />
       <Button fx:id="submitBTN" layoutX="216.0" layoutY="324.0" mnemonicParsing="false" onAction="#submitClicked" prefHeight="31.0" prefWidth="75.0" text="Submit" />

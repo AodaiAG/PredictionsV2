@@ -24,7 +24,6 @@ import static util.Constants.NEW_REQUEST;
 
 public class SubmitNewRequestController
 {
-
     @FXML
     private TextField numOfExecutions;
     @FXML
@@ -46,10 +45,12 @@ public class SubmitNewRequestController
 
     public void initialize()
     {
-        ticksOption.setOnAction(event -> handleOptionChange(ticksOption, ticksText));
-        timeOption.setOnAction(event -> handleOptionChange(timeOption, timeText));
+        submitBTN.setDisable(true);
+     //   ticksOption.setOnAction(event -> handleOptionChange(ticksOption, ticksText));
+     //   timeOption.setOnAction(event -> handleOptionChange(timeOption, timeText));
         startSimulationNamesRefresher();
     }
+
     public void startSimulationNamesRefresher()
     {
         Timer timer = new Timer();
@@ -59,24 +60,65 @@ public class SubmitNewRequestController
         timer.scheduleAtFixedRate(task, delay, period);
     }
 
-
-
-    private void handleOptionChange(CheckBox checkBox, TextField textField)
-    {
-        boolean isSelected = checkBox.isSelected();
-
-        if (isSelected) {
-            textField.clear();
-            textField.setDisable(false);
-        } else {
-            textField.clear();
-            textField.setDisable(true);
-        }
-    }
-
     public void setAppMainController(UserMainAppController mainAppController)
     {
         this.mainAppController = mainAppController;
+    }
+
+    @FXML
+    void userCheckBoxClicked(ActionEvent event) {
+        if(userOption.isSelected()) {
+            ticksOption.setDisable(true);
+            ticksOption.setSelected(false);
+            timeOption.setDisable(true);
+            timeOption.setSelected(false);
+            submitBTN.setDisable(false);
+        }
+        else {
+            ticksOption.setDisable(false);
+            timeOption.setDisable(false);
+            submitBTN.setDisable(true);
+        }
+    }
+
+    @FXML
+    void timeCheckBoxClicked(ActionEvent event) {
+        if(timeOption.isSelected())
+        {
+            userOption.setDisable(true);
+            submitBTN.setDisable(false);
+            timeText.clear();
+            timeText.setDisable(false);
+        }
+        else {
+            if(!ticksOption.isSelected())
+            {
+                userOption.setDisable(false);
+                submitBTN.setDisable(true);
+            }
+            timeText.clear();
+            timeText.setDisable(true);
+        }
+    }
+
+    @FXML
+    void ticksCheckBoxClicked(ActionEvent event) {
+        if(ticksOption.isSelected())
+        {
+            userOption.setDisable(true);
+            submitBTN.setDisable(false);
+            ticksText.clear();
+            ticksText.setDisable(false);
+        }
+        else {
+            if(!timeOption.isSelected())
+            {
+                userOption.setDisable(false);
+                submitBTN.setDisable(true);
+            }
+            ticksText.clear();
+            ticksText.setDisable(true);
+        }
     }
 
 
@@ -85,11 +127,11 @@ public class SubmitNewRequestController
     {
         try
         {
-            Gson gson = new GsonBuilder() .setPrettyPrinting().create();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             SimulationRequestDetails simulationRequestDetails =
                     new SimulationRequestDetails( UUID.randomUUID(),
                             simulationNamesCHoiceBox.getValue(),
-                    Integer.parseInt(numOfExecutions.getText()),getTermination(), mainAppController.getUserName()
+                    Integer.parseInt(numOfExecutions.getText()), getTermination(), mainAppController.getUserName()
             );
 
 
@@ -113,24 +155,26 @@ public class SubmitNewRequestController
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
-
     }
 
     TerminationDTO getTermination()
     {
-        TerminationDTO terminationDTO=new TerminationDTO();
+        TerminationDTO terminationDTO = new TerminationDTO();
         boolean isUserOptionSelected = userOption.isSelected();
         boolean isTicksOptionSelected = ticksOption.isSelected();
         boolean isTimeOptionSelected = timeOption.isSelected();
 
         terminationDTO.setByUser(isUserOptionSelected);
         if(isTicksOptionSelected)
-        terminationDTO.setTerminationTicks(Integer.parseInt(ticksText.getText()));
+        {
+            terminationDTO.setTerminationTicks(Integer.parseInt(ticksText.getText()));
+        }
 
         if(isTimeOptionSelected)
-            terminationDTO.setTerminationSeconds(Integer.parseInt(ticksText.getText()));
+        {
+            terminationDTO.setTerminationSeconds(Integer.parseInt(timeText.getText()));
+        }
 
-            return terminationDTO;
+        return terminationDTO;
     }
-
 }

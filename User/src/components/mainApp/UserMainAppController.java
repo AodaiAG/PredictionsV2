@@ -250,8 +250,6 @@ public class UserMainAppController
     public void updateUserName(String userName)
     {
         this.currentUserName.set(userName);
-
-
     }
 
     public void initExecuterPageWithDetails(SimulationRequestDetails simulationRequestDetails)

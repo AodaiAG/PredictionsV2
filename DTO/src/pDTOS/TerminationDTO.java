@@ -16,6 +16,7 @@ public class TerminationDTO
         this.terminationTicks = terminationTicks;
         this.terminationSeconds = terminationSeconds;
     }
+
     public TerminationDTO()
     {
 

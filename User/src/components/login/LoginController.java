@@ -79,16 +79,17 @@ public class LoginController
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
             {
+                if (response.code() != 200) {
 
-                if (response.code() != 200)
-                {
-                    System.out.println("im not good");
-                    String responseBody = response.body().string();
-                    System.out.println("Response Body: " + responseBody);
-
-                    Platform.runLater(() ->
-                            errorMessageProperty.set("Something went wrong: " + responseBody)
-                    );
+                    Platform.runLater(() -> {
+                        if (response.code() == 400) {
+                            // User already exists (or other client-side error)
+                            errorMessageProperty.set("User already exists");
+                        } else {
+                            // Handle other server-side errors
+                            errorMessageProperty.set("Something went wrong");
+                        }
+                    });
                 } else
                 {
                     Platform.runLater(() ->
@@ -117,7 +118,7 @@ public class LoginController
         Stage newStage = new Stage();
         newStage.setTitle("User");
         Scene mainAppScene = new Scene(mainAppRoot);
-       this.mainAppController = loader.getController();
+        this.mainAppController = loader.getController();
         mainAppController.initApplication();
         // Set the scene for the new stage
         newStage.setScene(mainAppScene);
@@ -129,32 +130,6 @@ public class LoginController
         // Show the new stage
         newStage.show();
     }
-
-
-//    public void switchToMainAppPage(ActionEvent event)
-//    {
-//        // Assuming you have a MainApp.fxml file and MainAppController for your main app
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_PAGE_FXML_RESOURCE_LOCATION));
-//        Parent mainAppRoot;
-//        try
-//        {
-//            mainAppRoot = loader.load();
-//        } catch (IOException e)
-//        {
-//            e.printStackTrace();
-//            return;
-//        }
-//
-//        this.mainAppController = loader.getController();
-//        mainAppController.initApplication();
-//        Scene mainAppScene = new Scene(mainAppRoot);
-//        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        currentStage.setScene(mainAppScene);
-//        currentStage.setTitle("User");
-//        currentStage.show();
-//    }
-
-
 
     @FXML
     private void userNameKeyTyped(KeyEvent event) {

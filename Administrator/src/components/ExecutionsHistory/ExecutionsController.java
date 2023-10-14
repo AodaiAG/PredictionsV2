@@ -20,7 +20,7 @@ public class ExecutionsController
     SimulationResultsForUserController simulationResultsForUserController;
     @FXML
     private AnchorPane showSimulationAnchor;
-    showUsersAndSimulationIDController  showUsersAndSimulationIDController;
+    showUsersAndSimulationIDController showUsersAndSimulationIDController;
     MainAppController mainAppController;
 
     public void initialize()
@@ -79,7 +79,6 @@ public class ExecutionsController
         {
 
         }
-
     }
 
     public void setChatAppMainController(MainAppController mainAppController)

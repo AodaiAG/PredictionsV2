@@ -32,8 +32,7 @@ public class SimulationTask implements Runnable
     public void run()
     {
         System.out.println("About to execute the simulation - in run ");
-        engine.executeSimulation(simulationRequestExecuter,executionId);
-
+        engine.executeSimulation(simulationRequestExecuter, executionId);
     }
 
 

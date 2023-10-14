@@ -8,8 +8,8 @@ import java.util.UUID;
 public class SimulationRequestDetails
 {
     private UUID id;
-    private int executionsRunningAmount=0;
-    private int executionsFinishedAmount=0;
+    private int executionsRunningAmount = 0;
+    private int executionsFinishedAmount = 0;
     private int executionsLeftAmount;
     private String simulationName;
     private int numOfExecutions;
@@ -30,7 +30,7 @@ public class SimulationRequestDetails
 
      public void increaseExecutingAmount()
      {
-         executionsRunningAmount=executionsRunningAmount+1;
+         executionsRunningAmount = executionsRunningAmount+1;
      }
      public boolean isRequestFinished()
      {

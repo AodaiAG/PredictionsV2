@@ -29,11 +29,9 @@ public class startSimulationServlet extends HttpServlet
             String executionId = req.getParameter("e_id");
             SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestId));
             ThreadPoolManager threadPoolManager = engine.getThreadPoolManager();
-            SimulationTask simulationTask=new SimulationTask(engine,simulationRequestExecuter,UUID.fromString(executionId));
+            SimulationTask simulationTask = new SimulationTask(engine,simulationRequestExecuter,UUID.fromString(executionId));
              threadPoolManager.submitThreadTask(simulationTask);
             //engine.executeSimulation(simulationRequestExecuter,UUID.fromString(executionId));
-
-
         }
 
         catch (Exception e)

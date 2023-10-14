@@ -68,14 +68,7 @@ public class LoginServlet extends HttpServlet
                     if (userManager.isUserExists(usernameFromParameter))
                     {
                         String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
-                        // username already exists, forward the request back to index.jsp
-                        // with a parameter that indicates that an error should be displayed
-                        // the request dispatcher obtained from the servlet context is one that MUST get an absolute path (starting with'/')
-                        // and is relative to the web app root
-                        // see this link for more details:
-                        // http://timjansen.github.io/jarfiller/guide/servlet25/requestdispatcher.xhtml
-                        request.setAttribute(Constants.USER_NAME_ERROR, errorMessage);
-                        //getServletContext().getRequestDispatcher(LOGIN_ERROR_URL).forward(request, response);
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // Set an appropriate HTTP status code
                     }
                     else {
                         //add the new user to the users list
@@ -84,10 +77,7 @@ public class LoginServlet extends HttpServlet
                         //the true parameter means that if a session object does not exists yet
                         //create a new one
                         request.getSession(true).setAttribute(Constants.USERNAME, usernameFromParameter);
-
-                        //redirect the request to the chat room - in order to actually change the URL
                         System.out.println("On login, request URI is: " + request.getRequestURI());
-                       // response.sendRedirect(CHAT_ROOM_URL);
                     }
                 }
             }

@@ -276,12 +276,11 @@ public class ExecutionController
     {
         try
         {
-            UUID executedSimulationId=sendHttpRequestAndGetExecutionID(requestId).get();
+            UUID executedSimulationId = sendHttpRequestAndGetExecutionID(requestId).get();
             //executedSimulationId
-            this.mainAppController.initExecutionTracker(requestId,executedSimulationId);
+            this.mainAppController.initExecutionTracker(requestId, executedSimulationId);
             this.mainAppController.switchToResultsPage();
             mainAppController.setExecutionsBtnVisibility(true);
-
         }
         catch (Exception e)
         {
@@ -295,7 +294,7 @@ public class ExecutionController
     private  CompletableFuture<UUID> sendHttpRequestAndGetExecutionID(UUID requestId)
     {
         // Replace this URL with the actual URL of your server endpoint
-        String serverUrl = "http://localhost:8080/init_execute_simulation?id="+requestId.toString(); // Example URL
+        String serverUrl = "http://localhost:8080/init_execute_simulation?id=" + requestId.toString(); // Example URL
         MediaType mediaType = MediaType.parse("text/plain");
         RequestBody body = RequestBody.create(mediaType, "");
         Request request = new Request.Builder()
@@ -332,11 +331,11 @@ public class ExecutionController
         return future;
     }
 
-@FXML
+    @FXML
     public void clearOnAction(ActionEvent event)
     {
         // Replace this URL with the actual URL of your server endpoint
-        String serverUrl = "http://localhost:8080/clear_btn?id="+requestId.toString(); // Example URL
+        String serverUrl = "http://localhost:8080/clear_btn?id=" + requestId.toString(); // Example URL
 
         Request request = new Request.Builder()
                 .url(serverUrl)

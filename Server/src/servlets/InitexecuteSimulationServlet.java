@@ -14,7 +14,7 @@ import utils.SessionUtils;
 import java.io.IOException;
 import java.util.UUID;
 
-@WebServlet(name = "InitexecuteSimulationServlet",urlPatterns = "/init_execute_simulation")
+@WebServlet(name = "InitexecuteSimulationServlet", urlPatterns = "/init_execute_simulation")
 public class InitexecuteSimulationServlet extends HttpServlet
 {
     @Override
