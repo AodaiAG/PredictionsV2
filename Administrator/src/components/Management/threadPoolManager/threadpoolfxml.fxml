@@ -80,11 +80,13 @@
             </Label>
          </children>
       </AnchorPane>
-      <ProgressBar layoutX="81.0" layoutY="255.0" prefHeight="42.0" prefWidth="443.0" />
-      <Label layoutX="253.0" layoutY="234.0" prefHeight="21.0" prefWidth="115.0" text="System Load" />
-      <Button layoutX="157.0" layoutY="314.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Modify" />
-      <TextField layoutX="235.0" layoutY="314.0" promptText="Increase thread count" />
-      <Button layoutX="157.0" layoutY="357.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Modify" />
-      <TextField layoutX="235.0" layoutY="357.0" promptText="decrease thread count" />
+      <ProgressBar fx:id="sLprogressBar" layoutX="81.0" layoutY="255.0" prefHeight="42.0" prefWidth="492.0" />
+      <Label layoutX="271.0" layoutY="225.0" prefHeight="21.0" prefWidth="115.0" text="System Load" />
+      <Button layoutX="157.0" layoutY="314.0" mnemonicParsing="false" onAction="#increaseThreadCount" prefHeight="31.0" prefWidth="70.0" text="Modify" />
+      <TextField fx:id="inText" layoutX="235.0" layoutY="314.0" promptText="Increase thread count" />
+      <Button layoutX="157.0" layoutY="357.0" mnemonicParsing="false" onAction="#decreaseThreadCount" prefHeight="31.0" prefWidth="70.0" text="Modify" />
+      <TextField fx:id="deTxt" layoutX="235.0" layoutY="357.0" promptText="decrease thread count" />
+      <Label layoutX="595.0" layoutY="266.0" text="High" />
+      <Label layoutX="24.0" layoutY="266.0" text="Low" />
    </children>
 </AnchorPane>

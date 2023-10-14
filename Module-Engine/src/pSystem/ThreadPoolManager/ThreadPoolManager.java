@@ -2,13 +2,14 @@ package pSystem.ThreadPoolManager;
 
 import Requests.SimulationRequestDetails;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class ThreadPoolManager
 {
-    private ExecutorService threadPool=Executors.newFixedThreadPool(1);;
+    private ExecutorService threadPool=Executors.newFixedThreadPool(1);
     int waitingSimulations=0;
     int executingSimulations=0;
     int completedSimulations=0;
@@ -49,30 +50,45 @@ public class ThreadPoolManager
     }
     public int calculateSystemLoad()
     {
-        int queueSize = getQueueSize();
         int activeThreads = getActiveThreadCount();
-        // Calculate a load score based on queue size and active threads
-        int loadScore = Math.min(queueSize + activeThreads, 10); // Adjust based on your system
-        // Normalize the load score to the range 1-10
-        return (loadScore * 10) / Math.max(1, Math.min(queueSize + activeThreads, 10));
+        int availableThreads = getQueueSize();
+
+        // Calculate system load as a number from 1 to 10
+        if (availableThreads > 0)
+        {
+            double loadRatio = (double) activeThreads / (activeThreads + availableThreads);
+            int loadScale = (int) (loadRatio * 9) + 1;
+            return loadScale;
+        } else
+        {
+            // Handle the case where no threads are available
+            return 10; // Maximum load (10)
+        }
     }
 
-    // ...
-
-    // Replace these methods with your actual metric retrieval logic
 
     public void increaseThreadCount(int additionalThreads)
     {
         int currentThreads = ((ThreadPoolExecutor) threadPool).getMaximumPoolSize();
-        ((ThreadPoolExecutor) threadPool).setMaximumPoolSize(currentThreads + additionalThreads);
+        int newThreadCount = currentThreads + additionalThreads;
+
+        ThreadPoolExecutor newThreadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(newThreadCount);
+
+        threadPool.shutdown();
+        threadPool = newThreadPool;
     }
 
     public void decreaseThreadCount(int reductionThreads)
     {
         int currentThreads = ((ThreadPoolExecutor) threadPool).getMaximumPoolSize();
-        int newThreadCount = Math.max(1, currentThreads - reductionThreads); // Ensure there's at least 1 thread
-        ((ThreadPoolExecutor) threadPool).setMaximumPoolSize(newThreadCount);
+        int newThreadCount = currentThreads - reductionThreads;
+
+        ThreadPoolExecutor newThreadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(newThreadCount);
+
+        threadPool.shutdown();
+        threadPool = newThreadPool;
     }
+
     public int getActiveThreadCount()
     {
         return ((ThreadPoolExecutor) threadPool).getActiveCount();
@@ -80,7 +96,10 @@ public class ThreadPoolManager
 
     public int getQueueSize()
     {
-        return ((ThreadPoolExecutor) threadPool).getQueue().size();
+        ThreadPoolExecutor poolExecutor = (ThreadPoolExecutor) threadPool;
+        int poolSize = poolExecutor.getPoolSize();
+        int corePoolSize = poolExecutor.getCorePoolSize();
+        return corePoolSize - poolSize;
     }
 
     public int getCompletedTaskCount()
