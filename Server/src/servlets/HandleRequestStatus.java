@@ -38,7 +38,7 @@ public class HandleRequestStatus extends HttpServlet
         userDetailsSimulationRequests.setRequestStatus(requestState);
         if(requestState.equals("approved"))
         {
-            engine.approveRequest(usernameFromSession,uuidRequest);
+            engine.approveRequest(usernameFromSession,uuidRequest,userDetailsSimulationRequests.getTerminationConditions());
         }
 
     }

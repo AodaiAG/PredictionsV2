@@ -8,12 +8,14 @@ import com.google.gson.reflect.TypeToken;
 import components.Results.simulationTabResults.simulationRefreshers.populationRefresher;
 import components.Results.simulationTabResults.simulationRefreshers.ticksAndTimeRefresher;
 import components.execution.ExecutionController;
+import components.mainApp.UserMainAppController;
 import components.requests.showUserRequests.RequestsRefresher;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.LineChart;
@@ -106,6 +108,7 @@ public class SimulationDetailsTabController
     private final Timer CheckingSimulationStatus=new Timer();
     private  Timer populationTask=new Timer();
     private  Timer ticksAndTimeTask=new Timer();
+    private UserMainAppController mainAppController;
 
 
     public void initTab( UUID requestId ,UUID executionId)
@@ -190,6 +193,8 @@ public class SimulationDetailsTabController
                         {
                             cancelRefreshers();
                             setSimulationResultsPane();
+
+
                         });
 
                         cancel(); // This will stop the timer task
@@ -287,6 +292,7 @@ public class SimulationDetailsTabController
 
             setWorldDTOsBeforeAndAfter();
             resultsAnchor.setDisable(false);
+            progressAnchor.setDisable(true);
             populateLineChart();// graph init
             populationInfoTable.setVisible(false);
 
@@ -741,6 +747,12 @@ public class SimulationDetailsTabController
 
         return future;
     }
+
+    public void setMainApp(UserMainAppController mainAppController)
+    {
+        this.mainAppController=mainAppController;
+    }
+
     private static class ActionDTODeserilzer implements JsonDeserializer<ActionDTO>
     {
         @Override
@@ -816,15 +828,16 @@ public class SimulationDetailsTabController
         stopBtn.setDisable(false);
 
         pauseBtn.setDisable(true);
-
+        statusLabel.setText("paused");
         handleInteractionButtons("pause");
+
     }
 
 
     public void resumeSimulation(javafx.event.ActionEvent actionEvent)
 
     {
-
+        statusLabel.setText("Running");
         handleInteractionButtons("resume");
 
         resumeBtn.setDisable(true);
@@ -841,6 +854,7 @@ public class SimulationDetailsTabController
     public void stopSimulation(javafx.event.ActionEvent actionEvent)
 
     {
+        statusLabel.setText("Finished");
 
         resumeBtn.setDisable(true);
 
@@ -854,6 +868,12 @@ public class SimulationDetailsTabController
 
 
 
+    @FXML
+    void switchTorequests(ActionEvent event) 
+    {
+        
+      mainAppController.switchToRequestsPage();
+    }
 
 
 }

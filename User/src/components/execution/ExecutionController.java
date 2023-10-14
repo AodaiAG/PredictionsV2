@@ -5,6 +5,7 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import components.mainApp.UserMainAppController;
 import components.simulationDetails.SimulationTreeViewRefresher;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -276,8 +277,10 @@ public class ExecutionController
         try
         {
             UUID executedSimulationId=sendHttpRequestAndGetExecutionID(requestId).get();
+            //executedSimulationId
             this.mainAppController.initExecutionTracker(requestId,executedSimulationId);
             this.mainAppController.switchToResultsPage();
+            mainAppController.setExecutionsBtnVisibility(true);
 
         }
         catch (Exception e)
@@ -329,10 +332,61 @@ public class ExecutionController
         return future;
     }
 
-
+@FXML
     public void clearOnAction(ActionEvent event)
     {
-//        uiManager.clearPressed();
+        // Replace this URL with the actual URL of your server endpoint
+        String serverUrl = "http://localhost:8080/clear_btn?id="+requestId.toString(); // Example URL
+
+        Request request = new Request.Builder()
+                .url(serverUrl)
+                .build();
+
+        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+        CompletableFuture<WorldDTO> future = new CompletableFuture<>();
+        call.enqueue(new Callback()
+        {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
+                System.out.println("i failed to clear");
+                Platform.runLater(()->
+                {
+                    Alert alert=new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText(e.getMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+                try
+                {
+                    if (!response.isSuccessful())
+                    {
+                        return;
+                    }
+                    Platform.runLater(()->
+                    {
+                        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Cleared .");
+                        alert.showAndWait();
+                    });
+
+                }
+                catch (Exception e)
+                {
+                    Platform.runLater(()->
+                    {
+                        Alert alert=new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText(e.getMessage());
+                        alert.showAndWait();
+                    });
+                }
+            }
+        });
+
     }
 
     private CompletableFuture<WorldDTO> fetchWorldDTOFromServer(UUID uuid)

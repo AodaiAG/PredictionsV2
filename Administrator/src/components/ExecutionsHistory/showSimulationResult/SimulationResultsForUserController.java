@@ -337,9 +337,8 @@ public class SimulationResultsForUserController
     {
         try
         {
-            this.requestId = requestId;
+            this.requestId=requestId;
             this.executionId = executionId;
-
             setWorldDTOsBeforeAndAfter();
             resultsAnchor.setDisable(false);
             populateLineChart();// graph init
@@ -410,7 +409,7 @@ public class SimulationResultsForUserController
 
             // Load the SimulationDetails.fxml
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/Results/simulationTabResults/histogramUI.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/ExecutionsHistory/showSimulationResult/histogramUI.fxml"));
 
             AnchorPane histogram = loader.load();
 

@@ -1,6 +1,7 @@
 package Requests.SimulationRequestExecuter;
 
 import Requests.SimulationRequestExecuter.SimulationTaskHelper.SimulationExecutionHelper;
+import pDTOS.TerminationDTO;
 import pSystem.engine.SimulationResult;
 import pSystem.engine.World;
 
@@ -13,8 +14,17 @@ public class SimulationReadyForExecution
   private  World world;
   private SimulationExecutionHelper simulationExecutionHelper=new SimulationExecutionHelper();
   private Boolean isExecutionFinshed=false;
-
+    private TerminationDTO terminationConditions;
   private SimulationResult simulationResult=null;
+
+    public TerminationDTO getTerminationConditions()
+    {
+        return terminationConditions;
+    }
+
+    public void setTerminationConditions(TerminationDTO terminationConditions) {
+        this.terminationConditions = terminationConditions;
+    }
 
     public String getUserName() {
         return userName;

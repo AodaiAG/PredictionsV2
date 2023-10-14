@@ -15,6 +15,7 @@ import utils.SessionUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "AllocationServlet", urlPatterns = "/allocations")
 public class AllocationsServlet extends HttpServlet
@@ -32,9 +33,12 @@ public class AllocationsServlet extends HttpServlet
 
             if(type.equals("admin"))
             {
-               List<SimulationRequestDetails> simulationRequestDetails = requestManager.getRequests();
+                List<SimulationRequestDetails> simulationRequestDetails = requestManager.getRequests();
+                List<SimulationRequestDetails> filteredList = simulationRequestDetails.stream()
+                        .filter(request -> !"declined".equals(request.getRequestStatus()))
+                        .collect(Collectors.toList());
 
-                String jsonResponse = gson.toJson(simulationRequestDetails);
+                String jsonResponse = gson.toJson(filteredList);
                 try (PrintWriter out = resp.getWriter())
                 {
                     out.println(jsonResponse);

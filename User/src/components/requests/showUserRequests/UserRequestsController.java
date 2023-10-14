@@ -109,6 +109,7 @@ public class UserRequestsController
                 if(!simulationRequestDetails.getRequestStatus().equals("approved") || simulationRequestDetails.isRequestFinished())
                 {
                     buttonsBox.setDisable(true);
+                    userMainAppController.setExecutionsBtnVisibility(true);
                 }
                 else
                 {
@@ -119,6 +120,7 @@ public class UserRequestsController
                 {
                     handleExecute(simulationRequestDetails,buttonsBox);
                     userMainAppController.switchToExecutionPage();
+                    userMainAppController.setExecutionsBtnVisibility(false);
                 });
 
 

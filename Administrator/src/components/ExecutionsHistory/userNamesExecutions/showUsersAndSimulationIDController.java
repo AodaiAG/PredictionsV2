@@ -1,5 +1,10 @@
 package components.ExecutionsHistory.userNamesExecutions;
 
+import Requests.RequestInfoHelper;
+import Requests.SimulationRequestDetails;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import components.ExecutionsHistory.showSimulationResult.SimulationResultsForUserController;
 import components.ExecutionsHistory.userNamesExecutions.Refreshers.UserNameRefresher;
 import components.ExecutionsHistory.userNamesExecutions.Refreshers.SimulationIdRefresher;
@@ -11,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import util.http.HttpClientUtil;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -33,23 +39,27 @@ public class showUsersAndSimulationIDController
         usernameChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null)
             {
+                // If a previous task exists, cancel it
+                if (simulationIdTimer != null) {
+                    simulationIdTimer.cancel();
+                    // Create a new Timer for the new task
+                    simulationIdTimer = new Timer();
+                }
                 // Populate the simulationIdChoiceBox based on the selected username
                 startSimulationIdRefresher(newValue);
-                // Call the function you want
-                //simulationIdTimer.cancel();
             }
         });
         simulationIdChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
         {
             if (newValue != null)
             {
-                try {
-                    UUID requestId= sendHttpRequestAndGetExecutionID(UUID.fromString(newValue)).get();
-                    simulationResultsForUserController.setSimulationResultsPane(requestId,UUID.fromString(newValue));
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                } catch (ExecutionException e) {
-                    throw new RuntimeException(e);
+                try
+                {
+                    RequestInfoHelper requestInfoHelper= sendHttpRequestAndGetExecutionID(UUID.fromString(newValue)).get();
+                    simulationResultsForUserController.setSimulationResultsPane(requestInfoHelper.getRequestId(),requestInfoHelper.getRequestExecutorId());
+                } catch ( Exception e)
+                {
+                   e.printStackTrace();
                 }
                 //  simulationResultsForUserController.setSimulationResultsPane();
             }
@@ -85,7 +95,7 @@ public class showUsersAndSimulationIDController
         this.simulationResultsForUserController=simulationResultsForUserController;
     }
 
-    private CompletableFuture<UUID> sendHttpRequestAndGetExecutionID(UUID execId)
+    private CompletableFuture<RequestInfoHelper> sendHttpRequestAndGetExecutionID(UUID execId)
     {
         // Replace this URL with the actual URL of your server endpoint
         String serverUrl = "http://localhost:8080/get_req_from_exec?id="+execId.toString(); // Example URL
@@ -96,13 +106,12 @@ public class showUsersAndSimulationIDController
                 .build();
 
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
-        CompletableFuture<UUID> future = new CompletableFuture<>();
+        CompletableFuture<RequestInfoHelper> future = new CompletableFuture<>();
         call.enqueue(new Callback()
         {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e)
             {
-
                 future.completeExceptionally(e);
             }
 
@@ -112,8 +121,10 @@ public class showUsersAndSimulationIDController
                 try
                 {
                     String rawBody = response.body().string();
-                    UUID executionId= UUID.fromString(rawBody);
-                    future.complete(executionId);
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    TypeToken<RequestInfoHelper> typeToken = new TypeToken<RequestInfoHelper>() {};
+                    RequestInfoHelper simulationReqs = gson.fromJson(rawBody, typeToken.getType());
+                    future.complete(simulationReqs);
                 }
                 catch (Exception e)
                 {

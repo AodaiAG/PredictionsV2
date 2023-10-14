@@ -1,4 +1,4 @@
-package servlets.simulationResultsServlets;
+package servlets.executionHistoryServlets;
 
 import Requests.SimulationRequestExecuter.SimulationReadyForExecution;
 import Requests.SimulationRequestExecuter.SimulationRequestExecuter;
@@ -11,27 +11,24 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pDTOS.WorldDTO;
 import pSystem.engine.Engine;
+import pSystem.engine.SimulationResult;
 import utils.ServletUtils;
 
 import java.io.IOException;
+import java.util.Set;
 import java.util.UUID;
-
-@WebServlet(name = "getWorldDTOAfterExecution",urlPatterns = "/get_dto_after")
-public class getWorldDTOAfterExecution extends HttpServlet
+@WebServlet(name = "getDTOAfterAccordingToResultIdServlet",urlPatterns = "/dto_b_id")
+public class getDTOAfterAccordingToResultIdServlet extends HttpServlet
 {
+
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         Engine engine = ServletUtils.getEngine(getServletContext());
-        String requestId = req.getParameter("r_id");
         String executionId = req.getParameter("e_id");
-        SimulationRequestExecuter simulationRequestExecuter = engine.getRequestExecutor(UUID.fromString(requestId));
-        SimulationReadyForExecution simulationReadyForExecution=simulationRequestExecuter.getUuidSimulationReadyForExecutionMap().get(UUID.fromString(executionId));
-        simulationReadyForExecution.getSimulationResult().setRequestId(UUID.fromString(requestId));
-        WorldDTO worldDTO = simulationReadyForExecution.getSimulationResult().getWordAfterSimulation();
-        simulationReadyForExecution.getSimulationResult().setRequestExecutorId(UUID.fromString(executionId));
-        simulationReadyForExecution.getSimulationResult().setRequestId(UUID.fromString(requestId));
+        SimulationResult simulationResult=engine.getSimulationResults().get(UUID.fromString(executionId));
+        WorldDTO worldDTO = simulationResult.getWordAfterSimulation();
         // Convert the WorldDTO object to JSON
         String json = gson.toJson(worldDTO);
         // Set response content type to JSON

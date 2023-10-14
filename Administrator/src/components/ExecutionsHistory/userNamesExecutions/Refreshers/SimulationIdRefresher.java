@@ -41,7 +41,6 @@ public class SimulationIdRefresher extends TimerTask
                 return;
             // Store the selected item
             String selectedItem = simulationIdChoiceBox.getValue();
-
             ObservableList<String> observableList = FXCollections.observableArrayList(listOfSimulationNames);
             if(listOfSimulationNames.size()!= simulationIdChoiceBox.getItems().size())
             {
@@ -49,7 +48,6 @@ public class SimulationIdRefresher extends TimerTask
                 {
                     // Update the ChoiceBox items
                     simulationIdChoiceBox.setItems(observableList);
-
                     // Set the previously selected item back as selected
                     simulationIdChoiceBox.setValue(selectedItem);
                 });
