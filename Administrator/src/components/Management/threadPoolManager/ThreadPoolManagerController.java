@@ -140,8 +140,6 @@ public class ThreadPoolManagerController
                             threadText.clear();
                             threadText.setDisable(true);
 
-
-
                         } catch (IOException e)
                         {
                             alert.setContentText(e.getMessage());

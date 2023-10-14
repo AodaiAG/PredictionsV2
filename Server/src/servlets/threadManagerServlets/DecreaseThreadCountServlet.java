@@ -26,9 +26,13 @@ public class DecreaseThreadCountServlet extends HttpServlet
             threadPoolManager.decreaseThreadCount(number);
             resp.getWriter().print("Thread Count decreased.");
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             resp.getWriter().print("Error,Thread count should be integer.");
+        }
+        catch (Exception e)
+        {
+            resp.getWriter().print(e.getMessage());
         }
     }
 }
