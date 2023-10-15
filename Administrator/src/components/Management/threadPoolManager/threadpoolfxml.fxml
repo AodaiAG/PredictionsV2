@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.RadialGradient?>
@@ -17,9 +17,9 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="threadText" layoutX="239.0" layoutY="88.0" prefHeight="31.0" prefWidth="199.0" promptText="Set thread count" />
-      <Button fx:id="setBTN" layoutX="126.0" layoutY="88.0" mnemonicParsing="false" onAction="#setThreadPoolCount" prefHeight="31.0" prefWidth="100.0" text="Set" />
-      <AnchorPane layoutX="176.0" layoutY="139.0" prefHeight="86.0" prefWidth="269.0">
+      <TextField fx:id="threadText" layoutX="253.0" layoutY="73.0" prefHeight="31.0" prefWidth="199.0" promptText="Set thread count" />
+      <Button fx:id="setBTN" layoutX="127.0" layoutY="73.0" mnemonicParsing="false" onAction="#setThreadPoolCount" prefHeight="31.0" prefWidth="100.0" text="Set" />
+      <AnchorPane layoutX="318.0" layoutY="131.0" prefHeight="86.0" prefWidth="258.0">
          <children>
             <Label layoutX="22.0" prefHeight="27.0" prefWidth="177.0" text="Waiting Executions">
                <font>
@@ -60,9 +60,6 @@
                   </RadialGradient>
                </textFill>
             </Label>
-            <FontAwesomeIconView fill="#00c365" glyphName="CLOSE" layoutY="70.0" size="16" wrappingWidth="14.571428298950195" />
-            <FontAwesomeIconView fill="#afd700" glyphName="CLOSE" layoutY="19.0" size="16" wrappingWidth="14.571428298950195" />
-            <FontAwesomeIconView fill="#e40000" glyphName="CLOSE" layoutY="44.0" size="16" wrappingWidth="14.571428298950195" />
             <Label fx:id="waitingLabel" layoutX="246.0" layoutY="3.0" text="5">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
@@ -88,5 +85,61 @@
       <TextField fx:id="deTxt" layoutX="235.0" layoutY="357.0" promptText="decrease thread count" />
       <Label layoutX="595.0" layoutY="266.0" text="High" />
       <Label layoutX="24.0" layoutY="266.0" text="Low" />
+      <Separator layoutX="298.0" layoutY="131.0" orientation="VERTICAL" prefHeight="86.0" prefWidth="11.0" />
+      <Label layoutX="84.0" layoutY="131.0" prefHeight="27.0" prefWidth="146.0" text="Thread Pool Size">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.39204545454545453" centerY="0.5145631067961165" radius="0.5">
+               <stops>
+                  <Stop color="#94a428" />
+                  <Stop color="BLACK" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="72.0" layoutY="161.0" prefHeight="27.0" prefWidth="155.0" text="Available Threads">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.39204545454545453" centerY="0.5145631067961165" radius="0.5">
+               <stops>
+                  <Stop color="#94a428" />
+                  <Stop color="BLACK" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="80.0" layoutY="188.0" prefHeight="27.0" prefWidth="155.0" text="Running Threads">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.39204545454545453" centerY="0.5145631067961165" radius="0.5">
+               <stops>
+                  <Stop color="#94a428" />
+                  <Stop color="BLACK" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Label>
+      <Label fx:id="threadSizeLabel" layoutX="245.0" layoutY="134.0" text="5">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="avThreadLabel" layoutX="245.0" layoutY="161.0" text="5">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="runningThreadLabel" layoutX="245.0" layoutY="188.0" text="5">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="469.0" layoutY="78.0" text="Default ThreadPool Size : 1" />
    </children>
 </AnchorPane>

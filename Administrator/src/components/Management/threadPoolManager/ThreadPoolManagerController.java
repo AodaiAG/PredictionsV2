@@ -1,10 +1,7 @@
 package components.Management.threadPoolManager;
 
 import components.Management.simulationDetails.SimulationTreeViewRefresher;
-import components.Management.threadPoolManager.threadPoolStatusRefreshers.SystemLoadRefresher;
-import components.Management.threadPoolManager.threadPoolStatusRefreshers.completedRefresher;
-import components.Management.threadPoolManager.threadPoolStatusRefreshers.executingRefresher;
-import components.Management.threadPoolManager.threadPoolStatusRefreshers.waitingRefreshers;
+import components.Management.threadPoolManager.threadPoolStatusRefreshers.*;
 import components.mainApp.MainAppController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -24,6 +21,15 @@ import java.util.TimerTask;
 public class ThreadPoolManagerController
 {
     private MainAppController mainAppController;
+    @FXML
+    private Label threadSizeLabel;
+
+    @FXML
+    private Label avThreadLabel;
+
+    @FXML
+    private Label runningThreadLabel;
+
     @FXML
     private TextField threadText;
     @FXML
@@ -66,6 +72,9 @@ public class ThreadPoolManagerController
         startCompletedThreadCountTask();
         startExecutingThreadCountTask();
         startWaitingThreadCountTask();
+        startAvailableThreadsCountTask();
+        startThreadPoolSizeCountTask();
+        startRunningThreadsCountTask();
         startSystemLoadTask();
     }
 
@@ -73,6 +82,33 @@ public class ThreadPoolManagerController
     {
         Timer timer = new Timer();
         TimerTask task = new completedRefresher(compLabel);
+        long delay = 0; // Initial delay (0 milliseconds)
+        long period = 1; // Repeat every 2 seconds (2000 milliseconds)
+        timer.scheduleAtFixedRate(task, delay, period);
+
+    }
+    private void startAvailableThreadsCountTask()
+    {
+        Timer timer = new Timer();
+        TimerTask task = new AvailableThreadsCountRefresher(avThreadLabel);
+        long delay = 0; // Initial delay (0 milliseconds)
+        long period = 1; // Repeat every 2 seconds (2000 milliseconds)
+        timer.scheduleAtFixedRate(task, delay, period);
+
+    }
+    private void startThreadPoolSizeCountTask()
+    {
+        Timer timer = new Timer();
+        TimerTask task = new ThreadPoolSizeRefresher(threadSizeLabel);
+        long delay = 0; // Initial delay (0 milliseconds)
+        long period = 1; // Repeat every 2 seconds (2000 milliseconds)
+        timer.scheduleAtFixedRate(task, delay, period);
+
+    }
+    private void startRunningThreadsCountTask()
+    {
+        Timer timer = new Timer();
+        TimerTask task = new RunningThreadsCountRefresher(runningThreadLabel);
         long delay = 0; // Initial delay (0 milliseconds)
         long period = 1; // Repeat every 2 seconds (2000 milliseconds)
         timer.scheduleAtFixedRate(task, delay, period);

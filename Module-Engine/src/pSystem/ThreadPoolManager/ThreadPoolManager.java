@@ -48,6 +48,10 @@ public class ThreadPoolManager
         }
 
     }
+    public int getThreadPoolSize()
+    {
+        return ((ThreadPoolExecutor) threadPool).getCorePoolSize();
+    }
     public int calculateSystemLoad()
     {
         int activeThreads = getActiveThreadCount();
@@ -96,10 +100,7 @@ public class ThreadPoolManager
 
     public int getQueueSize()
     {
-        ThreadPoolExecutor poolExecutor = (ThreadPoolExecutor) threadPool;
-        int poolSize = poolExecutor.getPoolSize();
-        int corePoolSize = poolExecutor.getCorePoolSize();
-        return corePoolSize - poolSize;
+        return getThreadPoolSize()-getActiveThreadCount();
     }
 
     public int getCompletedTaskCount()
