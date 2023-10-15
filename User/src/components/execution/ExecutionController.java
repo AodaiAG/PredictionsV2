@@ -136,17 +136,10 @@ public class ExecutionController
         });
     }
 
-
-
-
-
-
     public void setAppMainController(UserMainAppController mainAppController)
     {
         this.mainAppController = mainAppController;
     }
-
-
 
     @FXML
     private void handleAddButtonClick()
@@ -239,6 +232,7 @@ public class ExecutionController
         String dataEnterd=dataTextField.getText();
         setDataToEnvironmentVar(selectedEnvironment,dataEnterd);
     }
+
     public void setDataToEnvironmentVar(EnvironmentDTO selectedEnvironment, String enteredData) {
         try
         {
@@ -286,10 +280,7 @@ public class ExecutionController
         {
 
         }
-
     }
-
-
 
     private  CompletableFuture<UUID> sendHttpRequestAndGetExecutionID(UUID requestId)
     {

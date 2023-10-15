@@ -12,7 +12,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.execution.ExecutionController">
    <children>
       <SplitPane fx:id="splitPane" dividerPositions="0.5835380835380836" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="945.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -64,7 +63,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="198.0" prefWidth="434.0">
                            <children>
-                              <Button layoutX="282.0" layoutY="113.0" mnemonicParsing="false" onAction="#startSimulation" prefHeight="40.0" prefWidth="93.0" text="Start" />
+                              <Button fx:id="startBtn" layoutX="282.0" layoutY="113.0" mnemonicParsing="false" onAction="#startSimulation" prefHeight="40.0" prefWidth="93.0" text="Start" />
                               <Label prefHeight="31.0" prefWidth="137.0" text="Population number" />
                               <TextField fx:id="populationText" layoutX="137.0" prefHeight="31.0" prefWidth="137.0" />
                               <Button layoutX="315.0" mnemonicParsing="false" onAction="#handleAddButtonClick" prefHeight="31.0" prefWidth="50.0" text="Add" />
