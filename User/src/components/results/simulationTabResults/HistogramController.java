@@ -1,4 +1,4 @@
-package components.Results.simulationTabResults;
+package components.results.simulationTabResults;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

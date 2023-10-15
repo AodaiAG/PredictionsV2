@@ -1,12 +1,12 @@
-package components.Results.simulationTabResults;
+package components.results.simulationTabResults;
 
 
 import Requests.SimulationRequestExecuter.SimulationTaskHelper.EntityWrapper;
 import Requests.SimulationRequestExecuter.SimulationTaskHelper.ObservableEntity;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import components.Results.simulationTabResults.simulationRefreshers.populationRefresher;
-import components.Results.simulationTabResults.simulationRefreshers.ticksAndTimeRefresher;
+import components.results.simulationTabResults.simulationRefreshers.populationRefresher;
+import components.results.simulationTabResults.simulationRefreshers.ticksAndTimeRefresher;
 import components.execution.ExecutionController;
 import components.mainApp.UserMainAppController;
 import components.requests.showUserRequests.RequestsRefresher;

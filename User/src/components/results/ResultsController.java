@@ -1,7 +1,7 @@
-package components.Results;
+package components.results;
 
 
-import components.Results.simulationTabResults.SimulationDetailsTabController;
+import components.results.simulationTabResults.SimulationDetailsTabController;
 import components.mainApp.UserMainAppController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -1,4 +1,4 @@
-package components.Results.simulationTabResults.simulationRefreshers;
+package components.results.simulationTabResults.simulationRefreshers;
 
 import Requests.SimulationRequestDetails;
 import com.google.gson.Gson;

@@ -46,8 +46,6 @@ public class SubmitNewRequestController
     public void initialize()
     {
         submitBTN.setDisable(true);
-     //   ticksOption.setOnAction(event -> handleOptionChange(ticksOption, ticksText));
-     //   timeOption.setOnAction(event -> handleOptionChange(timeOption, timeText));
         startSimulationNamesRefresher();
     }
 
@@ -121,37 +119,59 @@ public class SubmitNewRequestController
         }
     }
 
-
     @FXML
-    void submitClicked(ActionEvent event)
-    {
-        try
-        {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            SimulationRequestDetails simulationRequestDetails =
-                    new SimulationRequestDetails( UUID.randomUUID(),
-                            simulationNamesCHoiceBox.getValue(),
-                    Integer.parseInt(numOfExecutions.getText()), getTermination(), mainAppController.getUserName()
-            );
+    void submitClicked(ActionEvent event) {
+        try {
+            String numOfExecutionsText = numOfExecutions.getText();
+            String selectedSimulation = simulationNamesCHoiceBox.getValue();
 
+            if (numOfExecutionsText.isEmpty() || selectedSimulation == null) {
+                String errorMessage = "Please fill in all required fields.";
+                if (numOfExecutionsText.isEmpty()) {
+                    errorMessage += "\n- Number of Executions is empty.";
+                }
+                if (selectedSimulation == null) {
+                    errorMessage += "\n- No simulation selected.";
+                }
 
-            MediaType mediaType = MediaType.parse("application/json");
-            RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequestDetails));
-            Request request = new Request.Builder()
-                    .url(FULL_SERVER_PATH+NEW_REQUEST)
-                    .method("POST", body)
-                    .addHeader("Content-Type", "application/json")
-                    .build();
-            Response response= HttpClientUtil.HTTP_CLIENT.newCall(request).execute();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Status");
-            alert.setContentText(response.body().string());
-            alert.showAndWait();
-        }
-        catch(Exception e)
-        {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Status");
+                // Display an alert with the error message
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText(errorMessage);
+                alert.showAndWait();
+            } else {
+                // Fields are valid; proceed with the request
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                SimulationRequestDetails simulationRequestDetails = new SimulationRequestDetails(
+                        UUID.randomUUID(),
+                        selectedSimulation,
+                        Integer.parseInt(numOfExecutionsText),
+                        getTermination(),
+                        mainAppController.getUserName()
+                );
+
+                MediaType mediaType = MediaType.parse("application/json");
+                RequestBody body = RequestBody.create(mediaType, gson.toJson(simulationRequestDetails));
+                Request request = new Request.Builder()
+                        .url(FULL_SERVER_PATH + NEW_REQUEST)
+                        .method("POST", body)
+                        .addHeader("Content-Type", "application/json")
+                        .build();
+                Response response = HttpClientUtil.HTTP_CLIENT.newCall(request).execute();
+
+                // Display a success message in the alert
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Status");
+                alert.setHeaderText(null);
+                alert.setContentText(response.body().string());
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            // Handle other exceptions (e.g., network issues, server errors)
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }

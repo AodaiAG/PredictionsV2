@@ -1,6 +1,6 @@
 package components.mainApp;
 import Requests.SimulationRequestDetails;
-import components.Results.ResultsController;
+import components.results.ResultsController;
 import components.execution.ExecutionController;
 import components.login.LoginController;
 import components.requests.RequestsController;
