@@ -118,7 +118,6 @@ public class SubmitNewRequestController
             ticksText.setDisable(true);
         }
     }
-
     @FXML
     void submitClicked(ActionEvent event)
     {
