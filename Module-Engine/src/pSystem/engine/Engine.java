@@ -560,7 +560,11 @@ public class Engine implements IEngine {
 
             simulationResults.clear();
             this.FileWorld = originalWorld.clone();
-            AllSimulations.put(simulationName, new aSimulation(simulationName, originalWorld));
+            Object isExist = AllSimulations.put(simulationName, new aSimulation(simulationName, originalWorld));
+            if(isExist != null)
+            {
+                throw new Exception("A simulation with the current name already exists");
+            }
             return originalWorld;
 
         } catch (Exception e) {

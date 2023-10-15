@@ -10,21 +10,21 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="384.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.results.simulationTabResults.HistogramController">
    <children>
-      <VBox layoutX="172.0" layoutY="14.0" prefHeight="62.0" prefWidth="195.0" AnchorPane.leftAnchor="140.0">
+      <VBox layoutX="14.0" layoutY="81.0" prefHeight="62.0" prefWidth="195.0" AnchorPane.leftAnchor="14.0">
          <children>
             <ComboBox fx:id="entityComboBox" prefHeight="31.0" prefWidth="184.0" promptText="Select an Entity" />
             <ComboBox fx:id="propertyComboBox" prefHeight="31.0" prefWidth="186.0" promptText="Select a Property" />
          </children>
       </VBox>
-      <TableView fx:id="histogramTableView" layoutX="162.0" layoutY="81.0" prefHeight="178.0" prefWidth="215.0" AnchorPane.leftAnchor="140.0">
+      <TableView fx:id="histogramTableView" layoutX="236.0" layoutY="82.0" prefHeight="178.0" prefWidth="215.0" AnchorPane.leftAnchor="236.0">
          <columns>
             <TableColumn fx:id="valueColumn" prefWidth="99.0" text="Value" />
             <TableColumn fx:id="countColumn" prefWidth="114.0" text="Count" />
          </columns>
       </TableView>
-      <Label fx:id="averageLabel" disable="true" layoutX="68.0" layoutY="173.0" prefHeight="31.0" prefWidth="55.0" text="Average" AnchorPane.leftAnchor="10.0" />
-      <TextField fx:id="averageText" disable="true" editable="false" layoutX="68.0" layoutY="209.0" prefHeight="31.0" prefWidth="55.0" AnchorPane.leftAnchor="15.0" />
-      <Label layoutX="55.0" layoutY="108.0" prefHeight="31.0" prefWidth="97.0" text="Consistency" AnchorPane.leftAnchor="10.0" />
-      <TextField fx:id="consText1" disable="true" editable="false" layoutX="68.0" layoutY="139.0" prefHeight="31.0" prefWidth="55.0" AnchorPane.leftAnchor="15.0" />
+      <Label fx:id="averageLabel" disable="true" layoutX="472.0" layoutY="156.0" prefHeight="31.0" prefWidth="55.0" text="Average" AnchorPane.leftAnchor="472.0" />
+      <TextField fx:id="averageText" disable="true" editable="false" layoutX="500.0" layoutY="192.0" prefHeight="31.0" prefWidth="55.0" AnchorPane.leftAnchor="500.0" />
+      <Label layoutX="478.0" layoutY="81.0" prefHeight="31.0" prefWidth="97.0" text="Consistency" AnchorPane.leftAnchor="478.0" />
+      <TextField fx:id="consText1" disable="true" editable="false" layoutX="499.0" layoutY="112.0" prefHeight="31.0" prefWidth="55.0" AnchorPane.leftAnchor="499.0" />
    </children>
 </AnchorPane>

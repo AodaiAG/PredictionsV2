@@ -15,9 +15,12 @@
             <TableColumn fx:id="terminationConditionsColumn" prefWidth="174.0" text="Termination Condition" />
             <TableColumn fx:id="executionsRunningColumn" prefWidth="69.0" text="Running" />
             <TableColumn fx:id="executionsFinishedColumn" prefWidth="69.0" text="Finished" />
-            <TableColumn fx:id="handleRequestColumn" prefWidth="182.0" resizable="false" text="Handle Request" />
+            <TableColumn fx:id="handleRequestColumn" prefWidth="198.0" resizable="false" text="Handle Request" />
 
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
    </children>
 </AnchorPane>
