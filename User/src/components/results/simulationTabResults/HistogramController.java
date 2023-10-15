@@ -10,7 +10,6 @@ import pDTOS.EntityDTO;
 import pDTOS.EntityInstancesDTO;
 import pDTOS.PropertyDTO;
 import pDTOS.WorldDTO;
-import pSystem.engine.SimulationResult;
 
 import java.util.HashMap;
 import java.util.List;

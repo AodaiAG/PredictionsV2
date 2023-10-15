@@ -1,15 +1,12 @@
 package components.results.simulationTabResults;
 
 
-import Requests.SimulationRequestExecuter.SimulationTaskHelper.EntityWrapper;
 import Requests.SimulationRequestExecuter.SimulationTaskHelper.ObservableEntity;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import components.results.simulationTabResults.simulationRefreshers.populationRefresher;
 import components.results.simulationTabResults.simulationRefreshers.ticksAndTimeRefresher;
-import components.execution.ExecutionController;
 import components.mainApp.UserMainAppController;
-import components.requests.showUserRequests.RequestsRefresher;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -28,15 +25,12 @@ import org.jetbrains.annotations.NotNull;
 import pDTOS.ActionsDTO.*;
 import pDTOS.EntityDTO;
 import pDTOS.WorldDTO;
-import pSystem.ThreadPoolManager.SimulationTask;
-import pSystem.engine.SimulationResult;
 import util.http.HttpClientUtil;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 
 public class SimulationDetailsTabController
@@ -637,7 +631,7 @@ public class SimulationDetailsTabController
 
             // Load the SimulationDetails.fxml
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/Results/simulationTabResults/histogramUI.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/results/simulationTabResults/histogramUI.fxml"));
 
             AnchorPane histogram = loader.load();
 

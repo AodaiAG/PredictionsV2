@@ -29,7 +29,7 @@ public class ResultsController
        try
        {
            Tab tab = new Tab("Simulation " + tabCounter);
-           FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/Results/simulationTabResults/SimulationDetails.fxml"));
+           FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/results/simulationTabResults/SimulationDetails.fxml"));
            AnchorPane simulationDetails = loader.load();
            SimulationDetailsTabController simulationDetailsTabController = loader.getController();
            simulationDetailsTabController.initTab(requestId,executedSimulationId);
