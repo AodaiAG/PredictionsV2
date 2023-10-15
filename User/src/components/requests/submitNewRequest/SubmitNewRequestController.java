@@ -118,16 +118,18 @@ public class SubmitNewRequestController
             ticksText.setDisable(true);
         }
     }
-
     @FXML
-    void submitClicked(ActionEvent event) {
+    void submitClicked(ActionEvent event)
+    {
         try {
             String numOfExecutionsText = numOfExecutions.getText();
             String selectedSimulation = simulationNamesCHoiceBox.getValue();
 
-            if (numOfExecutionsText.isEmpty() || selectedSimulation == null) {
+            if (numOfExecutionsText.isEmpty() || selectedSimulation == null)
+            {
                 String errorMessage = "Please fill in all required fields.";
-                if (numOfExecutionsText.isEmpty()) {
+                if (numOfExecutionsText.isEmpty())
+                {
                     errorMessage += "\n- Number of Executions is empty.";
                 }
                 if (selectedSimulation == null) {
