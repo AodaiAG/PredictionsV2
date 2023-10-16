@@ -51,6 +51,12 @@ public class PropertyDTO {
         return rootNode;
     }
 
+    public TreeItem<String> generateTreeViewForSummary() {
+        TreeItem<String> rootNode = new TreeItem<>(NameOfProperty);
+        rootNode.getChildren().add(new TreeItem<>("Data String: " + dataString));
+        return rootNode;
+    }
+
     public String getNameOfDataType() {
         return nameOfDataType;
     }

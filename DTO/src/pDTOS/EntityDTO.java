@@ -19,7 +19,7 @@ public class EntityDTO
 
         // Add the properties as child nodes
         TreeItem<String> propertiesNode = new TreeItem<>("Properties");
-        TreeItem<String> numberofInstances = new TreeItem<>("Population: "+instancesDTOS.size());
+        TreeItem<String> numberofInstances = new TreeItem<>("Population: "+ instancesDTOS.size());
         for (PropertyDTO property : properties)
         {
             propertiesNode.getChildren().add(property.generateTreeView());
@@ -27,6 +27,17 @@ public class EntityDTO
         rootNode.getChildren().add(numberofInstances);
         rootNode.getChildren().add(propertiesNode);
 
+        return rootNode;
+    }
+
+    public TreeItem<String> generateTreeViewForSummary()
+    {
+        TreeItem<String> rootNode = new TreeItem<>(name);
+        // Add the number of instances as a child node
+
+        // Add the properties as child nodes
+        TreeItem<String> numberofInstances = new TreeItem<>("Population: "+ instancesDTOS.size());
+        rootNode.getChildren().add(numberofInstances);
 
         return rootNode;
     }

@@ -14,6 +14,10 @@ public class EnvironmentDTO
     {
         return enProperty.generateTreeView();
     }
+    public TreeItem<String> generateTreeViewForSummary()
+    {
+        return enProperty.generateTreeViewForSummary();
+    }
 
     public PropertyDTO getEnProperty() {
         return enProperty;

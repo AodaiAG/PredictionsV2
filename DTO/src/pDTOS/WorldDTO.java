@@ -25,6 +25,29 @@ public class WorldDTO {
 
     }
 
+    public TreeView<String> generateTreeViewForSummary() {
+        TreeItem<String> rootNode = new TreeItem<>("World");
+
+        // Add EntityDTOs as child nodes
+        TreeItem<String> entityNode = new TreeItem<>("Entities");
+        for (EntityDTO entityDTO : entityDTOSet) {
+            entityNode.getChildren().add(entityDTO.generateTreeViewForSummary());
+        }
+        rootNode.getChildren().add(entityNode);
+
+        // Add TerminationDTO as a child node
+        rootNode.getChildren().add(terminationDTO.generateTreeView());
+
+        // Add EnvironmentDTOs as child nodes
+        TreeItem<String> environmentNode = new TreeItem<>("Environment");
+        for (EnvironmentDTO environmentDTO : environmentDTOS) {
+            environmentNode.getChildren().add(environmentDTO.generateTreeViewForSummary());
+        }
+        rootNode.getChildren().add(environmentNode);
+        return new TreeView<>(rootNode);
+    }
+
+
     public TreeView<String> generateTreeView() {
         TreeItem<String> rootNode = new TreeItem<>("World");
 
