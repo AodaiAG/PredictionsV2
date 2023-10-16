@@ -139,8 +139,10 @@ public class Engine implements IEngine {
         }
     }
 
-    public void initEnviromentVariables() {
-        for (EnvironmentInstance environmentInstance : originalWorld.getName2Env().values()) {
+    public void initEnviromentVariables(World world)
+    {
+        for (EnvironmentInstance environmentInstance : world.getName2Env().values())
+        {
             environmentInstance.randomlyInitEnvironmentData();
         }
     }
@@ -167,7 +169,7 @@ public class Engine implements IEngine {
             SimulationExecutionHelper simulationExecutionHelper = simulationReadyForExecution.getSimulationExecutionHelper();
             simulationExecutionHelper.setTerminationConditions(requestExecuter.getTerminationConditions());
             World originalWorld = simulationReadyForExecution.getWorld();
-            initEnviromentVariablesToWorld(originalWorld);//
+
             World clonedWorld = originalWorld.clone();
             World toBeExecutedWorld = originalWorld.clone();
             f.setWorld(clonedWorld);
@@ -847,7 +849,10 @@ public class Engine implements IEngine {
         SimulationReadyForExecution simulationReadyForExecution = new SimulationReadyForExecution();
         simulationReadyForExecution.setUserName(userName);
         UUID uuid = UUID.randomUUID();
-        simulationReadyForExecution.setWorld(simulationRequestExecuter.getCurrSimulation().getWorld().clone());
+        World world=simulationRequestExecuter.getCurrSimulation().getWorld().clone();
+        initEnviromentVariablesToWorld(world);
+        simulationReadyForExecution.setWorld(world);
+
         simulationReadyForExecution.setExecutionId(uuid);
         simulationRequestExecuter.getUuidSimulationReadyForExecutionMap().put(uuid, simulationReadyForExecution);
         return uuid;
