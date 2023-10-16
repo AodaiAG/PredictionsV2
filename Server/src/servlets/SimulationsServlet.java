@@ -29,7 +29,7 @@ public class SimulationsServlet extends HttpServlet
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Engine engine = ServletUtils.getEngine(getServletContext());
         Map<String, aSimulation> simulationMap=engine.getAllSimulations();
-        for ( aSimulation aSimulation:simulationMap.values())
+        for (aSimulation aSimulation:simulationMap.values())
         {
             simulationDTOS.add(engine.convertSimulationToDTO(aSimulation));
         }
@@ -39,11 +39,5 @@ public class SimulationsServlet extends HttpServlet
         {
             out.println(jsonResponse);
         }
-
-
-
-
-
-
     }
 }

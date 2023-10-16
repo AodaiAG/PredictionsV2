@@ -98,7 +98,7 @@ public class SimulationTreeViewRefresher extends TimerTask
 
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
 
-        CompletableFuture<List<SimulationDTO>> future = new CompletableFuture<>();
+        CompletableFuture<List<SimulationDTO>> future = new CompletableFuture<                                                                                                                                                                                                                                                                                                                                              >();
 
         call.enqueue(new Callback()
         {
