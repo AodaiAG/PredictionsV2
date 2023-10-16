@@ -108,7 +108,8 @@ public class SubmitNewRequestController
             ticksText.clear();
             ticksText.setDisable(false);
         }
-        else {
+        else
+        {
             if(!timeOption.isSelected())
             {
                 userOption.setDisable(false);

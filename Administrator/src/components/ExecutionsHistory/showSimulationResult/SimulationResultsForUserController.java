@@ -42,7 +42,7 @@ public class SimulationResultsForUserController
     private RadioButton populationInfoRadioButton;
 
     @FXML
-    private RadioButton histogramRadioButton;
+    private RadioButton histogramRadioButton,environmentVars;
 
     @FXML
     private TextField simulationIdText;
@@ -58,6 +58,7 @@ public class SimulationResultsForUserController
 
     @FXML
     private AnchorPane hisoPopPane;
+    TreeView<String> envTreeView=new TreeView<>();
 
     @FXML
     TableView<EntityDTO> populationInfoTable;
@@ -349,6 +350,7 @@ public class SimulationResultsForUserController
             populationInfoRadioButton.setToggleGroup(toggleGroup);
 
             histogramRadioButton.setToggleGroup(toggleGroup);
+            environmentVars.setToggleGroup(toggleGroup);
 
 
             // Add a listener to handle radio button selection
@@ -370,13 +372,24 @@ public class SimulationResultsForUserController
                     hisoPopPane.getChildren().add(populationInfoTable);
 
                 } else if (newValue == histogramRadioButton)
+                {
+                    showHistogramContent();
+                }
 
+                else if(newValue == environmentVars)
                 {
 
-
-                    showHistogramContent();
-
-                } else
+                    hisoPopPane.getChildren().clear();
+                    //envTreeView.setPrefHeight(300);
+                    // envTreeView.setPrefWidth(1000);
+                    envTreeView.setRoot(worldDTOAfter.generateTreeViewForEnviVariables().getRoot());
+                    AnchorPane.setBottomAnchor(envTreeView,0.0);
+                    AnchorPane.setLeftAnchor(envTreeView,0.0);
+                    AnchorPane.setRightAnchor(envTreeView,0.0);
+                    AnchorPane.setTopAnchor(envTreeView,0.0);
+                    hisoPopPane.getChildren().add(envTreeView);
+                }
+                else
 
                 {
 

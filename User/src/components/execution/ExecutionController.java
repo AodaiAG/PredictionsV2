@@ -5,14 +5,21 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import components.mainApp.UserMainAppController;
 import components.simulationDetails.SimulationTreeViewRefresher;
+import components.simulationInSummary.SummaryController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import pDTOS.ActionsDTO.*;
@@ -270,6 +277,7 @@ public class ExecutionController
     {
         try
         {
+
             UUID executedSimulationId = sendHttpRequestAndGetExecutionID(requestId).get();
             //executedSimulationId
             this.mainAppController.initExecutionTracker(requestId, executedSimulationId);
@@ -282,6 +290,53 @@ public class ExecutionController
         }
     }
 
+    public void startTSimulation(ActionEvent event)
+    {
+        try
+        {
+
+            UUID executedSimulationId = sendHttpRequestAndGetExecutionID(requestId).get();
+            //executedSimulationId
+            this.mainAppController.initExecutionTracker(requestId, executedSimulationId);
+            this.mainAppController.switchToResultsPage();
+            mainAppController.setExecutionsBtnVisibility(true);
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
+
+          @FXML
+          void testingNew(ActionEvent event)
+          {
+              try
+              {
+
+                  FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/simulationInSummary/summary.fxml"));
+                  Parent root = loader.load();
+                  // Get the controller for the pop-up
+                  SummaryController simulationOptionsController = loader.getController();
+                  // Create a new stage for the pop-up
+                  Stage popupStage = new Stage();
+                  popupStage.initModality(Modality.APPLICATION_MODAL);
+                  popupStage.initOwner(((Node) (event.getSource())).getScene().getWindow());
+                  // Set the content of the pop-up stage to the loaded FXML
+                  popupStage.setScene(new Scene(root));
+                  simulationOptionsController.setStage(popupStage);
+                  simulationOptionsController.setExecutionController(this);
+                  simulationOptionsController.setRequestId(requestId);
+                  simulationOptionsController.populateInfo();
+                  // Set the title of the pop-up stage
+                  popupStage.setTitle("Simulation Summary");
+                  // Show the pop-up stage
+                  popupStage.show();
+
+              } catch (Exception e)
+              {
+                  // Handle exceptions
+              }
+          }
     private  CompletableFuture<UUID> sendHttpRequestAndGetExecutionID(UUID requestId)
     {
         // Replace this URL with the actual URL of your server endpoint
