@@ -13,8 +13,10 @@ public class WorldDTO {
     private List<RulesDTO> rulesDTOSet;
     private TerminationDTO terminationDTO;
     private List<EnvironmentDTO> environmentDTOS;
+    private String sleepAmount="0";
 
-    public WorldDTO(List<EntityDTO> entityDTOSet, List<EnvironmentDTO> env, List<RulesDTO> rulesDTOSet, TerminationDTO terminationDTO, int gridRows, int gridCols, int tickCounter) {
+    public WorldDTO(List<EntityDTO> entityDTOSet, List<EnvironmentDTO> env, List<RulesDTO> rulesDTOSet, TerminationDTO terminationDTO, int gridRows, int gridCols, int tickCounter,String sleepAmount)
+    {
         this.entityDTOSet = entityDTOSet;
         this.rulesDTOSet = rulesDTOSet;
         this.terminationDTO = terminationDTO;
@@ -22,6 +24,7 @@ public class WorldDTO {
         this.gridRows = gridRows;
         this.gridCols = gridCols;
         this.tickCounter = tickCounter;
+        this.sleepAmount=sleepAmount;
 
     }
     public TreeView<String> generateTreeViewForEnviVariables()
@@ -61,7 +64,8 @@ public class WorldDTO {
     }
 
 
-    public TreeView<String> generateTreeView() {
+    public TreeView<String> generateTreeView()
+    {
         TreeItem<String> rootNode = new TreeItem<>("World");
 
         // Add EntityDTOs as child nodes
@@ -90,7 +94,9 @@ public class WorldDTO {
         rootNode.getChildren().add(environmentNode);
         TreeItem<String> grid = new TreeItem<>("Grid");
         grid.getChildren().add(new TreeItem<>(gridRows + "X" + gridCols));
-        rootNode.getChildren().add(grid);
+        TreeItem<String> sleepAmount = new TreeItem<>("Sleep Amount");
+        sleepAmount.getChildren().add(new TreeItem<>(this.sleepAmount));
+        rootNode.getChildren().add(sleepAmount);
         TreeView<String> treeView = new TreeView<>(rootNode);
         return treeView;
     }

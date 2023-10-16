@@ -109,7 +109,7 @@ public class Engine implements IEngine {
             EnvironmentDTO dto = new EnvironmentDTO(pDto);
             envSet.add(dto);
         }
-        return new WorldDTO(entityDTOSet, envSet, rulesDTOSet, terminationDTO, world.getGrid().getNumRows(), world.getGrid().getNumCols(), world.ticksCounter);
+        return new WorldDTO(entityDTOSet, envSet, rulesDTOSet, terminationDTO, world.getGrid().getNumRows(), world.getGrid().getNumCols(), world.ticksCounter,String.valueOf(world.getSleep()));
     }
 
     public WorldDTO getWorldBeforeChanging() {
@@ -169,7 +169,6 @@ public class Engine implements IEngine {
             SimulationExecutionHelper simulationExecutionHelper = simulationReadyForExecution.getSimulationExecutionHelper();
             simulationExecutionHelper.setTerminationConditions(requestExecuter.getTerminationConditions());
             World originalWorld = simulationReadyForExecution.getWorld();
-
             World clonedWorld = originalWorld.clone();
             World toBeExecutedWorld = originalWorld.clone();
             f.setWorld(clonedWorld);
@@ -196,7 +195,8 @@ public class Engine implements IEngine {
     }
 
 
-    public String runS(World clonedWorld, SimulationExecutionHelper simulationExecutionHelper) {
+    public String runS(World clonedWorld, SimulationExecutionHelper simulationExecutionHelper)
+    {
         SimulationConditions simulationConditions = simulationExecutionHelper.getSimulationConditions();
         Consumer<String> consumer = simulationExecutionHelper.getConsumer();
         TerminationDTO terminationDTO = simulationExecutionHelper.getTerminationConditions();
@@ -204,6 +204,7 @@ public class Engine implements IEngine {
         Map<String, List<Integer>> entityPopulationHistory = simulationExecutionHelper.getEntityPopulationHistory();
         double generatedProbability;
         generatedProbability = r.nextDouble();
+        int sleepAmount=clonedWorld.getSleep();
         clonedWorld.ticksCounter = 0;
         Timer timer = new Timer();
         System.out.println(Thread.currentThread());
@@ -226,7 +227,8 @@ public class Engine implements IEngine {
         boolean ticksAsTermination = true;
         boolean secondsAsTermination = true;
 
-        while ((ticksAsTermination && secondsAsTermination) && simulationConditions.getSimulationRunning()) {
+        while ((ticksAsTermination && secondsAsTermination) && simulationConditions.getSimulationRunning())
+        {
             //move
             clonedWorld.moveAllInstances();
 
@@ -241,7 +243,8 @@ public class Engine implements IEngine {
             // Iterate over each entity and save the population in its history list
             for (Entity entity : entityList) {
 
-                if (clonedWorld.ticksCounter % 500 == 0) {
+                if (clonedWorld.ticksCounter % 500 == 0)
+                {
                     String entityName = entity.getNameOfEntity(); // Get the name of the entity
                     List<Integer> populationHistory = entityPopulationHistory.getOrDefault(entity.getNameOfEntity(), new ArrayList<>());
                     populationHistory.add(entity.getEntities().size());
@@ -264,7 +267,8 @@ public class Engine implements IEngine {
                 }
             }
             // if the user choses to pause
-            while (simulationConditions.getPauseSimulation()) {
+            while (simulationConditions.getPauseSimulation())
+            {
                 try {
                     Thread.sleep(100);   // Sleep for a short time while paused
                     if (!simulationConditions.getSimulationRunning()) {
@@ -279,10 +283,20 @@ public class Engine implements IEngine {
             double runningTimeInSeconds = (currentTime - startTime) / 1_000_000_000.0;
 
             clonedWorld.ticksCounter++;
+
+            if(sleepAmount!=0)
+            {
+                try
+                {
+                    Thread.sleep(sleepAmount);   // Sleep for a short time while paused
+                } catch (InterruptedException e)
+                {
+                    // Handle interruption if needed
+                }
+            }
             ticksAsTermination = (ticksAmount > 0 && clonedWorld.ticksCounter < ticksAmount) || (ticksAmount == 0);
             secondsAsTermination = ((secondsAmount > 0 && runningTimeInSeconds < secondsAmount) || secondsAmount == 0);
             currTicksAmount = clonedWorld.ticksCounter;
-
             simulationExecutionHelper.setPopAndTicks("Ticks: " + clonedWorld.ticksCounter + '\n' + "Running Time: " + runningTimeInSeconds + " seconds");
         }
 
@@ -526,7 +540,8 @@ public class Engine implements IEngine {
         }
     }
 
-    public World ParseXmlAndLoadWorldFromDoc(Document doc) throws Exception {
+    public World ParseXmlAndLoadWorldFromDoc(Document doc) throws Exception
+    {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             String simulationName;
@@ -541,8 +556,10 @@ public class Engine implements IEngine {
 
             }
             simulationName = doc.getDocumentElement().getAttribute("name");
+            String sleepAmount = doc.getDocumentElement().getAttribute("sleep");
 
-            if (doc.getElementsByTagName("PRD-grid").getLength() > 0) {
+            if (doc.getElementsByTagName("PRD-grid").getLength() > 0)
+            {
                 setGridCoordinate(doc.getElementsByTagName("PRD-grid"), originalWorld);
             }
 
@@ -566,6 +583,16 @@ public class Engine implements IEngine {
             if(isExist != null)
             {
                 throw new Exception("A simulation with the current name already exists");
+            }
+
+            try
+            {
+                originalWorld.setSleep(Integer.parseInt(sleepAmount));
+            }
+            catch (NumberFormatException e)
+            {
+                throw new Exception("Sleep number Should be Integer");
+
             }
             return originalWorld;
 
@@ -845,14 +872,13 @@ public class Engine implements IEngine {
         return this.UUIdTORequestExecuter.get(id);
     }
 
-    public UUID setSimulationToBeExecuted(SimulationRequestExecuter simulationRequestExecuter, String userName) {
+    public UUID setSimulationToBeExecuted(SimulationRequestExecuter simulationRequestExecuter, String userName)
+    {
         SimulationReadyForExecution simulationReadyForExecution = new SimulationReadyForExecution();
         simulationReadyForExecution.setUserName(userName);
         UUID uuid = UUID.randomUUID();
         World world=simulationRequestExecuter.getCurrSimulation().getWorld().clone();
-        initEnviromentVariablesToWorld(world);
         simulationReadyForExecution.setWorld(world);
-
         simulationReadyForExecution.setExecutionId(uuid);
         simulationRequestExecuter.getUuidSimulationReadyForExecutionMap().put(uuid, simulationReadyForExecution);
         return uuid;

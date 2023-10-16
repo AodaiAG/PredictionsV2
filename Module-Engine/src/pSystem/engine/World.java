@@ -28,6 +28,8 @@ public class World implements Cloneable
 
     private List<Rule> rules;
 
+    private int sleep=0;
+
    private EntityInstancesCircularGrid grid;
 
     public int getCurrentPopulationAmount() {
@@ -45,6 +47,15 @@ public class World implements Cloneable
         rules = new ArrayList<>();
         entities = new ArrayList<Entity>();
         grid = new EntityInstancesCircularGrid();
+    }
+
+    public int getSleep()
+    {
+        return sleep;
+    }
+
+    public void setSleep(int sleep) {
+        this.sleep = sleep;
     }
 
     // Implement clone method to create a deep copy of the World

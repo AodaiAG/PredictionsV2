@@ -42,6 +42,12 @@ public class SimulationRequestExecuter
 
     }
 
+    public void setCurrSim()
+    {
+        currSimulation=originalSimulationToBeExecuted.clone();
+
+    }
+
     public String getUserName()
     {
         return userName;

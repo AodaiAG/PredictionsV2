@@ -71,8 +71,44 @@ public class ExecutionController
     public void initializeController(SimulationRequestDetails simulationRequest)
     {
              requestId=simulationRequest.getId();
+             initEnviroments();
              fetchWorldDtoAndUpdateInfo();
 
+
+
+    }
+
+    private void initEnviroments()
+    {
+        String serverUrl = "http://localhost:8080/init_env?id="+requestId.toString(); // Example URL
+
+        Request request = new Request.Builder()
+                .url(serverUrl)
+                .build();
+
+        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+
+        call.enqueue(new Callback()
+        {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+                try
+                {
+
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+        });
 
     }
 
@@ -218,6 +254,7 @@ public class ExecutionController
             // Handle the "Modify" button click here
             handleModifyButtonClick(selectedEnvironment);
             fetchWorldDtoAndUpdateInfo();
+
 
         });
 
