@@ -37,7 +37,6 @@ public class SimulationDetailsTabController
 {
 
     @FXML
-
     private AnchorPane resultsAnchor,detailsMainAnchor,progressPane;
     @FXML
 
@@ -49,7 +48,7 @@ public class SimulationDetailsTabController
 
     @FXML
 
-    private RadioButton populationInfoRadioButton,histogramRadioButton;
+    private RadioButton populationInfoRadioButton,histogramRadioButton,environmentVars;
 
     @FXML
 
@@ -86,7 +85,7 @@ public class SimulationDetailsTabController
     private NumberAxis customYAxis = new NumberAxis(); // Create a custom NumberAxis
     private ToggleGroup toggleGroup = new ToggleGroup();
     public StringProperty statusPropertyLabel = new SimpleStringProperty("Running");
-
+   TreeView<String> envTreeView=new TreeView<>();
     @FXML
     TableView<ObservableEntity> populationProgress;
     @FXML
@@ -113,6 +112,7 @@ public class SimulationDetailsTabController
         populationCountColumnProgress.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPopulation()));
         startExecution();
         startRefreshers();
+
     }
 
     private void startRefreshers()
@@ -295,6 +295,7 @@ public class SimulationDetailsTabController
             populationInfoRadioButton.setToggleGroup(toggleGroup);
 
             histogramRadioButton.setToggleGroup(toggleGroup);
+            environmentVars.setToggleGroup(toggleGroup);
 
 
             // Add a listener to handle radio button selection
@@ -315,15 +316,26 @@ public class SimulationDetailsTabController
 
                     hisoPopPane.getChildren().add(populationInfoTable);
 
-                } else if (newValue == histogramRadioButton)
+                }
+                else if (newValue == histogramRadioButton)
+                {
+                    showHistogramContent();
+                }
 
+                else if(newValue == environmentVars)
                 {
 
-
-                    showHistogramContent();
-
-                } else
-
+                    hisoPopPane.getChildren().clear();
+                    //envTreeView.setPrefHeight(300);
+                   // envTreeView.setPrefWidth(1000);
+                    envTreeView.setRoot(worldDTOAfter.generateTreeViewForEnviVariables().getRoot());
+                    AnchorPane.setBottomAnchor(envTreeView,0.0);
+                    AnchorPane.setLeftAnchor(envTreeView,0.0);
+                    AnchorPane.setRightAnchor(envTreeView,0.0);
+                    AnchorPane.setTopAnchor(envTreeView,0.0);
+                    hisoPopPane.getChildren().add(envTreeView);
+                }
+                else
                 {
 
                     // Handle deselection or other actions

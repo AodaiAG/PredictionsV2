@@ -24,8 +24,21 @@ public class WorldDTO {
         this.tickCounter = tickCounter;
 
     }
+    public TreeView<String> generateTreeViewForEnviVariables()
+    {
 
-    public TreeView<String> generateTreeViewForSummary() {
+        // Add EntityDTOs as child nodes
+
+        // Add EnvironmentDTOs as child nodes
+        TreeItem<String> environmentNode = new TreeItem<>("Environment Variables");
+        for (EnvironmentDTO environmentDTO : environmentDTOS) {
+            environmentNode.getChildren().add(environmentDTO.generateTreeViewForSummary());
+        }
+        environmentNode.setExpanded(true);
+        return new TreeView<>(environmentNode);
+    }
+    public TreeView<String> generateTreeViewForSummary()
+    {
         TreeItem<String> rootNode = new TreeItem<>("World");
 
         // Add EntityDTOs as child nodes
