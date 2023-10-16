@@ -40,7 +40,6 @@ public class XmlUploadServlet extends HttpServlet
 
             World engine=ServletUtils.getEngine(getServletContext()).ParseXmlAndLoadWorldFromDoc(doc);
 
-
             response.getWriter().write("XML uploaded and processed successfully!");
         } catch (Exception e)
         {
