@@ -6,21 +6,21 @@ import components.login.LoginController;
 import components.requests.RequestsController;
 
 import components.simulationDetails.SimulationDetailsController;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -48,40 +48,48 @@ public class UserMainAppController
 
     private final StringProperty currentUserName;
 
-
     @FXML
     private AnchorPane mainAnchorProgram;
+
     @FXML
     private VBox Leftvbox;
+
     @FXML
     private Pane pnlStatus;
+
     @FXML
     private Label pnlsMessage;
+
     @FXML
     private Pane buttonsPane;
+
     @FXML
     private Button btnLoad;
+
     @FXML
     private TextField filePathLabel;
+
     @FXML
     private Button ExecutionBtn;
+
     @FXML
     private AnchorPane mainAnchorpane;
-    @FXML private Label userGreetingLabel;
+
+    @FXML
+    private Label userGreetingLabel;
+
+    @FXML
+    private HBox buttonsContainer;
     public UserMainAppController() {
         currentUserName = new SimpleStringProperty(JHON_DOE);
     }
 
     @FXML
-    public void initialize()
-    {
-
-       userGreetingLabel.textProperty().bind(Bindings.concat( currentUserName));
+    public void initialize() {
+        userGreetingLabel.textProperty().bind(Bindings.concat(currentUserName));
         setExecutionsBtnVisibility(true);
-
-        // prepare components
-        //loadLoginPage();
     }
+
     public String getUserName()
     {
         return currentUserName.getValue();
@@ -107,7 +115,6 @@ public class UserMainAppController
             mainAppStage.setScene(mainAppScene);
             mainAppStage.setTitle("Main App"); // Set the title for the main app window
 
-            // Show the main app stage
             mainAppStage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -29,6 +29,9 @@ public class AllocationsController
     private TableColumn<SimulationRequestDetails, String> simulationNameColumn;
 
     @FXML
+    private TableColumn<SimulationRequestDetails, String> requestStatusColumn;
+
+    @FXML
     private TableColumn<SimulationRequestDetails, String> userNameColumn;
 
     @FXML
@@ -78,6 +81,11 @@ public class AllocationsController
         {
             String sName = cellData.getValue().getSimulationName();
             return new SimpleStringProperty(sName != null ? sName : "");
+        });
+        requestStatusColumn.setCellValueFactory(cellData->
+        {
+            String requestStatus = cellData.getValue().getRequestStatus();
+            return new SimpleStringProperty(requestStatus);
         });
         userNameColumn.setCellValueFactory(cellData->
         {

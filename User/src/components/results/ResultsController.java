@@ -1,6 +1,5 @@
 package components.results;
 
-
 import components.results.simulationTabResults.SimulationDetailsTabController;
 import components.mainApp.UserMainAppController;
 import javafx.fxml.FXML;

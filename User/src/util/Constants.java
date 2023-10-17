@@ -6,10 +6,7 @@ public class Constants
 {
 
     // global constants
-    public final static String LINE_SEPARATOR = System.getProperty("line.separator");
     public final static String JHON_DOE = "<Anonymous>";
-    public final static int REFRESH_RATE = 2000;
-    public final static String CHAT_LINE_FORMATTING = "%tH:%tM:%tS | %.10s: %s%n";
 
     // fxml locations
     public final static String MAIN_PAGE_FXML_RESOURCE_LOCATION = "/components/mainApp/userMainApp.fxml";
@@ -32,12 +29,4 @@ public class Constants
     public final static String NEW_REQUEST= "new_request";
 
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/login";
-    public final static String ADMIN_CHECK = FULL_SERVER_PATH + "/admin-check";
-    public final static String USERS_LIST = FULL_SERVER_PATH + "/userslist";
-    public final static String LOGOUT = FULL_SERVER_PATH + "/chat/logout";
-    public final static String SEND_CHAT_LINE = FULL_SERVER_PATH + "/pages/chatroom/sendChat";
-    public final static String CHAT_LINES_LIST = FULL_SERVER_PATH + "/chat";
-
-    // GSON instance
-    public final static Gson GSON_INSTANCE = new Gson();
 }

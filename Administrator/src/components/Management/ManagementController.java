@@ -57,7 +57,6 @@ public class ManagementController
             AnchorPane toBeSubmitted = fxmlLoader.load();
             simulationDetailsController = fxmlLoader.getController();
             simulationDetailsController.setAppMainController(this.mainAppController);
-            //submitNewRequestController.initApplication();
             simulationDetailsAnchor.getChildren().clear();
             simulationDetailsAnchor.getChildren().add(toBeSubmitted);
             AnchorPane.setBottomAnchor(toBeSubmitted, 1.0);

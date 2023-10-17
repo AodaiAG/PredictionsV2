@@ -116,18 +116,6 @@ public class Engine implements IEngine {
         return worldBeforeChanging;
     }
 
-    @Override
-    public void setDataToEnvironmentVar(EnvironmentDTO environmentDTO, String userValue) throws Exception {
-        EnvironmentInstance environmentInstance = this.originalWorld.getName2Env().get(environmentDTO.getEnProperty().getNameOfProperty());
-        try {
-            environmentInstance.getEnvironmentProperty().getData().setNewValue(userValue);
-            environmentInstance.getEnvironmentProperty().setRandomInitialize(false);
-            environmentInstance.setInitByUser(true);
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
     public void setDataToEnvironmentVarGivenWorld(EnvironmentDTO environmentDTO, String userValue, World world) throws Exception {
         EnvironmentInstance environmentInstance = world.getName2Env().get(environmentDTO.getEnProperty().getNameOfProperty());
         try {
@@ -152,14 +140,6 @@ public class Engine implements IEngine {
             environmentInstance.randomlyInitEnvironmentData();
         }
     }
-
-    @Override
-    public UUID startSimulation(SimulationConditions simulationConditions, Consumer<String> consumer, EntityWrapper entityWrapper) {
-        return null;
-    }
-
-    //command #3
-
 
     // wanted
     public void executeSimulation(SimulationRequestExecuter requestExecuter, UUID simToExecute) {
@@ -313,145 +293,8 @@ public class Engine implements IEngine {
     }
 
     @Override
-    public void setWorldFromExecution(SimulationResult simulationResult) {
-        this.originalWorld = simulationResult.getWorldTobeExecuted();
-        setWorldToFunctions(originalWorld);
-    }
-
-
-    @Override
-    public Boolean isWordNull() {
-        return originalWorld == null;
-    }
-
-    @Override
     public Map<UUID, SimulationResult> getSimulationResults() {
         return this.simulationResults;
-    }
-
-    @Override
-    public World cloneWorld() {
-        return this.originalWorld.clone();
-    }
-
-//    public String runSimulation(World clonedWorld, SimulationConditions simulationConditions, Consumer<String> consumer, EntityWrapper entityWrapper)
-//    {
-//        entityPopulationHistory = new HashMap<>();
-//        double generatedProbability;
-//        generatedProbability = r.nextDouble();
-//        clonedWorld.ticksCounter = 0;
-//        Timer timer = new Timer();
-//        System.out.println(Thread.currentThread());
-//        TimerTask task = new TimerTask()
-//        {
-//            @Override
-//            public void run() {
-//                programRunning = false;
-//
-//                timer.cancel();
-//            }
-//        };
-//        long startTime = System.nanoTime(); // Record the start time
-//        int ticksAmount = clonedWorld.getTerminationTicks();
-//        long delay = (long) clonedWorld.getTerminationSeconds() * 1000; // Delay in milliseconds (5 seconds)
-//        timer.schedule(task, delay);
-//        // Graph //
-//
-//        entityPopulationHistory.clear();
-//        boolean ticksAsTermination = true;
-//
-//        while (ticksAsTermination && simulationConditions.getSimulationRunning())
-//        {
-//            //move
-//            clonedWorld.moveAllInstances();
-//
-//            //check if ticks
-//            for (Rule rule : clonedWorld.getRules())
-//            {
-//                rule.isActivated(clonedWorld.ticksCounter, clonedWorld.getEntities(), clonedWorld.ticksCounter, generatedProbability);
-//                generatedProbability = r.nextDouble();
-//            }
-//
-//            List<Entity> entityList = clonedWorld.getEntities();
-//
-//            // Iterate over each entity and save the population in its history list
-//            for (Entity entity : entityList)
-//            {
-//
-//                if(clonedWorld.ticksCounter%100==0)
-//                {
-//                    String entityName = entity.getNameOfEntity(); // Get the name of the entity
-//                    List<Integer> populationHistory = entityPopulationHistory.getOrDefault(entity.getNameOfEntity(), new ArrayList<>());
-//                    populationHistory.add(entity.getEntities().size());
-//                    entityPopulationHistory.put(entityName, populationHistory);
-//                }
-//
-//                Optional<ObservableEntity> existingEntity = entityWrapper.getEntityList()
-//                        .stream()
-//                        .filter(e -> e.getName().equals(entity.getNameOfEntity()))
-//                        .findFirst();
-//                if (existingEntity.isPresent()) {
-//                    // Update the existing entity's population
-//                    existingEntity.get().setPopulation(String.valueOf(entity.getEntities().size()));
-//                } else {
-//                    // Create a new entity and add it to the wrapper
-//                    ObservableEntity newEntity = new ObservableEntity();
-//                    newEntity.setName(entity.getNameOfEntity());
-//                    newEntity.setPopulation(String.valueOf(entity.getEntities().size()));
-//                    entityWrapper.addEntity(newEntity);
-//                }
-//            }
-//            // if the user choses to pause
-//            while (simulationConditions.getPauseSimulation())
-//            {
-//                try
-//                {
-//                    Thread.sleep(100);   // Sleep for a short time while paused
-//                 if(!simulationConditions.getSimulationRunning())
-//                 {
-//                     break;
-//                 }
-//                }
-//                catch (InterruptedException e)
-//                {
-//                    // Handle interruption if needed
-//                }
-//            }
-//
-//            long currentTime = System.nanoTime();
-//            double runningTimeInSeconds = (currentTime - startTime) / 1_000_000_000.0;
-//
-//            clonedWorld.ticksCounter++;
-//            ticksAsTermination = (ticksAmount > 0 && clonedWorld.ticksCounter < ticksAmount) || (ticksAmount == 0);
-//            currTicksAmount = clonedWorld.ticksCounter;
-//
-//            consumer.accept("Ticks: " + clonedWorld.ticksCounter + '\n' + "Running Time: " + runningTimeInSeconds + " seconds");
-//        }
-//
-//        timer.cancel(); // Cancel the timer when simulation is done
-//        if (clonedWorld.ticksCounter == ticksAmount)
-//        {
-//            return "ticks";
-//        }
-//        return "seconds";
-//    }
-
-    @Override
-    public Map<String, Integer> endOfSimulationHandlerShowQuantities(UUID simulationID) {
-        SimulationResult simulationResult = simulationResults.get(simulationID);
-        simulationResult.initQuantities();
-        return simulationResult.getInitialQuantities(); //map of the old entities
-    }
-
-    @Override
-    public void endOfSimulationHandlerPropertyHistogram(UUID simulationID, String chosenEntityName, String chosenPropertyName) {
-        SimulationResult simulationResult = simulationResults.get(simulationID);
-        try {
-            Entity chosenEntity = findEntityAccordingName(this.originalWorld.getEntities(), chosenEntityName);
-            simulationResult.initPropertyHistogramAndReturnValueCounts(chosenEntity, chosenPropertyName);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public Entity findEntityAccordingName(List<Entity> entities, String currentEntityName) throws Exception {
@@ -497,48 +340,6 @@ public class Engine implements IEngine {
                 property.getSumTicksNoChange(), property.getNumOfTimesHasChanged());
     }
 
-    public void ParseXmlAndLoadWorld(File file) throws Exception {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        try {
-            this.originalWorld = new World();
-            f = new AuxiliaryMethods(originalWorld);
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(file);
-            doc.getDocumentElement().normalize();
-
-            if (doc.getElementsByTagName("PRD-thread-count").item(0) != null) {
-                this.numbOfThreads = Integer.parseInt(doc.getElementsByTagName("PRD-thread-count").item(0).getTextContent());
-
-            }
-
-            if (doc.getElementsByTagName("PRD-grid").getLength() > 0) {
-                setGridCoordinate(doc.getElementsByTagName("PRD-grid"), originalWorld);
-            }
-            NodeList worldList = doc.getElementsByTagName("PRD-world");
-
-            Node worldNode = worldList.item(0);
-            NodeList Everything = worldNode.getChildNodes();
-
-            NodeList prdEvironment = doc.getElementsByTagName("PRD-env-property");
-            initEnvironmentFromFile(prdEvironment, originalWorld);
-
-            NodeList prdEntities = doc.getElementsByTagName("PRD-entity");
-            initEntitiesFromFile(prdEntities, originalWorld);
-
-            NodeList prdRules = doc.getElementsByTagName("PRD-rule");
-            initRulesFromFile(prdRules, originalWorld);
-
-            initTerminationTerms(doc, originalWorld);
-
-            this.worldBeforeChanging = convertWorldToDTO(originalWorld);
-            currentXMLFilePath = file;
-            simulationResults.clear();
-            this.FileWorld = originalWorld.clone();
-
-        } catch (Exception e) {
-            throw e;
-        }
-    }
 
     public World ParseXmlAndLoadWorldFromDoc(Document doc) throws Exception
     {
@@ -615,11 +416,6 @@ public class Engine implements IEngine {
         if (doc.getElementsByTagName("PRD-by-user").item(0) != null) {
             originalWorld.setTerminationByUser(true);
         }
-    }
-
-    @Override
-    public void clearButtonPressed() {
-        this.originalWorld = FileWorld.clone();
     }
 
     void setGridCoordinate(NodeList list, World originalWorld) throws Exception {
@@ -847,11 +643,6 @@ public class Engine implements IEngine {
         }
         res.setData(eD);
         return res;
-    }
-
-    @Override
-    public World getOriginalWorld() {
-        return this.originalWorld;
     }
 
     public aSimulation getSimulationFromName(String simulationName) {

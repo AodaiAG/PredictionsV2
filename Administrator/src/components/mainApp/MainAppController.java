@@ -4,7 +4,6 @@ package components.mainApp;
 import components.Allocations.AllocationsController;
 import components.ExecutionsHistory.ExecutionsController;
 import components.Management.ManagementController;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +16,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Window;
 import okhttp3.*;
 import util.Constants;
 import util.http.HttpClientUtil;
@@ -95,7 +93,6 @@ public class MainAppController
             allocationsComponent = fxmlLoader.load();
             allocationsController = fxmlLoader.getController();
             allocationsController.setChatAppMainController(this);
-
         }
         catch (IOException e)
         {
